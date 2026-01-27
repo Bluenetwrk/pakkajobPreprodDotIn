@@ -357,6 +357,7 @@ function Nav(props) {
                  </div>
                 <div className={Styles.ITwalkinWrapper}>
                    <img className={Styles.IwalkinLogologo} src={Itwalkinlogo} />
+                   
                 </div>
                   <div><NavLink to="/alljobs" className={Styles.AllJobJobSeeker}  style={navLinkStyles}>All Jobs </NavLink>
                   </div>
