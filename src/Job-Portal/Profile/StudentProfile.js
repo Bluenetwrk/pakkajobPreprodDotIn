@@ -195,7 +195,7 @@ console.log("video upload response",res)
         </div>
         <div className={styles.actions}>
           <button style={{width:"147px"}}  className={styles.editBtn} onClick={updateprofile}>Edit Profile</button>
-          <button className={styles.downloadBtn} onClick={resumedownload}>Download Resume</button>
+          <button className={styles.downloadBtn} onClick={resumedownload}>Download Resumes</button>
           <div className={profileData[0].isApproved ? styles.statusBadge:styles.statusBadgeReject} style={{display:"flex"}}><strong>Account Status: </strong>{profileData[0].isApproved?"Approved":"Under verification"}</div>
           {/* <span style={{width:"120px",textAlign:"center"}}  className={styles.statusBadge} onClick={()=>setShowApprovedStatus(prev=>!prev)}>Account Status</span> */}
         </div>
