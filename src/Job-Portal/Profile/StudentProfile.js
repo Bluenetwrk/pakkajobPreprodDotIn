@@ -506,7 +506,7 @@ console.log("video upload response",res)
               removeLocalVideo();
             }}
           >
-            Delete Video
+            Delete Videos
           </button>
         </div>
       ))
