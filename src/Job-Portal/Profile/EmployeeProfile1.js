@@ -4,12 +4,30 @@ import { useEffect, useState } from 'react'
 import styles from "./StudentProfile.module.css"
 import Companylogo from "../img/logo.png"
 import { Puff } from  'react-loader-spinner'
-import { useNavigate } from 'react-router-dom'
 import useScreenSize from '../SizeHook';
 import image from '../img/icons8-arrow-button-24.png'
+import Arrowimage from '../img/icons8-arrow-left-48.png'
+import socketIO from 'socket.io-client';
+import Footer from '../Footer/Footer'
+import { Link, useNavigate, NavLink } from "react-router-dom";
+import HTMLReactParser from 'html-react-parser/lib/index'
 
 
-function EmployeeProfile() {
+function EmployeeProfile(props) {
+
+    const navLinkStyles=({isActive})=>{
+        return{
+            color: isActive? "rgb(40, 4, 99)" : "",
+            backgroundColor: isActive? "white" :""
+        }
+    }
+    // useEffect( ()=>{    
+    //     const socket = socketIO.connect(props.url,{
+    //       auth:{
+    //         token: JSON.parse(localStorage.getItem("EmpIdG"))
+    //       }
+    //     });
+    //   },[])
 
     const [profileData, setProfileData] = useState([])
 const [PageLoader, setPageLoader] = useState(false)
@@ -25,6 +43,7 @@ let navigate = useNavigate()
         await axios.get(`/EmpProfile/getProfile/${empId}`, {headers})
             .then((res) => {
                 let result = res.data.result
+                console.log("ll", result)
                 setProfileData([result])
         setPageLoader(false)
 
@@ -36,30 +55,43 @@ let navigate = useNavigate()
     useEffect(() => {
         getProfile()
     }, [])
+    function updateEmployeeProfile() {
+        navigate("/UpdateProfile")
+      }
 
 
     return (
         <>
+      
         <div style={{display:"flex"}}>
-        <button style={{ height:"25px", color:"grey", marginTop:"20px", marginLeft:"40px", cursor:"pointer", width:"50px"}} onClick={()=>{
-            navigate(-1)}} >Back</button>
-        <h3 style={{color:"rgb(40, 4, 99)", marginLeft:"40%"}}>My Profile</h3>
+        {/* <button style={{ height:"25px", color:"grey", marginTop:"20px", marginLeft:"40px", cursor:"pointer", width:"50px"}}
+         onClick={()=>{navigate(-1)}} >Back</button> */}
+            <img style={{ height:"25px", color:"grey", marginTop:"20px", marginLeft:"8%", cursor:"pointer",
+             width:"28px"}} onClick={()=>{navigate(-1)}}  src={Arrowimage} />
+        <h3 style={{color:"rgb(40, 4, 99)", marginLeft:"35%"}}>My Profile</h3>
         </div>
-
          {
-
 profileData.map((item, i) => {
     return (
-        <div key={i}>
-        <img className={styles.EmpImage} src={item.image?item.image : Companylogo}/>
+        <div key={i} style={{}}>
+            {console.log(profileData)}
+        <img style={{}} className={styles.EmpImage} src={item.Gpicture?item.Gpicture : Companylogo}/>
         
         </div>
     )
 
 })
     }
+            {screenSize.width>800?
+
+profileData.length>0?<button className={styles.updateProfile} onClick={updateEmployeeProfile}>Edit Profile</button>:""
+    :
+    profileData.length>0?<button className={styles.MobupdateProfile} onClick={updateEmployeeProfile}>Edit Profile</button>:""
+
+            }
+
             {screenSize.width>850?
-           
+           <>
 <div className={styles.uiwrapper}>
             <ul className={styles.ul}>
                 <li className={styles.li}><b>Name </b></li>
@@ -75,6 +107,8 @@ profileData.map((item, i) => {
                 <li className={styles.li}><b>Company Address</b></li>
                 <li className={styles.li}><b>Type of Organisation</b></li>
                 <li className={styles.li}><b>Account status</b></li>
+                <li className={styles.li}><b>About Company</b></li>
+                
                
             </ul>
     
@@ -91,10 +125,9 @@ profileData.map((item, i) => {
 
                         <ul className={styles.ulR} key={i}>
  {/* <Puff  height="200"  width="200"  color="#4fa94d"  ariaLabel="bars-loading"  wrapperStyle={{marginLeft:"70%", marginTop:"80px"}}/>  */}
-
                       {item.name?         <li className={` ${styles.Hli}`}>{item.name}</li>: <li className={` ${styles.Hli} ${styles.Nli}`}>you have not updated your Name yet</li>}
                       {item.email?         <li className={` ${styles.Hli}`}>{item.email}</li>: <li className={` ${styles.Hli} ${styles.Nli}`}>you have not updated your Email yet</li>}
-                      {item.phoneNumber?         <li className={` ${styles.Hli}`}>{item.phoneNumber}</li>: <li className={` ${styles.Hli} ${styles.Nli}`}>you have not updated your Email yet</li>}
+                      {item.phoneNumber?         <li className={` ${styles.Hli}`}>{item.phoneNumber}</li>: <li className={` ${styles.Hli} ${styles.Nli}`}>you have not updated your phone Number yet</li>}
                          {item.Aadhar?           <li className={` ${styles.Hli}`}>{item.Aadhar}</li>: <li className={` ${styles.Hli} ${styles.Nli}`}>you have not updated your Aadhar Id yet</li>}
                          {item.panCard?          <li className={` ${styles.Hli}`}>{item.panCard}</li>: <li className={` ${styles.Hli} ${styles.Nli}`}>you have not updated your pan Id yet</li>}
                          {item.CompanyName?     <li className={` ${styles.Hli}`}>{item.CompanyName}</li>: <li className={` ${styles.Hli} ${styles.Nli}`}>you have not updated  Company Name yet</li>}
@@ -103,9 +136,12 @@ profileData.map((item, i) => {
                          {item.CompanyGSTIN?     <li className={` ${styles.Hli}`}>{item.CompanyGSTIN}</li>: <li className={` ${styles.Hli} ${styles.Nli}`}>you have not updated  CompanyGSTIN yet</li>}
                          {item.CompanyWebsite?   <li className={` ${styles.Hli}`}>{item.CompanyWebsite}</li>: <li className={` ${styles.Hli} ${styles.Nli}`}>you have not updated  Company Website yet</li>}
                          {item.CompanyAddress?     <li className={` ${styles.Hli}`}>{item.CompanyAddress}</li>: <li className={` ${styles.Hli} ${styles.Nli}`}>you have not updated CompanyAddress yet</li>}
-                         {item.TypeofOrganisation?   <li className={` ${styles.Hli}`}>{item.TypeofOrganisation}</li>: <li className={` ${styles.Hli} ${styles.Nli}`}>you have not updated  Organisation Type yet</li>}                        
-                         {item.isApproved?   <li className={` ${styles.Hli}`} style={{color:"blue"}}>Congrates! Your account has been Approved, You can start posting Jobs</li>: <li className={` ${styles.Hli} ${styles.Nli}`} style={{fontStyle:"italic"}}>"Your account is in under Verfication process"</li>}                        
-                                                
+                         {item.TypeofOrganisation?   <li className={` ${styles.Hli}`}>{item.TypeofOrganisation}</li>: <li className={` ${styles.Hli} ${styles.Nli}`}>you have not updated  Organisation Type yet</li>}  
+                                                 {item.isApproved?   <li className={` ${styles.Hli}`} style={{color:"blue"}}>Congrats! Your account has been Approved, You can start posting Jobs</li>: <li className={` ${styles.Hli} ${styles.Nli}`} style={{fontStyle:"italic"}}>"Your account is in under Verfication process"</li>}                        
+                                                 {item.AboutCompany?   <li className={` ${styles.Hli}`} style={{textAlign:"top"}}>{item.AboutCompany.replace(/<[^>]+>/g, '')}</li>: <li className={` ${styles.Hli} ${styles.Nli}`}>you have not updated  Organisation Type yet</li>}                       
+                 
+                 
+
 {item.message?<p style={{width:"450%",  marginLeft:"-70%"}}><b> Message :</b><span style={{color:"red"}}> {item.message}! </span></p>:""}
                         
                        
@@ -117,6 +153,8 @@ profileData.map((item, i) => {
 
             }
             </div>
+
+                   </>
             :
                            
 <>
@@ -139,6 +177,7 @@ profileData.map((item, i) => {
                                                 <span className={styles.span}> Company GSTIN: </span><br></br>
                                                 <span className={styles.span}> Company Website: </span><br></br>
                                                 <span className={styles.span}> Organisation Type: </span><br></br>
+                                                
                                             
                                             </div>
 
@@ -162,6 +201,7 @@ profileData.map((item, i) => {
                                         <span className={`${styles.span} ${styles.LastDown}`}> Company Address:  {job.CompanyAddress ? <span className={styles.span} style={{ color: "blue" }}  >{job.CompanyAddress} </span> : <span style={{ color: "red" }}>Not updated</span>}</span><br></br>
                                         <span className={`${styles.span} ${styles.LastDown}`}> Account Status:  {job.isApproved ? <span style={{ color: "blue" }}>Congrates! Your account has been Approved, Start posting Jobs</span> : <span style={{ color: "red" }}>"Your account is under Verfication process"</span>}</span><br></br>
                                         {job.message?<span style={{}} className={styles.span}> Message :<span style={{color:"red"}}> {job.message}! </span></span>:""}
+                                        <span className={`${styles.span} ${styles.LastDown}`}> About Company:  {job.AboutCompany ? <span className={styles.span} style={{ color: "blue" }}  >{job.AboutCompany.replace(/<[^>]+>/g, '')} </span> : <span style={{ color: "red" }}>Not updated</span>}</span><br></br>
                                         </div>
                                     </div>
                                 </>
@@ -169,9 +209,13 @@ profileData.map((item, i) => {
                         })}
 
                     </div>
+                    <div style={{marginTop:"10px"}}>
+                      <Footer/>
+                    </div>
                 </>
         
 }
+
         </>
     )
 }
