@@ -1,15 +1,14 @@
-import { useState, useEffect, createContext } from "react"
+import { useState, useEffect, createContext, useRef } from "react"
 import React from 'react'
 import styles from "./login.module.css"
 import axios from "axios"
 import Footer from "../Footer/Footer"
 import GoogleImage from "../img/icons8-google-48.png"
 import MicosoftImage from "../img/icons8-windows-10-48.png"
-import LinkedInImage from "../img/icons8-linked-in-48.png"
+import linkedIn from "../img/icons8-linked-in-48.png"
 import github from "../img/icons8-github-50.png"
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useLocation } from "react-router-dom";
 import { useGoogleLogin } from '@react-oauth/google';
-import { LinkedIn, LinkedInCallback, useLinkedIn } from 'react-linkedin-login-oauth2';
 import { GoogleLogin } from '@react-oauth/google';
 import image from "../img/user_3177440.png"
 import { TailSpin } from "react-loader-spinner"
@@ -43,7 +42,24 @@ function EmpLogin(props) {
       .catch(error => console.log(error))
   }, []);
 
+    const [regAlert, setRegAlert] = useState(false);
+    const alertRef = useRef(null);
+    
+    useEffect(() => {
+      const handleClickOutside = (event) => {
+      if (alertRef.current && !alertRef.current.contains(event.target)) {
+        setRegAlert(false);
+      }
+      };
+    
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      };
+    }, []); 
 
+ let location = useLocation()
+  const { loginpage } = location.state || {};
 
   const login = useGoogleLogin({
     onSuccess: async (response) => {
@@ -73,11 +89,23 @@ function EmpLogin(props) {
             let result = response.data
             let token = result.token
             let GuserId = result.id
-            if (result.status == "success") {
+            if(loginpage==="EmpregCheck" && result.action == "login"){
+              // alert("Account already exists. Please log in")
+              setRegAlert(true)
+              }
+            else if (result.status == "success") {
               localStorage.setItem("EmpLog", JSON.stringify(btoa(token)))
               localStorage.setItem("EmpIdG", JSON.stringify(GuserId))
-              navigate("/Search-Candidate", { state: { gserid: GuserId } })
+              if(loginpage==="EmpregCheck" ){
+                navigate("/UpdateProfile", { state: { gserid: GuserId, profileAlert: true  } })
+              }
+              else if (loginpage==="fraud-form"){
+                navigate("/fraud-form", { state: { gserid: GuserId } })
+              }
+              else
+                  navigate("/Search-Candidate", { state: { gserid: GuserId } })
             }
+            
           }).catch((err) => {
             alert("server issue occured")
           })
@@ -246,65 +274,34 @@ function EmpLogin(props) {
     handleGitHubCallback();
   }, []);
 
- function microsoftLogin() {
-    instance.loginPopup(loginRequest)
-      .then(async response => {
-        // console.log(response)
-        let name = response.account.name
-        let email = response.account.username
-        let isApproved = false
- 
-        await axios.post("/EmpProfile/Glogin", { ipAddress, email, name, isApproved, })
-          .then((response) => {
-            let result = response.data
-             console.log(result)
-            let token = result.token
-            let Id = result.id
-            if (result.status == "success") {
-              localStorage.setItem("StudLog", JSON.stringify(btoa(token)))
-              navigate("/alljobs", { state: { name: result.name } })
-              localStorage.setItem("StudId", JSON.stringify(Id))
-            }
-          }).catch((err) => {
-            alert("server issue occured")
-          })
-      })
-      .catch(error => {
-        // console.log("Login error", error);
-        // alert("some thing went wrong")
-      });
-  }
-const LinkedInLoginButton = () => {
-  const handleLogin = () => {
-    window.location.href = "https://www.itwalkin.com/LinkedIn";
-  };
-}
-//  const { linkedInLogin } = useLinkedIn({
-//     clientId: import.meta.env.VITE_LINKEDIN_CLIENT_ID,
-//     redirectUri: 'https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=${process.env.LINKEDIN_CLIENT_ID}&redirect_uri=${process.env.LINKEDIN_REDIRECT_URI}&scope=${scope}',
-//     scope: 'openid email profile w_member_social',
-//     onSuccess: async (code) => {
-//       try {
-//         // Exchange code for access token and user info
-//         const response = await axios.post('/EmpProfile/Glogin', {
-//           code,
-//           redirectUri: 'https://www.itwalkin.com/LinkedIn/callback',
-//         });
+  function microsoftLogin() {
+		instance.loginPopup(loginRequest)
+			.then(async response => {
+				// console.log(response)
+				let name = response.account.name
+				let email = response.account.username
+				let isApproved = false
+        await axios.post("/EmpProfile/Glogin", { ipAddress,  email, name, isApproved })
+        .then((response) => {
+          let result = response.data
+          let token = result.token
+          let GuserId = result.id
+          if (result.status == "success") {
+            localStorage.setItem("EmpLog", JSON.stringify(btoa(token)))
+            localStorage.setItem("EmpIdG", JSON.stringify(GuserId))
+            navigate("/Search-Candidate", { state: { gserid: GuserId } })
+          }
+				
+					}).catch((err) => {
+						alert("server issue occured")
+					})
+			})
+			.catch(error => {
+				// console.log("Login error", error);
+				// alert("some thing went wrong")
+			});
+	}
 
-//         const result = response.data;
-//         if (result.status === 'success') {
-//           localStorage.setItem('StudLog', JSON.stringify(btoa(result.token)));
-//           localStorage.setItem('StudId', JSON.stringify(result.id));
-//           navigate('/alljobs', { state: { name: result.name } });
-//         }
-//       } catch (err) {
-//         alert('Server issue occurred');
-//       }
-//     },
-//     onError: (error) => {
-//       console.error('LinkedIn login error:', error);
-//     },
-//   });
 
   return (
     <>
@@ -331,8 +328,92 @@ const LinkedInLoginButton = () => {
 
       {/* <div id={styles.inputWrapper}> */}
       {/* <div style={{ marginTop: "10px", marginLeft: "37%" }}> */}
+      {regAlert==true &&
+<div style={{position:"relative"}}>	 
+ <div
+ style={{
+   position: 'absolute',
+   top:'2px',
+   left:0,
+   width: '100vw',
+ //   height: '100vh',
+ //   backgroundColor: 'rgba(0, 0, 0, 0.4)',
+   zIndex: 9998,
+   display: 'flex',
+   alignItems: 'top',
+   justifyContent: 'center',
+ 
+ }}
+>
+ <div
+   ref={alertRef}
+   onClick={(e) => e.stopPropagation()}
+   style={{
+     width: '300px',
+     padding: '20px',
+     backgroundColor: 'rgb(40,4,99)',
+     color: 'white',
+     fontSize: '12px',
+     borderRadius: '5px',
+     zIndex: 9999,
+     boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
+     textAlign: 'center',
+    
+   }}
+ >
+  Account Already Exists!
+   <div style={{ marginTop: '15px', display: "flex", justifyContent: "center", gap: "5px" }}>
+     <button
+      onClick={() => { 
+       navigate("/EmployeeLogin"); 
+ setRegAlert(false);
+}
+}
+     
+      style={{
+         padding: '8px 16px',
+         backgroundColor: '#4CAF50',
+         color: 'white',
+         border: 'none',
+         borderRadius: '5px',
+         fontSize: '12px',
+         cursor: 'pointer',
+        
+       }}
+     >
+      Login as Employer
+     </button>
+     <button
+       onClick={() => { 
+ navigate("/"); 
+ setRegAlert(false);
+ }}
+       style={{
+         padding: '8px 16px',
+         backgroundColor: '#f44336',
+         color: 'white',
+         border: 'none',
+         borderRadius: '5px',
+         fontSize: '12px',
+         cursor: 'pointer',
+          
+         
+       }}
+     >
+       Home
+     </button>
+   </div>
+ </div>
+</div>
+
+</div>
+}
       <div className={styles.BothsignUpWrapper}>
-        <p className={styles.Loginpage}>Employer Login page </p>
+        {loginpage==="EmpregCheck"?
+        <p className={styles.Loginpage}> New Employer Registration page </p>
+        :
+        <p className={styles.Loginpage}> Employer Login page </p>
+        }
 
         {/* 
         <input maxLength="10" className={styles.inputs} type="number" placeholder='enter phone Number'
@@ -363,27 +444,51 @@ const LinkedInLoginButton = () => {
         
         <h4 className={styles.OR}>OR</h4> */}
 
-
+{loginpage==="EmpregCheck"?
+          <>
         <div className={styles.signUpWrapper} onClick={login} >
           <div className={styles.both}>
             <img className={styles.google} src={GoogleImage} />
-            <p className={styles.signUpwrap} >Continue with Google</p>
+            <p className={styles.signUpwrap} > Create Account with Google</p>
           </div>
         </div>
 
         <div className={styles.signUpWrapper} onClick={microsoftLogin} >
           <div className={styles.both}>
             <img className={styles.google} src={MicosoftImage} />
-            <p className={styles.signUpwrap} >Continue with Microsoft</p>
+            <p className={styles.signUpwrap} > Create Account with Microsoft</p>
           </div>
         </div>
-        <div className={styles.signUpWrapper}  onClick={handleLogin}>
+         <div className={styles.signUpWrapper}  >
           <div className={styles.both}>
-            <img className={styles.google} src={LinkedInImage} />
-            <span className={styles.signUpwrap} >Continue with Linkedin</span>
+            <img className={styles.google} src={linkedIn} />
+            <span className={styles.signUpwrap} > Create Account with Linkedin</span>
+          </div>
+        </div> 
+        </>
+        :
+        <>
+        <div className={styles.signUpWrapper} onClick={login} >
+          <div className={styles.both}>
+            <img className={styles.google} src={GoogleImage} />
+            <p className={styles.signUpwrap} > Continue with Google</p>
           </div>
         </div>
 
+        <div className={styles.signUpWrapper} onClick={microsoftLogin} >
+          <div className={styles.both}>
+            <img className={styles.google} src={MicosoftImage} />
+            <p className={styles.signUpwrap} > Continue with Microsoft</p>
+          </div>
+        </div>
+         <div className={styles.signUpWrapper}  >
+          <div className={styles.both}>
+            <img className={styles.google} src={linkedIn} />
+            <span className={styles.signUpwrap} > Continue with Linkedin</span>
+          </div>
+        </div> 
+        </>
+}
 
         {/* <div className={styles.signUpWrapper} >
           <div className={styles.both}>
