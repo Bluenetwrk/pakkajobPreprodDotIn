@@ -18,6 +18,7 @@ import location from "../img/icons8-location-20.png"
 import Modal from "../Login/EmpLogModal";
 import StuModal from "../Login/StudLogModal";
 import { Puff } from 'react-loader-spinner';
+import CSLogin from '../Login/CSLogin';
 
 function Nav(props) {
 
@@ -36,7 +37,6 @@ function Nav(props) {
   let EmployeeAuth = localStorage.getItem("EmpLog")
   let adminLogin = localStorage.getItem("AdMLog")
   let SuperAdminLogin = localStorage.getItem("SupAdMLog")
-  let CSCAuth = localStorage.getItem("CSCLog")
   const screenSize = useScreenSize();
 
   const StudlogOut = () => {
@@ -61,7 +61,11 @@ function Nav(props) {
   let newReg = useRef();
   let Reg = useRef();
  
+  const csprofile = JSON.parse(localStorage.getItem("csprofile") || "null");
+
   const[isregCheck, setisregCheck]=useState(false);
+  const[cslogin, setcslogin]=useState(false);
+  const[csreg, setcsreg]=useState(false);
   const[isEmpregCheck, setisEmpregCheck]=useState(false);
   // window.addEventListener("click", (e) => {
   //   if (e.target !== newReg.current && e.target !== Reg.current) {
@@ -120,7 +124,9 @@ function Nav(props) {
   function mypostedjob() {
     navigate("/postedjobs")
   }
-
+function mycreatedresume() {
+    navigate("/myCreatedResume")
+  }
   function myposteddrive() {
     navigate("/posteddrives")
   }
@@ -363,8 +369,8 @@ function Nav(props) {
                   </div>
                   <div><NavLink to="/resumes" className={Styles.AllJobJobSeeker}  style={navLinkStyles}>
                    Resume Builder <sup style={{border:"2px solid white",borderRadius:"25px",padding:"1px",fontFamily:"monospace"}}>Beta</sup> </NavLink></div>
-                   <div><NavLink to="/consultation-services" className={Styles.AllJobJobSeeker}  style={navLinkStyles}>Consultation Services </NavLink>
-                  </div>
+                   {/* <div><NavLink to="/consultation-services" className={Styles.AllJobJobSeeker}  style={navLinkStyles}>Consultation Services </NavLink>
+                  </div> */}
                    {/* <button
   style={{
     backgroundColor: 'rgb(40, 4, 99)',
@@ -508,7 +514,11 @@ function Nav(props) {
     <p className={Styles.text} ref={menuRef} onClick={myprofile}>My profile</p>
 
     <p className={Styles.text} ref={menuRef} onClick={MyJobApplied}>Jobs Applied</p>
-    <p className={Styles.text} ref={menuRef} onClick={MyDrivesApplied}>Registered <br></br>Walkin Drives</p>
+    {/* <p className={Styles.text} ref={menuRef} onClick={MyDrivesApplied}>Registered <br></br>Walkin Drives</p> */}
+    
+    {csprofile==="cs_center"&&
+        <p className={Styles.text} ref={menuRef} onClick={mycreatedresume} >My Created <br></br>Resume</p>
+    }
     <p className={Styles.text} ref={menuRef} onClick={AskQuestion}>Ask Question</p>
     <p className={Styles.text} ref={menuRef} onClick={StudlogOut}>Logout</p>
 
@@ -516,7 +526,7 @@ function Nav(props) {
 </div>
 : ""}      
                 </div>
-                <div>
+                {/* <div>
                 {props.flashVisible && (
                        <div className={Styles.blast}>
                          <img
@@ -527,18 +537,18 @@ function Nav(props) {
                          />
                        </div>
                      )}
-                </div>
+                </div> */}
                 <div>
                       {
-                       <div className={Styles.blast}>
-                         <img
-                           onClick={reDirecttoFraud}
-                           src="/report-fraud.png"
-                           alt="Walk-in Drive"
-                           ref={driveImgRef}
-                           style={{ width: "60px", borderRadius: "5px", marginTop: "-10px" }}
-                         />
-                       </div>
+                      //  <div className={Styles.blast}>
+                      //    <img
+                      //      onClick={reDirecttoFraud}
+                      //      src="/report-fraud.png"
+                      //      alt="Walk-in Drive"
+                      //      ref={driveImgRef}
+                      //      style={{ width: "60px", borderRadius: "5px", marginTop: "-10px" }}
+                      //    />
+                      //  </div>
                      }
                       </div>
                 </div>
@@ -690,9 +700,9 @@ function Nav(props) {
                  <div>
                   <NavLink to="/Post-Help-Questions" className={Styles.PostHelpLink} style={navLinkStyles}>Post Help Questions</NavLink>
                  </div>
-                 <div>
+                 {/* <div>
                  <NavLink to="/PostDrives" className={Styles.PostDriveLink} style={navLinkStyles}>Post Walkin Drive</NavLink>
-                 </div>
+                 </div> */}
                  <div> 
                   <NavLink to="/Search-Candidate" className={Styles.SearchCandidates} style={navLinkStyles}>Employer Home</NavLink>
                   </div>
@@ -703,7 +713,7 @@ function Nav(props) {
                           <div className={Styles.Empdropdownwrapper} ref={menuRef} >
                             <p className={Styles.text} ref={menuRef} onClick={EmployeeProfile} >My profile</p>
                             <p className={Styles.text} ref={menuRef} onClick={mypostedjob}>My posted Jobs</p>
-                            <p className={Styles.text} ref={menuRef} onClick={myposteddrive}>My posted Drives</p>
+                            {/* <p className={Styles.text} ref={menuRef} onClick={myposteddrive}>My posted Drives</p> */}
                             {/* <p className={Styles.text} ref={menuRef} onClick={hrDashboard}>HR/Employer<br></br> Dashboard</p> */}
                             <p className={Styles.text} ref={menuRef} onClick={mypostedArticle}>Posted Articles</p>
                             <p className={Styles.text} ref={menuRef} onClick={PostBlogs}>Write Article</p>
@@ -712,7 +722,7 @@ function Nav(props) {
                         </div>
                         : ""}
                  </div> 
-                 <div>
+                 {/* <div>
                  {props.flashVisible && (
                        <div className={Styles.blast}>
                          <img
@@ -724,7 +734,7 @@ function Nav(props) {
                          />
                        </div>
                      )}
-                 </div> 
+                 </div>  */}
                  <div>
                       {
                        <div className={Styles.blast}>
@@ -893,7 +903,7 @@ function Nav(props) {
 
                          }
                         </div> */}
-                        <div><NavLink to="/consultation-services" className={Styles.AllJobJobSeeker}  style={navLinkStyles}>Consultation Services </NavLink></div>
+                        {/* <div><NavLink to="/consultation-services" className={Styles.AllJobJobSeeker}  style={navLinkStyles}>Consultation Services </NavLink></div> */}
 
                         {/* <div ref={consultAlertRef} style={{position:"relative"}}>
                         <div onClick={()=>setconsultAlert((prev)=>prev=!prev)} className={Styles.AllJobJobSeeker} style={{cursor:"pointer"}}>
@@ -1186,6 +1196,23 @@ function Nav(props) {
                       <div style={{right:"17%", width:"100px"}} className={Styles.dropdownwrapperHomeRegistration} ref={regmenuRef} >
                         <p onClick={() => { handleEmpOpen(); handleStuClose(); setisEmpregCheck(true) }}>Employer Registration</p>
                         <p onClick={() => { handleStuOpen(); handleClose(); setisregCheck(true) }}>Job Seeker Registration</p>
+                        <p
+  onClick={() => {
+    handleStuOpen();
+    handleClose();
+    setcsreg(true);
+    setcslogin(false);
+  }}
+  style={{
+    
+    cursor: "pointer",
+  }}
+>
+  <span style={{ color: "blue",fontWeight: "bold" }}>C</span>
+  <span style={{ color: "grey",fontWeight: "bold" }}>S</span>
+  <span style={{ color: "blue",fontWeight: "bold" }}>C</span>{" "}
+  Registration
+</p>
                       </div>
 
                     : ""}
@@ -1198,13 +1225,28 @@ function Nav(props) {
                       <div style={{  }} className={Styles.dropdownwrapperHome} ref={menuRef} >
                         <p onClick={() => { handleEmpOpen(); handleStuClose();setisEmpregCheck(false) }}>Employer Login</p>
                         <p onClick={() => { handleStuOpen(); handleClose();setisregCheck(false) }}>Job Seeker Login</p>
-                        <p onClick={() => { handleStuOpen(); handleClose();setisregCheck(false) }}>CSC Login</p>
+                        <p
+  onClick={() => {
+    handleStuOpen();
+    handleClose();
+    setcslogin(true);
+    setcsreg(false);
+  }}
+  style={{
+    cursor: "pointer",
+  }}
+>
+  <span style={{ color: "blue",fontWeight: "bold" }}>C</span>
+  <span style={{ color: "grey",fontWeight: "bold" }}>S</span>
+  <span style={{ color: "blue",fontWeight: "bold" }}>C</span>{" "}
+  Login
+</p>
                       </div>
                     </div>
 
                     : ""}
                       </div>
-                      <div>
+                      {/* <div>
                       {props.flashVisible && (
                        <div className={Styles.blast}>
                          <img
@@ -1216,7 +1258,7 @@ function Nav(props) {
                          />
                        </div>
                      )}
-                      </div>
+                      </div> */}
                       <div>
                       {
                         <div ref={fraudalertRef} style={{position:"relative"}}>
@@ -1304,7 +1346,7 @@ function Nav(props) {
                   
                   <>
                   <div ref={loginModalRef}>
-                    <StuModal isregCheck={isregCheck}  isStuOpen={Stuopen} onClose={() => { handleStuClose() }} />
+                    <StuModal isregCheck={isregCheck} cslogin={cslogin} csreg={csreg} isStuOpen={Stuopen} onClose={() => { handleStuClose() }} />
                     <Modal isEmpregCheck={isEmpregCheck} isOpen={open} onClose={() => { handleClose() }} />
                     </div>
                   </>
@@ -1338,7 +1380,10 @@ function Nav(props) {
                   <div className={Styles.MobJobseekerDropdownwrapperlogin} ref={menuRef} >
                     <p className={Styles.text} ref={menuRef} onClick={myprofile}>My profile</p>
                     <p className={Styles.text} ref={menuRef} onClick={MyJobApplied}>Jobs Applied</p>
-                    <p className={Styles.text} ref={menuRef} onClick={MyDrivesApplied}>Registered <br></br>Walkin Drives</p>
+                    {/* <p className={Styles.text} ref={menuRef} onClick={MyDrivesApplied}>Registered <br></br>Walkin Drives</p> */}
+                    {csprofile==="cs_center"&&
+        <p className={Styles.text} ref={menuRef} onClick={mycreatedresume} >My Created <br></br>Resume</p>
+    }
                     <p className={Styles.text} ref={menuRef} onClick={AskQuestion}>Ask Question</p>
 
                     <p className={Styles.text} ref={menuRef} onClick={StudlogOut}>Logout</p>
@@ -1363,7 +1408,7 @@ function Nav(props) {
                 <img className={`${Styles.Icon} ${Styles.MobJobseekerProfileIcon}`} src={loginuser} ref={imgRef} onClick={() => setShowprofile((prev) => !prev)} />
 
                 </div>
-                <div>
+                {/* <div>
                 {props.flashVisible && (
                        <div className={Styles.blast} style={{cursor:"pointer"}}>
                          <img
@@ -1374,7 +1419,7 @@ function Nav(props) {
                          />
                        </div>
                      )}
-                </div>
+                </div> */}
                 </div>
                  </div>
 
@@ -1485,7 +1530,7 @@ className={props.ShowSideNave ? "fas fa-times" : "fas fa-bars"} ref={SimgRef} on
                     </div>
                      : ""}
                     </div>
-                    <div>
+                    {/* <div>
                     {props.flashVisible && (
                        <div className={Styles.blast} style={{cursor:"pointer",marginLeft:"21%"}}>
                          <img
@@ -1496,7 +1541,7 @@ className={props.ShowSideNave ? "fas fa-times" : "fas fa-bars"} ref={SimgRef} on
                          />
                        </div>
                      )}
-                    </div>
+                    </div> */}
                   </div>
                   
                   </div>
@@ -1704,20 +1749,34 @@ onClick={() => {
                     </div>
                     </div>
                     <div className={Styles.fullnavewrapperLSMobile}>
-                      <div>
+                      {/* <div>
                           {props.flashVisible && (
                          <div className={Styles.blast} style={{cursor:"pointer"}}>
                           <img onClick={reDirecttoDrive} src="/drive.png" alt="Walk-in Drive" ref={driveImgRef} class={Styles.flashDriveHome}/>
                          </div>
                           )}
-                      </div>
+                      </div> */}
                        <div>
                          <img className={`${Styles.MobloginLogo} `} src={logIn} ref={imgRef} onClick={() =>    setShowprofile((prev) => !prev)} />
                          {showprofile ?
                            <div className={Styles.MobHomeDropdownwrapper} ref={menuRef} >
                              <p onClick={() => { navigate("/EmployeeLogin") }}>Employer Login </p>
                              <p onClick={() => { navigate("/JobSeekerLogin") }}>Job Seeker Login</p>
-                             <p onClick={() => { navigate("/CSALogin") }}>CSC Login</p>
+                             {/*<p onClick={() => { navigate("/CSCLogin") }}>CSC Login</p>
+                             <p
+  onClick={() => {
+    navigate("/JobSeekerLogin", { state: { loginpage: "cs" } });
+  }}
+  style={{
+    
+    cursor: "pointer",
+  }}
+>
+  <span style={{ color: "blue",fontWeight: "bold"  }}>C</span>
+  <span style={{ color: "grey" ,fontWeight: "bold"}}>S</span>
+  <span style={{ color: "blue",fontWeight: "bold" }}>C</span>{" "}
+  Login
+</p> */}
                            </div>
                            : ""}
                        </div>           

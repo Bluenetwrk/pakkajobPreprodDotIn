@@ -93,14 +93,21 @@ useEffect(() => {
               // alert("Account already exists. Please log in")
               setRegAlert(true)
               }
+            else  if(loginpage==="csreg" && result.action == "login"){
+              // alert("Account already exists. Please log in")
+              setRegAlert(true)
+              }
            else if (result.status == "success") {
               localStorage.setItem("StudLog", JSON.stringify(btoa(token)))
               localStorage.setItem("StudId", JSON.stringify(Id)) 
               if(loginpage==="jsregCheck" ){
                 navigate("/Update-Profile", {state:{name:result.name, profileAlert: true }})
               }
+              if(loginpage==="cs" ){
+                navigate("/resumes", {state:{name:result.name, profileAlert: true, logoutresume:false, loginprofile:"cs_center" }})
+              }
               else{
-              navigate("/alljobs", {state:{name:result.name}})
+              navigate("/", {state:{name:result.name}})
               }
                 
             }
@@ -300,7 +307,11 @@ useEffect(() => {
    <div style={{ marginTop: '15px', display: "flex", justifyContent: "center", gap: "5px" }}>
      <button
       onClick={() => { 
-       navigate("/JobSeekerLogin"); 
+ if (loginpage === "csreg") {
+    navigate("/JobSeekerLogin", {state: { loginpage: "cs" }})
+  } else {
+    navigate("/JobSeekerLogin");
+  }
  setRegAlert(false);
 }
 }
@@ -316,7 +327,7 @@ useEffect(() => {
         
        }}
      >
-      Login as Jobseeker
+     {loginpage==="csreg"?"Login as CSC": "Login as Jobseeker"}
      </button>
      <button
        onClick={() => { 
@@ -345,8 +356,30 @@ useEffect(() => {
 }
 <div className={styles.BothsignUpWrapper}>
   {loginpage==="jsregCheck"?
-    <p className={styles.Loginpage} style={{marginLeft:"27px"}}> New Job Seeker Registration page</p>
-    :
+   (<p className={styles.Loginpage} style={{marginLeft:"27px"}}> New Job Seeker Registration page</p>)
+    :loginpage==="cs"?
+   (<p
+  className={styles.Loginpage}
+  style={{ marginLeft: "19px" }}
+>
+  New{" "}
+  <span style={{ color: "blue",fontWeight: "bold" }}>C</span>
+  <span style={{ color: "grey",fontWeight: "bold" }}>S</span>
+  <span style={{ color: "blue",fontWeight: "bold" }}>C</span>{" "}
+  Login page
+</p>)
+   :loginpage==="csreg"?
+   (<p
+  className={styles.Loginpage}
+  style={{ marginLeft: "2px",}}
+>
+  New{" "}
+  <span style={{ color: "blue", fontWeight: "bold" }}>C</span>
+  <span style={{ color: "grey", fontWeight: "bold" }}>S</span>
+  <span style={{ color: "blue",fontWeight: "bold"  }}>C</span>{" "}
+  Registration page
+</p>)
+:
   <p className={styles.Loginpage}> Job Seeker Login page  </p>
   }
 {/* <div className={styles.signUpWrapper}  >

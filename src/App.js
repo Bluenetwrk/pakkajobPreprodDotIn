@@ -92,6 +92,9 @@ import HomeWalkin from "./Job-Portal/Jobs/AllHomeWalkins";
 import ConsultationServices from "./Job-Portal/Consultation Services/ConsultationServices";
 import ResumePreview from "./Job-Portal/Resumes/ResumePreview";
 import MyCreatedResume from "./Job-Portal/Resumes/MyCreatedResume";
+import CSLogin from "./Job-Portal/Login/CSLogin";
+import CSModel from "./Job-Portal/Login/CSModel";
+
 // import ConsultationServices from "./Job-Portal/Consultation Services/ConsultationServices";
 
 
@@ -1023,11 +1026,11 @@ const [showMobileSearchIcon, setShowMobileSearchIcon]= useState(true)
   const sortedFilteredDriveJobs = processDriveJobs(driveJobs);
      const options = [
       { value: "Bangalore", label: "Bangalore, India", country:"India", img:location},
-      { value: "San Francisco", label: "San Francisco, USA",country:"USA", img:location},
-      { value: "New york", label: "New York, USA", country:"USA", img:location},
-      { value: "Sydney", label: "Sydney, Australia", country:"Australia", img:location},
-      { value: "London", label: "London, UK", country:"UK", img:  location},
-      { value: "Berlin", label: "Berlin, Germany", country:"Germany", img:location},
+      //{ value: "San Francisco", label: "San Francisco, USA",country:"USA", img:location},
+      //{ value: "New york", label: "New York, USA", country:"USA", img:location},
+      //{ value: "Sydney", label: "Sydney, Australia", country:"Australia", img:location},
+      //{ value: "London", label: "London, UK", country:"UK", img:  location},
+      //{ value: "Berlin", label: "Berlin, Germany", country:"Germany", img:location},
     ];
    const [selectedlocationOption, setSelectedlocationOption] = useState(options[0]);
   return (
@@ -1320,6 +1323,7 @@ const [showMobileSearchIcon, setShowMobileSearchIcon]= useState(true)
             <Route path="/Job-Seeker-Login" element={<ResumeLogin />} />
             <Route path="/JobSeeker-Login" element={<AnsStdLogin />} />
             <Route path="/Employee-Login" element={<AnsEmpLogin />} />
+            <Route path="/CSCLogin" element={<CSLogin />} />
             <Route path="/New-Registration" element={<NewRegistered />} />
             <Route path="/Jobseeker-New-Registration" element={<StuNewRegistered selectedlocationOption={selectedlocationOption} />} />
             <Route path="/EmployeeLogin" element={<EmployeeLogin />} />
