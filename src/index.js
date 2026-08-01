@@ -12,13 +12,15 @@ import {  PublicClientApplication } from "@azure/msal-browser";
 import { msalConfig } from "./Job-Portal/Config";
 import YearData from './YearData copy';
 
+
+
 const msalInstance = new PublicClientApplication(msalConfig);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <>
     <MsalProvider instance={msalInstance}>
-    <GoogleOAuthProvider clientId="418754353770-u3bibuhf3upqjb7r95qflh10apqvhset.apps.googleusercontent.com">
+    <GoogleOAuthProvider clientId="21799940966-4ercll2v4qdq8is9l5plcsnh8r537485.apps.googleusercontent.com">
     {/* <YearData /> */}
     <App />
     </GoogleOAuthProvider>
