@@ -16,7 +16,9 @@ import loginuser from "../img/icons8-user-96.png"
 import StudentUpdateProfile from '../Profile/StudentUpdateProfile';
 import location from "../img/icons8-location-20.png"
 import Modal from "../Login/EmpLogModal";
+import CSCModal from "../Login/CSCLogModal";
 import StuModal from "../Login/StudLogModal";
+
 import { Puff } from 'react-loader-spinner';
 
 function Nav(props) {
@@ -63,6 +65,9 @@ function Nav(props) {
  
   const[isregCheck, setisregCheck]=useState(false);
   const[isEmpregCheck, setisEmpregCheck]=useState(false);
+  const[isCSCregCheck, setisCSCregCheck]=useState(false);
+// const CSCModal = ({isCSCregCheck, isCSCOpen, onClose, children }) => {
+
   // window.addEventListener("click", (e) => {
   //   if (e.target !== newReg.current && e.target !== Reg.current) {
   //     setShowRegister(false)
@@ -142,6 +147,8 @@ function Nav(props) {
   // ......Modal....
   const [open, setOpen] = useState(false);
   const [Stuopen, setStuopen] = useState(false);
+  const [CSCopen, setCSCopen] = useState(false);
+
 
   const handleClose = () => {
     setOpen(false);
@@ -157,7 +164,13 @@ function Nav(props) {
   const handleStuClose = () => {
     setStuopen(false);
   };
+  const handleCSCOpen = () => {
+    setCSCopen(true);
+  }
+  const handleCSCClose = () => {
+    setCSCopen(false);
 
+  }
 
   const [ShowBigSideNave, setShowBigSideNave] = useState(false)
 
@@ -1198,7 +1211,7 @@ function Nav(props) {
                       <div style={{  }} className={Styles.dropdownwrapperHome} ref={menuRef} >
                         <p onClick={() => { handleEmpOpen(); handleStuClose();setisEmpregCheck(false) }}>Employer Login</p>
                         <p onClick={() => { handleStuOpen(); handleClose();setisregCheck(false) }}>Job Seeker Login</p>
-                        <p onClick={() => { handleStuOpen(); handleClose();setisregCheck(false) }}>CSC Login</p>
+                        <p onClick={() => { handleCSCOpen();setisCSCregCheck(false) }}>CSC Login</p>
                       </div>
                     </div>
 
@@ -1306,7 +1319,8 @@ function Nav(props) {
                   <div ref={loginModalRef}>
                     <StuModal isregCheck={isregCheck}  isStuOpen={Stuopen} onClose={() => { handleStuClose() }} />
                     <Modal isEmpregCheck={isEmpregCheck} isOpen={open} onClose={() => { handleClose() }} />
-                    </div>
+                    <CSCModal isCSCregCheck={isCSCregCheck} isCSCOpen={CSCopen} onClose={() => { handleCSCClose() }} />
+                  </div>
                   </>
 
 

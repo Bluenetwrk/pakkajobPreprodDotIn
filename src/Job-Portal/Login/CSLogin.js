@@ -21,7 +21,7 @@ function CSLogin(props) {
 
   const screenSize = useScreenSize();
 
-
+console.log("cs Login")
   const [gmailuser, setGmailuser] = useState("")
   const [topErrorMessage, setTopErrorMessage] = useState("")
   const [PhoneNumber, setPhoneNumber] = useState("")
@@ -85,25 +85,34 @@ useEffect(() => {
         await axios.post("/CSRoute/Glogin", {ipAddress, userId, email, name, gtoken, isApproved, Gpicture })
           .then((response) => {
             let result = response.data
+            console.log("Gmail Login Full Response:", JSON.stringify(result))
             let token = result.token
             let Id = result.id
-        // console.log(result)
           if(loginpage==="CSregcheck" && result.action == "login"){
-              // alert("Account already exists. Please log in")
+              console.log("Account already exists - showing alert")
               setRegAlert(true)
               }
            else if (result.status == "success") {
+              console.log("Login successful - setting CSCLog and navigating to /resumes")
               localStorage.setItem("CSCLog", JSON.stringify(btoa(token)))
               localStorage.setItem("CSCId", JSON.stringify(Id)) 
               if(loginpage==="CSregcheck" ){
                 navigate("/Update-Profile", {state:{name:result.name, profileAlert: true }})
               }
               else{
-              navigate("/alljobs", {state:{name:result.name}})
+              navigate("/resumes", {state:{name:result.name}})
               }
                 
             }
+            else {
+              console.log("Unexpected response status:", result.status)
+              console.log("Navigating directly to /resumes as fallback")
+              localStorage.setItem("CSCLog", JSON.stringify(btoa(token)))
+              localStorage.setItem("CSCId", JSON.stringify(Id))
+              navigate("/resumes", {state:{name:result.name}})
+            }
           }).catch((err) => {
+            console.log("Gmail login error:", err)
             alert("server issue occured")
           })
 
@@ -125,7 +134,7 @@ useEffect(() => {
     if(studentAuth) {
         navigate("/alljobs")
     }
-  })
+  }, [])
   useEffect(() => {
     let CSCAuth = localStorage.getItem("CSCLog")
     if (CSCAuth) {

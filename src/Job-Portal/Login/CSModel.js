@@ -95,25 +95,36 @@ const Model = ({ isregCheck,isCSCOpen, onClose, children, msalInstance }) => {
 				await axios.post("/CSRoute/Glogin", { ipAddress, userId, email, name, gtoken, isApproved, Gpicture })
 					.then((response) => {
 						let result = response.data
+						console.log("CSModel Gmail Login Full Response:", JSON.stringify(result))
 						let token = result.token
 						let Id = result.id
 						if(isregCheck==true && result.action == "login"){
-							// alert("Account already exists. Please log in")
+							console.log("Account already exists - showing alert")
 							setRegAlert(true)
 						  }
 						
 						else if (result.status == "success") {
+							console.log("Login successful - setting CSCLog and navigating to /resumes")
 							localStorage.setItem("CSCLog", JSON.stringify(btoa(token)))
 							localStorage.setItem("CSCId", JSON.stringify(Id))
                             if(isregCheck==true) {
 								navigate("/Update-Profile", { state: { name: result.name, profileAlert: true  } })
 							} 
 							else{
-							navigate("/alljobs", { state: { name: result.name } })
+						navigate("/resumes", { state: { name: result.name } })
 							}
 							onClose()
 						}
+						else {
+							console.log("Unexpected response status:", result.status)
+							console.log("Navigating directly to /resumes as fallback")
+							localStorage.setItem("CSCLog", JSON.stringify(btoa(token)))
+							localStorage.setItem("CSCId", JSON.stringify(Id))
+							navigate("/resumes", { state: { name: result.name } })
+							onClose()
+						}
 					}).catch((err) => {
+						console.log("Gmail login error:", err)
 						alert("server issue occured")
 					})
 
