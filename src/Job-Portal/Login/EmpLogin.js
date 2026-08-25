@@ -76,7 +76,9 @@ function EmpLogin(props) {
             if (result.status == "success") {
               localStorage.setItem("EmpLog", JSON.stringify(btoa(token)))
               localStorage.setItem("EmpIdG", JSON.stringify(GuserId))
-              navigate("/Search-Candidate", { state: { gserid: GuserId } })
+              // navigate("/Search-Candidate", { state: { gserid: GuserId } })
+			navigate("/gMapProfile")
+
             }
           }).catch((err) => {
             alert("server issue occured")
