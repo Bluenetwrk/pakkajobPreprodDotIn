@@ -106,13 +106,16 @@ const Modal = ({isEmpregCheck, isOpen, onClose, children }) => {
 			  }
 			  else if (result.status == "success") {
 				localStorage.setItem("EmpLog", JSON.stringify(btoa(token)))
+				localStorage.setItem("EmpGLog", JSON.stringify(btoa(gtoken)))
+
 				localStorage.setItem("EmpIdG", JSON.stringify(GuserId))
-				if(isEmpregCheck==true) {
-					navigate("/UpdateProfile", { state: { name: result.name, profileAlert: true  } })
-				} 
-				else{
-				navigate("/Search-Candidate", { state: { gserid: GuserId } })
-				}
+			// 	if(isEmpregCheck==true) {
+			// 		navigate("/UpdateProfile", { state: { name: result.name, profileAlert: true  } })
+			// 	} 
+			// 	else{
+			// 	navigate("/Search-Candidate", { state: { gserid: GuserId } })
+			// }
+			navigate("/gMapProfile")
 				onClose()
 			  }
 			}).catch((err) => {

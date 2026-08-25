@@ -182,9 +182,9 @@ function Nav(props) {
     props.setShowSideNave((prev) => !prev)
   }
   const [ShowRegister, setShowRegister] = useState(false)
-  useEffect(()=>{
-       console.log("rs",ShowRegister)
-  },[ShowRegister])
+  // useEffect(()=>{
+  //      console.log("rs",ShowRegister)
+  // },[ShowRegister])
   let regRef=useRef();
   
   window.addEventListener("click", (e) => {
@@ -1731,7 +1731,7 @@ onClick={() => {
                            <div className={Styles.MobHomeDropdownwrapper} ref={menuRef} >
                              <p onClick={() => { navigate("/EmployeeLogin") }}>Employer Login </p>
                              <p onClick={() => { navigate("/JobSeekerLogin") }}>Job Seeker Login</p>
-                             <p onClick={() => { navigate("/CSALogin") }}>CSC Login</p>
+                             <p onClick={() => { navigate("/cscLogin") }}>CSC Login</p>
                            </div>
                            : ""}
                        </div>           

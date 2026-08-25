@@ -53,14 +53,14 @@ function AllResumes() {
       });
 
     } catch (err) {
-      alert("Something went wrong");
+      alert("fhsdfhsSomething went wrong");
     }
   }
 
-  useEffect(() => {
-    if(logoutresume!==true)
-     getProfile();
-  }, []);
+  // useEffect(() => {
+  //   if(logoutresume!==true)
+  //    getProfile();
+  // }, []);
 
   const [themeColor, setThemeColor] = useState("#2563eb");
 

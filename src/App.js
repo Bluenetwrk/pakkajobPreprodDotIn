@@ -11,11 +11,13 @@ import Cancel from "./Job-Portal/img/icons8-cross-50.png"
 import NavIcon from "./Job-Portal/img/icons8-menu-50.png"
 
 import StudentLogin from "./Job-Portal/Login/StudLogin";
+import CSCLogin from "./Job-Portal/Login/CSCLogin";
 import EmployeeLogin from "./Job-Portal/Login/EmpLogin"
 import NewRegistered from "./Job-Portal/Profile/NewRegistration";
 import StuNewRegistered from "./Job-Portal/Profile/StudentRegistration";
 import StudPrivate from "./Job-Portal/Private/OutletStud";
 import PostedJobsbyEmp from "./Job-Portal/Jobs/mypostedjobs";
+import GMapProfile from "./Job-Portal/Profile/gMapProfile";
 import BlogpostedByEmp from "./Job-Portal/Jobs/mypostedBlogs";
 import PostedCareerJobs from "./Job-Portal/Jobs/myPostedCaereerjobs";
 import EmpPrivate from "./Job-Portal/Private/OuletEmp";
@@ -1172,6 +1174,7 @@ const [showMobileSearchIcon, setShowMobileSearchIcon]= useState(true)
               <Route path="/PostBlogs" element={<PostBlogs url={axios.defaults.baseURL} />} />
               <Route path="/interview-screen/:id" element={<InterviewScreen url={axios.defaults.baseURL} />} />
               <Route path="/postedjobs" element={<PostedJobsbyEmp url={axios.defaults.baseURL} />} />
+              <Route path="/gMapProfile" element={<GMapProfile/>} />
               <Route path="/posteddrives" element={<MyPostedDrives url={axios.defaults.baseURL} />} />
               <Route path="/updatedposted-Drives" element={<UpdatePostedDrive url={axios.defaults.baseURL} />} />
               <Route path="/posted-Blogs" element={<BlogpostedByEmp url={axios.defaults.baseURL} />} />
@@ -1323,7 +1326,7 @@ const [showMobileSearchIcon, setShowMobileSearchIcon]= useState(true)
             <Route path="/Job-Seeker-Login" element={<ResumeLogin />} />
             <Route path="/JobSeeker-Login" element={<AnsStdLogin />} />
             <Route path="/Employee-Login" element={<AnsEmpLogin />} />
-            <Route path="/CSCLogin" element={<CSLogin />} />
+            <Route path="/cscLogin" element={<CSCLogin />} />
             <Route path="/New-Registration" element={<NewRegistered />} />
             <Route path="/Jobseeker-New-Registration" element={<StuNewRegistered selectedlocationOption={selectedlocationOption} />} />
             <Route path="/EmployeeLogin" element={<EmployeeLogin />} />
