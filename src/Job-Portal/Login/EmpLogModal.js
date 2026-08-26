@@ -19,7 +19,6 @@ import { loginRequest } from "../Config";
 const Modal = ({isEmpregCheck, isOpen, onClose, children }) => {
 	const { instance } = useMsal();
 	
-	const [gmailuser, setGmailuser] = useState("")
 	const [topErrorMessage, setTopErrorMessage] = useState("")
 	const [PhoneNumber, setPhoneNumber] = useState("")
 	const [otp, setotp] = useState("")
@@ -77,14 +76,14 @@ const Modal = ({isEmpregCheck, isOpen, onClose, children }) => {
 	  onSuccess: async (response) => {
 		try {
   
-		  const res = await axios.get("https://www.googleapis.com/oauth2/v3/userinfo",
+		  const res = await axios.get(
+			"https://www.googleapis.com/oauth2/v3/userinfo",
 			{
 			  headers: {
 				Authorization: `Bearer ${response.access_token}`,
 			  },
 			}
 		  );
-		  setGmailuser(res.data)
 		  let gtoken = response.access_token
 		  let userId = res.data.sub
 		  let email = res.data.email
@@ -94,6 +93,17 @@ const Modal = ({isEmpregCheck, isOpen, onClose, children }) => {
 		  let Gpicture = res.data.picture
 		  // console.log("decoded name :", gemail)
 		  // console.log(" decoded id :", gname)
+
+		        const accounts = await axios.get(
+          "https://mybusinessaccountmanagement.googleapis.com/v1/accounts",
+          {
+            headers: {
+              Authorization: `Bearer ${gtoken}`,
+            },
+          }
+        );
+
+        console.log("BUSINESS ACCOUNTS:", accounts.data);
   
 		  await axios.post("/EmpProfile/Glogin", { ipAddress, userId, Gpicture, email, name, gtoken, isApproved })
 			.then((response) => {
