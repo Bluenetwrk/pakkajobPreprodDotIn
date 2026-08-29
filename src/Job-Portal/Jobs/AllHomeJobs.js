@@ -611,7 +611,6 @@ useEffect(() => {
   }
 
   useEffect(()=>{
-       console.log("location",selectedOption)
   },[selectedlocationOption])
 
 

@@ -90,41 +90,17 @@ const Modal = ({isEmpregCheck, isOpen, onClose, children }) => {
 		  let name = res.data.name
 		  let isApproved = false
 		  // let image= res.data.picture
-		  let Gpicture = res.data.picture
-		  // console.log("decoded name :", gemail)
-		  // console.log(" decoded id :", gname)
-
-		        const accounts = await axios.get(
-          "https://mybusinessaccountmanagement.googleapis.com/v1/accounts",
-          {
-            headers: {
-              Authorization: `Bearer ${gtoken}`,
-            },
-          }
-        );
-
-        console.log("BUSINESS ACCOUNTS:", accounts.data);
-  
+		  let Gpicture = res.data.picture  
 		  await axios.post("/EmpProfile/Glogin", { ipAddress, userId, Gpicture, email, name, gtoken, isApproved })
 			.then((response) => {
 			  let result = response.data
 			  let token = result.token
 			  let GuserId = result.id
-			  if(isEmpregCheck==true && result.action == "login"){
-				// alert("Account already exists. Please log in")
-				setRegAlert(true)
-			  }
-			  else if (result.status == "success") {
+			if (result.status == "success") {
 				localStorage.setItem("EmpLog", JSON.stringify(btoa(token)))
 				localStorage.setItem("EmpGLog", JSON.stringify(btoa(gtoken)))
 
 				localStorage.setItem("EmpIdG", JSON.stringify(GuserId))
-			// 	if(isEmpregCheck==true) {
-			// 		navigate("/UpdateProfile", { state: { name: result.name, profileAlert: true  } })
-			// 	} 
-			// 	else{
-			// 	navigate("/Search-Candidate", { state: { gserid: GuserId } })
-			// }
 			navigate("/gMapProfile")
 				onClose()
 			  }
