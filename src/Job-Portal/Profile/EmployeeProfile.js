@@ -72,8 +72,12 @@ profileData.map((item, i) => {
                 <li className={styles.li}><b>Company Email id</b></li>
                 <li className={styles.li}><b>Company GSTIN</b></li>
                 <li className={styles.li}><b>Company Website</b></li>
-                <li className={styles.li}><b>Company Address</b></li>
+                <li className={styles.li}><b>Company Address1</b></li>
+                <li className={styles.li}><b>Company Address2</b></li>
+                <li className={styles.li}><b>City</b></li>
+                <li className={styles.li}><b>Pin code</b></li>
                 <li className={styles.li}><b>Type of Organisation</b></li>
+                <li className={styles.li}><b>Google Map</b></li>
                 <li className={styles.li}><b>Account status</b></li>
                
             </ul>
@@ -102,8 +106,12 @@ profileData.map((item, i) => {
                          {item.CompanyEmail?     <li className={` ${styles.Hli}`}>{item.CompanyEmail}</li>: <li className={` ${styles.Hli} ${styles.Nli}`}>you have not updated  Company Email yet</li>}
                          {item.CompanyGSTIN?     <li className={` ${styles.Hli}`}>{item.CompanyGSTIN}</li>: <li className={` ${styles.Hli} ${styles.Nli}`}>you have not updated  CompanyGSTIN yet</li>}
                          {item.CompanyWebsite?   <li className={` ${styles.Hli}`}>{item.CompanyWebsite}</li>: <li className={` ${styles.Hli} ${styles.Nli}`}>you have not updated  Company Website yet</li>}
-                         {item.CompanyAddress?     <li className={` ${styles.Hli}`}>{item.CompanyAddress}</li>: <li className={` ${styles.Hli} ${styles.Nli}`}>you have not updated CompanyAddress yet</li>}
+                         {item.CompanyAddress1?     <li className={` ${styles.Hli}`}>{item.CompanyAddress1}</li>: <li className={` ${styles.Hli} ${styles.Nli}`}>you have not updated CompanyAddress1 yet</li>}
+                         {item.CompanyAddress2?     <li className={` ${styles.Hli}`}>{item.CompanyAddress2}</li>: <li className={` ${styles.Hli} ${styles.Nli}`}>you have not updated CompanyAddress2 yet</li>}
+                         {item.City?     <li className={` ${styles.Hli}`}>{item.City}</li>: <li className={` ${styles.Hli} ${styles.Nli}`}>you have not updated City yet</li>}
+                         {item.postalCode?     <li className={` ${styles.Hli}`}>{item.postalCode}</li>: <li className={` ${styles.Hli} ${styles.Nli}`}>you have not updated Pin code yet</li>}
                          {item.TypeofOrganisation?   <li className={` ${styles.Hli}`}>{item.TypeofOrganisation}</li>: <li className={` ${styles.Hli} ${styles.Nli}`}>you have not updated  Organisation Type yet</li>}                        
+                         {item.googlemapsUrl?   <li className={` ${styles.Hli}`}>{item.googlemapsUrl}</li>: <li className={` ${styles.Hli} ${styles.Nli}`}>not updated</li>}                        
                          {item.isApproved?   <li className={` ${styles.Hli}`} style={{color:"blue"}}>Congrates! Your account has been Approved, You can start posting Jobs</li>: <li className={` ${styles.Hli} ${styles.Nli}`} style={{fontStyle:"italic"}}>"Your account is in under Verfication process"</li>}                        
                                                 
 {item.message?<p style={{width:"450%",  marginLeft:"-70%"}}><b> Message :</b><span style={{color:"red"}}> {item.message}! </span></p>:""}
@@ -133,11 +141,16 @@ profileData.map((item, i) => {
                                                 <span className={styles.span}>  Phone number : </span><br></br>
                                                 <span className={styles.span}>  Aadhar Id : </span><br></br>
                                                 <span className={styles.span} >Pan Card:</span><br></br>
-                                                <span className={styles.span} > Company Contact:</span><br></br>
                                                 <span className={styles.span}> Company Name: </span><br></br>
+                                                <span className={styles.span} > Company Contact:</span><br></br>
                                                 <span className={styles.span}> Company Email: </span><br></br>
                                                 <span className={styles.span}> Company GSTIN: </span><br></br>
                                                 <span className={styles.span}> Company Website: </span><br></br>
+                                                <span className={styles.span}> Company Address1: </span><br></br>
+                                                <span className={styles.span}> Company Address2: </span><br></br>
+                                                <span className={styles.span}> City: </span><br></br>
+                                                <span className={styles.span}> Pin Code: </span><br></br>
+                                                <span className={styles.span}> Google Map: </span><br></br>
                                                 <span className={styles.span}> Organisation Type: </span><br></br>
                                             
                                             </div>
@@ -153,13 +166,17 @@ profileData.map((item, i) => {
                                                 <span className={styles.span}>  {job.CompanyEmail ? <span style={{ color: "blue" }}  >{job.CompanyEmail}</span> : <span style={{ color: "red" }}>Not updated</span>}</span><br></br>
                                                 <span className={styles.span}>  {job.CompanyGSTIN ? <span style={{ color: "blue" }}  >{job.CompanyGSTIN} </span> : <span style={{ color: "red" }}>Not updated</span>}</span><br></br>
                                                 <span className={styles.span}> {job.CompanyWebsite ? <span style={{ color: "blue" }}  >{job.CompanyWebsite} </span> : <span style={{ color: "red" }}>Not updated</span>} </span><br></br>
+                                                <span className={styles.span}> {job.CompanyAddress1 ? <span style={{ color: "blue" }}  >{job.CompanyAddress1} </span> : <span style={{ color: "red" }}>Not updated</span>} </span><br></br>
+                                                <span className={styles.span}> {job.CompanyAddress2 ? <span style={{ color: "blue" }}  >{job.CompanyAddress2} </span> : <span style={{ color: "red" }}>Not updated</span>} </span><br></br>
+                                                <span className={styles.span}> {job.City ? <span style={{ color: "blue" }}  >{job.City} </span> : <span style={{ color: "red" }}>Not updated</span>} </span><br></br>
+                                                <span className={styles.span}> {job.postalCode ? <span style={{ color: "blue" }}  >{job.postalCode} </span> : <span style={{ color: "red" }}>Not updated</span>} </span><br></br>
+                                                <span className={styles.span}> {job.googlemapsUrl ? <span style={{ color: "blue" }}  >{job.googlemapsUrl} </span> : <span style={{ color: "red" }}>Not updated</span>} </span><br></br>
                                                 <span className={styles.span}>  {job.TypeofOrganisation ? <span style={{ color: "blue" }}  >{job.TypeofOrganisation} </span> : <span style={{ color: "red" }}>Not updated</span>}</span><br></br>
                                             
                                             </div>
                                            
                                         </div>
                                         <div className={styles.Down}>
-                                        <span className={`${styles.span} ${styles.LastDown}`}> Company Address:  {job.CompanyAddress ? <span className={styles.span} style={{ color: "blue" }}  >{job.CompanyAddress} </span> : <span style={{ color: "red" }}>Not updated</span>}</span><br></br>
                                         <span className={`${styles.span} ${styles.LastDown}`}> Account Status:  {job.isApproved ? <span style={{ color: "blue" }}>Congrates! Your account has been Approved, Start posting Jobs</span> : <span style={{ color: "red" }}>"Your account is under Verfication process"</span>}</span><br></br>
                                         {job.message?<span style={{}} className={styles.span}> Message :<span style={{color:"red"}}> {job.message}! </span></span>:""}
                                         </div>

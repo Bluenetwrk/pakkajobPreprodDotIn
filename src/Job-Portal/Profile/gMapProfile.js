@@ -3,8 +3,8 @@ import React from "react";
 import { useGoogleLogin } from "@react-oauth/google";
 
 function GMapProfile() {
-  const empId = JSON.parse(localStorage.getItem("EmpIdG"));
-  const empGToken = JSON.parse(localStorage.getItem("EmpLog"));
+
+    let empId = JSON.parse(localStorage.getItem("EmpIdG"))
 
   const login = useGoogleLogin({
     // scope: "https://www.googleapis.com/auth/business.manage",
@@ -51,10 +51,40 @@ function GMapProfile() {
             },
           }
         );
-console.log("Locations Response:", locationsResponse.data.locations[0]);
+        let googlemapsUrl= locationsResponse.data.locations[0].metadata.mapsUri
+        // console.log(" newReviewUri:", locationsResponse.data.locations[0].metadata.newReviewUri);
+        let  placeId = locationsResponse.data.locations[0].metadata.placeId
+        // console.log(" storefrontAddress:", locationsResponse.data.locations[0].storefrontAddress);
+        let CompanyAddress1= locationsResponse.data.locations[0].storefrontAddress.addressLines[0]
+        let CompanyAddress2=locationsResponse.data.locations[0].storefrontAddress.addressLines[1]
+        let City = locationsResponse.data.locations[0].storefrontAddress.locality
+        let postalCode = locationsResponse.data.locations[0].storefrontAddress.postalCode
+        let  CompanyName = locationsResponse.data.locations[0].title
+        let  CompanyWebsite= locationsResponse.data.locations[0].websiteUri
         if (locationsResponse.data && Object.keys(locationsResponse.data).length === 0) {
           alert("No locations found for this business account");
+          return
         }
+    let userid = JSON.parse(localStorage.getItem("EmpIdG"))
+
+    const headers = { authorization: userid +" "+ atob(JSON.parse(localStorage.getItem("EmpLog"))) };
+
+        await axios.put(`/EmpProfile/updatProfile/${empId}`, {placeId, CompanyName, CompanyWebsite,
+           CompanyAddress1, CompanyAddress2, City, postalCode, googlemapsUrl
+        }, { headers })
+          .then(async (res) => {
+            let result = res.data
+            if (result == "success") {
+              alert("successs")
+            }
+              window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+              });
+
+            }).catch((err) => {
+            })
+          
 
       } catch (error) {
         console.log("STATUS:", error.response?.status);

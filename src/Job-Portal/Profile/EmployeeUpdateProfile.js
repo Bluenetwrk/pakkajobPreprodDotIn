@@ -73,7 +73,7 @@ const [immage, setimmage] = useState()
     await axios.get(`/EmpProfile/getProfile/${empId}`, {headers})
       .then((res) => {
         let result = res.data.result
-        console.log(result)
+        // console.log(result)
         if (result) {
           setname(result.name)
           setemail(result.email)
