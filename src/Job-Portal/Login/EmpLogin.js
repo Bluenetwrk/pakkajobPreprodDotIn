@@ -77,6 +77,13 @@ function EmpLogin(props) {
               localStorage.setItem("EmpLog", JSON.stringify(btoa(token)))
               localStorage.setItem("EmpIdG", JSON.stringify(GuserId))
               // navigate("/Search-Candidate", { state: { gserid: GuserId } })
+              if (result.action == "login") {
+								navigate("/MyProfile")
+								localStorage.setItem("EmpV", JSON.stringify(true))
+
+							} else if (result.action == "registration") {
+								navigate("/gMapProfile")
+							}
 			navigate("/gMapProfile")
 
             }

@@ -1,14 +1,40 @@
 import axios from "axios";
-import React from "react";
+import React, { useEffect } from "react";
 import { useGoogleLogin } from "@react-oauth/google";
+import { useState } from "react";
+import Modal from "./Model";
+import Animation from "./Animated";
+import { useNavigate } from 'react-router-dom'
+
 
 function GMapProfile() {
+  let navigate = useNavigate()
 
-    let empId = JSON.parse(localStorage.getItem("EmpIdG"))
+  let empId = JSON.parse(localStorage.getItem("EmpIdG"))
+  let EmpV = JSON.parse(localStorage.getItem("EmpV"))
+
+  useEffect(()=>{
+    if(EmpV){
+      navigate("/Search-Candidate")
+    }
+
+  },[])
+
+  const [showModal, setShowModal] = useState(true);
+  const [showSuccess, setShowSuccess] = useState(false);
+
+  const handleOk = () => {
+    login()
+    setShowModal(false);
+  };
+
+  const handleCancel = () => {
+    setShowModal(false);
+    navigate("/MyProfile")
+  };
 
   const login = useGoogleLogin({
     // scope: "https://www.googleapis.com/auth/business.manage",
-
     onSuccess: async (response) => {
       try {
         const gtoken = response.access_token;
@@ -51,40 +77,47 @@ function GMapProfile() {
             },
           }
         );
-        let googlemapsUrl= locationsResponse.data.locations[0].metadata.mapsUri
+        let googlemapsUrl = locationsResponse.data.locations[0].metadata.mapsUri
         // console.log(" newReviewUri:", locationsResponse.data.locations[0].metadata.newReviewUri);
-        let  placeId = locationsResponse.data.locations[0].metadata.placeId
+        let placeId = locationsResponse.data.locations[0].metadata.placeId
         // console.log(" storefrontAddress:", locationsResponse.data.locations[0].storefrontAddress);
-        let CompanyAddress1= locationsResponse.data.locations[0].storefrontAddress.addressLines[0]
-        let CompanyAddress2=locationsResponse.data.locations[0].storefrontAddress.addressLines[1]
+        let CompanyAddress1 = locationsResponse.data.locations[0].storefrontAddress.addressLines[0]
+        let CompanyAddress2 = locationsResponse.data.locations[0].storefrontAddress.addressLines[1]
         let City = locationsResponse.data.locations[0].storefrontAddress.locality
         let postalCode = locationsResponse.data.locations[0].storefrontAddress.postalCode
-        let  CompanyName = locationsResponse.data.locations[0].title
-        let  CompanyWebsite= locationsResponse.data.locations[0].websiteUri
+        let CompanyName = locationsResponse.data.locations[0].title
+        let CompanyWebsite = locationsResponse.data.locations[0].websiteUri
         if (locationsResponse.data && Object.keys(locationsResponse.data).length === 0) {
           alert("No locations found for this business account");
           return
         }
-    let userid = JSON.parse(localStorage.getItem("EmpIdG"))
+        let userid = JSON.parse(localStorage.getItem("EmpIdG"))
 
-    const headers = { authorization: userid +" "+ atob(JSON.parse(localStorage.getItem("EmpLog"))) };
+        const headers = { authorization: userid + " " + atob(JSON.parse(localStorage.getItem("EmpLog"))) };
 
-        await axios.put(`/EmpProfile/updatProfile/${empId}`, {placeId, CompanyName, CompanyWebsite,
-           CompanyAddress1, CompanyAddress2, City, postalCode, googlemapsUrl
+        await axios.put(`/EmpProfile/updatProfile/${empId}`, {
+          placeId, CompanyName, CompanyWebsite,
+          CompanyAddress1, CompanyAddress2, City, postalCode, googlemapsUrl
         }, { headers })
           .then(async (res) => {
             let result = res.data
             if (result == "success") {
-              alert("successs")
-            }
-              window.scrollTo({
-                top: 0,
-                behavior: "smooth"
-              });
+              setShowSuccess(true);
+              setTimeout(() => {
+                setShowSuccess(false);
+                navigate("/MyProfile")
+				localStorage.setItem("EmpV", JSON.stringify(true))
 
-            }).catch((err) => {
-            })
-          
+              }, 4000);
+            }
+            window.scrollTo({
+              top: 0,
+              behavior: "smooth"
+            });
+
+          }).catch((err) => {
+          })
+
 
       } catch (error) {
         console.log("STATUS:", error.response?.status);
@@ -98,12 +131,20 @@ function GMapProfile() {
   });
 
   return (
-    <div style={{ margin: "10px" }}>
-      <button onClick={() => login()}>
-        Verify your buisness profile with Google
-      </button>
-      <p>Note: To keep PakkaJob free from fake employeers, please verify your business once using Google business profile.</p>
-    </div>
+    <>
+      {/* <button onClick={() => setShowModal(true)}>
+        Open Modal
+      </button> */}
+
+      <Modal
+        isOpen={showModal}
+        onOk={handleOk}
+        onCancel={handleCancel}
+      />
+      {showSuccess ?
+        <Animation /> : ""
+      }
+    </>
   );
 }
 

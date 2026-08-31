@@ -1,4 +1,111 @@
 /* ------------- new ui css------ */
+
+/* for empliyee profile */
+
+/* =========================
+   PROFILE GRID
+========================= */
+
+.profileGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0;
+  margin-top: 25px;
+  border-top: 1px solid #eeeeee;
+}
+
+.profileField {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  padding: 18px 15px;
+  border-bottom: 1px solid #eeeeee;
+}
+
+.profileField strong {
+  font-size: 15px;
+  color: #222;
+}
+
+.profileField span {
+  font-size: 15px;
+  color: #333;
+  word-break: break-word;
+}
+
+.notUpdated {
+  color: red !important;
+  font-size: 14px !important;
+}
+
+
+/* =========================
+   ACCOUNT STATUS
+========================= */
+
+.accountStatusBox {
+  margin-top: 25px;
+  padding: 25px;
+  border-radius: 10px;
+  background: #f7f7f7;
+  border: 1px solid #eeeeee;
+}
+
+.accountStatusBox h4 {
+  margin-top: 0;
+  font-size: 18px;
+}
+
+.approvedText {
+  color: green;
+}
+
+.pendingText {
+  color: red;
+}
+
+.accountStatusBox p {
+  font-size: 15px;
+  margin-bottom: 0;
+}
+
+
+/* =========================
+   MESSAGE
+========================= */
+
+.messageBox {
+  margin-top: 20px;
+  padding: 15px;
+  border-radius: 8px;
+  background: #fff5f5;
+  border: 1px solid #ffd5d5;
+}
+
+.messageBox strong {
+  margin-right: 8px;
+}
+
+.messageBox span {
+  color: red;
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media screen and (max-width: 850px) {
+
+  .profileGrid {
+    grid-template-columns: 1fr;
+  }
+
+}
+
+
+/* up to here employee profile */
+
 .container {
     background-color: #fff;
     border-radius: 12px;

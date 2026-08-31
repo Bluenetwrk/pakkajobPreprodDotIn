@@ -747,7 +747,7 @@ border:"none",padding: "4px 8px"}} onClick={()=>{setDelAlert(true)}}>Delete</but
               <option value="Consultancy">Consultancy</option> 
               <option value="Individual">Individual</option> 
             </select>                                 
-            </div>  
+            </div>
 
             <label className={styles.inputName}>
               <h4>Company Email Id:**</h4>
@@ -774,7 +774,7 @@ border:"none",padding: "4px 8px"}} onClick={()=>{setDelAlert(true)}}>Delete</but
               <input maxLength="15" className={styles.input} value={CompanyGSTIN} onChange={(e) => { handleGstn(e) }} type="text" />
             </label>
 
-            <label className={styles.inputName}>
+            {/* <label className={styles.inputName}>
               <h4>Company Website:</h4>
               <input maxLength="40" className={styles.input} value={CompanyWebsite} onChange={(e) => { handleCompanyWebsite(e) }} type="text" />
             </label>
@@ -782,7 +782,7 @@ border:"none",padding: "4px 8px"}} onClick={()=>{setDelAlert(true)}}>Delete</but
             <label className={styles.inputName}>
               <h4>Company Address:</h4>
               <input  ref={inputRef} maxLength="200" className={styles.input} value={CompanyAddress} onChange={(e) => { handleCompanyAddress(e) }} type="text" />
-            </label>
+            </label> */}
 
             <label className={styles.inputName}>
               <div style={{position:"relative"}}>
@@ -949,19 +949,19 @@ border:"none",padding: "4px 8px"}} onClick={()=>{setDelAlert(true)}}>Delete</but
               <input maxLength="15" className={styles.Mobileinput} value={CompanyGSTIN} onChange={(e) => { handleGstn(e) }} type="text" />
             </label>
 
-            <label className={styles.MobileinputName}>
+            {/* <label className={styles.MobileinputName}>
               <h4 className={styles.MobileName}>Company Website:</h4>
               <input maxLength="25" className={styles.Mobileinput} value={CompanyWebsite} onChange={(e) => { handleCompanyWebsite(e)}} type="text" />
-            </label>
+            </label> */}
             {/* <label className={styles.MobileinputName}>
               <h4 className={styles.MobileName}>About us:</h4>
               <input maxLength="25" className={styles.Mobileinput} value={CompanyWebsite} onChange={(e) => { handleCompanyWebsite(e)}} type="text" />
             </label> */}
 
-            <label className={styles.MobileinputName}>
+            {/* <label className={styles.MobileinputName}>
               <h4 className={styles.MobileName}>Company Address:</h4>
               <input  ref={inputRef} maxLength="90" className={styles.Mobileinput} value={CompanyAddress} onChange={(e) => {handleCompanyAddress(e) }} type="text" />
-            </label>
+            </label> */}
 
             <label className={styles.MobileinputName}>
               <h4 className={styles.MobileName}>Secondary User Name : <span style={{fontWeight:800, fontSize:"medium"}} 
