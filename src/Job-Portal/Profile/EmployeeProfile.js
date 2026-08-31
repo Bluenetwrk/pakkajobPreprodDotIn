@@ -137,27 +137,60 @@ function EmployeeProfile() {
           >
             Back
           </button> */}
+ <div>
+    {profile.isApproved ? (
+      <span
+        style={{
+          display: "inline-block",
+          padding: "6px 12px",
+          borderRadius: "20px",
+          backgroundColor: "#d4edda",
+          color: "#155724",
+          fontWeight: "600",
+          fontSize: "14px",
+        }}
+      >
+        ✓ Approved
+      </span>
+    ) : (
+      <div>
+        <span
+          style={{
+            display: "inline-block",
+            padding: "6px 12px",
+            borderRadius: "20px",
+            backgroundColor: "#f8d7da",
+            color: "#721c24",
+            fontWeight: "600",
+            fontSize: "14px",
+          }}
+        >
+          ⚠ Under Verification
+        </span>
 
-          <div
-            className={
-              profile.isApproved
-                ? styles.statusBadge
-                : styles.statusBadgeReject
-            }
+        <div
+          style={{
+            marginTop: "8px",
+            fontSize: "14px",
+            color: "#555",
+          }}
+        >
+          Your account is under verification process.{" "}
+          <p
+            onClick={() => navigate("/gMapProfile")}
             style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              gap: "5px",
+              color: "#007bff",
+              cursor: "pointer",
+              textDecoration: "underline",
+              fontWeight: "600",
             }}
           >
-            <strong>Account Status:</strong>
-
-            {profile.isApproved
-              ? "Approved"
-              : "Under verification"}
-          </div>
-
+            Verify your business account
+          </p>
+        </div>
+      </div>
+    )}
+  </div>
         </div>
       </div>
 
