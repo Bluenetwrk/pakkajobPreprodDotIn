@@ -25,11 +25,11 @@ function GMapProfile() {
 
   const handleOk = () => {
     login()
-    setShowModal(false);
+    // setShowModal(false);
   };
 
   const handleCancel = () => {
-    setShowModal(false);
+    // setShowModal(false);
     navigate("/MyProfile")
   };
 
@@ -61,7 +61,9 @@ function GMapProfile() {
 
         if (!accountName) {
           alert("No business account found");
-          throw new Error("No business account found");
+          // throw new Error("No business account found");
+          console.log("no account")
+          return
         }
 
         // Get locations
@@ -87,16 +89,15 @@ function GMapProfile() {
         let postalCode = locationsResponse.data.locations[0].storefrontAddress.postalCode
         let CompanyName = locationsResponse.data.locations[0].title
         let CompanyWebsite = locationsResponse.data.locations[0].websiteUri
+        let hasBuisnessAccount=true
         if (locationsResponse.data && Object.keys(locationsResponse.data).length === 0) {
           alert("No locations found for this business account");
           return
         }
         let userid = JSON.parse(localStorage.getItem("EmpIdG"))
-
-        const headers = { authorization: userid + " " + atob(JSON.parse(localStorage.getItem("EmpLog"))) };
-
+        const headers = {authorization: userid + " " + atob(JSON.parse(localStorage.getItem("EmpLog")))};
         await axios.put(`/EmpProfile/updatProfile/${empId}`, {
-          placeId, CompanyName, CompanyWebsite,
+          placeId, CompanyName, CompanyWebsite, hasBuisnessAccount,
           CompanyAddress1, CompanyAddress2, City, postalCode, googlemapsUrl
         }, { headers })
           .then(async (res) => {
@@ -117,11 +118,9 @@ function GMapProfile() {
 
           }).catch((err) => {
           })
-
-
       } catch (error) {
-        console.log("STATUS:", error.response?.status);
-        console.log("ERROR:", error.response?.data);
+        console.log("STATUS:", error);
+        console.log("ERROR:", error);
       }
     },
 

@@ -1,7 +1,7 @@
 import React from "react";
 
 const Modal = ({ isOpen, onOk, onCancel }) => {
-  if (!isOpen) return;
+  // if (!isOpen) return;
 
   return (
     <>

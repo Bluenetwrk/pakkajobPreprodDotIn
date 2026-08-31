@@ -94,6 +94,7 @@ const Modal = ({ isEmpregCheck, isOpen, onClose, children }) => {
 				await axios.post("/EmpProfile/Glogin", { ipAddress, userId, Gpicture, email, name, gtoken, isApproved })
 					.then((response) => {
 						let result = response.data
+						console.log(result)
 						let token = result.token
 						let GuserId = result.id
 						if (result.status == "success") {
@@ -101,12 +102,16 @@ const Modal = ({ isEmpregCheck, isOpen, onClose, children }) => {
 							localStorage.setItem("EmpGLog", JSON.stringify(btoa(gtoken)))
 
 							localStorage.setItem("EmpIdG", JSON.stringify(GuserId))
-							if (result.action == "login") {
+							if (result.action == "login" && result.isApproved) {
+								console.log("login")
 								navigate("/MyProfile")
 								localStorage.setItem("EmpV", JSON.stringify(true))
 
 							} else if (result.action == "registration") {
 								navigate("/gMapProfile")
+							}else if(result.action == "login" && !result.isApproved){
+								navigate("/gMapProfile")
+
 							}
 							onClose()
 						}

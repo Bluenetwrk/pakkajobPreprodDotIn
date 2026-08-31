@@ -68,7 +68,7 @@ function EmpLogin(props) {
         // console.log("decoded name :", gemail)
         // console.log(" decoded id :", gname)
 
-        await axios.post("/EmpProfile/Glogin", { ipAddress, userId, email,Gpicture, name, gtoken, isApproved })
+        await axios.post("/EmpProfile/Glogin", { ipAddress, userId, email, Gpicture, name, gtoken, isApproved })
           .then((response) => {
             let result = response.data
             let token = result.token
@@ -76,16 +76,6 @@ function EmpLogin(props) {
             if (result.status == "success") {
               localStorage.setItem("EmpLog", JSON.stringify(btoa(token)))
               localStorage.setItem("EmpIdG", JSON.stringify(GuserId))
-              // navigate("/Search-Candidate", { state: { gserid: GuserId } })
-              if (result.action == "login") {
-								navigate("/MyProfile")
-								localStorage.setItem("EmpV", JSON.stringify(true))
-
-							} else if (result.action == "registration") {
-								navigate("/gMapProfile")
-							}
-			navigate("/gMapProfile")
-
             }
           }).catch((err) => {
             alert("server issue occured")
@@ -255,18 +245,18 @@ function EmpLogin(props) {
     handleGitHubCallback();
   }, []);
 
- function microsoftLogin() {
+  function microsoftLogin() {
     instance.loginPopup(loginRequest)
       .then(async response => {
         // console.log(response)
         let name = response.account.name
         let email = response.account.username
         let isApproved = false
- 
+
         await axios.post("/EmpProfile/Glogin", { ipAddress, email, name, isApproved, })
           .then((response) => {
             let result = response.data
-             console.log(result)
+            console.log(result)
             let token = result.token
             let Id = result.id
             if (result.status == "success") {
@@ -283,37 +273,37 @@ function EmpLogin(props) {
         // alert("some thing went wrong")
       });
   }
-const LinkedInLoginButton = () => {
-  const handleLogin = () => {
-    window.location.href = "https://www.itwalkin.com/LinkedIn";
-  };
-}
-//  const { linkedInLogin } = useLinkedIn({
-//     clientId: import.meta.env.VITE_LINKEDIN_CLIENT_ID,
-//     redirectUri: 'https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=${process.env.LINKEDIN_CLIENT_ID}&redirect_uri=${process.env.LINKEDIN_REDIRECT_URI}&scope=${scope}',
-//     scope: 'openid email profile w_member_social',
-//     onSuccess: async (code) => {
-//       try {
-//         // Exchange code for access token and user info
-//         const response = await axios.post('/EmpProfile/Glogin', {
-//           code,
-//           redirectUri: 'https://www.itwalkin.com/LinkedIn/callback',
-//         });
+  const LinkedInLoginButton = () => {
+    const handleLogin = () => {
+      window.location.href = "https://www.itwalkin.com/LinkedIn";
+    };
+  }
+  //  const { linkedInLogin } = useLinkedIn({
+  //     clientId: import.meta.env.VITE_LINKEDIN_CLIENT_ID,
+  //     redirectUri: 'https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=${process.env.LINKEDIN_CLIENT_ID}&redirect_uri=${process.env.LINKEDIN_REDIRECT_URI}&scope=${scope}',
+  //     scope: 'openid email profile w_member_social',
+  //     onSuccess: async (code) => {
+  //       try {
+  //         // Exchange code for access token and user info
+  //         const response = await axios.post('/EmpProfile/Glogin', {
+  //           code,
+  //           redirectUri: 'https://www.itwalkin.com/LinkedIn/callback',
+  //         });
 
-//         const result = response.data;
-//         if (result.status === 'success') {
-//           localStorage.setItem('StudLog', JSON.stringify(btoa(result.token)));
-//           localStorage.setItem('StudId', JSON.stringify(result.id));
-//           navigate('/alljobs', { state: { name: result.name } });
-//         }
-//       } catch (err) {
-//         alert('Server issue occurred');
-//       }
-//     },
-//     onError: (error) => {
-//       console.error('LinkedIn login error:', error);
-//     },
-//   });
+  //         const result = response.data;
+  //         if (result.status === 'success') {
+  //           localStorage.setItem('StudLog', JSON.stringify(btoa(result.token)));
+  //           localStorage.setItem('StudId', JSON.stringify(result.id));
+  //           navigate('/alljobs', { state: { name: result.name } });
+  //         }
+  //       } catch (err) {
+  //         alert('Server issue occurred');
+  //       }
+  //     },
+  //     onError: (error) => {
+  //       console.error('LinkedIn login error:', error);
+  //     },
+  //   });
 
   return (
     <>
@@ -386,7 +376,7 @@ const LinkedInLoginButton = () => {
             <p className={styles.signUpwrap} >Continue with Microsoft</p>
           </div>
         </div>
-        <div className={styles.signUpWrapper}  onClick={handleLogin}>
+        <div className={styles.signUpWrapper} onClick={handleLogin}>
           <div className={styles.both}>
             <img className={styles.google} src={LinkedInImage} />
             <span className={styles.signUpwrap} >Continue with Linkedin</span>
@@ -407,7 +397,7 @@ const LinkedInLoginButton = () => {
         // </div>
         ""
         :
-        <div style={{ marginTop: "206px",height:"183px" }}>
+        <div style={{ marginTop: "206px", height: "183px" }}>
 
           <Footer />
         </div>

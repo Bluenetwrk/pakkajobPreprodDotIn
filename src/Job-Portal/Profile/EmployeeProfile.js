@@ -176,6 +176,7 @@ function EmployeeProfile() {
           }}
         >
           Your account is under verification process.{" "}
+         {!profile.hasBuisnessAccount?
           <p
             onClick={() => navigate("/gMapProfile")}
             style={{
@@ -186,7 +187,8 @@ function EmployeeProfile() {
             }}
           >
             Verify your business account
-          </p>
+          </p>:""
+}
         </div>
       </div>
     )}
