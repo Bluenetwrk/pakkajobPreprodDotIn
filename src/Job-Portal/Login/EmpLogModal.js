@@ -100,18 +100,12 @@ const Modal = ({ isEmpregCheck, isOpen, onClose, children }) => {
 						if (result.status == "success") {
 							localStorage.setItem("EmpLog", JSON.stringify(btoa(token)))
 							localStorage.setItem("EmpGLog", JSON.stringify(btoa(gtoken)))
-
 							localStorage.setItem("EmpIdG", JSON.stringify(GuserId))
-							if (result.action == "login" && result.isApproved) {
-								console.log("login")
-								navigate("/MyProfile")
-								localStorage.setItem("EmpV", JSON.stringify(true))
-
-							} else if (result.action == "registration") {
+							if (result.action == "login" && result.hasBuisnessAccount) {
+								navigate("/Search-Candidate")
+								// localStorage.setItem("EmpV", JSON.stringify(true))
+							} else {
 								navigate("/gMapProfile")
-							}else if(result.action == "login" && !result.isApproved){
-								navigate("/gMapProfile")
-
 							}
 							onClose()
 						}
