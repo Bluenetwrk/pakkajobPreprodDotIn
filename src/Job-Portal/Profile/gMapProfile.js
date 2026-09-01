@@ -56,15 +56,13 @@ function GMapProfile() {
             },
           }
         );
-
         const accountName = accounts.data.accounts?.[0]?.name;
-
-        if (!accountName) {
-          alert("No business account found");
-          // throw new Error("No business account found");
-          console.log("no account")
-          return
-        }
+        // if (!accountName) {
+        //   alert("No business account found");
+        //   // throw new Error("No business account found");
+        //   console.log("no account")
+        //   return
+        // }
 
         // Get locations
         const locationsResponse = await axios.get(
@@ -79,6 +77,12 @@ function GMapProfile() {
             },
           }
         );
+        if (locationsResponse.data && Object.keys(locationsResponse.data).length === 0) {
+          alert("No locations found for this business account, kindly use your buisness acoount");
+                navigate("/MyProfile")
+
+          return
+        }
         let googlemapsUrl = locationsResponse.data.locations[0].metadata.mapsUri
         // console.log(" newReviewUri:", locationsResponse.data.locations[0].metadata.newReviewUri);
         let placeId = locationsResponse.data.locations[0].metadata.placeId
@@ -90,10 +94,7 @@ function GMapProfile() {
         let CompanyName = locationsResponse.data.locations[0].title
         let CompanyWebsite = locationsResponse.data.locations[0].websiteUri
         let hasBuisnessAccount=true
-        if (locationsResponse.data && Object.keys(locationsResponse.data).length === 0) {
-          alert("No locations found for this business account");
-          return
-        }
+        
         let userid = JSON.parse(localStorage.getItem("EmpIdG"))
         const headers = {authorization: userid + " " + atob(JSON.parse(localStorage.getItem("EmpLog")))};
         await axios.put(`/EmpProfile/updatProfile/${empId}`, {
