@@ -13,8 +13,8 @@ const ResumeForm = () => {
     profileSummary: '',
     address: '',
     email: '',
-    linkedin:'',
-    objective:'My objective is to succeed in an environment of growth and excellence and earn a job which provides me job satisfaction and self development and helps me achieve personal as well as organisational goals.',
+    linkedin: '',
+    objective: 'My objective is to succeed in an environment of growth and excellence and earn a job which provides me job satisfaction and self development and helps me achieve personal as well as organisational goals.',
     qualification: '',
     college: '',
     totalExperience: '',
@@ -26,19 +26,19 @@ const ResumeForm = () => {
     // skills: [{ heading: '', items: [''] }],
     languages: [''],
     qualificationDetails: [
-      { degree: '', score: '', collegeName: '', stateCode: '', countryCode: '',isSaved: false, yop: '', city:'' ,country:'', studyField:''}
+      { degree: '', score: '', collegeName: '', stateCode: '', countryCode: '', isSaved: false, yop: '', city: '', country: '', studyField: '' }
     ],
     personalDetails: [{
       gender: "",
       maritalStatus: "",
       dob: "",
       fatherName: "",
-    motherName: "",
-    Nationality: ""  
+      motherName: "",
+      Nationality: ""
     }],
     achievements: [""],
     interests: [""],
-    projects:[""],
+    projects: [""],
   };
 
   const handlePersonalChange = (e) => {
@@ -53,7 +53,7 @@ const ResumeForm = () => {
       ],
     }));
   };
-  
+
 
   // Dynamic List Handlers
   const handleDynamicChange = (index, type, value) => {
@@ -79,7 +79,7 @@ const ResumeForm = () => {
   };
 
 
-  const navigate  = useNavigate();
+  const navigate = useNavigate();
   const screenSize = useScreenSize();
   const [formData, setFormData] = useState(initialState);
   const [profileData, setProfileData] = useState([]);
@@ -93,17 +93,17 @@ const ResumeForm = () => {
 
   useEffect(() => {
     const fetchProfile = async () => {
-      const userid = JSON.parse(localStorage.getItem("StudId"));
+      const userid = JSON.parse(localStorage.getItem("StudId")) 
       const headers = {
         authorization: `${userid} ${atob(JSON.parse(localStorage.getItem("StudLog")))}`,
       };
+      console.log(headers)
 
       try {
-        const res =   await axios.get(`/StudentProfile/viewProfile/${studId}`)
+        const res = await axios.get(`/StudentProfile/viewProfile/${userid}`)
         const result = res.data.result;
         setProfileData([result]);
-        console.log("pd",result)
-        setImageConsent(result.imageConsent)  
+        setImageConsent(result.imageConsent)
         setFormData(prev => ({
           ...prev,
           name: result.name || "",
@@ -112,8 +112,8 @@ const ResumeForm = () => {
           profileSummary: result.profileSummary || "",
           totalExperience: result.Experiance || "",
           address: result.address || "",
-          qualification:result.Qualification||"",
-          college:result.college||"",
+          qualification: result.Qualification || "",
+          college: result.college || "",
           experiences: result.experiences?.length
             ? result.experiences.map(exp => ({
               company: exp.company || "",
@@ -125,14 +125,14 @@ const ResumeForm = () => {
             : [{ company: "", role: "", startDate: "", endDate: "", descriptions: [""] }],
           certifications: result.certifications?.length ? result.certifications : [""],
           skills: result.skills?.length
-  ? result.skills.map(skill => ({
-      heading: skill.heading || "",
-      items: skill.items?.length ? skill.items : [],
-    }))
-  : [{ heading: "", items: [] }],
+            ? result.skills.map(skill => ({
+              heading: skill.heading || "",
+              items: skill.items?.length ? skill.items : [],
+            }))
+            : [{ heading: "", items: [] }],
 
           languages: result.languages?.length ? result.languages : [""],
-          personalDetails:[{
+          personalDetails: [{
             gender: result.personalDetails[0]?.gender || "",
             maritalStatus: result.personalDetails[0]?.maritalStatus || "",
             fatherName: result.personalDetails[0]?.fatherName || "",
@@ -159,9 +159,9 @@ const ResumeForm = () => {
               city: q.city || "",
               country: q.country || "",
               studyField: q.studyField || "",
-              isSaved: true 
+              isSaved: true
             }))
-            : [{ degree: "", score: "", collegeName: "", stateCode: "", countryCode: "", yop:"", city:"", country:"" }],
+            : [{ degree: "", score: "", collegeName: "", stateCode: "", countryCode: "", yop: "", city: "", country: "" }],
         }));
       } catch (err) {
         alert("Something went wrong while fetching profile");
@@ -171,73 +171,70 @@ const ResumeForm = () => {
     fetchProfile();
   }, [studId]);
 
-  useEffect(()=>{
-console.log(imageConsent, formData)
-  },[imageConsent])
+  useEffect(() => {
+  }, [imageConsent])
 
   const [skillSearch, setSkillSearch] = useState("");
-const [activeSkillIndex, setActiveSkillIndex] = useState(null);
-const skillBoxRef = useRef([]);
+  const [activeSkillIndex, setActiveSkillIndex] = useState(null);
+  const skillBoxRef = useRef([]);
 
-const selectSkillHeading = (index, heading) => {
-  const updated = [...formData.skills];
-  updated[index].heading = heading;
-  updated[index].items = []; // reset skills when heading changes
-  setFormData({ ...formData, skills: updated });
-  setSkillSearch("");
-};
-
-const addSkillChip = (sectionIndex, skill) => {
-  const updated = [...formData.skills];
-  if (!updated[sectionIndex].items.includes(skill)) {
-    updated[sectionIndex].items.push(skill);
-  }
-  setFormData({ ...formData, skills: updated });
-  setSkillSearch("");
-};
-
-const removeSkillChip = (sectionIndex, skill) => {
-  const updated = [...formData.skills];
-  updated[sectionIndex].items = updated[sectionIndex].items.filter(
-    (s) => s !== skill
-  );
-  setFormData({ ...formData, skills: updated });
-};
-
-useEffect(() => {
-  const handleOutsideClick = (e) => {
-    const activeRef = skillBoxRef.current[activeSkillIndex];
-
-    if (activeRef && !activeRef.contains(e.target)) {
-      setActiveSkillIndex(null);
-    }
+  const selectSkillHeading = (index, heading) => {
+    const updated = [...formData.skills];
+    updated[index].heading = heading;
+    updated[index].items = []; // reset skills when heading changes
+    setFormData({ ...formData, skills: updated });
+    setSkillSearch("");
   };
 
-  document.addEventListener("mousedown", handleOutsideClick);
-  return () =>
-    document.removeEventListener("mousedown", handleOutsideClick);
-}, [activeSkillIndex]);
+  const addSkillChip = (sectionIndex, skill) => {
+    const updated = [...formData.skills];
+    if (!updated[sectionIndex].items.includes(skill)) {
+      updated[sectionIndex].items.push(skill);
+    }
+    setFormData({ ...formData, skills: updated });
+    setSkillSearch("");
+  };
 
-// const[hasValidSkillSections, sethasValidSkillSections]=useState(false)
-// useEffect(() => {
-//   const isSkills = formData.skills.some(
-//     (section) =>
-//       section.heading?.trim() !== "" ||
-//       section.items.some((item) => item.trim() !== "")
-//   );
+  const removeSkillChip = (sectionIndex, skill) => {
+    const updated = [...formData.skills];
+    updated[sectionIndex].items = updated[sectionIndex].items.filter(
+      (s) => s !== skill
+    );
+    setFormData({ ...formData, skills: updated });
+  };
 
-//   sethasValidSkillSections(isSkills);
-// }, [formData.skills]);
-let hasValidSkillSections = formData.skills.some
-( (section) => section.heading?.trim().length > 0 || 
-section.items.some( (item) => typeof item === "string" && item.trim().length > 0 )
-)
+  useEffect(() => {
+    const handleOutsideClick = (e) => {
+      const activeRef = skillBoxRef.current[activeSkillIndex];
 
-useEffect(()=>{
-  console.log("is skills:",hasValidSkillSections)
-  console.log(formData.skills)
-},[formData])
- 
+      if (activeRef && !activeRef.contains(e.target)) {
+        setActiveSkillIndex(null);
+      }
+    };
+
+    document.addEventListener("mousedown", handleOutsideClick);
+    return () =>
+      document.removeEventListener("mousedown", handleOutsideClick);
+  }, [activeSkillIndex]);
+
+  // const[hasValidSkillSections, sethasValidSkillSections]=useState(false)
+  // useEffect(() => {
+  //   const isSkills = formData.skills.some(
+  //     (section) =>
+  //       section.heading?.trim() !== "" ||
+  //       section.items.some((item) => item.trim() !== "")
+  //   );
+
+  //   sethasValidSkillSections(isSkills);
+  // }, [formData.skills]);
+  let hasValidSkillSections = formData.skills.some
+    ((section) => section.heading?.trim().length > 0 ||
+      section.items.some((item) => typeof item === "string" && item.trim().length > 0)
+    )
+
+  useEffect(() => {
+  }, [formData])
+
 
   const containerStylemobile = {
     // maxWidth: '900px',
@@ -251,7 +248,7 @@ useEffect(()=>{
     margin: '0 auto',
     padding: '20px',
     fontFamily: 'Arial, sans-serif',
-  display:"flex", flexWrap:"wrap", gap:"10px", justifyContent:"space-between"
+    display: "flex", flexWrap: "wrap", gap: "10px", justifyContent: "space-between"
   };
   const sectionStyle = {
     background: '#f8f8f8',
@@ -278,7 +275,7 @@ useEffect(()=>{
     border: '1px solid #ccc',
     borderRadius: '4px',
     resize: 'vertical',
-    
+
   };
 
   const buttonStyle = {
@@ -289,7 +286,7 @@ useEffect(()=>{
     border: 'none',
     borderRadius: '4px',
     cursor: 'pointer',
-  
+
   };
   const buttonStyles = {
     marginTop: '0px',
@@ -300,7 +297,7 @@ useEffect(()=>{
     borderRadius: '4px',
     cursor: 'pointer',
   };
-  const [resumeAlert, setresumeAlert]=useState(false)
+  const [resumeAlert, setresumeAlert] = useState(false)
   const alertRef = useRef(null);
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -309,9 +306,9 @@ useEffect(()=>{
         setresumeAlert(false); // close the alert
       }
     };
-  
+
     document.addEventListener('mousedown', handleClickOutside);
-  
+
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
@@ -320,9 +317,9 @@ useEffect(()=>{
   // ---------- BASIC INPUT CHANGE ----------
   const handleChange = (field, value) => {
     let charLimit = null;
-    if (field === "profileSummary") charLimit = 400;   
-    if (field === "address") charLimit = 200;      
-    if (field === "name") charLimit = 50;    
+    if (field === "profileSummary") charLimit = 400;
+    if (field === "address") charLimit = 200;
+    if (field === "name") charLimit = 50;
     if (field === "email") charLimit = 200;
     if (charLimit && value.length > charLimit) return;
     setFormData((prev) => ({ ...prev, [field]: value }));
@@ -331,16 +328,16 @@ useEffect(()=>{
   // ---------- QUALIFICATION ----------
   const handleQualificationChange = (index, key, value) => {
     const updated = [...formData.qualificationDetails];
-  
+
     updated[index] = {
       ...updated[index],
       [key]: value,
-      isSaved: false 
+      isSaved: false
     };
-  
+
     setFormData({ ...formData, qualificationDetails: updated });
   };
-  
+
 
   const addQualificationRow = () => {
     if (formData.qualificationDetails.length >= 5) return;
@@ -348,7 +345,7 @@ useEffect(()=>{
       ...formData,
       qualificationDetails: [
         ...formData.qualificationDetails,
-        { degree: '', score: '', collegeName: '', stateCode: '', countryCode: '', isSaved: false, yop:'', city:'', country:'', studyField:'' },
+        { degree: '', score: '', collegeName: '', stateCode: '', countryCode: '', isSaved: false, yop: '', city: '', country: '', studyField: '' },
       ],
     });
   };
@@ -366,7 +363,7 @@ useEffect(()=>{
     setFormData((prev) => {
       const updated = [...prev.qualificationDetails];
       updated.splice(index, 1);
-  
+
       if (updated.length === 0) {
         updated.push({
           degree: "",
@@ -374,28 +371,28 @@ useEffect(()=>{
           collegeName: "",
           stateCode: "",
           countryCode: "",
-          yop:"",
-          city:"",
-          country:"",
-          studyField:""
+          yop: "",
+          city: "",
+          country: "",
+          studyField: ""
         });
       }
-  
+
       const nextState = {
         ...prev,
         qualificationDetails: updated,
       };
-  
+
       // 🔑 Call API with UPDATED data
       cancelSubmit(nextState);
-  
+
       return nextState;
     });
   };
-  
+
   const clearQualificationRow = (index) => {
     const updatedQualifications = [...formData.qualificationDetails];
-  
+
     updatedQualifications[index] = {
       degree: '',
       score: '',
@@ -406,20 +403,20 @@ useEffect(()=>{
       city: '',
       stateCode: ''
     };
-  
+
     setFormData({
       ...formData,
       qualificationDetails: updatedQualifications
     });
   };
-  
+
 
   const cancelSubmit = async (data = formData) => {
     let userid = JSON.parse(localStorage.getItem("StudId"));
     const headers = {
       authorization: userid + " " + atob(JSON.parse(localStorage.getItem("StudLog")))
     };
-  
+
     const {
       name,
       email,
@@ -437,9 +434,9 @@ useEffect(()=>{
       interests,
       projects
     } = data;
-  
+
     const Experiance = totalExperience;
-  
+
     await axios.put(
       `/StudentProfile/updatProfile/${studId}`,
       {
@@ -463,7 +460,7 @@ useEffect(()=>{
       { headers }
     );
   };
-  
+
   // ---------- EXPERIENCE ----------
   const handleExperienceChange = (index, key, value) => {
     const updated = [...formData.experiences];
@@ -555,21 +552,21 @@ useEffect(()=>{
   //     if (formstate === "nontech") {
   //       const hasComputer = prev.skills.some(s => s.heading === "Computer");
   //       const hasTyping = prev.skills.some(s => s.heading === "Typing");
-  
+
   //       if (!hasComputer) {
   //         return {
   //           ...prev,
   //           skills: [...prev.skills, { heading: "Computer", items: [] }],
   //         };
   //       }
-  
+
   //       if (!hasTyping) {
   //         return {
   //           ...prev,
   //           skills: [...prev.skills, { heading: "Typing", items: [] }],
   //         };
   //       }
-  
+
   //       return prev;
   //     }
 
@@ -579,14 +576,14 @@ useEffect(()=>{
   //     };
   //   });
   // };
-  
+
   const addSkillSection = () => {
     setFormData((prev) => ({
       ...prev,
       skills: [...prev.skills, { heading: "", items: [] }],
     }));
   };
-  
+
 
   // const removeSkillSection = (index) => {
   //   const updated = [...formData.skills];
@@ -599,7 +596,7 @@ useEffect(()=>{
     updated.splice(index, 1);
     setFormData({ ...formData, skills: updated });
   };
-  
+
   // ---------- LANGUAGES ----------
   const handleLanguageChange = (index, value) => {
     const updated = [...formData.languages];
@@ -621,14 +618,14 @@ useEffect(()=>{
   const handleQualificationSave = async (index) => {
     const updated = [...formData.qualificationDetails];
     updated[index].isSaved = true;
-  
+
     const nextState = {
       ...formData,
       qualificationDetails: updated
     };
-  
+
     setFormData(nextState);
-  
+
     // send cleaned data (no isSaved)
     const payload = {
       ...nextState,
@@ -636,17 +633,18 @@ useEffect(()=>{
         ({ isSaved, ...rest }) => rest
       )
     };
-  
+
     await handleSubmit();
   };
-  
+
   // ---------- SUBMIT ----------
   const handleSubmit = async () => {
     let userid = JSON.parse(localStorage.getItem("StudId"))
     const headers = { authorization: userid + " " + atob(JSON.parse(localStorage.getItem("StudLog"))) };
 
-    const {name,email, linkedin, totalExperience,profileSummary, address, experiences, certifications, skills, languages, qualificationDetails, personalDetails, achievements, interests, projects } = formData;
-
+    const { name, email, linkedin, totalExperience, profileSummary, address, 
+      experiences, certifications, skills, languages, qualificationDetails, 
+      personalDetails, achievements, interests, projects } = formData;
 
     if (
       !profileSummary.trim() ||
@@ -668,15 +666,13 @@ useEffect(()=>{
       window.scrollTo({ top: 0, behavior: "smooth" });
       setSuccessMessage("")
       setresumeAlert(true)
-     
+
       return;
     }
-    console.log("personal details",personalDetails)
-    console.log("ach",achievements)
-    console.log("int",linkedin)
-    const Experiance=totalExperience;
+
+    const Experiance = totalExperience;
     await axios.put(`/StudentProfile/updatProfile/${studId}`, {
-      name, email, linkedin, Experiance, profileSummary, address, experiences, certifications, skills, languages, qualificationDetails,imageConsent,personalDetails, achievements, interests, projects
+      name, email, linkedin, Experiance, profileSummary, address, experiences, certifications, skills, languages, qualificationDetails, imageConsent, personalDetails, achievements, interests, projects
     }, { headers })
       .then((res) => {
         let result = (res.data)
@@ -732,978 +728,978 @@ useEffect(()=>{
     return () => clearInterval(interval);
   }, []);
 
- const goToHelp=()=>{
-  //  window.open("#")
- }
+  const goToHelp = () => {
+    //  window.open("#")
+  }
 
- const FORMSTATE_MAP = {
-  nontech: ["Computer", "Typing"],
-  testing: ["Testing"],
-  fullstack: ["Frontend", "Backend", "Database", "DevOps"],
-  frontend: ["Frontend"],
-  backend: ["Backend", "Database"],
-  entrylevelpro:Object.keys(SKILL_LIBRARY).filter(
-    (h) => h !== "Testing"
-  ),
-  default: Object.keys(SKILL_LIBRARY),
-};
+  const FORMSTATE_MAP = {
+    nontech: ["Computer", "Typing"],
+    testing: ["Testing"],
+    fullstack: ["Frontend", "Backend", "Database", "DevOps"],
+    frontend: ["Frontend"],
+    backend: ["Backend", "Database"],
+    entrylevelpro: Object.keys(SKILL_LIBRARY).filter(
+      (h) => h !== "Testing"
+    ),
+    default: Object.keys(SKILL_LIBRARY),
+  };
 
- let location = useLocation()
-   const { formstate, loginprofile, selectedTemplate } = location.state || {};
-    // const { loginprofile } = location.state || {};
-   console.log("fd",selectedTemplate)
+  let location = useLocation()
+  const { formstate, loginprofile, selectedTemplate } = location.state || {};
+  // const { loginprofile } = location.state || {};
+  //  console.log(formstate, loginprofile, selectedTemplate)
 
 
   // ------------------- xml codes -------------------------------
   // XML import/export states
-const [xmlLoading, setXmlLoading] = useState(false);
-const [xmlError, setXmlError] = useState("");
-const [isXmlImported, setIsXmlImported] = useState(false);
+  const [xmlLoading, setXmlLoading] = useState(false);
+  const [xmlError, setXmlError] = useState("");
+  const [isXmlImported, setIsXmlImported] = useState(false);
 
 
-// -------- XML HELPERS --------
-const jsonToXml = (obj, indent = "") => {
-  let xml = "";
+  // -------- XML HELPERS --------
+  const jsonToXml = (obj, indent = "") => {
+    let xml = "";
 
-  // 🔹 handle primitive directly
-  if (
-    typeof obj === "string" ||
-    typeof obj === "number" ||
-    typeof obj === "boolean"
-  ) {
-    return `${indent}<value>${escapeXml(obj)}</value>\n`;
-  }
-
-  for (const key in obj) {
-    const value = obj[key];
-
-    if (Array.isArray(value)) {
-      xml += `${indent}<${key}>\n`;
-
-      value.forEach((item) => {
-        xml += `${indent}  <item>\n`;
-        xml += jsonToXml(item, indent + "    ");
-        xml += `${indent}  </item>\n`;
-      });
-
-      xml += `${indent}</${key}>\n`;
-    } else if (typeof value === "object" && value !== null) {
-      xml += `${indent}<${key}>\n`;
-      xml += jsonToXml(value, indent + "  ");
-      xml += `${indent}</${key}>\n`;
-    } else {
-      xml += `${indent}<${key}>${escapeXml(value ?? "")}</${key}>\n`;
+    // 🔹 handle primitive directly
+    if (
+      typeof obj === "string" ||
+      typeof obj === "number" ||
+      typeof obj === "boolean"
+    ) {
+      return `${indent}<value>${escapeXml(obj)}</value>\n`;
     }
-  }
 
-  return xml;
-};
+    for (const key in obj) {
+      const value = obj[key];
 
-const xmlToJson = (node) => {
-  // <value>text</value>
-  if (node.tagName === "value") {
-    return node.textContent;
-  }
+      if (Array.isArray(value)) {
+        xml += `${indent}<${key}>\n`;
 
-  const children = [...node.children];
+        value.forEach((item) => {
+          xml += `${indent}  <item>\n`;
+          xml += jsonToXml(item, indent + "    ");
+          xml += `${indent}  </item>\n`;
+        });
 
-  // no children → text node
-  if (children.length === 0) {
-    return node.textContent;
-  }
+        xml += `${indent}</${key}>\n`;
+      } else if (typeof value === "object" && value !== null) {
+        xml += `${indent}<${key}>\n`;
+        xml += jsonToXml(value, indent + "  ");
+        xml += `${indent}</${key}>\n`;
+      } else {
+        xml += `${indent}<${key}>${escapeXml(value ?? "")}</${key}>\n`;
+      }
+    }
 
-  // handle arrays: <something><item>...</item></something>
-  const itemNodes = children.filter((c) => c.tagName === "item");
-  if (itemNodes.length === children.length) {
-    // array case
-    return itemNodes.map((item) => xmlToJson(item));
-  }
-
-  // object case
-  const obj = {};
-  children.forEach((child) => {
-    obj[child.tagName] = xmlToJson(child);
-  });
-
-  return obj;
-};
-
-
-// const xmlToJson = (node) => {
-//   if (
-//     node.tagName === "value" &&
-//     node.children.length === 0
-//   ) {
-//     return node.textContent;
-//   }
-
-//   if (!node.children.length) {
-//     return node.textContent;
-//   }
-
-//   const obj = {};
-//   [...node.children].forEach((child) => {
-//     if (child.tagName === "item") {
-//       if (!obj.items) obj.items = [];
-//       obj.items.push(xmlToJson(child));
-//     } else {
-//       obj[child.tagName] = xmlToJson(child);
-//     }
-//   });
-
-//   if (obj.items) {
-//     return obj.items;
-//   }
-//   return obj;
-// };
-
-const normalizeStringArray = (arr, fallback) => {
-  if (!Array.isArray(arr)) return fallback;
-
-  return arr.map((item) =>
-    typeof item === "string"
-      ? item
-      : typeof item === "object" && item !== null
-      ? item.value ?? ""
-      : ""
-  );
-};
-
-const normalizeSkillItems = (items) => {
-  if (!Array.isArray(items)) return [];
-
-  return items.map((i) =>
-    typeof i === "string"
-      ? i
-      : typeof i === "object" && i !== null
-      ? i.value ?? ""
-      : ""
-  );
-};
-
-const extractValue = (v) => {
-  if (typeof v === "string") return v;
-  if (typeof v === "object" && v !== null) return v.value ?? "";
-  return "";
-};
-
-const toStringValue = (v) => {
-  if (typeof v === "string") return v;
-  if (typeof v === "object" && v !== null) return v.value ?? "";
-  return "";
-};
-
-const normalizeFormData = (data) => {
-  const normalized = {
-    ...initialState,
-    ...data,
+    return xml;
   };
 
-  // ---- normalize skills deeply ----
-  
-  normalized.skills = Array.isArray(data.skills)
-  ? data.skills.map((skill) => ({
-      heading: toStringValue(skill.heading),
-      items: Array.isArray(skill.items)
-        ? skill.items.map(toStringValue)
-        : [],
-    }))
-  : initialState.skills;
+  const xmlToJson = (node) => {
+    // <value>text</value>
+    if (node.tagName === "value") {
+      return node.textContent;
+    }
+
+    const children = [...node.children];
+
+    // no children → text node
+    if (children.length === 0) {
+      return node.textContent;
+    }
+
+    // handle arrays: <something><item>...</item></something>
+    const itemNodes = children.filter((c) => c.tagName === "item");
+    if (itemNodes.length === children.length) {
+      // array case
+      return itemNodes.map((item) => xmlToJson(item));
+    }
+
+    // object case
+    const obj = {};
+    children.forEach((child) => {
+      obj[child.tagName] = xmlToJson(child);
+    });
+
+    return obj;
+  };
 
 
-      
+  // const xmlToJson = (node) => {
+  //   if (
+  //     node.tagName === "value" &&
+  //     node.children.length === 0
+  //   ) {
+  //     return node.textContent;
+  //   }
+
+  //   if (!node.children.length) {
+  //     return node.textContent;
+  //   }
+
+  //   const obj = {};
+  //   [...node.children].forEach((child) => {
+  //     if (child.tagName === "item") {
+  //       if (!obj.items) obj.items = [];
+  //       obj.items.push(xmlToJson(child));
+  //     } else {
+  //       obj[child.tagName] = xmlToJson(child);
+  //     }
+  //   });
+
+  //   if (obj.items) {
+  //     return obj.items;
+  //   }
+  //   return obj;
+  // };
+
+  const normalizeStringArray = (arr, fallback) => {
+    if (!Array.isArray(arr)) return fallback;
+
+    return arr.map((item) =>
+      typeof item === "string"
+        ? item
+        : typeof item === "object" && item !== null
+          ? item.value ?? ""
+          : ""
+    );
+  };
+
+  const normalizeSkillItems = (items) => {
+    if (!Array.isArray(items)) return [];
+
+    return items.map((i) =>
+      typeof i === "string"
+        ? i
+        : typeof i === "object" && i !== null
+          ? i.value ?? ""
+          : ""
+    );
+  };
+
+  const extractValue = (v) => {
+    if (typeof v === "string") return v;
+    if (typeof v === "object" && v !== null) return v.value ?? "";
+    return "";
+  };
+
+  const toStringValue = (v) => {
+    if (typeof v === "string") return v;
+    if (typeof v === "object" && v !== null) return v.value ?? "";
+    return "";
+  };
+
+  const normalizeFormData = (data) => {
+    const normalized = {
+      ...initialState,
+      ...data,
+    };
+
+    // ---- normalize skills deeply ----
+
+    normalized.skills = Array.isArray(data.skills)
+      ? data.skills.map((skill) => ({
+        heading: toStringValue(skill.heading),
+        items: Array.isArray(skill.items)
+          ? skill.items.map(toStringValue)
+          : [],
+      }))
+      : initialState.skills;
 
 
-  // ---- normalize experiences ----
-  normalized.experiences = Array.isArray(data.experiences)
-  ? data.experiences.map((exp) => ({
-      company: exp?.company ?? "",
-      role: exp?.role ?? "",
-      startDate: exp?.startDate ?? "",
-      endDate: exp?.endDate ?? "",
-      descriptions: Array.isArray(exp?.descriptions)
-        ? exp.descriptions.map((d) =>
+
+
+
+    // ---- normalize experiences ----
+    normalized.experiences = Array.isArray(data.experiences)
+      ? data.experiences.map((exp) => ({
+        company: exp?.company ?? "",
+        role: exp?.role ?? "",
+        startDate: exp?.startDate ?? "",
+        endDate: exp?.endDate ?? "",
+        descriptions: Array.isArray(exp?.descriptions)
+          ? exp.descriptions.map((d) =>
             typeof d === "string"
               ? d
               : typeof d === "object" && d !== null
-              ? d.value ?? ""
-              : ""
+                ? d.value ?? ""
+                : ""
           )
-        : [""],
-    }))
-  : initialState.experiences;
+          : [""],
+      }))
+      : initialState.experiences;
 
 
-  // ---- normalize simple arrays ----
-  normalized.languages = normalizeStringArray(
-    data.languages,
-    initialState.languages
-  );
-  
-  normalized.achievements = normalizeStringArray(
-    data.achievements,
-    initialState.achievements
-  );
-  
-  normalized.interests = normalizeStringArray(
-    data.interests,
-    initialState.interests
-  );
-  
-  normalized.projects = normalizeStringArray(
-    data.projects,
-    initialState.projects
-  );
-  
-  normalized.certifications = normalizeStringArray(
-    data.certifications,
-    initialState.certifications
-  );
-  
+    // ---- normalize simple arrays ----
+    normalized.languages = normalizeStringArray(
+      data.languages,
+      initialState.languages
+    );
 
-  // ---- qualification details ----
-  normalized.qualificationDetails = Array.isArray(
-    data.qualificationDetails
-  )
-    ? data.qualificationDetails.map((q) => ({
+    normalized.achievements = normalizeStringArray(
+      data.achievements,
+      initialState.achievements
+    );
+
+    normalized.interests = normalizeStringArray(
+      data.interests,
+      initialState.interests
+    );
+
+    normalized.projects = normalizeStringArray(
+      data.projects,
+      initialState.projects
+    );
+
+    normalized.certifications = normalizeStringArray(
+      data.certifications,
+      initialState.certifications
+    );
+
+
+    // ---- qualification details ----
+    normalized.qualificationDetails = Array.isArray(
+      data.qualificationDetails
+    )
+      ? data.qualificationDetails.map((q) => ({
         ...q,
         isSaved: q?.isSaved ?? false,
       }))
-    : initialState.qualificationDetails;
+      : initialState.qualificationDetails;
 
-  // ---- personal details ----
-  normalized.personalDetails = Array.isArray(data.personalDetails)
-    ? data.personalDetails
-    : initialState.personalDetails;
+    // ---- personal details ----
+    normalized.personalDetails = Array.isArray(data.personalDetails)
+      ? data.personalDetails
+      : initialState.personalDetails;
 
-  return normalized;
-};
+    return normalized;
+  };
 
 
 
-const handleExportXML = () => {
-  try {
-    setXmlLoading(true);
-    setXmlError("");
-
-    const xml =
-      `<resume>\n` +
-      jsonToXml(formData, "  ") +
-      `</resume>`;
-
-    const blob = new Blob([xml], { type: "application/xml" });
-    const url = URL.createObjectURL(blob);
-
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "resume.xml";
-    a.click();
-
-    URL.revokeObjectURL(url);
-  } catch (err) {
-    setXmlError("Failed to export XML");
-  } finally {
-    setXmlLoading(false);
-  }
-};
-
-const handleImportXML = (e) => {
-  const file = e.target.files[0];
-  if (!file) return;
-
-  if (!file.name.endsWith(".xml")) {
-    setXmlError("Only .xml files are allowed");
-    return;
-  }
-
-  setXmlLoading(true);
-  setXmlError("");
-
-  const reader = new FileReader();
-  reader.onload = () => {
+  const handleExportXML = () => {
     try {
-      const parser = new DOMParser();
-      const xml = parser.parseFromString(reader.result, "text/xml");
+      setXmlLoading(true);
+      setXmlError("");
 
-      if (xml.getElementsByTagName("parsererror").length > 0) {
-        throw new Error("Invalid XML");
-      }
+      const xml =
+        `<resume>\n` +
+        jsonToXml(formData, "  ") +
+        `</resume>`;
 
-      const resumeNode = xml.getElementsByTagName("resume")[0];
-      if (!resumeNode) {
-        throw new Error("Invalid resume XML structure");
-      }
+      const blob = new Blob([xml], { type: "application/xml" });
+      const url = URL.createObjectURL(blob);
 
-      const parsedData = xmlToJson(resumeNode);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "resume.xml";
+      a.click();
 
-      // 🔴 Overwrite ONLY because user explicitly imported
-      setFormData(normalizeFormData(parsedData));
-      setIsXmlImported(true);
+      URL.revokeObjectURL(url);
     } catch (err) {
-      setXmlError("Invalid XML file");
+      setXmlError("Failed to export XML");
     } finally {
       setXmlLoading(false);
     }
   };
 
-  reader.readAsText(file);
-};
+  const handleImportXML = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
 
-const escapeXml = (value) => {
-  if (typeof value !== "string") return value;
+    if (!file.name.endsWith(".xml")) {
+      setXmlError("Only .xml files are allowed");
+      return;
+    }
 
-  return value
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&apos;");
-};
+    setXmlLoading(true);
+    setXmlError("");
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      try {
+        const parser = new DOMParser();
+        const xml = parser.parseFromString(reader.result, "text/xml");
+
+        if (xml.getElementsByTagName("parsererror").length > 0) {
+          throw new Error("Invalid XML");
+        }
+
+        const resumeNode = xml.getElementsByTagName("resume")[0];
+        if (!resumeNode) {
+          throw new Error("Invalid resume XML structure");
+        }
+
+        const parsedData = xmlToJson(resumeNode);
+
+        // 🔴 Overwrite ONLY because user explicitly imported
+        setFormData(normalizeFormData(parsedData));
+        setIsXmlImported(true);
+      } catch (err) {
+        setXmlError("Invalid XML file");
+      } finally {
+        setXmlLoading(false);
+      }
+    };
+
+    reader.readAsText(file);
+  };
+
+  const escapeXml = (value) => {
+    if (typeof value !== "string") return value;
+
+    return value
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&apos;");
+  };
 
 
   return (
     <div className={styles.container}>
-      <div ref={alertRef} style={{position:"relative"}}>
-      {resumeAlert&&
-                         <>
-                            <div className={styles.popup} > 
-        
-        Your resume is incomplete. Please fill in all required profile details before downloading
-          <div  style={{ marginTop: '15px', display:"flex", justifyContent:"center", gap:"5px" }}>
-            <button
-              onClick={()=> setresumeAlert(false)}
-              style={{
-                padding: '8px 16px',
-                backgroundColor: '#4CAF50',
-                color: 'white',
-                border: 'none',
-                borderRadius: '5px',
-                fontSize: '12px',
-                cursor: 'pointer',
-              }}
-            >
-              Ok
-            </button>
-            <button
-              onClick={()=> setresumeAlert(false)}
-              style={{
-                padding: '8px 16px',
-                backgroundColor: '#4CAF50',
-                color: 'white',
-                border: 'none',
-                borderRadius: '5px',
-                fontSize: '12px',
-                cursor: 'pointer',
-              }}
-            >
-              Cancel
-            </button>
-          </div>
-        </div>
-                         </>
+      <div ref={alertRef} style={{ position: "relative" }}>
+        {resumeAlert &&
+          <>
+            <div className={styles.popup} >
 
- }
+              Your resume is incomplete. Please fill in all required profile details before downloading
+              <div style={{ marginTop: '15px', display: "flex", justifyContent: "center", gap: "5px" }}>
+                <button
+                  onClick={() => setresumeAlert(false)}
+                  style={{
+                    padding: '8px 16px',
+                    backgroundColor: '#4CAF50',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '5px',
+                    fontSize: '12px',
+                    cursor: 'pointer',
+                  }}
+                >
+                  Ok
+                </button>
+                <button
+                  onClick={() => setresumeAlert(false)}
+                  style={{
+                    padding: '8px 16px',
+                    backgroundColor: '#4CAF50',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '5px',
+                    fontSize: '12px',
+                    cursor: 'pointer',
+                  }}
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </>
+
+        }
       </div>
-      <div style={{display:"flex", justifyContent:"space-between"}}>
-      <button
-        className={styles.tvbackbtn}
-        onClick={() => {
-          if (window.history.length > 1) navigate(-1);
-          else navigate("/");
-        }}
-      >
-        <div style={{ fontSize: "12px", fontWeight: "800" }}>Back</div>
-      </button>
+      <div style={{ display: "flex", justifyContent: "space-between" }}>
+        <button
+          className={styles.tvbackbtn}
+          onClick={() => {
+            if (window.history.length > 1) navigate(-1);
+            else navigate("/");
+          }}
+        >
+          <div style={{ fontSize: "12px", fontWeight: "800" }}>Back</div>
+        </button>
 
-      <button
-        className={styles.tvbackbtn}
-        onClick={() => {
-          navigate("/support/help");
-        }}
-        style={{marginRight:"2%"}}
-      >
-        <div style={{ fontSize: "12px", fontWeight: "800" }}>Help</div>
-      </button>
+        <button
+          className={styles.tvbackbtn}
+          onClick={() => {
+            navigate("/support/help");
+          }}
+          style={{ marginRight: "2%" }}
+        >
+          <div style={{ fontSize: "12px", fontWeight: "800" }}>Help</div>
+        </button>
 
 
-{/* {xmlLoading && <p>Processing XML...</p>}
+        {/* {xmlLoading && <p>Processing XML...</p>}
 {xmlError && <p style={{ color: "red" }}>{xmlError}</p>} */}
 
       </div>
 
-      <div style={{ display: "flex", marginRight:"2%", justifyContent: "flex-end" }}>
-  <input
-    type="file"
-    accept=".xml"
-    id="xmlImport"
-    style={{ display: "none",  }}
-    onChange={handleImportXML}
-  />
+      <div style={{ display: "flex", marginRight: "2%", justifyContent: "flex-end" }}>
+        <input
+          type="file"
+          accept=".xml"
+          id="xmlImport"
+          style={{ display: "none", }}
+          onChange={handleImportXML}
+        />
 
-  <button
-  style={{fontSize: "12px", fontWeight:700}}
-    className={styles.tvbackbtn}
-    disabled={xmlLoading}
-    onClick={() => document.getElementById("xmlImport").click()}
-  >
-    Import XML
-  </button>
+        <button
+          style={{ fontSize: "12px", fontWeight: 700 }}
+          className={styles.tvbackbtn}
+          disabled={xmlLoading}
+          onClick={() => document.getElementById("xmlImport").click()}
+        >
+          Import XML
+        </button>
 
-  <button
-    style={{fontSize: "12px",fontWeight:700}}
-    className={styles.tvbackbtn}
-    disabled={xmlLoading}
-    onClick={handleExportXML}
-  >
-    Export XML
-  </button>
-{/* {console.log("template key", selectedTemplate)} */}
-   <button
-    style={{fontSize: "12px",fontWeight:700}}
-    className={styles.tvbackbtn}
-    onClick={()=>{ navigate("/resumes", {state: { selectedTemplate: selectedTemplate }  })}}
-  >
-    Preview
-  </button>
-  </div>
+        <button
+          style={{ fontSize: "12px", fontWeight: 700 }}
+          className={styles.tvbackbtn}
+          disabled={xmlLoading}
+          onClick={handleExportXML}
+        >
+          Export XML
+        </button>
+        {/* {console.log("template key", selectedTemplate)} */}
+        <button
+          style={{ fontSize: "12px", fontWeight: 700 }}
+          className={styles.tvbackbtn}
+          onClick={() => { navigate("/resumes", { state: { selectedTemplate: selectedTemplate } }) }}
+        >
+          Preview
+        </button>
+      </div>
 
-      <div style={{display:"flex",justifyContent:"center"}}>
-          <div><h1>Resume Builder Form</h1></div>
-        </div>
-              <div style={screenSize.width > 850 ?containerStyle:containerStylemobile} >
+      <div style={{ display: "flex", justifyContent: "center" }}>
+        <div><h1>Resume Builder Form</h1></div>
+      </div>
+      <div style={screenSize.width > 850 ? containerStyle : containerStylemobile} >
 
         {/* -----------------left container------- */}
         <div style={{ width: screenSize.width > 850 ? "48%" : "100%" }}>
-        {successMessage && <p>{successMessage}</p>}
-        <div >
-        {/* {console.log("pd",profileData[0]?.Gpicture )} */}
-        {profileData ? (
-  imageConsent === true ? (
-    <img
-      src={profileData[0]?.Gpicture}
-      alt="Candidate"
-      style={{ borderRadius: "47%" }}
-    />
-  ) : null
-) : (
-  <p>Loading...</p>
-)}
+          {successMessage && <p>{successMessage}</p>}
+          <div >
+            {/* {console.log("pd",profileData[0]?.Gpicture )} */}
+            {profileData ? (
+              imageConsent === true ? (
+                <img
+                  src={profileData[0]?.Gpicture}
+                  alt="Candidate"
+                  style={{ borderRadius: "47%" }}
+                />
+              ) : null
+            ) : (
+              <p>Loading...</p>
+            )}
 
 
-{ !(loginprofile==="cs_center")&&
-<div style={{ padding: "10px", fontFamily: "Arial" }}>
-      <p style={{ fontWeight: "bold" }}>
-      Your google profile picture will be used on your resume. Make sure you have latest profile picture updated in Google account. Please confirm, Do you want to Add  your google profile picture in resume
-      </p>
+            {!(loginprofile === "cs_center") &&
+              <div style={{ padding: "10px", fontFamily: "Arial" }}>
+                <p style={{ fontWeight: "bold" }}>
+                  Your google profile picture will be used on your resume. Make sure you have latest profile picture updated in Google account. Please confirm, Do you want to Add  your google profile picture in resume
+                </p>
 
-      <label style={{ display: "block", margin: "5px 0" }}>
-        <input
-          type="radio"
-          name="imageConsent"
-          value="true"
-          checked={imageConsent === true}
-          onChange={() => handleConscentChange(true)}
-        />{" "}
-        Yes, I give my consent
-      </label>
+                <label style={{ display: "block", margin: "5px 0" }}>
+                  <input
+                    type="radio"
+                    name="imageConsent"
+                    value="true"
+                    checked={imageConsent === true}
+                    onChange={() => handleConscentChange(true)}
+                  />{" "}
+                  Yes, I give my consent
+                </label>
 
-      <label style={{ display: "block", margin: "5px 0" }}>
-        <input
-          type="radio"
-          name="imageConsent"
-          value="false"
-          checked={imageConsent === false}
-          onChange={() => handleConscentChange(false)}
-        />{" "}
-        No, I do not wish
-      </label>
+                <label style={{ display: "block", margin: "5px 0" }}>
+                  <input
+                    type="radio"
+                    name="imageConsent"
+                    value="false"
+                    checked={imageConsent === false}
+                    onChange={() => handleConscentChange(false)}
+                  />{" "}
+                  No, I do not wish
+                </label>
 
-      </div>
-      }        
-            </div>
+              </div>
+            }
+          </div>
 
-        <input style={inputStyle}  placeholder="Name" value={formData.name} onChange={(e) => handleChange('name', e.target.value)} />
-        {formstate!=="nontech"?
-        <textarea style={inputStyle} disabled={(loginprofile==="cs_center")} placeholder="Profile Summary" value={formData.profileSummary} onChange={(e) => handleChange('profileSummary', e.target.value)} />
-        :
-        <textarea
-  style={inputStyle}
-  disabled
-  placeholder="Objective"
-  value={formData.objective}
-  onChange={(e) => handleChange('objective', e.target.value)}
-/>
-        }<input type="text" ref={venueInputRef} value={formData.address} onChange={(e) => handleChange('address', e.target.value)} style={inputStyle} placeholder="Current Address" />
-        <input style={inputStyle}  placeholder="Email" value={formData.email} onChange={(e) => handleChange('email', e.target.value)} />
-        {formstate==="fullstack" &&
-        <input style={inputStyle}  placeholder="Linkedin" value={formData.linkedin?formData.linkedin:""} onChange={(e) => handleChange('linkedin', e.target.value)} />
-      }
-        <input style={inputStyle}  placeholder="Total Experience" value={formData.totalExperience} onChange={(e) => handleChange('totalExperience', e.target.value)} />
-       {/* <input
+          <input style={inputStyle} placeholder="Name" value={formData.name} onChange={(e) => handleChange('name', e.target.value)} />
+          {formstate !== "nontech" ?
+            <textarea style={inputStyle} disabled={(loginprofile === "cs_center")} placeholder="Profile Summary" value={formData.profileSummary} onChange={(e) => handleChange('profileSummary', e.target.value)} />
+            :
+            <textarea
+              style={inputStyle}
+              disabled
+              placeholder="Objective"
+              value={formData.objective}
+              onChange={(e) => handleChange('objective', e.target.value)}
+            />
+          }<input type="text" ref={venueInputRef} value={formData.address} onChange={(e) => handleChange('address', e.target.value)} style={inputStyle} placeholder="Current Address" />
+          <input style={inputStyle} placeholder="Email" value={formData.email} onChange={(e) => handleChange('email', e.target.value)} />
+          {formstate === "fullstack" &&
+            <input style={inputStyle} placeholder="Linkedin" value={formData.linkedin ? formData.linkedin : ""} onChange={(e) => handleChange('linkedin', e.target.value)} />
+          }
+          <input style={inputStyle} placeholder="Total Experience" value={formData.totalExperience} onChange={(e) => handleChange('totalExperience', e.target.value)} />
+          {/* <input
   style={inputStyle}
   placeholder="Qualification"
   defaultValue={formData.qualification}
 /> */}
-        {/* <input style={inputStyle}  placeholder="College" value={formData.college} /> */}
+          {/* <input style={inputStyle}  placeholder="College" value={formData.college} /> */}
 
-        {/* QUALIFICATION DETAILS */}
-        {screenSize.width > 850 ?
-        <>
-        <h2>Education</h2>
-        <button style={buttonStyle} type="button" onClick={addQualificationRow}>+ Add New Education</button>
+          {/* QUALIFICATION DETAILS */}
+          {screenSize.width > 850 ?
+            <>
+              <h2>Education</h2>
+              <button style={buttonStyle} type="button" onClick={addQualificationRow}>+ Add New Education</button>
 
-        <table style={{ width: "100%", borderCollapse: "collapse", marginBottom: "20px" , marginLeft:"0%"}}>
-          
-          <thead>
-            <tr style={{ background: "#eee" }}>
-            <th style={{ border: "1px solid #ccc", padding: "8px" }}>School/College/<br></br>University Name</th>
-              <th style={{ border: "1px solid #ccc", padding: "8px" }}>Degree</th>
-              {!(loginprofile==="cs_center") &&
-              <th style={{ border: "1px solid #ccc", padding: "8px" }}>Field of study (Degree/Masters<br></br>/School)</th>
-                 }
-              <th style={{ border: "1px solid #ccc", padding: "8px" }}>Grade (% or CGPA)</th>
-              <th style={{ border: "1px solid #ccc", padding: "8px" }}>year of passing</th>
-              {/* <th style={{ border: "1px solid #ccc", padding: "8px" }}>State Code</th> */}
-              {!(loginprofile==="cs_center") &&
-              <>
-              <th style={{ border: "1px solid #ccc", padding: "8px" }}>Location (Country/<br></br>Region)</th>
-              <th style={{ border: "1px solid #ccc", padding: "8px" }}>City</th>
-              </>
-              }
-              {/* <th style={{ border: "1px solid #ccc", padding: "8px" }}>Action</th> */}
-            </tr>
-          </thead>
-          <tbody>
-          {formData.qualificationDetails.map((q, i) => (
-  <React.Fragment key={i}>
-    {/* ROW 1: INPUTS (UNCHANGED INLINE STYLES) */}
-    <tr>
-      <td>
-        <input
-          maxLength={40}
-          style={inputStyles}
-          placeholder="College Name"
-          value={q.collegeName}
-          onChange={(e) =>
-            handleQualificationChange(i, "collegeName", e.target.value)
+              <table style={{ width: "100%", borderCollapse: "collapse", marginBottom: "20px", marginLeft: "0%" }}>
+
+                <thead>
+                  <tr style={{ background: "#eee" }}>
+                    <th style={{ border: "1px solid #ccc", padding: "8px" }}>School/College/<br></br>University Name</th>
+                    <th style={{ border: "1px solid #ccc", padding: "8px" }}>Degree</th>
+                    {!(loginprofile === "cs_center") &&
+                      <th style={{ border: "1px solid #ccc", padding: "8px" }}>Field of study (Degree/Masters<br></br>/School)</th>
+                    }
+                    <th style={{ border: "1px solid #ccc", padding: "8px" }}>Grade (% or CGPA)</th>
+                    <th style={{ border: "1px solid #ccc", padding: "8px" }}>year of passing</th>
+                    {/* <th style={{ border: "1px solid #ccc", padding: "8px" }}>State Code</th> */}
+                    {!(loginprofile === "cs_center") &&
+                      <>
+                        <th style={{ border: "1px solid #ccc", padding: "8px" }}>Location (Country/<br></br>Region)</th>
+                        <th style={{ border: "1px solid #ccc", padding: "8px" }}>City</th>
+                      </>
+                    }
+                    {/* <th style={{ border: "1px solid #ccc", padding: "8px" }}>Action</th> */}
+                  </tr>
+                </thead>
+                <tbody>
+                  {formData.qualificationDetails.map((q, i) => (
+                    <React.Fragment key={i}>
+                      {/* ROW 1: INPUTS (UNCHANGED INLINE STYLES) */}
+                      <tr>
+                        <td>
+                          <input
+                            maxLength={40}
+                            style={inputStyles}
+                            placeholder="College Name"
+                            value={q.collegeName}
+                            onChange={(e) =>
+                              handleQualificationChange(i, "collegeName", e.target.value)
+                            }
+                          />
+                        </td>
+
+                        <td>
+                          <input
+                            style={{ ...inputStyles, width: "76%" }}
+                            placeholder="Degree"
+                            value={q.degree}
+                            onChange={(e) =>
+                              handleQualificationChange(i, "degree", e.target.value)
+                            }
+                          />
+                        </td>
+                        {!(loginprofile === "cs_center") &&
+                          <td>
+                            <input
+                              style={inputStyles}
+                              placeholder="study field"
+                              value={q.studyField}
+                              onChange={(e) =>
+                                handleQualificationChange(i, "studyField", e.target.value)
+                              }
+                            />
+                          </td>
+                        }
+
+                        <td>
+                          <input
+                            style={{ ...inputStyles, width: "76%" }}
+                            placeholder="% or CGPA"
+                            value={q.score}
+                            onChange={(e) =>
+                              handleQualificationChange(i, "score", e.target.value)
+                            }
+                          />
+                        </td>
+
+                        <td>
+                          <input
+                            style={{ ...inputStyles, width: "76%" }}
+                            placeholder="yop"
+                            value={q.yop}
+                            onChange={(e) =>
+                              handleQualificationChange(i, "yop", e.target.value)
+                            }
+                          />
+                        </td>
+                        {!(loginprofile === "cs_center") &&
+                          <>
+                            <td>
+                              <input
+                                style={{ ...inputStyles, width: "76%" }}
+                                placeholder="Country"
+                                value={q.country}
+                                onChange={(e) =>
+                                  handleQualificationChange(i, "country", e.target.value)
+                                }
+                              />
+                            </td>
+
+                            <td>
+                              <input
+                                style={{ ...inputStyles, width: "70%" }}
+                                placeholder="City"
+                                value={q.city}
+                                onChange={(e) =>
+                                  handleQualificationChange(i, "city", e.target.value)
+                                }
+                              />
+                            </td>
+                          </>
+                        }
+                      </tr>
+
+                      {/* ROW 2: BUTTONS (RIGHT SIDE, NO STYLE CHANGE) */}
+                      <tr>
+                        <td colSpan={7} style={{ textAlign: "right" }}>
+                          {!q.isSaved && (
+                            <button
+                              style={{ ...buttonStyles, marginRight: "2px" }}
+                              type="button"
+                              onClick={() => handleQualificationSave(i)}
+                            >
+                              Save
+                            </button>
+                          )}
+
+
+                          <button
+                            style={{ ...buttonStyles, marginRight: "2px" }}
+                            type="button"
+                            onClick={() => { clearQualificationRow(i) }}
+                          >
+                            Cancel
+                          </button>
+
+                          <button
+                            style={buttonStyles}
+                            type="button"
+                            onClick={() => { removeQualificationRow(i) }}
+                          >
+                            Delete
+                          </button>
+                        </td>
+                      </tr>
+                    </React.Fragment>
+                  ))}
+
+                </tbody>
+              </table>
+            </> :
+            <>
+              {/* QUALIFICATION DETAILS */}
+              <h2>Education</h2>
+              {formData.qualificationDetails.map((q, i) => (
+                <div key={i} style={{ ...sectionStyle, display: "flex", flexWrap: "wrap", gap: "10px" }}>
+                  <input
+                    style={{ ...inputStyle, flex: "1 1 200px" }}
+                    placeholder="College Name"
+                    maxLength={20}
+                    value={q.collegeName}
+                    onChange={(e) => handleQualificationChange(i, "collegeName", e.target.value)}
+                  />
+                  <input
+                    style={{ ...inputStyle, flex: "1 1 180px" }}
+                    placeholder="Degree/Masters/School"
+                    value={q.degree}
+                    onChange={(e) => handleQualificationChange(i, "degree", e.target.value)}
+                  />
+                  {!(loginprofile === "cs_center") &&
+                    <input
+                      style={{ ...inputStyle, flex: "1 1 180px" }}
+                      placeholder="Study Field"
+                      value={q.studyField}
+                      onChange={(e) => handleQualificationChange(i, "studyField", e.target.value)}
+                    />
+                  }
+                  <input
+                    style={{ ...inputStyle, flex: "1 1 120px" }}
+                    placeholder="% or CGPA"
+                    value={q.score}
+                    onChange={(e) => handleQualificationChange(i, "score", e.target.value)}
+                  />
+
+                  <input
+                    style={{ ...inputStyle, flex: "1 1 120px" }}
+                    placeholder="YOP"
+                    value={q.yop}
+                    onChange={(e) => handleQualificationChange(i, "yop", e.target.value)}
+                  />
+                  {!(loginprofile === "cs_center") &&
+                    <>
+                      <input
+                        style={{ ...inputStyle, flex: "1 1 120px" }}
+                        placeholder="Country"
+                        value={q.country}
+                        onChange={(e) => handleQualificationChange(i, "country", e.target.value)}
+                      />
+                      <input
+                        style={{ ...inputStyle, flex: "1 1 120px" }}
+                        placeholder="State Code"
+                        value={q.city}
+                        onChange={(e) => handleQualificationChange(i, "city", e.target.value)}
+                      />
+                    </>
+                  }
+                  <div style={{ display: "flex", gap: "4px" }}>
+                    <button style={{ ...buttonStyle, height: "30px" }} type="button" onClick={() => handleQualificationSave(i)}>Save</button>
+                    <button style={{ ...buttonStyle, height: "30px" }} type="button" onClick={() => clearQualificationRow(i)}>Cancel</button>
+                    <button style={{ ...buttonStyle, height: "30px" }} type="button" onClick={() => removeQualificationRow(i)}>Delete</button>
+                  </div>
+                </div>
+              ))}
+              <button style={buttonStyle} type="button" onClick={addQualificationRow}>Add Education</button>
+
+            </>
+
           }
-        />
-      </td>
-
-      <td>
-        <input
-          style={{ ...inputStyles, width: "76%" }}
-          placeholder="Degree"
-          value={q.degree}
-          onChange={(e) =>
-            handleQualificationChange(i, "degree", e.target.value)
-          }
-        />
-      </td>
-{!(loginprofile==="cs_center") &&
-      <td>
-        <input
-          style={inputStyles}
-          placeholder="study field"
-          value={q.studyField}
-          onChange={(e) =>
-            handleQualificationChange(i, "studyField", e.target.value)
-          }
-        />
-      </td>
-}
-
-      <td>
-        <input
-          style={{ ...inputStyles, width: "76%" }}
-          placeholder="% or CGPA"
-          value={q.score}
-          onChange={(e) =>
-            handleQualificationChange(i, "score", e.target.value)
-          }
-        />
-      </td>
-
-      <td>
-        <input
-          style={{ ...inputStyles, width: "76%" }}
-          placeholder="yop"
-          value={q.yop}
-          onChange={(e) =>
-            handleQualificationChange(i, "yop", e.target.value)
-          }
-        />
-      </td>
-{!(loginprofile==="cs_center") &&
-   <>
-      <td>
-        <input
-          style={{ ...inputStyles, width: "76%" }}
-          placeholder="Country"
-          value={q.country}
-          onChange={(e) =>
-            handleQualificationChange(i, "country", e.target.value)
-          }
-        />
-      </td>
-
-      <td>
-        <input
-          style={{ ...inputStyles, width: "70%" }}
-          placeholder="City"
-          value={q.city}
-          onChange={(e) =>
-            handleQualificationChange(i, "city", e.target.value)
-          }
-        />
-      </td>
-      </>
-}
-    </tr>
-
-    {/* ROW 2: BUTTONS (RIGHT SIDE, NO STYLE CHANGE) */}
-    <tr>
-      <td colSpan={7} style={{ textAlign: "right" }}>
-      {!q.isSaved && (
-  <button
-    style={{ ...buttonStyles, marginRight: "2px" }}
-    type="button"
-    onClick={() => handleQualificationSave(i)}
-  >
-    Save
-  </button>
-)}
-
-
-        <button
-          style={{ ...buttonStyles, marginRight:"2px"}}
-          type="button"
-          onClick={() => {clearQualificationRow(i)}}
-        >
-          Cancel
-        </button>
-
-        <button
-          style={buttonStyles}
-          type="button"
-          onClick={() => {removeQualificationRow(i)}}
-        >
-          Delete
-        </button>
-      </td>
-    </tr>
-  </React.Fragment>
-))}
-
-          </tbody>
-        </table>
-       </>:
-       <>
-       {/* QUALIFICATION DETAILS */}
-<h2>Education</h2>
-{formData.qualificationDetails.map((q, i) => (
-  <div key={i} style={{ ...sectionStyle, display: "flex", flexWrap: "wrap", gap: "10px" }}>
-    <input
-      style={{ ...inputStyle, flex: "1 1 200px" }}
-      placeholder="College Name"
-      maxLength={20}
-      value={q.collegeName}
-      onChange={(e) => handleQualificationChange(i, "collegeName", e.target.value)}
-    />
-    <input
-      style={{ ...inputStyle, flex: "1 1 180px" }}
-      placeholder="Degree/Masters/School"
-      value={q.degree}
-      onChange={(e) => handleQualificationChange(i, "degree", e.target.value)}
-    />
-    {!(loginprofile==="cs_center") &&
-    <input
-      style={{ ...inputStyle, flex: "1 1 180px" }}
-      placeholder="Study Field"
-      value={q.studyField}
-      onChange={(e) => handleQualificationChange(i, "studyField", e.target.value)}
-    />
-}
-    <input
-      style={{ ...inputStyle, flex: "1 1 120px" }}
-      placeholder="% or CGPA"
-      value={q.score}
-      onChange={(e) => handleQualificationChange(i, "score", e.target.value)}
-    />
-    
-    <input
-      style={{ ...inputStyle, flex: "1 1 120px" }}
-      placeholder="YOP"
-      value={q.yop}
-      onChange={(e) => handleQualificationChange(i, "yop", e.target.value)}
-    />
-    {!(loginprofile==="cs_center") &&
-    <>
-    <input
-      style={{ ...inputStyle, flex: "1 1 120px" }}
-      placeholder="Country"
-      value={q.country}
-      onChange={(e) => handleQualificationChange(i, "country", e.target.value)}
-    />
-    <input
-      style={{ ...inputStyle, flex: "1 1 120px" }}
-      placeholder="State Code"
-      value={q.city}
-      onChange={(e) => handleQualificationChange(i, "city", e.target.value)}
-    />
-    </>
-}
-    <div style={{display:"flex", gap:"4px"}}>
-    <button style={{...buttonStyle,height:"30px"}} type="button" onClick={() => handleQualificationSave(i)}>Save</button>
-    <button style={{...buttonStyle,height:"30px"}}  type="button" onClick={() => clearQualificationRow(i)}>Cancel</button>
-    <button style={{...buttonStyle,height:"30px"}}  type="button" onClick={() => removeQualificationRow(i)}>Delete</button>
-    </div>
-  </div>
-))}
-<button style={buttonStyle} type="button" onClick={addQualificationRow}>Add Education</button>
-
-       </>
-       
-      }
-        {/* EXPERIENCES */}
-        <h2>Experience</h2>
-        {formData.experiences.map((exp, i) => (
-          <div key={i} style={sectionStyle}>
-            <input style={inputStyle} placeholder="Company" value={exp.company} onChange={(e) => handleExperienceChange(i, 'company', e.target.value)} />
-            <input style={inputStyle} placeholder="Role" value={exp.role} onChange={(e) => handleExperienceChange(i, 'role', e.target.value)} />
-            <div style={{ display: "flex", gap: '10px' }}>
-              <input style={{ ...inputStyle, width: '50%' }} type="date" value={exp.startDate} onChange={(e) => handleExperienceChange(i, 'startDate', e.target.value)} />
-              <input style={{ ...inputStyle, width: '50%' }} type="date" value={exp.endDate} onChange={(e) => handleExperienceChange(i, 'endDate', e.target.value)} />
-            </div>
-            {exp.descriptions.map((desc, j) => (
-              <div key={j}>
-                <textarea style={inputStyle} placeholder={`Role Description ${j + 1}`} value={desc} onChange={(e) => handleRoleDescriptionChange(i, j, e.target.value)} />
-                <button style={buttonStyle} type="button" onClick={() => removeRoleDescription(i, j)}>Remove Row</button>
+          {/* EXPERIENCES */}
+          <h2>Experience</h2>
+          {formData.experiences.map((exp, i) => (
+            <div key={i} style={sectionStyle}>
+              <input style={inputStyle} placeholder="Company" value={exp.company} onChange={(e) => handleExperienceChange(i, 'company', e.target.value)} />
+              <input style={inputStyle} placeholder="Role" value={exp.role} onChange={(e) => handleExperienceChange(i, 'role', e.target.value)} />
+              <div style={{ display: "flex", gap: '10px' }}>
+                <input style={{ ...inputStyle, width: '50%' }} type="date" value={exp.startDate} onChange={(e) => handleExperienceChange(i, 'startDate', e.target.value)} />
+                <input style={{ ...inputStyle, width: '50%' }} type="date" value={exp.endDate} onChange={(e) => handleExperienceChange(i, 'endDate', e.target.value)} />
               </div>
-            ))}
-            <button style={buttonStyle} type="button" onClick={() => addRoleDescription(i)}> Add Row</button>
-            <button style={{ ...buttonStyle, marginLeft: "2px" }} type="button" onClick={() => removeExperience(i)}>Remove Experience</button>
-          </div>
-        ))}
-        <button style={buttonStyle} type="button" onClick={addExperience}>Add Experience</button>
+              {exp.descriptions.map((desc, j) => (
+                <div key={j}>
+                  <textarea style={inputStyle} placeholder={`Role Description ${j + 1}`} value={desc} onChange={(e) => handleRoleDescriptionChange(i, j, e.target.value)} />
+                  <button style={buttonStyle} type="button" onClick={() => removeRoleDescription(i, j)}>Remove Row</button>
+                </div>
+              ))}
+              <button style={buttonStyle} type="button" onClick={() => addRoleDescription(i)}> Add Row</button>
+              <button style={{ ...buttonStyle, marginLeft: "2px" }} type="button" onClick={() => removeExperience(i)}>Remove Experience</button>
+            </div>
+          ))}
+          <button style={buttonStyle} type="button" onClick={addExperience}>Add Experience</button>
         </div>
 
         {/* ---------------------------------right container------------- */}
         <div style={{ width: screenSize.width > 850 ? "48%" : "100%" }}>
-        {/* CERTIFICATIONS */}
-        <h2>Certifications</h2>
-        {formData.certifications.map((cert, i) => (
-          <div key={i}>
-            <input style={inputStyle} placeholder="Enter Certification" value={cert} onChange={(e) => handleCertificationChange(i, e.target.value)} />
-            <button style={buttonStyle} type="button" onClick={() => removeCertification(i)}>Remove</button>
-          </div>
-        ))}
-        <button style={buttonStyle} type="button" onClick={addCertification}>Add Certification</button>
+          {/* CERTIFICATIONS */}
+          <h2>Certifications</h2>
+          {formData.certifications.map((cert, i) => (
+            <div key={i}>
+              <input style={inputStyle} placeholder="Enter Certification" value={cert} onChange={(e) => handleCertificationChange(i, e.target.value)} />
+              <button style={buttonStyle} type="button" onClick={() => removeCertification(i)}>Remove</button>
+            </div>
+          ))}
+          <button style={buttonStyle} type="button" onClick={addCertification}>Add Certification</button>
 
-        {/* SKILLS */}
-        <h2>Skills</h2>
-{/* {formData.skills.length===0
+          {/* SKILLS */}
+          <h2>Skills</h2>
+          {/* {formData.skills.length===0
 ?
 <button style={buttonStyle} type="button" onClick={addSkillSection}>
   + Add Skill Section
 </button>
 : */}
 
-<>
-  {(() => {
-    const allowedHeadings =
-      FORMSTATE_MAP[formstate] || FORMSTATE_MAP.default;
+          <>
+            {(() => {
+              const allowedHeadings =
+                FORMSTATE_MAP[formstate] || FORMSTATE_MAP.default;
 
-      const filteredSkills = isXmlImported
-      ? formData.skills.map((skill, originalIndex) => ({
-          skill,
-          originalIndex,
-        }))
-      : formData.skills
-          .map((skill, originalIndex) => ({ skill, originalIndex }))
-          .filter(({ skill }) => {
-            if (!skill.heading) return true;
-            return allowedHeadings.includes(skill.heading);
-          });
-    
+              const filteredSkills = isXmlImported
+                ? formData.skills.map((skill, originalIndex) => ({
+                  skill,
+                  originalIndex,
+                }))
+                : formData.skills
+                  .map((skill, originalIndex) => ({ skill, originalIndex }))
+                  .filter(({ skill }) => {
+                    if (!skill.heading) return true;
+                    return allowedHeadings.includes(skill.heading);
+                  });
 
-    return (
-      <>
-        {filteredSkills.map(({ skill, originalIndex }) => {
-          const suggestions =
-            skill.heading && SKILL_LIBRARY[skill.heading]
-              ? SKILL_LIBRARY[skill.heading].filter((s) =>
-                  s.toLowerCase().includes(skillSearch.toLowerCase())
-                )
-              : [];
 
-          return (
-            <div key={originalIndex} style={sectionStyle}>
-              {/* HEADING SELECTOR */}
-              <label><b>Skill Category</b></label>
-              <select
-                style={inputStyle}
-                value={skill.heading}
-                onChange={(e) =>
-                  selectSkillHeading(originalIndex, e.target.value)
-                }
-              >
-                <option value="">Select Heading</option>
-                {allowedHeadings.map((h) => (
-                  <option key={h} value={h}>
-                    {h}
-                  </option>
-                ))}
-              </select>
+              return (
+                <>
+                  {filteredSkills.map(({ skill, originalIndex }) => {
+                    const suggestions =
+                      skill.heading && SKILL_LIBRARY[skill.heading]
+                        ? SKILL_LIBRARY[skill.heading].filter((s) =>
+                          s.toLowerCase().includes(skillSearch.toLowerCase())
+                        )
+                        : [];
 
-              {/* SELECTED SKILL CHIPS */}
-              <div style={{ marginBottom: "10px" }}>
-                {skill.items.map((item) => (
-                  <span
-                    key={item}
-                    style={{
-                      display: "inline-flex",
-                      alignItems: "center",
-                      padding: "6px 10px",
-                      background: "#e6e6e6",
-                      borderRadius: "20px",
-                      marginRight: "6px",
-                      marginBottom: "6px",
-                      fontSize: "13px",
-                    }}
-                  >
-                    {item}
-                    <button
-                      type="button"
-                      onClick={() =>
-                        removeSkillChip(originalIndex, item)
-                      }
-                      style={{
-                        marginLeft: "6px",
-                        border: "none",
-                        background: "transparent",
-                        cursor: "pointer",
-                        fontWeight: "bold",
-                      }}
-                    >
-                      ×
-                    </button>
-                  </span>
-                ))}
-              </div>
+                    return (
+                      <div key={originalIndex} style={sectionStyle}>
+                        {/* HEADING SELECTOR */}
+                        <label><b>Skill Category</b></label>
+                        <select
+                          style={inputStyle}
+                          value={skill.heading}
+                          onChange={(e) =>
+                            selectSkillHeading(originalIndex, e.target.value)
+                          }
+                        >
+                          <option value="">Select Heading</option>
+                          {allowedHeadings.map((h) => (
+                            <option key={h} value={h}>
+                              {h}
+                            </option>
+                          ))}
+                        </select>
 
-              {/* ADD SKILL INPUT */}
-              {skill.heading && (
-                <div
-                  ref={(el) =>
-                    (skillBoxRef.current[originalIndex] = el)
-                  }
-                >
-                  <input
-                    style={inputStyle}
-                    placeholder="Add skill"
-                    value={skillSearch}
-                    onFocus={() =>
-                      setActiveSkillIndex(originalIndex)
-                    }
-                    onChange={(e) =>
-                      setSkillSearch(e.target.value)
-                    }
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter" && skillSearch.trim()) {
-                        addSkillChip(
-                          originalIndex,
-                          skillSearch.trim()
-                        );
-                        e.preventDefault();
-                      }
-                    }}
-                  />
+                        {/* SELECTED SKILL CHIPS */}
+                        <div style={{ marginBottom: "10px" }}>
+                          {skill.items.map((item) => (
+                            <span
+                              key={item}
+                              style={{
+                                display: "inline-flex",
+                                alignItems: "center",
+                                padding: "6px 10px",
+                                background: "#e6e6e6",
+                                borderRadius: "20px",
+                                marginRight: "6px",
+                                marginBottom: "6px",
+                                fontSize: "13px",
+                              }}
+                            >
+                              {item}
+                              <button
+                                type="button"
+                                onClick={() =>
+                                  removeSkillChip(originalIndex, item)
+                                }
+                                style={{
+                                  marginLeft: "6px",
+                                  border: "none",
+                                  background: "transparent",
+                                  cursor: "pointer",
+                                  fontWeight: "bold",
+                                }}
+                              >
+                                ×
+                              </button>
+                            </span>
+                          ))}
+                        </div>
 
-                  {/* DROPDOWN */}
-                  {activeSkillIndex === originalIndex &&
-                    suggestions.length > 0 && (
-                      <div
-                        style={{
-                          border: "1px solid #ccc",
-                          maxHeight: "160px",
-                          overflowY: "auto",
-                          background: "#fff",
-                        }}
-                      >
-                        {suggestions.map((s) => (
+                        {/* ADD SKILL INPUT */}
+                        {skill.heading && (
                           <div
-                            key={s}
-                            onClick={() =>
-                              addSkillChip(originalIndex, s)
+                            ref={(el) =>
+                              (skillBoxRef.current[originalIndex] = el)
                             }
-                            style={{
-                              padding: "8px",
-                              cursor: "pointer",
-                            }}
                           >
-                            {s}
+                            <input
+                              style={inputStyle}
+                              placeholder="Add skill"
+                              value={skillSearch}
+                              onFocus={() =>
+                                setActiveSkillIndex(originalIndex)
+                              }
+                              onChange={(e) =>
+                                setSkillSearch(e.target.value)
+                              }
+                              onKeyDown={(e) => {
+                                if (e.key === "Enter" && skillSearch.trim()) {
+                                  addSkillChip(
+                                    originalIndex,
+                                    skillSearch.trim()
+                                  );
+                                  e.preventDefault();
+                                }
+                              }}
+                            />
+
+                            {/* DROPDOWN */}
+                            {activeSkillIndex === originalIndex &&
+                              suggestions.length > 0 && (
+                                <div
+                                  style={{
+                                    border: "1px solid #ccc",
+                                    maxHeight: "160px",
+                                    overflowY: "auto",
+                                    background: "#fff",
+                                  }}
+                                >
+                                  {suggestions.map((s) => (
+                                    <div
+                                      key={s}
+                                      onClick={() =>
+                                        addSkillChip(originalIndex, s)
+                                      }
+                                      style={{
+                                        padding: "8px",
+                                        cursor: "pointer",
+                                      }}
+                                    >
+                                      {s}
+                                    </div>
+                                  ))}
+                                </div>
+                              )}
                           </div>
-                        ))}
+                        )}
+
+                        <button
+                          type="button"
+                          style={{ ...buttonStyle, marginTop: "10px" }}
+                          onClick={() => removeSkillSection(originalIndex)}
+                        >
+                          Remove Section
+                        </button>
                       </div>
+                    );
+                  })}
+
+                  {/* ADD SKILL SECTION BUTTON */}
+                  {allowedHeadings.some(
+                    (h) => !formData.skills.some((s) => s.heading === h)
+                  ) && (
+                      <button
+                        type="button"
+                        style={buttonStyle}
+                        onClick={addSkillSection}
+                      >
+                        + Add Skills
+                      </button>
                     )}
+                </>
+              );
+            })()}
+          </>
+
+
+          {/* } */}
+
+          {formstate == "freshers" &&
+            <>
+              <h2>Languages</h2>
+              {formData.languages.map((lang, i) => (
+                <div key={i}>
+                  <input style={inputStyle} placeholder="Language" value={lang} onChange={(e) => handleLanguageChange(i, e.target.value)} />
+                  <button style={buttonStyle} type="button" onClick={() => removeLanguage(i)}>Remove</button>
                 </div>
-              )}
-
-              <button
-                type="button"
-                style={{ ...buttonStyle, marginTop: "10px" }}
-                onClick={() => removeSkillSection(originalIndex)}
-              >
-                Remove Section
-              </button>
-            </div>
-          );
-        })}
-
-        {/* ADD SKILL SECTION BUTTON */}
-        {allowedHeadings.some(
-          (h) => !formData.skills.some((s) => s.heading === h)
-        ) && (
-          <button
-            type="button"
-            style={buttonStyle}
-            onClick={addSkillSection}
-          >
-            + Add Skills
-          </button>
-        )}
-      </>
-    );
-  })()}
-</>
+              ))}
+              <button style={buttonStyle} type="button" onClick={() => addLanguage()}>Add</button>
+            </>
+          }
 
 
-{/* } */}
-
-        {formstate=="freshers" &&
-        <>
-        <h2>Languages</h2>
-        {formData.languages.map((lang, i) => (
-          <div key={i}>
-            <input style={inputStyle} placeholder="Language" value={lang} onChange={(e) => handleLanguageChange(i, e.target.value)} />
-            <button style={buttonStyle} type="button" onClick={() => removeLanguage(i)}>Remove</button>
-          </div>
-        ))}
-        <button style={buttonStyle} type="button" onClick={() => addLanguage()}>Add</button>
-        </>
-       }
-       
-
-        {/* LANGUAGES */}
-        {/* 
+          {/* LANGUAGES */}
+          {/* 
         <button style={buttonStyle} type="button" onClick={addLanguage}>Add Language</button> */}
-        {/* <div style={{ padding: "10px", fontFamily: "Arial" }}>
+          {/* <div style={{ padding: "10px", fontFamily: "Arial" }}>
       <p style={{ fontWeight: "bold" }}>
         Would you like to include a photo from Google in your resume?
       </p> */}
 
-      {/* <label style={{ display: "block", margin: "5px 0" }}>
+          {/* <label style={{ display: "block", margin: "5px 0" }}>
         <input
           type="radio"
           name="imageConsent"
@@ -1726,222 +1722,222 @@ const escapeXml = (value) => {
       </label>
 
       </div> */}
-      {formstate=="freshers" || formstate=="nontech" &&
-      <>
-       {/* <div> */}
-      {/* PERSONAL DETAILS */}
-      <h2>Personal Details</h2>
+          {formstate == "freshers" || formstate == "nontech" &&
+            <>
+              {/* <div> */}
+              {/* PERSONAL DETAILS */}
+              <h2>Personal Details</h2>
 
 
-      {/* Father Name */}
-<h3>Father Name:</h3>
-<input
-  type="text"
-  name="fatherName"
-  value={formData?.personalDetails[0]?.fatherName}
-  placeholder="Enter father name"
-  onChange={handlePersonalChange}
-  style={inputStyle}
-/>
+              {/* Father Name */}
+              <h3>Father Name:</h3>
+              <input
+                type="text"
+                name="fatherName"
+                value={formData?.personalDetails[0]?.fatherName}
+                placeholder="Enter father name"
+                onChange={handlePersonalChange}
+                style={inputStyle}
+              />
 
-{/* Mother Name */}
-<h3>Mother Name:</h3>
-<input
-  type="text"
-  name="motherName"
-  value={formData?.personalDetails[0]?.motherName}
-  placeholder="Enter mother name"
-  onChange={handlePersonalChange}
-  style={inputStyle}
-/>
+              {/* Mother Name */}
+              <h3>Mother Name:</h3>
+              <input
+                type="text"
+                name="motherName"
+                value={formData?.personalDetails[0]?.motherName}
+                placeholder="Enter mother name"
+                onChange={handlePersonalChange}
+                style={inputStyle}
+              />
 
-{/* Nationality */}
-<h3>Nationality:</h3>
-<input
-  type="text"
-  name="Nationality"
-  value={formData?.personalDetails[0]?.Nationality}
-  placeholder="Enter nationality"
-  onChange={handlePersonalChange}
-  style={inputStyle}
-/>
-<>
-        <h2>Languages</h2>
-        {formData.languages.map((lang, i) => (
-          <div key={i}>
-            <input style={inputStyle} placeholder="Language" value={lang} onChange={(e) => handleLanguageChange(i, e.target.value)} />
-            <button style={buttonStyle} type="button" onClick={() => removeLanguage(i)}>Remove</button>
-          </div>
-        ))}
-        <button style={buttonStyle} type="button" onClick={() => addLanguage()}>Add</button>
-        </>
-      {/* Gender */}
-<h3>Gender:</h3>
-<div>
-        <label>
-          <input
-            type="radio"
-            name="gender"
-            value="Male"
-            checked={formData.personalDetails[0]?.gender === "Male"}
-            onChange={handlePersonalChange}
-          />
-          Male
-        </label>
+              {/* Nationality */}
+              <h3>Nationality:</h3>
+              <input
+                type="text"
+                name="Nationality"
+                value={formData?.personalDetails[0]?.Nationality}
+                placeholder="Enter nationality"
+                onChange={handlePersonalChange}
+                style={inputStyle}
+              />
+              <>
+                <h2>Languages</h2>
+                {formData.languages.map((lang, i) => (
+                  <div key={i}>
+                    <input style={inputStyle} placeholder="Language" value={lang} onChange={(e) => handleLanguageChange(i, e.target.value)} />
+                    <button style={buttonStyle} type="button" onClick={() => removeLanguage(i)}>Remove</button>
+                  </div>
+                ))}
+                <button style={buttonStyle} type="button" onClick={() => addLanguage()}>Add</button>
+              </>
+              {/* Gender */}
+              <h3>Gender:</h3>
+              <div>
+                <label>
+                  <input
+                    type="radio"
+                    name="gender"
+                    value="Male"
+                    checked={formData.personalDetails[0]?.gender === "Male"}
+                    onChange={handlePersonalChange}
+                  />
+                  Male
+                </label>
 
-        <label style={{ marginLeft: "20px" }}>
-          <input
-            type="radio"
-            name="gender"
-            value="Female"
-            checked={formData.personalDetails[0]?.gender === "Female"}
-            onChange={handlePersonalChange}
-          />
-          Female
-        </label>
+                <label style={{ marginLeft: "20px" }}>
+                  <input
+                    type="radio"
+                    name="gender"
+                    value="Female"
+                    checked={formData.personalDetails[0]?.gender === "Female"}
+                    onChange={handlePersonalChange}
+                  />
+                  Female
+                </label>
 
-        <label style={{ marginLeft: "20px" }}>
-          <input
-            type="radio"
-            name="gender"
-            value="Other"
-            checked={formData.personalDetails[0]?.gender === "Other"}
-            onChange={handlePersonalChange}
-          />
-          Other
-        </label>
-      </div>
-      
-      {/* Marital Status */}
-      <h3>
-        Marital Status:
-      </h3>
-      <div>
-        <label>
-          <input
-            type="radio"
-            name="maritalStatus"
-            value="Single"
-            checked={formData?.personalDetails[0]?.maritalStatus === "Single"}
-            onChange={handlePersonalChange}
-          />
-          Single
-        </label>
-        
+                <label style={{ marginLeft: "20px" }}>
+                  <input
+                    type="radio"
+                    name="gender"
+                    value="Other"
+                    checked={formData.personalDetails[0]?.gender === "Other"}
+                    onChange={handlePersonalChange}
+                  />
+                  Other
+                </label>
+              </div>
 
-        <label style={{ marginLeft: "20px" }}>
-          <input
-            type="radio"
-            name="maritalStatus"
-            value="Married"
-            checked={formData?.personalDetails[0]?.maritalStatus === "Married"}
-            onChange={handlePersonalChange}
-          />
-          Married
-        </label>
-      </div>
+              {/* Marital Status */}
+              <h3>
+                Marital Status:
+              </h3>
+              <div>
+                <label>
+                  <input
+                    type="radio"
+                    name="maritalStatus"
+                    value="Single"
+                    checked={formData?.personalDetails[0]?.maritalStatus === "Single"}
+                    onChange={handlePersonalChange}
+                  />
+                  Single
+                </label>
 
-      {/* Date of Birth */}
-      <h3>
-        Date of Birth:
-      </h3>
-      <input
-        type="date"
-        name="dob"
-        value={formData?.personalDetails[0]?.dob}
-        onChange={handlePersonalChange}
-        style={{width:"20%",height:"10px"}}
-      />
-     </>
-     }
 
-      {/* ACHIEVEMENTS */}
-      {(formstate=="freshers"  || formstate=="fullstack"  ||formstate=="entrylevelpro"  ||formstate=="entrylevelambition") &&
-      <>
-      <h2>Achievements</h2>
-      {formData?.achievements?.map((item, index) => (
-        <div key={index} style={{  marginBottom: "10px" }}>
-          <input
-            type="text"
-            value={item}
-            placeholder="Enter achievement"
-            onChange={(e) =>
-              handleDynamicChange(index, "achievements", e.target.value)
-            }
-            style={inputStyle}
-          />
-          <button
-            onClick={() => removeField("achievements", index)} 
-            style={buttonStyle}
-          >
-            Remove
-          </button>
+                <label style={{ marginLeft: "20px" }}>
+                  <input
+                    type="radio"
+                    name="maritalStatus"
+                    value="Married"
+                    checked={formData?.personalDetails[0]?.maritalStatus === "Married"}
+                    onChange={handlePersonalChange}
+                  />
+                  Married
+                </label>
+              </div>
+
+              {/* Date of Birth */}
+              <h3>
+                Date of Birth:
+              </h3>
+              <input
+                type="date"
+                name="dob"
+                value={formData?.personalDetails[0]?.dob}
+                onChange={handlePersonalChange}
+                style={{ width: "20%", height: "10px" }}
+              />
+            </>
+          }
+
+          {/* ACHIEVEMENTS */}
+          {(formstate == "freshers" || formstate == "fullstack" || formstate == "entrylevelpro" || formstate == "entrylevelambition") &&
+            <>
+              <h2>Achievements</h2>
+              {formData?.achievements?.map((item, index) => (
+                <div key={index} style={{ marginBottom: "10px" }}>
+                  <input
+                    type="text"
+                    value={item}
+                    placeholder="Enter achievement"
+                    onChange={(e) =>
+                      handleDynamicChange(index, "achievements", e.target.value)
+                    }
+                    style={inputStyle}
+                  />
+                  <button
+                    onClick={() => removeField("achievements", index)}
+                    style={buttonStyle}
+                  >
+                    Remove
+                  </button>
+                </div>
+              ))}
+              <button onClick={() => addField("achievements")} style={buttonStyle}>Add Achievement</button>
+            </>
+          }
+
+          {/* INTERESTS */}
+          {/* {console.log("fomrstate",formstate)} */}
+          {(formstate == "freshers" || formstate == "nontech" || formstate == "entrylevelpro") &&
+            <>
+              <h2>Hobbies</h2>
+              {formData?.interests?.map((item, index) => (
+                <div key={index} style={{ marginBottom: "10px" }}>
+                  <input
+                    type="text"
+                    value={item}
+                    placeholder="Enter interest"
+                    onChange={(e) =>
+                      handleDynamicChange(index, "interests", e.target.value)
+
+                    }
+                    style={inputStyle}
+                  />
+                  <button
+                    onClick={() => removeField("interests", index)}
+                    style={buttonStyle}
+                  >
+                    Remove
+                  </button>
+                </div>
+              ))}
+              <button onClick={() => addField("interests")} style={buttonStyle}>Add Interest</button>
+            </>
+          }
+          {(formstate == "freshers" || formstate == "fullstack" || formstate == "entrylevelpro" || formstate == "entrylevelambition") &&
+            <>
+              <h2>Projects</h2>
+              {formData?.projects?.map((item, index) => (
+                <div key={index} style={{ marginBottom: "10px" }}>
+                  <input
+                    type="text"
+                    value={item}
+                    placeholder="Enter project"
+                    onChange={(e) =>
+                      handleDynamicChange(index, "projects", e.target.value)
+
+                    }
+                    style={inputStyle}
+                  />
+                  <button
+                    onClick={() => removeField("projects", index)}
+                    style={buttonStyle}
+                  >
+                    Remove
+                  </button>
+                </div>
+              ))}
+              <button onClick={() => addField("projects")} style={buttonStyle}>Add Projects</button>
+              {/* </div> */}
+            </>
+          }
         </div>
-      ))}
-      <button onClick={() => addField("achievements")} style={buttonStyle}>Add Achievement</button>
-       </>
-      }
 
-      {/* INTERESTS */}
-      {/* {console.log("fomrstate",formstate)} */}
-      {(formstate=="freshers" || formstate=="nontech"  ||formstate=="entrylevelpro")&&
-      <>
-      <h2>Hobbies</h2>
-      {formData?.interests?.map((item, index) => (
-        <div key={index} style={{  marginBottom: "10px" }}>
-          <input
-            type="text"
-            value={item}
-            placeholder="Enter interest"
-            onChange={(e) =>
-              handleDynamicChange(index, "interests", e.target.value)
-              
-            }
-            style={inputStyle}
-          />
-          <button
-            onClick={() => removeField("interests", index)}
-            style={buttonStyle}
-          >
-            Remove
-          </button>
-        </div>
-      ))}
-      <button onClick={() => addField("interests")} style={buttonStyle}>Add Interest</button>
-     </>
-     }
-     {(formstate=="freshers"  ||formstate=="fullstack" ||formstate=="entrylevelpro" ||formstate=="entrylevelambition")&&
-     <>
-      <h2>Projects</h2>
-      {formData?.projects?.map((item, index) => (
-        <div key={index} style={{  marginBottom: "10px" }}>
-          <input
-            type="text"
-            value={item}
-            placeholder="Enter project"
-            onChange={(e) =>
-              handleDynamicChange(index, "projects", e.target.value)
-              
-            }
-            style={inputStyle}
-          />
-          <button
-            onClick={() => removeField("projects", index)}
-            style={buttonStyle}
-          >
-            Remove
-          </button>
-        </div>
-      ))}
-      <button onClick={() => addField("projects")} style={buttonStyle}>Add Projects</button>
-    {/* </div> */}
-    </>
-    }
       </div>
-      
-      </div>
-      <div style={{display:"flex", justifyContent:"center", marginBottom:"20px"}}>
-      <button style={{ ...buttonStyle, display: 'block', marginTop: '20px', backgroundColor:'green' }} onClick={handleSubmit}>Save</button>
+      <div style={{ display: "flex", justifyContent: "center", marginBottom: "20px" }}>
+        <button style={{ ...buttonStyle, display: 'block', marginTop: '20px', backgroundColor: 'green' }} onClick={handleSubmit}>Save</button>
       </div>
 
     </div>

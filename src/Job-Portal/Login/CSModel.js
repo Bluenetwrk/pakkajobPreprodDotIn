@@ -19,11 +19,8 @@ import { signInWithPopup, OAuthProvider, getAuth } from "firebase/auth";
 import { useMsal } from "@azure/msal-react";
 import { loginRequest } from "../Config";
 
-const Model = ({ isregCheck,isCSCOpen, onClose, children, msalInstance }) => {
+const Model = ({ isregCheck, isCSCOpen, onClose, children, msalInstance }) => {
 	const { instance } = useMsal();
-
-
-
 	const [gmailuser, setGmailuser] = useState("")
 	const [topErrorMessage, setTopErrorMessage] = useState("")
 	const [PhoneNumber, setPhoneNumber] = useState("")
@@ -32,7 +29,6 @@ const Model = ({ isregCheck,isCSCOpen, onClose, children, msalInstance }) => {
 	const [showotp, setshowotp] = useState(false)
 	const [Loader, setLoader] = useState(false)
 
- 
 	const [ipAddress, setIPAddress] = useState('')
 	// ......Modal....
 	const [open, setOpen] = React.useState(false);
@@ -54,85 +50,69 @@ const Model = ({ isregCheck,isCSCOpen, onClose, children, msalInstance }) => {
 
 	const [regAlert, setRegAlert] = useState(false);
 	const alertRef = useRef(null);
-  
+
 	useEffect(() => {
-	  const handleClickOutside = (event) => {
-		if (alertRef.current && !alertRef.current.contains(event.target)) {
-		  setRegAlert(false);
-		}
-	  };
-  
-	  document.addEventListener('mousedown', handleClickOutside);
-	  return () => {
-		document.removeEventListener('mousedown', handleClickOutside);
-	  };
+		const handleClickOutside = (event) => {
+			if (alertRef.current && !alertRef.current.contains(event.target)) {
+				setRegAlert(false);
+			}
+		};
+
+		document.addEventListener('mousedown', handleClickOutside);
+		return () => {
+			document.removeEventListener('mousedown', handleClickOutside);
+		};
 	}, []);
 
 	let location = useLocation()
 	const { loginpage } = location.state || {};
 	let navigate = useNavigate()
 
-	const login = useGoogleLogin({
-		onSuccess: async (response) => {
-			try {
+	const login = useGoogleLogin(
+		{
+			onSuccess: async (response) => {
+				try {
 
-				const res = await axios.get("https://www.googleapis.com/oauth2/v3/userinfo",
-					{
-						headers: {
-							Authorization: `Bearer ${response.access_token}`,
-						},
-					}
-				);
-				setGmailuser(res.data)
-				let gtoken = response.access_token
-				let userId = res.data.sub
-				let email = res.data.email
-				let name = res.data.name
-				let isApproved = false
-
-
-				let Gpicture = res.data.picture
-				await axios.post("/CSRoute/Glogin", { ipAddress, userId, email, name, gtoken, isApproved, Gpicture })
-					.then((response) => {
-						let result = response.data
-						console.log("CSModel Gmail Login Full Response:", JSON.stringify(result))
-						let token = result.token
-						let Id = result.id
-						if(isregCheck==true && result.action == "login"){
-							console.log("Account already exists - showing alert")
-							setRegAlert(true)
-						  }
-						
-						else if (result.status == "success") {
-							console.log("Login successful - setting CSCLog and navigating to /resumes")
-							localStorage.setItem("CSCLog", JSON.stringify(btoa(token)))
-							localStorage.setItem("CSCId", JSON.stringify(Id))
-                            if(isregCheck==true) {
-								navigate("/Update-Profile", { state: { name: result.name, profileAlert: true  } })
-							} 
-							else{
-						navigate("/resumes", { state: { name: result.name } })
+					const res = await axios.get("https://www.googleapis.com/oauth2/v3/userinfo",
+						{
+							headers: {
+								Authorization: `Bearer ${response.access_token}`,
+							},
+						}
+					);
+					setGmailuser(res.data)
+					let gtoken = response.access_token
+					let userId = res.data.sub
+					let email = res.data.email
+					let name = res.data.name
+					let isApproved = false
+					let Gpicture = res.data.picture
+					await axios.post("/CSRoute/Glogin", { ipAddress, userId, email, name, gtoken, isApproved, Gpicture })
+						.then((response) => {
+							let result = response.data
+							let token = result.token
+							let Id = result.id
+							if (isregCheck == true && result.action == "login") {
+								setRegAlert(true)
 							}
-							onClose()
-						}
-						else {
-							console.log("Unexpected response status:", result.status)
-							console.log("Navigating directly to /resumes as fallback")
-							localStorage.setItem("CSCLog", JSON.stringify(btoa(token)))
-							localStorage.setItem("CSCId", JSON.stringify(Id))
-							navigate("/resumes", { state: { name: result.name } })
-							onClose()
-						}
-					}).catch((err) => {
-						console.log("Gmail login error:", err)
-						alert("server issue occured")
-					})
 
-			} catch (err) {
-				alert("some thing went wrong with google gmail", err)
+							if (result.status == "success") {
+								console.log(result)
+								localStorage.setItem("CSCLog", JSON.stringify(btoa(token)))
+								localStorage.setItem("CSCId", JSON.stringify(Id))
+								navigate("/resumes", { state: { name: result.name, loginprofile:"cs_center" } })
+								onClose()
+							}
+						}).catch((err) => {
+							console.log("Gmail login error:", err)
+							alert("server issue occured")
+						})
+
+				} catch (err) {
+					alert("some thing went wrong with google gmail", err)
+				}
 			}
-		}
-	})
+		})
 
 	const [email, setEmail] = useState("")
 	const [password, setPassword] = useState("")
@@ -147,14 +127,14 @@ const Model = ({ isregCheck,isCSCOpen, onClose, children, msalInstance }) => {
 		if (studentAuth) {
 			navigate("/alljobs")
 		}
-	})
+	},[])
 
-    useEffect(() => {
+	useEffect(() => {
 		let CSCAuth = localStorage.getItem("CSCLog")
 		if (CSCAuth) {
 			navigate("/resumes")
 		}
-	})
+	},[])
 	useEffect(() => {
 		// let studentAuth = localStorage.getItem("StudLog")
 		let EmployeeAuth = localStorage.getItem("EmpLog")
@@ -169,42 +149,6 @@ const Model = ({ isregCheck,isCSCOpen, onClose, children, msalInstance }) => {
 			navigate("/BIAddmin@Profile")
 		}
 	}, [])
-
-
-
-	// async function Studlogin() {
-	//   console.log("before sending to backend", email, password)
-	//   await axios.post("http://localhost:8080/user/login/", { email, password })
-	//     .then((response) => {
-	//       console.log(response)
-	//       let result = response.data
-	//       console.log(result)
-	//       if (result.token) {
-	//         localStorage.setItem("StudLog", JSON.stringify(result.token))
-	//         let sudid = result.id
-	//         localStorage.setItem("StudId", JSON.stringify(sudid))
-	//         // console.log(result.id)
-	//         navigate("/alljobs", {state:{userId : sudid}})
-	//       } else if (result == "incorrect password") {
-	//         setTopuperror("! incorrect passord")
-	//       } else if (result == "no user found") {
-	//         setTopuperror("! no user exist with this mail id")
-
-	//       }
-	//     }).catch((err) => {
-	//       alert("server issue occured")
-	//       console.log("server issue occured")
-	//     })
-
-	// }
-
-	// function login() {
-	//   window.open(
-	//     `http://localhost:8080/auth/google/callback`,
-	//     "_self"
-
-	//   );
-	// }
 
 	async function sendOtp() {
 		await axios.post("/CSRoute/otpSignUp", { PhoneNumber })
@@ -302,220 +246,158 @@ const Model = ({ isregCheck,isCSCOpen, onClose, children, msalInstance }) => {
 			});
 	}
 
-	
+
 
 
 	return (
 		<>
-		
+			{regAlert == true ?
 
-			{/* <div
-			style={{
-				position: "fixed",
-				top: 0,
-				left: 0,
-				width: "100%",
-				height: "100%",
-				background: "rgba(0, 0, 0, 0.5)",
-				display: "flex",
-				alignItems: "center",
-				justifyContent: "center",
-				zIndex:100
-			}}
-		> */}
-		     {regAlert==true?
+				<div style={{ position: "relative" }}>
+					<div
+						style={{
+							position: 'absolute',
+							top: '2px',
+							left: 0,
+							width: '100vw',
+							//   height: '100vh',
+							//   backgroundColor: 'rgba(0, 0, 0, 0.4)',
+							zIndex: 9998,
+							display: 'flex',
+							alignItems: 'top',
+							justifyContent: 'center',
 
-	     <div style={{position:"relative"}}>	 
-        <div
-        style={{
-          position: 'absolute',
-          top:'2px',
-          left:0,
-          width: '100vw',
-        //   height: '100vh',
-        //   backgroundColor: 'rgba(0, 0, 0, 0.4)',
-          zIndex: 9998,
-          display: 'flex',
-          alignItems: 'top',
-          justifyContent: 'center',
-        
-        }}
-      >
-        <div
-          ref={alertRef}
-          onClick={(e) => e.stopPropagation()}
-          style={{
-            width: '300px',
-            padding: '20px',
-            backgroundColor: 'rgb(40,4,99)',
-            color: 'white',
-            fontSize: '12px',
-            borderRadius: '5px',
-            zIndex: 9999,
-            boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
-            textAlign: 'center',
-           
-          }}
-        >
-         Account Already Exists!
-          <div style={{ marginTop: '15px', display: "flex", justifyContent: "center", gap: "5px" }}>
-            <button
-             onClick={() => { 
-              navigate("/CSLogin"); 
-			  setRegAlert(false);
-			  onClose();
-			}
-			}
-            
-             style={{
-                padding: '8px 16px',
-                backgroundColor: '#4CAF50',
-                color: 'white',
-                border: 'none',
-                borderRadius: '5px',
-                fontSize: '12px',
-                cursor: 'pointer',
-               
-              }}
-            >
-             Login as CSC
-            </button>
-            <button
-              onClick={() => { 
-				navigate("/"); 
-				setRegAlert(false);
-				onClose();
-			  }}
-              style={{
-                padding: '8px 16px',
-                backgroundColor: '#f44336',
-                color: 'white',
-                border: 'none',
-                borderRadius: '5px',
-                fontSize: '12px',
-                cursor: 'pointer',
-                 
-                
-              }}
-            >
-              Home
-            </button>
-          </div>
-        </div>
-      </div>
+						}}
+					>
+						<div
+							ref={alertRef}
+							onClick={(e) => e.stopPropagation()}
+							style={{
+								width: '300px',
+								padding: '20px',
+								backgroundColor: 'rgb(40,4,99)',
+								color: 'white',
+								fontSize: '12px',
+								borderRadius: '5px',
+								zIndex: 9999,
+								boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
+								textAlign: 'center',
 
-	  </div>
-           :
-			<div style={{height:"150px"}} className={styles.ModelWrapper} >
+							}}
+						>
+							Account Already Exists!
+							<div style={{ marginTop: '15px', display: "flex", justifyContent: "center", gap: "5px" }}>
+								<button
+									onClick={() => {
+										navigate("/CSLogin");
+										setRegAlert(false);
+										onClose();
+									}
+									}
 
-				
-				<p onClick={onClose} style={
-					{ position: "absolute", marginLeft: "85%", marginTop: "0px", cursor: "pointer", display: "inline" }}>
+									style={{
+										padding: '8px 16px',
+										backgroundColor: '#4CAF50',
+										color: 'white',
+										border: 'none',
+										borderRadius: '5px',
+										fontSize: '12px',
+										cursor: 'pointer',
 
-					<i className="fas fa-times" style={{ fontSize: "large" }}></i>
-				</p>
-				<>
+									}}
+								>
+									Login as CSC
+								</button>
+								<button
+									onClick={() => {
+										navigate("/");
+										setRegAlert(false);
+										onClose();
+									}}
+									style={{
+										padding: '8px 16px',
+										backgroundColor: '#f44336',
+										color: 'white',
+										border: 'none',
+										borderRadius: '5px',
+										fontSize: '12px',
+										cursor: 'pointer',
 
-					<div className={styles.BothsignUpWrapperModel}>
-						{isregCheck==true?
-												<p className={styles.Loginpage}>New CSC Registration</p>:
-						<p className={styles.Loginpage}>CSC Login</p>}
 
-						{/* <input maxLength="10" className={styles.inputs} type="number" placeholder='enter phone Number'
-            value={PhoneNumber} autoComplete="on" onChange={(e) => { setPhoneNumber(e.target.value) }} />
-
-          {showotp ?
-            <>
-              <input className={styles.inputs} placeholder='enter OTP'
-                value={otp} onChange={(e) => { setotp(e.target.value) }} />
-              <button className={`${styles.button} ${styles.inputs}`} onClick={confirmOtp}>Confirm OTP</button>
-
-              <p style={{ color: "blue", textDecoration: "underline", cursor: "pointer" }} onClick={() => { setshowotp(false); setPhoneNumber(""); setotp("") }}>Want to change the number?</p>
-
-            </>
-            :
-            PhoneNumber.length==10?
-            <button className={`${styles.button} ${styles.inputs}`} onClick={sendOtp} disabled>Send OTP</button>
-            :
-            <button className={`${styles.button} ${styles.inputs}`} onClick={()=>{alert("invalid phone number")}}>Send OTP</button>
-
-          }
-           {Loader?
-          <div style={{marginLeft:"10%"}}>
-                        <TailSpin color=" rgb(40, 4, 99)" height={40} />
-                        </div>
-                        :""}
-            <h4 className={styles.OR}>OR</h4> */}
-
-                      {isregCheck==true?
-					  <>
-						<div className={styles.signUpWrapper} onClick={login} >
-							<div className={styles.both}>
-								<img className={styles.google} src={GoogleImage} />
-								<span className={styles.signUpwrap} >Create Account with Google</span>
+									}}
+								>
+									Home
+								</button>
 							</div>
 						</div>
-
-						<div className={styles.signUpWrapper} onClick={microsoftLogin} >
-							<div className={styles.both}>
-								<img className={styles.google} src={MicosoftImage} />
-								<span className={styles.signUpwrap} >Create Account with Microsoft</span>
-							</div>
-						</div>
-						<div className={styles.signUpWrapper}>
-							<div className={styles.both}>
-								<img className={styles.google} src={linkedIn} />
-								<span className={styles.signUpwrap} >Create Account with Linkedin</span>
-					  </div>
-					  </div>
-					  </>
-					  :
-					  <>
-                      <div className={styles.signUpWrapper} onClick={login} >
-							<div className={styles.both}>
-								<img className={styles.google} src={GoogleImage} />
-								<span className={styles.signUpwrap} >Continue with Google</span>
-							</div>
-						</div>
-
-						<div className={styles.signUpWrapper} onClick={microsoftLogin} >
-							<div className={styles.both}>
-								<img className={styles.google} src={MicosoftImage} />
-								<span className={styles.signUpwrap} >Continue with Microsoft</span>
-							</div>
-						</div>
-						<div className={styles.signUpWrapper}>
-							<div className={styles.both}>
-								<img className={styles.google} src={linkedIn} />
-								<span className={styles.signUpwrap} >Continue with Linkedin</span>
-					  </div>
-					  </div>
-					  </>
-
-					  }
-
-						{/* <div className={styles.signUpWrapper}>
-							<div className={styles.both}>
-								<img className={styles.google} src={linkedIn} />
-								<span className={styles.signUpwrap} >Continue with Linkedin</span>
-							// </div>
-						</div>
-
-
-						<div className={styles.signUpWrapper} onClick={giHubSign} >
-							<div className={styles.both}>
-								<img className={styles.google} src={github} />
-								<span className={styles.signUpwrap} >Continue with Github</span>
-							</div>
-						</div> */}
-
 					</div>
-					{/* </div> */}
-				</>
 
-			</div>
-        }
-			{/* </div> */}
+				</div>
+				:
+				<div style={{ height: "150px" }} className={styles.ModelWrapper} >
+
+
+					<p onClick={onClose} style={
+						{ position: "absolute", marginLeft: "85%", marginTop: "0px", cursor: "pointer", display: "inline" }}>
+
+						<i className="fas fa-times" style={{ fontSize: "large" }}></i>
+					</p>
+					<>
+
+						<div className={styles.BothsignUpWrapperModel}>
+							{isregCheck == true ?
+								<p className={styles.Loginpage}>New CSC Registration</p> :
+								<p className={styles.Loginpage}>CSC Login</p>}
+							{isregCheck == true ?
+								<>
+									<div className={styles.signUpWrapper} onClick={login} >
+										<div className={styles.both}>
+											<img className={styles.google} src={GoogleImage} />
+											<span className={styles.signUpwrap} >Create Account with Google</span>
+										</div>
+									</div>
+
+									<div className={styles.signUpWrapper} onClick={microsoftLogin} >
+										<div className={styles.both}>
+											<img className={styles.google} src={MicosoftImage} />
+											<span className={styles.signUpwrap} >Create Account with Microsoft</span>
+										</div>
+									</div>
+									<div className={styles.signUpWrapper}>
+										<div className={styles.both}>
+											<img className={styles.google} src={linkedIn} />
+											<span className={styles.signUpwrap} >Create Account with Linkedin</span>
+										</div>
+									</div>
+								</>
+								:
+								<>
+									<div className={styles.signUpWrapper} onClick={login} >
+										<div className={styles.both}>
+											<img className={styles.google} src={GoogleImage} />
+											<span className={styles.signUpwrap} >Continue with Google</span>
+										</div>
+									</div>
+
+									<div className={styles.signUpWrapper} onClick={microsoftLogin} >
+										<div className={styles.both}>
+											<img className={styles.google} src={MicosoftImage} />
+											<span className={styles.signUpwrap} >Continue with Microsoft</span>
+										</div>
+									</div>
+									<div className={styles.signUpWrapper}>
+										<div className={styles.both}>
+											<img className={styles.google} src={linkedIn} />
+											<span className={styles.signUpwrap} >Continue with Linkedin</span>
+										</div>
+									</div>
+								</>
+							}
+						</div>
+					</>
+
+				</div>
+			}
 		</>
 	);
 };

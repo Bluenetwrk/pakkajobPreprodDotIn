@@ -94,7 +94,7 @@ const Modal = ({ isEmpregCheck, isOpen, onClose, children }) => {
 				await axios.post("/EmpProfile/Glogin", { ipAddress, userId, Gpicture, email, name, gtoken, isApproved })
 					.then((response) => {
 						let result = response.data
-						console.log(result)
+						// console.log(result)
 						let token = result.token
 						let GuserId = result.id
 						if (result.status == "success") {
