@@ -21,7 +21,10 @@ const ResumePreview = () => {
   });
 
   const [mailsent, setMailsent] = useState()
+  const [isEditEnable, setIsEditEnable] = useState(false)
   const [id, setId] = useState()
+
+  const intervalRef = useRef(null);
 
   useEffect(() => {
     if (!id) return;
@@ -29,29 +32,33 @@ const ResumePreview = () => {
     let interval;
     const checkEditEnable = async () => {
       try {
-        const res = await axios.get(`/StudentProfile/checkEditEnable/${id}`
+        const res = await axios.get(`/StudentProfile/checkEditEnableInTimeInterval/${id}`
         );
+        if (res.data.message == 'edit time is over') {
+          setMailsent("can not edit this profile again after 30 mins.")
+        }
         if (res.data.isEditEnable === true) {
           clearInterval(interval);
-          // next action
           navig()
         }
       } catch (error) {
         console.error(error);
-        alert("something went wrong")
+        // alert("something went wrong")
       }
     };
-
-    // Check immediately
     checkEditEnable();
-
     // Then every 5 seconds
-    interval = setInterval(checkEditEnable, 5000);
+    intervalRef.current = setInterval(checkEditEnable, 5000);
 
-    return () => clearInterval(interval);
+    return () => {
+      clearInterval(intervalRef.current);
+    }
   }, [id]);
 
   async function handleOnNavigate() {
+    if (!jobseekerForm.email) {
+      return
+    }
     await axios.post("/StudentProfile/regFromResume", { jobseekerForm })
       .then((res) => {
         let id = res.data.id
@@ -63,18 +70,23 @@ const ResumePreview = () => {
           setMailsent("mail has been sent to Job seeker email id, ask Job seeker to verify the mail")
           setId(id)
           localStorage.setItem("StudId", JSON.stringify(id));
+          setJobseekerForm(prev => ({
+            email: ""
+          }))
         } else if (res.data == "invalid email") {
           setMailsent("invalid email address")
+        } else if (res.data.message == "isEditEnable is aleady true") {
+          // alert("isEditEnable is aleady true")
+          setMailsent("already verified, click on edit button and start editing")
+          setIsEditEnable(true)
         }
-        setJobseekerForm(prev => ({
-          email: ""
-        }))
+
 
       }).catch((err) => {
         alert("some thing went wrong",)
       })
-    }
-    function navig(){
+  }
+  function navig() {
     if (resumeAlert.selected === "one") {
       navigate("/resume-form", {
         state: { formstate: "experience", loginprofile: loginprofile, selectedTemplate: templateKey }
@@ -221,7 +233,7 @@ const ResumePreview = () => {
                     <>
                       <p style={{ color: "green", fontStyle: "italic" }}>{mailsent}</p>
                       <h3>Enter Jobseeker Details</h3>
-                       <input
+                      <input
                         type="email"
                         placeholder="Enter Email ID"
                         className={styles.input}
@@ -254,22 +266,29 @@ const ResumePreview = () => {
                       /> */}
 
                       <div className={styles.btnGroup}>
-                        <button
-                          className={styles.successBtn}
-                          onClick={() => { handleOnNavigate() }}
-                        >
-                          Continue
-                        </button>
+                        {!isEditEnable ?
+                          <button
+                            className={styles.successBtn}
+                            onClick={() => { handleOnNavigate() }}
+                          >
+                            Verify Email
+                          </button> : ""
+                        }
 
                         <button
                           className={styles.dangerBtn}
                           onClick={() => {
-
+                            clearInterval(intervalRef.current);
                             setResumeAlert({ show: false, selected: null });
                           }}
                         >
                           Cancel
                         </button>
+                        {isEditEnable ?
+                          <button className={styles.successBtn} onClick={() => { navig() }}>
+                            Edit
+                          </button> : ""
+                        }
                       </div>
                     </>
                     :

@@ -97,7 +97,6 @@ const ResumeForm = () => {
       const headers = {
         authorization: `${userid} ${atob(JSON.parse(localStorage.getItem("StudLog")))}`,
       };
-      console.log(headers)
 
       try {
         const res = await axios.get(`/StudentProfile/viewProfile/${userid}`)
