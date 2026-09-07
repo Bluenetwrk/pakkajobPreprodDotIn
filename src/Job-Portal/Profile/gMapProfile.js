@@ -13,12 +13,12 @@ function GMapProfile() {
   let empId = JSON.parse(localStorage.getItem("EmpIdG"))
   let EmpV = JSON.parse(localStorage.getItem("EmpV"))
 
-  useEffect(()=>{
-    if(EmpV){
+  useEffect(() => {
+    if (EmpV) {
       navigate("/Search-Candidate")
     }
 
-  },[])
+  }, [])
 
   const [showModal, setShowModal] = useState(true);
   const [showSuccess, setShowSuccess] = useState(false);
@@ -47,6 +47,7 @@ function GMapProfile() {
             },
           }
         );
+        // console.log(user)
         // Get Google Business Profile accounts
         const accounts = await axios.get(
           "https://mybusinessaccountmanagement.googleapis.com/v1/accounts",
@@ -57,13 +58,6 @@ function GMapProfile() {
           }
         );
         const accountName = accounts.data.accounts?.[0]?.name;
-        // if (!accountName) {
-        //   alert("No business account found");
-        //   // throw new Error("No business account found");
-        //   console.log("no account")
-        //   return
-        // }
-
         // Get locations
         const locationsResponse = await axios.get(
           `https://mybusinessbusinessinformation.googleapis.com/v1/${accountName}/locations`,
@@ -79,7 +73,7 @@ function GMapProfile() {
         );
         if (locationsResponse.data && Object.keys(locationsResponse.data).length === 0) {
           alert("No locations found for this business account, kindly use your buisness acoount");
-                navigate("/MyProfile")
+          navigate("/MyProfile")
 
           return
         }
@@ -93,10 +87,10 @@ function GMapProfile() {
         let postalCode = locationsResponse.data.locations[0].storefrontAddress.postalCode
         let CompanyName = locationsResponse.data.locations[0].title
         let CompanyWebsite = locationsResponse.data.locations[0].websiteUri
-        let hasBuisnessAccount=true
-        
+        let hasBuisnessAccount = true
+
         let userid = JSON.parse(localStorage.getItem("EmpIdG"))
-        const headers = {authorization: userid + " " + atob(JSON.parse(localStorage.getItem("EmpLog")))};
+        const headers = { authorization: userid + " " + atob(JSON.parse(localStorage.getItem("EmpLog"))) };
         await axios.put(`/EmpProfile/updatProfile/${empId}`, {
           placeId, CompanyName, CompanyWebsite, hasBuisnessAccount,
           CompanyAddress1, CompanyAddress2, City, postalCode, googlemapsUrl
@@ -108,7 +102,7 @@ function GMapProfile() {
               setTimeout(() => {
                 setShowSuccess(false);
                 navigate("/MyProfile")
-				localStorage.setItem("EmpV", JSON.stringify(true))
+                localStorage.setItem("EmpV", JSON.stringify(true))
 
               }, 4000);
             }
@@ -120,8 +114,10 @@ function GMapProfile() {
           }).catch((err) => {
           })
       } catch (error) {
-        console.log("STATUS:", error);
-        console.log("ERROR:", error);
+        if(error.response.status==403){
+    alert("You don't have permission of this google console to access your Google Business account in ");
+
+        }
       }
     },
 
