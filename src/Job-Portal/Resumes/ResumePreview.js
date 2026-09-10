@@ -39,6 +39,7 @@ const ResumePreview = () => {
         }
         if (res.data.isEditEnable === true) {
           clearInterval(interval);
+          // localStorage.setItem("StudId", JSON.stringify(id));
           navig()
         }
       } catch (error) {
@@ -62,6 +63,8 @@ const ResumePreview = () => {
     await axios.post("/StudentProfile/regFromResume", { jobseekerForm })
       .then((res) => {
         let id = res.data.id
+        console.log(id)
+
         if (res.data == "backend error") {
           alert("something went wrong, please try again")
         } else if (res.data.message == "mail not sent") {
@@ -70,13 +73,17 @@ const ResumePreview = () => {
           setMailsent("mail has been sent to Job seeker email id, ask Job seeker to verify the mail")
           setId(id)
           localStorage.setItem("StudId", JSON.stringify(id));
+          localStorage.setItem("JobSLog", JSON.stringify(res.data.token));
           setJobseekerForm(prev => ({
             email: ""
           }))
         } else if (res.data == "invalid email") {
           setMailsent("invalid email address")
         } else if (res.data.message == "isEditEnable is aleady true") {
-          // alert("isEditEnable is aleady true")
+          console.log(id)
+          localStorage.setItem("StudId", JSON.stringify(id));
+          localStorage.setItem("JobSLog", JSON.stringify(res.data.token));
+
           setMailsent("already verified, click on edit button and start editing")
           setIsEditEnable(true)
         }
@@ -86,6 +93,17 @@ const ResumePreview = () => {
         alert("some thing went wrong",)
       })
   }
+
+  function handleCancele() {
+    clearInterval(intervalRef.current);
+    setResumeAlert({ show: false, selected: null });
+    setMailsent("")
+    setIsEditEnable(false)
+      setJobseekerForm(prev => ({
+            email: ""
+          }))
+  }
+
   function navig() {
     if (resumeAlert.selected === "one") {
       navigate("/resume-form", {
@@ -277,10 +295,7 @@ const ResumePreview = () => {
 
                         <button
                           className={styles.dangerBtn}
-                          onClick={() => {
-                            clearInterval(intervalRef.current);
-                            setResumeAlert({ show: false, selected: null });
-                          }}
+                          onClick={() => { handleCancele() }}
                         >
                           Cancel
                         </button>

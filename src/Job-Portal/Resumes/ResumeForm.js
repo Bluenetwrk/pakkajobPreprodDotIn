@@ -84,7 +84,16 @@ const ResumeForm = () => {
   const [formData, setFormData] = useState(initialState);
   const [profileData, setProfileData] = useState([]);
   const [successMessage, setSuccessMessage] = useState("");
-  let studId = JSON.parse(localStorage.getItem("StudId"));
+
+  let studId = JSON.parse(localStorage.getItem("StudId")) 
+  let CSCId = JSON.parse(localStorage.getItem("CSCId"));
+
+  let StuLoginToken = JSON.parse(localStorage.getItem("JobSLog"))
+   let CSCLloginToken = JSON.parse(localStorage.getItem("CSCLog"));
+
+  const headers = {
+    authorization: studId + " " + (StuLoginToken)
+  };
   const [imageConsent, setImageConsent] = useState(null); // null initially
 
   const handleConscentChange = (value) => {
@@ -93,14 +102,11 @@ const ResumeForm = () => {
 
   useEffect(() => {
     const fetchProfile = async () => {
-      const userid = JSON.parse(localStorage.getItem("StudId")) 
-      const headers = {
-        authorization: `${userid} ${atob(JSON.parse(localStorage.getItem("StudLog")))}`,
-      };
 
       try {
-        const res = await axios.get(`/StudentProfile/viewProfile/${userid}`)
+        const res = await axios.get(`/StudentProfile/viewProfile/${studId}`)
         const result = res.data.result;
+        // console.log(result)
         setProfileData([result]);
         setImageConsent(result.imageConsent)
         setFormData(prev => ({
@@ -411,11 +417,6 @@ const ResumeForm = () => {
 
 
   const cancelSubmit = async (data = formData) => {
-    let userid = JSON.parse(localStorage.getItem("StudId"));
-    const headers = {
-      authorization: userid + " " + atob(JSON.parse(localStorage.getItem("StudLog")))
-    };
-
     const {
       name,
       email,
@@ -638,43 +639,37 @@ const ResumeForm = () => {
 
   // ---------- SUBMIT ----------
   const handleSubmit = async () => {
-    let userid = JSON.parse(localStorage.getItem("StudId"))
-    const headers = { authorization: userid + " " + atob(JSON.parse(localStorage.getItem("StudLog"))) };
+    const { name, email, linkedin, totalExperience, profileSummary, address,
+      experiences, certifications, skills, languages, qualificationDetails,
+      personalDetails, achievements, interests, projects } = formData
 
-    const { name, email, linkedin, totalExperience, profileSummary, address, 
-      experiences, certifications, skills, languages, qualificationDetails, 
-      personalDetails, achievements, interests, projects } = formData;
+    // if (
+    //   !profileSummary.trim() ||
+    //   !address.trim() ||
+    //   !name.trim() ||
+    //   !email.trim() ||
+    //   !totalExperience.trim() ||
+    //   experiences.length === 0 ||
+    //   certifications.length === 0 ||
+    //   skills.length === 0 ||
+    //   languages.length === 0 ||
+    //   qualificationDetails.length === 0
+    // ) {
+    //   window.scrollTo({ top: 0, behavior: "smooth" });
+    //   setSuccessMessage("")
+    //   setresumeAlert(true)
 
-    if (
-      !profileSummary.trim() ||
-      !address.trim() ||
-      !name.trim() ||
-      !email.trim() ||
-      !totalExperience.trim() ||
-      experiences.length === 0 ||
-      certifications.length === 0 ||
-      skills.length === 0 ||
-      languages.length === 0 ||
-      qualificationDetails.length === 0
-    ) {
-      // setSuccessMessage(
-      //   <span style={{ color: "red" }}>
-      //     Your resume is incomplete. Please fill in all required profile details before downloading
-      //   </span>
-      // );
-      window.scrollTo({ top: 0, behavior: "smooth" });
-      setSuccessMessage("")
-      setresumeAlert(true)
-
-      return;
-    }
+    //   return;
+    // }
 
     const Experiance = totalExperience;
-    await axios.put(`/StudentProfile/updatProfile/${studId}`, {
-      name, email, linkedin, Experiance, profileSummary, address, experiences, certifications, skills, languages, qualificationDetails, imageConsent, personalDetails, achievements, interests, projects
+    await axios.put(`/StudentProfile/updatProfile/${studId}`, {name, email, linkedin, Experiance, 
+      profileSummary, address, experiences, certifications, skills, languages, qualificationDetails,
+       imageConsent, personalDetails, achievements, interests, projects, CSCId
     }, { headers })
       .then((res) => {
         let result = (res.data)
+        console.log(result)
         if (result === "success") {
           setSuccessMessage(
             <span style={{ color: "green" }}>
@@ -691,7 +686,7 @@ const ResumeForm = () => {
           setSuccessMessage("Alert!... all fields must be filled")
         }
         else {
-          setSuccessMessage("something went wrong, Could not save your Jobs post")
+          setSuccessMessage("something went wrong, Could not save your Resume")
         }
       }).catch((err) => {
         alert("server issue occured", err)

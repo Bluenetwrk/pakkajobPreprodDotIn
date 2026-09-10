@@ -97,7 +97,7 @@ const Model = ({ isregCheck, isCSCOpen, onClose, children, msalInstance }) => {
 							}
 
 							if (result.status == "success") {
-								console.log(result)
+								// console.log(result)
 								localStorage.setItem("CSCLog", JSON.stringify(btoa(token)))
 								localStorage.setItem("CSCId", JSON.stringify(Id))
 								navigate("/resumes", { state: { name: result.name, loginprofile:"cs_center" } })

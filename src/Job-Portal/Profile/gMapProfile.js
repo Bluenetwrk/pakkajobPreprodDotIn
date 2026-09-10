@@ -34,7 +34,7 @@ function GMapProfile() {
   };
 
   const login = useGoogleLogin({
-    // scope: "https://www.googleapis.com/auth/business.manage",
+    scope: "https://www.googleapis.com/auth/business.manage",
     onSuccess: async (response) => {
       try {
         const gtoken = response.access_token;
@@ -47,7 +47,6 @@ function GMapProfile() {
             },
           }
         );
-        // console.log(user)
         // Get Google Business Profile accounts
         const accounts = await axios.get(
           "https://mybusinessaccountmanagement.googleapis.com/v1/accounts",
@@ -57,6 +56,7 @@ function GMapProfile() {
             },
           }
         );
+        // console.log(accounts)
         const accountName = accounts.data.accounts?.[0]?.name;
         // Get locations
         const locationsResponse = await axios.get(

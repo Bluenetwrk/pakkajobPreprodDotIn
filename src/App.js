@@ -1125,7 +1125,6 @@ function App() {
             } /> */}
             <Route path="/consultation-services" element={<ConsultationServices />} />
             <Route path="/resumes" element={<AllResumes />} />
-            <Route path="/resume-form" element={<ResumeForm />}></Route>
 
             <Route path="/Blogs" element={<Blogs
               showMobileSearchIcon={showMobileSearchIcon} setShowMobileSearchIcon={setShowMobileSearchIcon}
@@ -1220,6 +1219,7 @@ function App() {
             </Route>
             {/* ..........Jobseeker Private component i,e can not search in URL......... */}
             <Route element={<StudPrivate />}>
+            <Route path="/resume-form" element={<ResumeForm />}></Route>
 
               <Route path="/scanner" element={<QRScanner />} />
               <Route path="/myCreatedResume" element={<MyCreatedResume url={axios.defaults.baseURL}

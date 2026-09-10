@@ -37,6 +37,10 @@ function Nav(props) {
   let EmployeeAuth = localStorage.getItem("EmpLog")
   let adminLogin = localStorage.getItem("AdMLog")
   let SuperAdminLogin = localStorage.getItem("SupAdMLog")
+  // let CSCId = JSON.parse(localStorage.getItem("CSCId"));
+  const csprofile = JSON.parse(localStorage.getItem("CSCId") || "null");
+
+
   const screenSize = useScreenSize();
 
   const StudlogOut = () => {
@@ -60,8 +64,6 @@ function Nav(props) {
   let SimgRef = useRef();
   let newReg = useRef();
   let Reg = useRef();
-
-  const csprofile = JSON.parse(localStorage.getItem("csprofile") || "null");
 
   const [isregCheck, setisregCheck] = useState(false);
   const [cslogin, setcslogin] = useState(false);
@@ -356,7 +358,7 @@ function Nav(props) {
         //  ............................................Jobseeker Login...............................................   
         screenSize.width > 750 ?
 
-          StudentAuth ?
+          StudentAuth || csprofile ?
             <>
               <div className={Styles.fullnavewrapper}>
                 <div className={Styles.fullnavewrapperLS} >
@@ -376,20 +378,7 @@ function Nav(props) {
                     Resume Builder <sup style={{ border: "2px solid white", borderRadius: "25px", padding: "1px", fontFamily: "monospace" }}>Beta</sup> </NavLink></div>
                   {/* <div><NavLink to="/consultation-services" className={Styles.AllJobJobSeeker}  style={navLinkStyles}>Consultation Services </NavLink>
                   </div> */}
-                  {/* <button
-  style={{
-    backgroundColor: 'rgb(40, 4, 99)',
-    color: 'white',
-    border: 'none',
-    padding: '6px 8px',
-    borderRadius: '8px',
-    cursor: 'pointer',
-    fontWeight: '600'
-  }}
-  onClick={() => window.open('/consultation-services')}
->
-  Consultation Services
-</button> */}
+
 
                   <div ref={dropdownRef} style={{ position: "relative" }}>
 
@@ -521,7 +510,7 @@ function Nav(props) {
                           <p className={Styles.text} ref={menuRef} onClick={MyJobApplied}>Jobs Applied</p>
                           {/* <p className={Styles.text} ref={menuRef} onClick={MyDrivesApplied}>Registered <br></br>Walkin Drives</p> */}
 
-                          {csprofile === "cs_center" &&
+                          {csprofile &&
                             <p className={Styles.text} ref={menuRef} onClick={mycreatedresume} >My Created <br></br>Resume</p>
                           }
                           <p className={Styles.text} ref={menuRef} onClick={AskQuestion}>Ask Question</p>
