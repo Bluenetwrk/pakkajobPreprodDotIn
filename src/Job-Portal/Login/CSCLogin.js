@@ -68,15 +68,15 @@ function CSCLogin(props) {
         // console.log("decoded name :", gemail)
         // console.log(" decoded id :", gname)
 
-        await axios.post("/EmpProfile/Glogin", { ipAddress, userId, email,Gpicture, name, gtoken, isApproved })
+        await axios.post("/CSRoute/Glogin", { ipAddress, userId, email, Gpicture, name, gtoken, isApproved })
           .then((response) => {
             let result = response.data
             let token = result.token
-            let GuserId = result.id
+            let Id = result.id
             if (result.status == "success") {
-              localStorage.setItem("EmpLog", JSON.stringify(btoa(token)))
-              localStorage.setItem("EmpIdG", JSON.stringify(GuserId))
-              navigate("/resumes", { state: { gserid: GuserId } })
+              localStorage.setItem("CSCLog", JSON.stringify(btoa(token)))
+              localStorage.setItem("CSCId", JSON.stringify(Id))
+              navigate("/resumes", { state: { name: result.name } })
             }
           }).catch((err) => {
             alert("server issue occured")
@@ -113,6 +113,13 @@ function CSCLogin(props) {
     let studentAuth = localStorage.getItem("StudLog")
     if (studentAuth) {
       navigate("/alljobs")
+    }
+  }, [])
+
+  useEffect(() => {
+    let CSCAuth = localStorage.getItem("CSCLog")
+    if (CSCAuth) {
+      navigate("/resumes")
     }
   }, [])
 
@@ -158,7 +165,7 @@ function CSCLogin(props) {
   //   );
   // }
   async function sendOtp() {
-    await axios.post("/EmpProfile/otpSignUp", { PhoneNumber })
+    await axios.post("/CSRoute/otpSignUp", { PhoneNumber })
       .then((res) => {
         if (res.data == "otp sent") {
           setshowotp(true)
@@ -171,19 +178,16 @@ function CSCLogin(props) {
     setLoader(true)
     setTimeout(async () => {
 
-      await axios.post("/EmpProfile/verifyOtp", { ipAddress, otp, isApproved })
+      await axios.post("/CSRoute/verifyOtp", { ipAddress, otp, isApproved })
         .then((res) => {
           let result = res.data
           if (result == "incorrect Otp") {
             alert("incorrect OTP")
           }
           if (result.token) {
-            navigate("/Search-Candidate")
-            localStorage.setItem("EmpLog", JSON.stringify(result.token))
-            let empId = result.id
-            localStorage.setItem("EmpIdG", JSON.stringify(empId))
-            // localStorage.setItem("EmpIdG", JSON.stringify(GuserId))
-
+            localStorage.setItem("CSCLog", JSON.stringify(result.token))
+            localStorage.setItem("CSCId", JSON.stringify(result.id))
+            navigate("/resumes", { state: { name: result.name } })
           }
           setLoader(false)
 
@@ -254,16 +258,15 @@ function CSCLogin(props) {
         let email = response.account.username
         let isApproved = false
  
-        await axios.post("/EmpProfile/Glogin", { ipAddress, email, name, isApproved, })
+        await axios.post("/CSRoute/Glogin", { ipAddress, email, name, isApproved, })
           .then((response) => {
             let result = response.data
-             console.log(result)
             let token = result.token
             let Id = result.id
             if (result.status == "success") {
-              localStorage.setItem("StudLog", JSON.stringify(btoa(token)))
-              navigate("/alljobs", { state: { name: result.name } })
-              localStorage.setItem("StudId", JSON.stringify(Id))
+              localStorage.setItem("CSCLog", JSON.stringify(btoa(token)))
+              localStorage.setItem("CSCId", JSON.stringify(Id))
+              navigate("/resumes", { state: { name: result.name } })
             }
           }).catch((err) => {
             alert("server issue occured")

@@ -1756,7 +1756,7 @@ onClick={() => {
                             <p onClick={() => { navigate("/JobSeekerLogin") }}>Job Seeker Login</p>
                             <p
                               onClick={() => {
-                                navigate("/JobSeekerLogin", { state: { loginpage: "cs" } });
+                                navigate("/cscLogin");
                               }}
                               style={{
 
