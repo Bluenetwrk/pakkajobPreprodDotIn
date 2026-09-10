@@ -1348,7 +1348,9 @@ function Nav(props) {
 
 
           //  ............................................Jobseeker Login...Mobile view............................................   
-          StudentAuth ?
+          // StudentAuth ?
+          StudentAuth || csprofile ?
+
             <>
               <div className={Styles.fullnavewrapper}>
                 <div className={Styles.fullnavewrapperLSMobile}>
@@ -1371,7 +1373,7 @@ function Nav(props) {
                           <p className={Styles.text} ref={menuRef} onClick={myprofile}>My profile</p>
                           <p className={Styles.text} ref={menuRef} onClick={MyJobApplied}>Jobs Applied</p>
                           {/* <p className={Styles.text} ref={menuRef} onClick={MyDrivesApplied}>Registered <br></br>Walkin Drives</p> */}
-                          {csprofile === "cs_center" &&
+                          {csprofile &&
                             <p className={Styles.text} ref={menuRef} onClick={mycreatedresume} >My Created <br></br>Resume</p>
                           }
                           <p className={Styles.text} ref={menuRef} onClick={AskQuestion}>Ask Question</p>
@@ -1756,7 +1758,7 @@ onClick={() => {
                             <p onClick={() => { navigate("/JobSeekerLogin") }}>Job Seeker Login</p>
                             <p
                               onClick={() => {
-                                navigate("/JobSeekerLogin", { state: { loginpage: "cs" } });
+                                navigate("/CSCLogin", { state: { loginpage: "cs" } });
                               }}
                               style={{
 

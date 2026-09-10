@@ -11,7 +11,6 @@ import Cancel from "./Job-Portal/img/icons8-cross-50.png"
 import NavIcon from "./Job-Portal/img/icons8-menu-50.png"
 
 import StudentLogin from "./Job-Portal/Login/StudLogin";
-import CSCLogin from "./Job-Portal/Login/CSCLogin";
 import EmployeeLogin from "./Job-Portal/Login/EmpLogin"
 import NewRegistered from "./Job-Portal/Profile/NewRegistration";
 import StuNewRegistered from "./Job-Portal/Profile/StudentRegistration";
@@ -1331,7 +1330,7 @@ function App() {
             <Route path="/Job-Seeker-Login" element={<ResumeLogin />} />
             <Route path="/JobSeeker-Login" element={<AnsStdLogin />} />
             <Route path="/Employee-Login" element={<AnsEmpLogin />} />
-            <Route path="/cscLogin" element={<CSCLogin />} />
+            <Route path="/cscLogin" element={<CSLogin />} />
             <Route path="/New-Registration" element={<NewRegistered />} />
             <Route path="/Jobseeker-New-Registration" element={<StuNewRegistered selectedlocationOption={selectedlocationOption} />} />
             <Route path="/EmployeeLogin" element={<EmployeeLogin />} />
