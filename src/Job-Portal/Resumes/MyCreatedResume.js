@@ -43,9 +43,8 @@ const responsive = {
 };
 
 // import { Bars } from  'react-loader-spinner'
-function MyCreatedResume({ nopageFilter, setNoPageFilter, searchKey, setsearchKey, Filtereredjobs, setFiltereredjobs
-  , Result, setResult, Filterjobs, setFilterjobs, count, setCount, Active, setActive,
-  PageLoader, setPageLoader, totalCount, settotalCount, search, searchIcon, url
+function MyCreatedResume({ searchKey, setsearchKey, Filtereredjobs, setFiltereredjobs
+  , Result, setResult, PageLoader, setPageLoader, totalCount, settotalCount, search, searchIcon, url
   , searchClick, setSearchClick, ShowSideNave, setShowSideNave, showMobileSearchIcon, setShowMobileSearchIcon
 }) {
 
@@ -60,10 +59,10 @@ function MyCreatedResume({ nopageFilter, setNoPageFilter, searchKey, setsearchKe
   let JobLocationTags = ["Bangalore"]
 
   const [jobs, setJobs] = useState()
-  // const [Filterjobs, setFilterjobs] = useState([])
+  const [Filterjobs, setFilterjobs] = useState([])
   const [selectedOption, setSelectedOption] = useState(options[0]);
   const [isOpen, setIsOpen] = useState(false);
-  // const [nopageFilter, setNoPageFilter] = useState(false)
+  const [nopageFilter, setNoPageFilter] = useState(false)
   // const [Filtereredjobs, setFiltereredjobs] = useState([])
 
   const [isReadMore, setIsReadMore] = useState(true)
@@ -76,7 +75,7 @@ function MyCreatedResume({ nopageFilter, setNoPageFilter, searchKey, setsearchKe
   // const [Result, setResult] = useState(false)
   const [nojob, setnojob] = useState("")
   const screenSize = useScreenSize();
-  // const [Active, setActive] = useState([])
+  const [Active, setActive] = useState([])
 
   const [Loader, setLoader] = useState(false)
 
@@ -97,7 +96,7 @@ function MyCreatedResume({ nopageFilter, setNoPageFilter, searchKey, setsearchKe
   // const npage = Math.ceil(jobs?.length / recordsPerPage) // last page
   const npage = Math.ceil(totalCount / recordsPerPage) // last page
 
-    const navigate = useNavigate()
+  const navigate = useNavigate()
   const Location = useLocation()
 
   useEffect(() => {
@@ -128,9 +127,6 @@ function MyCreatedResume({ nopageFilter, setNoPageFilter, searchKey, setsearchKe
 
       .then((res) => {
         let result = (res.data)
-        console.log(result)
-        // gettotalcount()
-
         let sortedate = result.sort((a, b) => {
           return new Date(b.createdAt) - new Date(a.createdAt);
         });
@@ -437,7 +433,7 @@ function MyCreatedResume({ nopageFilter, setNoPageFilter, searchKey, setsearchKe
       })
   }
 
-  // const [count, setCount] = useState(1)
+  const [count, setCount] = useState(1)
   const [jobTagIds, setjobTagIds] = useState([])
 
   const [jobTagsIds, setJobTagsIds] = useState([])
@@ -780,22 +776,8 @@ function MyCreatedResume({ nopageFilter, setNoPageFilter, searchKey, setsearchKe
                 </p >
               </li>
 
-              <li style={{ backgroundColor: " rgb(40, 4, 99)" }} className={`${styles.li} ${styles.Location}`}>Phone Number</li>
-              {/* <li style={{ backgroundColor: " rgb(40, 4, 99)" }} className={`${styles.li} ${styles.Package}`} >CTC
-                <p className={styles.arrowWrapper}>
-                  <i onClick={SdescendingOrder} className={`${styles.arrow} ${styles.up}`}> </i>
-                  <i onClick={SascendingOrder} className={`${styles.arrow} ${styles.down}`}></i>
-                </p>
-              </li>
-
-              <li style={{ backgroundColor: " rgb(40, 4, 99)" }} className={`${styles.li} ${styles.experiance}`}>Experience
-                <p className={styles.arrowWrapper}>
-                  <i onClick={EdescendingOrder} className={`${styles.arrow} ${styles.up}`}> </i>
-                  <i onClick={EascendingOrder} className={`${styles.arrow} ${styles.down}`}></i>
-                </p>
-              </li> */}
-              {/* <li style={{ backgroundColor: " rgb(40, 4, 99)" }} className={`${styles.li} ${styles.qualification}`}>Qualification</li> */}
               <li style={{ backgroundColor: " rgb(40, 4, 99)" }} className={`${styles.li} ${styles.Skills}`}>Resume Type</li>
+              <li style={{ backgroundColor: " rgb(40, 4, 99)" }} className={`${styles.li} ${styles.Location}`}>Edit</li>
               <li style={{ backgroundColor: " rgb(40, 4, 99)" }} className={`${styles.li} ${styles.Status}`}>Action(View/ Download)</li>
 
             </ul>
@@ -806,274 +788,42 @@ function MyCreatedResume({ nopageFilter, setNoPageFilter, searchKey, setsearchKe
               </div>
               :
               (
-                !nopageFilter ?
-                  records?.length < 0 ?
-                    records.map((items, i) => {
-                      return (
+                jobs?.length > 0 ?
+                  jobs.map((items, i) => {
+                    return (
 
-                        <ul className={styles.ul} key={i}>
+                      <ul className={styles.ul} key={i}>
 
-                          <li className={`${styles.li} ${styles.Jtitle}`} onClick={() => navigate(`/Jobdetails/${btoa(items._id)}?index=${i}`, { state: { selectedTag, }, })}
-                            style={{ cursor: "pointer", textDecoration: "underline", color: "blue" }}>{items.jobTitle.charAt(0).toUpperCase() + items.jobTitle.substring(1)}</li>
-                          <li className={`${styles.li} ${styles.Source}`} >ITwalkin</li>
-                          {/* {
-                          !items.Source ?
-                            <li className={`${styles.li} ${styles.CompanyName}`}>
-                              
-                              {items.companyName}</li>
-                            :
-                            <a className={`${styles.li} ${styles.CompanyName}`} >
-                              {items.Source}
-                            </a>
-                        }
-                      */}
-                          {/* <li className={`${styles.li} ${styles.JobType}`}>{items.jobtype}</li> */}
-
-                          <li className={`${styles.li} ${styles.date}`}>
-                            {new Date(items.createdAt).toLocaleString(
-                              "en-US",
-                              {
-                                month: "short",
-                                day: "2-digit",
-                                year: "numeric",
-                              }
-                            )}
-                          </li>
-                          <li className={`${styles.li} ${styles.Location}`}>
-                            {items?.jobLocation[0]?.toUpperCase() + items.jobLocation.slice(1)}
-                          </li>
-                          {/* <li className={`${styles.li} ${styles.Package}`}>{items.salaryRange==="Not disclosed" ? "Not Disclosed":items.salaryRange+"LPA" }</li>
-                        <li className={`${styles.li} ${styles.experiance}`}>{items.experiance}Yrs</li>
-                        <li className={`${styles.li} ${styles.qualification}`}>{items.qualification}</li> */}
-                          <li className={`${styles.li} ${styles.Skills}`}>{items.skills}</li>
-
-                          <li className={`${styles.li} ${styles.Status}`}>
-
+                        <li className={`${styles.li} ${styles.Jtitle}`}
+                          style={{ cursor: "pointer", textDecoration: "underline", color: "blue" }}>{items?.name?.toUpperCase()}
+                        </li>
+                        <li className={`${styles.li} ${styles.Source}`}
+                          style={{ cursor: "pointer", textDecoration: "underline", color: "blue" }}>{items?.email}
+                        </li>
+                        <li className={`${styles.li} ${styles.date}`}
+                          style={{ cursor: "pointer", textDecoration: "underline", color: "blue" }}>
+                          {new Date(items.ResumeCreatedDate).toLocaleString(
+                            "en-US",
                             {
-                              items.jobSeekerId.find((jobseeker) => {
-                                return (
-                                  jobseeker.jobSeekerId == jobSeekerId
-                                )
-                              })
-                                ?
-                                <button className={styles.Appliedbutton} title='HR will reach out to you after reviewing your profile' > Applied <span style={{ fontSize: '15px' }}>&#10004;</span></button>
-                                :
-                                items.SourceLink ?
-                                  // <button title='This will redirect to the source company webpage' className={styles.Applybutton} onClick={() => {
-                                  //   applyforOtherJob(items.SourceLink)
-                                  // }}>Apply</button>
-                                  <div ref={alertRef} style={{ position: "relative" }}>
-                                    <button className={styles.Applybutton} onClick={() => handleApplyClick(items._id)}>
-                                      View/Download
-                                    </button>
-
-                                    {activeAlertId === items._id && (
-                                      <div
-                                        style={{
-                                          width: '300px',
-                                          padding: '20px',
-                                          backgroundColor: 'rgb(40,4,99)',
-                                          color: 'white',
-                                          fontSize: '12px',
-                                          borderRadius: '5px',
-                                          position: 'fixed',
-                                          top: '50%',
-                                          left: '50%',
-                                          transform: 'translate(-50%, -50%)',
-                                          zIndex: 9999,
-                                          boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
-                                          textAlign: 'center',
-                                        }}
-
-                                      >
-                                        <strong style={{ color: "red", textAlign: "center", fontSize: "14px" }}>NOTICE</strong><br></br>
-
-                                        You will be redirected to the career page of {items.Source ? items.Source : items.companyName}.
-                                        ITwalkin is not the authorised partner of this company
-                                        <br></br><br></br>
-                                        ITWALKIN.com never charges fees for job applications. If you encounter misuse or payment requests, report it through our website.<br></br>
-
-                                        {/* <strong>Notice:</strong> ITWALKIN.com never charges fees for job applications. If you encounter misuse or payment requests, report it through our website. */}
-
-                                        <div ref={alertRef} style={{ marginTop: '15px', display: "flex", gap: "4px", justifyContent: "center" }}>
-                                          <button
-                                            onClick={() => handleOkClick1(items.SourceLink, items._id)}
-                                            style={{
-                                              padding: '8px 16px',
-                                              backgroundColor: '#4CAF50',
-                                              color: 'white',
-                                              border: 'none',
-                                              borderRadius: '5px',
-                                              fontSize: '12px',
-                                              cursor: 'pointer',
-                                            }}
-                                          >
-                                            OK
-                                          </button>
-                                          <button
-                                            onClick={handlecancelClick}
-                                            style={{
-                                              padding: '8px 16px',
-                                              backgroundColor: '#4CAF50',
-                                              color: 'white',
-                                              border: 'none',
-                                              borderRadius: '5px',
-                                              fontSize: '12px',
-                                              cursor: 'pointer',
-                                            }}
-                                          >
-                                            Cancel
-                                          </button>
-                                        </div>
-                                      </div>
-                                    )}
-                                  </div>
-                                  :
-
-                                  // <button className={styles.Applybutton} onClick={() => { applyforJob(items._id) }}>Apply
-                                  //   <span className={styles.Loader} >{Loader && items._id == clickedJobId ?
-                                  //     <TailSpin color="white" height={20} />
-                                  //     : ""}</span></button>
-                                  <div ref={alertRef} style={{ position: "relative" }}>
-                                    <button className={styles.Applybutton} onClick={() => handleApplyClick(items._id)}>
-                                      Apply
-                                      <span className={styles.Loader} >{Loader && items._id == clickedJobId ?
-                                        <TailSpin color="white" height={20} />
-                                        : ""}</span>
-                                    </button>
-
-                                    {activeAlertId === items._id && (
-                                      <div
-                                        style={{
-                                          width: '300px',
-                                          padding: '20px',
-                                          backgroundColor: 'rgb(40,4,99)',
-                                          color: 'white',
-                                          fontSize: '16px',
-                                          borderRadius: '5px',
-                                          position: 'fixed',
-                                          top: '50%',
-                                          left: '50%',
-                                          transform: 'translate(-50%, -50%)',
-                                          zIndex: 9999,
-                                          boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
-                                          textAlign: 'center',
-                                        }}
-
-                                      >
-                                        <strong>Notice:</strong>
-
-                                        You will be redirected to the career page of {items.Source ? items.Source : items.companyName}.
-                                        ITwalkin is not the authorised partner of this company
-                                        <br></br><br></br>
-                                        ITWALKIN.com never charges fees for job applications. If you encounter misuse or payment requests, report it through our website.<br></br>
-
-                                        <div ref={alertRef} style={{ marginTop: '15px' }}>
-                                          <button
-                                            onClick={() => handleOkClick2(items._id)}
-                                            style={{
-                                              padding: '8px 16px',
-                                              backgroundColor: '#4CAF50',
-                                              color: 'white',
-                                              border: 'none',
-                                              borderRadius: '5px',
-                                              fontSize: '14px',
-                                              cursor: 'pointer',
-                                            }}
-                                          >
-                                            OK
-                                          </button>
-                                        </div>
-                                      </div>
-                                    )}
-                                  </div>
+                              month: "short",
+                              day: "2-digit",
+                              year: "numeric",
                             }
-                          </li>
-                        </ul>
-                      )
-                    })
+                          )}
+                        </li>
 
 
-                    : <p style={{ marginLeft: "50%", color: "red" }}>No Data Found......</p>
-                  :
-                  jobs?.length > 0 ?
-                    jobs.map((items, i) => {
-                      return (
+                        <li className={`${styles.li} ${styles.Skills}`}
+                          style={{ cursor: "pointer", textDecoration: "underline", color: "blue" }}>{items?.selectedTemplate}
+                        </li>
+              <li style={{cursor:"pointer", textDecoration:"underline"}} className={`${styles.li} ${styles.Location}`}>Edit</li>
+              <li style={{cursor:"pointer", textDecoration:"underline"}} className={`${styles.li} ${styles.Location}`}>View</li>
 
-                        <ul className={styles.ul} key={i}>
+                      </ul>
 
-                          <li className={`${styles.li} ${styles.Jtitle}`} onClick={() => navigate(`/Jobdetails/${btoa(items._id)}?index=${i}`, { state: { selectedTag, }, })}
-                            //  style={{ cursor: "pointer", textDecoration: "underline", color: "blue" }}>{items.jobTitle.toUpperCase()}</li>
-                            style={{ cursor: "pointer", textDecoration: "underline", color: "blue" }}>{items?.jobTitle?.toUpperCase()}</li>
-
-                          <li className={`${styles.li} ${styles.Source}`} >ITwalkin</li>
-
-                          {
-                            !items.Source ?
-
-                              // <li style={{ cursor: "pointer", textDecoration: "underline" }} className={`${styles.li} ${styles.CompanyName}`}
-                              //   onClick={() => { navigate(`/CheckEmpHalfProfile/${btoa(items.empId)}`) }}  >
-                              <li className={`${styles.li} ${styles.CompanyName}`} >
-
-
-                                {items.companyName}</li>
-                              :
-                              // <a style={{ cursor: "pointer", textDecoration: "underline" }} className={`${styles.li} ${styles.CompanyName}`} href={items.SourceLink} target="_blank" >
-                              <a className={`${styles.li} ${styles.CompanyName}`}>
-
-
-                                {items.Source}
-
-                              </a>
-
-                          }
-
-                          <li className={`${styles.li} ${styles.JobType}`}>{items.jobtype}</li>
-
-                          <li className={`${styles.li} ${styles.date}`}>
-                            {new Date(items.createdAt).toLocaleString(
-                              "en-US",
-                              {
-                                month: "short",
-                                day: "2-digit",
-                                year: "numeric",
-                              }
-                            )}
-                          </li>
-                          {/* <li className={`${styles.li} ${styles.Location}`}>{items.jobLocation[0].toUpperCase() + items.jobLocation.slice(1)}</li> */}
-                          <li className={`${styles.li} ${styles.Location}`}>{items?.jobLocation[0]?.toUpperCase() + items.jobLocation.slice(1)}</li>
-
-                          <li className={`${styles.li} ${styles.Package}`}>{items.salaryRange === "Not disclosed" ? "Not Disclosed" : items.salaryRange + "LPA"}</li>
-                          <li className={`${styles.li} ${styles.experiance}`}>{items.experiance}Y</li>
-                          <li className={`${styles.li} ${styles.qualification}`}>{items.qualification}</li>
-                          <li className={`${styles.li} ${styles.Skills}`}>{items.skills}</li>
-
-                          <li className={`${styles.li} ${styles.Status}`}>
-
-                            {items.jobSeekerId.find((jobseeker) => {
-                              return (
-                                jobseeker.jobSeekerId == jobSeekerId
-                              )
-                            }) ?
-                              <button className={styles.Appliedbutton} title='HR will reach out to you after reviewing your profile' > Applied <span style={{ fontSize: '15px' }}>&#10004;</span></button>
-
-                              :
-                              items.SourceLink ?
-                                <button title='this will take to Source page' className={styles.Applybutton} onClick={() => {
-                                  applyforOtherJob(items.SourceLink)
-                                }}>Apply</button>
-                                :
-
-                                <button className={styles.Applybutton} onClick={() => { applyforJob(items._id) }}>Apply
-                                  <span className={styles.Loader} >{Loader && items._id == clickedJobId ?
-                                    <TailSpin color="white" height={20} />
-                                    : ""}</span></button>
-                            }
-                          </li>
-                        </ul>
-                      )
-                    })
-                    : <p style={{ marginLeft: "47%", color: "red" }}>No Data Found......</p>
+                    )
+                  })
+                  : <p style={{ marginLeft: "47%", color: "red" }}>No Data Found......</p>
               )
             }
           </div>

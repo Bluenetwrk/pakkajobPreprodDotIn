@@ -105,6 +105,9 @@ function Nav(props) {
   function myprofile() {
     navigate("/My-Profile")
   }
+  function mycscprofile() {
+    navigate("/My-CSC-Profile")
+  }
   function updateprofile() {
     navigate("/Update-Profile")
   }
@@ -505,7 +508,11 @@ function Nav(props) {
                     {showprofile ?
                       <div className={Styles.Alldownwrapper} >
                         <div className={Styles.JobSeekerdropdownwrapper} ref={menuRef} >
-                          <p className={Styles.text} ref={menuRef} onClick={myprofile}>My profile</p>
+
+                          {csprofile?
+                            <p className={Styles.text} ref={menuRef} onClick={mycscprofile} >My profile</p>
+                         :   <p className={Styles.text} ref={menuRef} onClick={myprofile}>My profile</p>
+                          }
 
                           <p className={Styles.text} ref={menuRef} onClick={MyJobApplied}>Jobs Applied</p>
                           {/* <p className={Styles.text} ref={menuRef} onClick={MyDrivesApplied}>Registered <br></br>Walkin Drives</p> */}
@@ -1370,7 +1377,10 @@ function Nav(props) {
                     {showprofile ?
                       <div className={Styles.Alldownwrapper} >
                         <div className={Styles.MobJobseekerDropdownwrapperlogin} ref={menuRef} >
-                          <p className={Styles.text} ref={menuRef} onClick={myprofile}>My profile</p>
+                          {csprofile?
+                            <p className={Styles.text} ref={menuRef} onClick={mycscprofile} >My profile</p>
+                         :   <p className={Styles.text} ref={menuRef} onClick={myprofile}>My profile</p>
+                          }
                           <p className={Styles.text} ref={menuRef} onClick={MyJobApplied}>Jobs Applied</p>
                           {/* <p className={Styles.text} ref={menuRef} onClick={MyDrivesApplied}>Registered <br></br>Walkin Drives</p> */}
                           {csprofile &&

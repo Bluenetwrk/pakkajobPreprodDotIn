@@ -41,6 +41,10 @@ const ResumeForm = () => {
     projects: [""],
   };
 
+
+  let location = useLocation()
+  const { formstate, loginprofile, selectedTemplate } = location.state || {};
+
   const handlePersonalChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -85,11 +89,11 @@ const ResumeForm = () => {
   const [profileData, setProfileData] = useState([]);
   const [successMessage, setSuccessMessage] = useState("");
 
-  let studId = JSON.parse(localStorage.getItem("StudId")) 
+  let studId = JSON.parse(localStorage.getItem("StudId"))
   let CSCId = JSON.parse(localStorage.getItem("CSCId"));
 
   let StuLoginToken = JSON.parse(localStorage.getItem("JobSLog"))
-   let CSCLloginToken = JSON.parse(localStorage.getItem("CSCLog"));
+  let CSCLloginToken = JSON.parse(localStorage.getItem("CSCLog"));
 
   const headers = {
     authorization: studId + " " + (StuLoginToken)
@@ -663,23 +667,17 @@ const ResumeForm = () => {
     // }
 
     const Experiance = totalExperience;
-    await axios.put(`/StudentProfile/updatProfile/${studId}`, {name, email, linkedin, Experiance, 
+    await axios.put(`/StudentProfile/updatProfile/${studId}`, {
+      name, email, linkedin, Experiance,
       profileSummary, address, experiences, certifications, skills, languages, qualificationDetails,
-       imageConsent, personalDetails, achievements, interests, projects, CSCId
+      imageConsent, personalDetails, achievements, interests, projects, CSCId, selectedTemplate
     }, { headers })
       .then((res) => {
         let result = (res.data)
         console.log(result)
         if (result === "success") {
           setSuccessMessage(
-            <span style={{ color: "green" }}>
-              <span style={{ fontWeight: "800" }}>
-                Complete your resume for a stronger first impression
-              </span>
-              <br />
-              Your current resume is missing key details. Add more
-              information to make your resume stand out.
-            </span>
+            <span style={{ color: "green" }}>resume updated succesffuly</span>
           );
         }
         else if (result === "field are missing") {
@@ -738,8 +736,6 @@ const ResumeForm = () => {
     default: Object.keys(SKILL_LIBRARY),
   };
 
-  let location = useLocation()
-  const { formstate, loginprofile, selectedTemplate } = location.state || {};
   // const { loginprofile } = location.state || {};
   //  console.log(formstate, loginprofile, selectedTemplate)
 

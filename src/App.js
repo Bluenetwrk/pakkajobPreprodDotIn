@@ -33,6 +33,7 @@ import Home from "./Job-Portal/Jobs/AllHomeJobs";
 import StudentUpdateProfile from "./Job-Portal/Profile/StudentUpdateProfile";
 import EmployeeUpdateProfile from "./Job-Portal/Profile/EmployeeUpdateProfile";
 import StudentProfile from "./Job-Portal/Profile/StudentProfile";
+import CSCProfile from "./Job-Portal/Profile/CSCProfile";
 import EmployeeProfile from "./Job-Portal/Profile/EmployeeProfile";
 import UpdatePostedJobs from "./Job-Portal/PostJobs/updatePostedJobs";
 import UpdateCareerPostedJobs from "./Job-Portal/PostJobs/updateCareerPostedJobs";
@@ -1301,6 +1302,7 @@ function App() {
               {/* <Route path="/scan/drive/:driveId" element={<ScanDrive  />} /> */}
               <Route path="/Update-Profile" element={<StudentUpdateProfile url={axios.defaults.baseURL} />} />
               <Route path="/My-Profile" element={<StudentProfile />} />
+              <Route path="/My-CSC-Profile" element={<CSCProfile />} />
               <Route path="/My-Applied-Jobs" element={<MyAppliedJobs url={axios.defaults.baseURL} />} />
               <Route path="/My-Applied-Drives" element={<MyAppliedDrives url={axios.defaults.baseURL} />} />
               {/* <Route path="/My-Applied-Drives" element={<AppliedDrives url={axios.defaults.baseURL} />} /> */}
