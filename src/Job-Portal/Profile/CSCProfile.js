@@ -162,7 +162,7 @@ function StudentProfile() {
   const [showApprovedStatus, setShowApprovedStatus] = useState(false)
 
   function updateprofile() {
-    navigate("/Update-Profile")
+    navigate("/CSC-Update-Profile")
   }
   function resumedownload() {
     navigate("/resumes")
@@ -193,8 +193,8 @@ function StudentProfile() {
             <p className={styles.city}>{profileData[0].city ? profileData[0].city : ""}</p>
           </div>
         </div>
+        <button style={{ width: "147px" }} className={styles.editBtn} onClick={updateprofile}>Edit Profile</button>
         {/* <div className={styles.actions}>
-          <button style={{ width: "147px" }} className={styles.editBtn} onClick={updateprofile}>Edit Profile</button>
           <button className={styles.downloadBtn} onClick={resumedownload}>Download Resumes</button>
           <div className={profileData[0].isApproved ?
             styles.statusBadge : styles.statusBadgeReject}
@@ -235,6 +235,9 @@ function StudentProfile() {
             </div>
             <div>
               <strong>Phone</strong><br></br> {profileData[0].phoneNumber ? profileData[0].phoneNumber : ""}
+            </div>
+            <div>
+              <strong>Address</strong><br></br> {profileData[0].city ? profileData[0].city : ""}
             </div>
             <div>
               <strong>City</strong><br></br> {profileData[0].city ? profileData[0].city : ""}

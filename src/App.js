@@ -31,6 +31,7 @@ import Answerdetails from "./Job-Portal/Jobs/Answerdetails";
 import CareerJobdetails from "./Job-Portal/Jobs/CareerJobdetails"
 import Home from "./Job-Portal/Jobs/AllHomeJobs";
 import StudentUpdateProfile from "./Job-Portal/Profile/StudentUpdateProfile";
+import CSCUpdateProfile from "./Job-Portal/Profile/CSC-Update-Profile";
 import EmployeeUpdateProfile from "./Job-Portal/Profile/EmployeeUpdateProfile";
 import StudentProfile from "./Job-Portal/Profile/StudentProfile";
 import CSCProfile from "./Job-Portal/Profile/CSCProfile";
@@ -1300,6 +1301,7 @@ function App() {
               />} />
               <Route path="/AskQuestion" element={<AskQuestion />} />
               {/* <Route path="/scan/drive/:driveId" element={<ScanDrive  />} /> */}
+              <Route path="/CSC-Update-Profile" element={<CSCUpdateProfile url={axios.defaults.baseURL} />} />
               <Route path="/Update-Profile" element={<StudentUpdateProfile url={axios.defaults.baseURL} />} />
               <Route path="/My-Profile" element={<StudentProfile />} />
               <Route path="/My-CSC-Profile" element={<CSCProfile />} />
