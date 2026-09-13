@@ -90,6 +90,7 @@ const Model = ({ isregCheck, isCSCOpen, onClose, children, msalInstance }) => {
 					await axios.post("/CSRoute/Glogin", { ipAddress, userId, email, name, gtoken, isApproved, Gpicture })
 						.then((response) => {
 							let result = response.data
+							console.log(result)
 							let token = result.token
 							let Id = result.id
 							if (isregCheck == true && result.action == "login") {
@@ -97,7 +98,6 @@ const Model = ({ isregCheck, isCSCOpen, onClose, children, msalInstance }) => {
 							}
 
 							if (result.status == "success") {
-								// console.log(result)
 								localStorage.setItem("CSCLog", JSON.stringify(btoa(token)))
 								localStorage.setItem("CSCId", JSON.stringify(Id))
 								navigate("/resumes", { state: { name: result.name, loginprofile:"cs_center" } })
