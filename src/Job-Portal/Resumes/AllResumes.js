@@ -19,66 +19,25 @@ function AllResumes() {
   // const [selectedTemplate, setSelectedTemplate] = useState(null);
   const [profileData, setProfileData] = useState(null);
 
-  const studId = JSON.parse(localStorage.getItem("StudId"));
   let location = useLocation()
   const { logoutresume } = location.state || {};
   const { selectedTemplate } = location.state || {};
   const { loginprofile } = location.state || {};
 
-  if(loginprofile==="cs_center"){
-    localStorage.setItem("csprofile", JSON.stringify(loginprofile));
-  }
+  
+  // if(loginprofile==="cs_center"){
+  //   localStorage.setItem("csprofile", JSON.stringify(loginprofile));
+  // }
 
   // console.log("login profile", loginprofile)
 
-  async function getProfile() {
-    const headers = {
-      authorization: studId + " " + atob(JSON.parse(localStorage.getItem("StudLog")))
-    };
-
-    try {
-      const res =   await axios.get(`/StudentProfile/viewProfile/${studId}`)
-      const result = res.data.result;
-     console.log(result)
-      setProfileData({
-        name: result.name,
-        email: result.email,
-
-        phone: result.phoneNumber,// Or: result.phone if available
-        education: [
-          { degree: "MCA", university: "LNCT University", cgpa: "8.30" },
-          { degree: "BCA", university: "MCNU", cgpa: "8.58" }
-        ],
-        skills: ["HTML", "CSS", "JavaScript", "React", "Git"]
-      });
-
-    } catch (err) {
-      alert("fhsdfhsSomething went wrong");
-    }
-  }
-
-  // useEffect(() => {
-  //   if(logoutresume!==true)
-  //    getProfile();
-  // }, []);
 
   const [themeColor, setThemeColor] = useState("#2563eb");
 
    const navigate = useNavigate()
   return (
 <>
-{/* <button
-    className={Style.resumebackbtn}
-    onClick={() => {
-      if (window.history.length > 1) {
-        navigate(-1);
-      } else {
-        navigate("/alljobs");
-      }
-    }}
-  >
-    <div style={{ fontSize: "12px", fontWeight: "800" }}>Back</div>
-  </button> */}
+
     <div>
       {/* {console.log("st",selectedTemplate)} */}
       {!selectedTemplate?

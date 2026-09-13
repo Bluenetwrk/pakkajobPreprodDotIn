@@ -1,21 +1,159 @@
 import React, { useRef, useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import styles from "./ResumePreview.module.css";
+import axios from "axios";
 
 const ResumePreview = () => {
   const { state } = useLocation();
   const navigate = useNavigate();
-  const studId = localStorage.getItem("StudId");
-   const logoutresume = !(Boolean(studId));
+  // let CSCAuth = localStorage.getItem("CSCLog")
+  const studId = localStorage.getItem("StudId") || localStorage.getItem("CSCLog")
+  const csCenter = localStorage.getItem("CSCLog")
+  const logoutresume = !(Boolean(studId));
   const [resumeAlert, setResumeAlert] = useState({
     show: false,
     selected: null
   });
 
-    const [jobseekerForm, setJobseekerForm] = useState({
+  const [jobseekerForm, setJobseekerForm] = useState({
     email: "",
     phone: ""
   });
+
+  const [mailsent, setMailsent] = useState()
+  const [isEditEnable, setIsEditEnable] = useState(false)
+  const [id, setId] = useState()
+
+  const intervalRef = useRef(null);
+
+  useEffect(() => {
+    if (!id) return;
+
+    let interval;
+    const checkEditEnable = async () => {
+      try {
+        const res = await axios.get(`/StudentProfile/checkEditEnableInTimeInterval/${id}`
+        );
+        if (res.data.message == 'edit time is over') {
+          setMailsent("can not edit this profile again after 30 mins.")
+        }
+        if (res.data.isEditEnable === true) {
+          clearInterval(interval);
+          // localStorage.setItem("StudId", JSON.stringify(id));
+          navig()
+        }
+      } catch (error) {
+        console.error(error);
+        // alert("something went wrong")
+      }
+    };
+    checkEditEnable();
+    // Then every 5 seconds
+    intervalRef.current = setInterval(checkEditEnable, 5000);
+
+    return () => {
+      clearInterval(intervalRef.current);
+    }
+  }, [id]);
+
+  async function handleOnNavigate() {
+    if (!jobseekerForm.email) {
+      return
+    }
+    await axios.post("/StudentProfile/regFromResume", { jobseekerForm })
+      .then((res) => {
+        let id = res.data.id
+        console.log(id)
+
+        if (res.data == "backend error") {
+          alert("something went wrong, please try again")
+        } else if (res.data.message == "mail not sent") {
+          alert("mail was not sent , please try again")
+        } else if (res.data.message == "mail was sent successfully") {
+          setMailsent("mail has been sent to Job seeker email id, ask Job seeker to verify the mail")
+          setId(id)
+          localStorage.setItem("StudId", JSON.stringify(id));
+          localStorage.setItem("JobSLog", JSON.stringify(res.data.token));
+          setJobseekerForm(prev => ({
+            email: ""
+          }))
+        } else if (res.data == "invalid email") {
+          setMailsent("invalid email address")
+        } else if (res.data.message == "isEditEnable is aleady true") {
+          console.log(id)
+          localStorage.setItem("StudId", JSON.stringify(id));
+          localStorage.setItem("JobSLog", JSON.stringify(res.data.token));
+
+          setMailsent("already verified, click on edit button and start editing")
+          setIsEditEnable(true)
+        }
+
+
+      }).catch((err) => {
+        alert("some thing went wrong",)
+      })
+  }
+
+  function handleCancele() {
+    clearInterval(intervalRef.current);
+    setResumeAlert({ show: false, selected: null });
+    setMailsent("")
+    setIsEditEnable(false)
+      setJobseekerForm(prev => ({
+            email: ""
+          }))
+  }
+
+  function navig() {
+    if (resumeAlert.selected === "one") {
+      navigate("/resume-form", {
+        state: { formstate: "experience", loginprofile: loginprofile, selectedTemplate: templateKey }
+      });
+    }
+    else if (resumeAlert.selected === "two") {
+      navigate("/resume-form", {
+        state: { formstate: "entrylevelambition", loginprofile: loginprofile, selectedTemplate: templateKey }
+      });
+    }
+    else if (resumeAlert.selected === "three") {
+      navigate("/resume-form", {
+        state: { formstate: "entrylevelpro", loginprofile: loginprofile, selectedTemplate: templateKey }
+      });
+    }
+    else if (resumeAlert.selected === "five") {
+      navigate("/resume-form", {
+        state: { formstate: "testing", loginprofile: loginprofile, selectedTemplate: templateKey }
+      });
+    }
+    else if (resumeAlert.selected === "six") {
+      navigate("/resume-form", {
+        state: { formstate: "nontech", loginprofile: loginprofile, selectedTemplate: templateKey }
+      });
+    }
+    else if (resumeAlert.selected === "seven") {
+      navigate("/resume-form", {
+        state: { formstate: "nontech", loginprofile: loginprofile, selectedTemplate: templateKey }
+      });
+    }
+    else if (resumeAlert.selected === "eight") {
+      navigate("/resume-form", {
+        state: { formstate: "nontech", loginprofile: loginprofile, selectedTemplate: templateKey }
+      });
+    }
+    else if (resumeAlert.selected === "four") {
+      navigate("/resume-form", {
+        state: { formstate: "fullstack", loginprofile: loginprofile, selectedTemplate: templateKey }
+      });
+    }
+    else {
+      navigate("/resume-form", {
+        state: { formstate: "freshers", loginprofile: loginprofile, selectedTemplate: templateKey }
+      });
+    }
+    setResumeAlert({ show: false, selected: null });
+
+  }
+
   const alertRef = useRef(null);
 
   useEffect(() => {
@@ -36,7 +174,6 @@ const ResumePreview = () => {
   if (!state) return null;
 
   const { img, templateKey, loginprofile } = state;
-  // console.log("l[",loginprofile)
 
   return (
     <>
@@ -58,11 +195,11 @@ const ResumePreview = () => {
 
       {/* Preview */}
       <div className={styles.previewWrapper}>
-         <div style={{display:"flex",justifyContent:"center", backgroundColor:"#f2f2f2"}}>
-         <h1>This is how your Resume will look</h1>
-         </div>
+        <div style={{ display: "flex", justifyContent: "center", backgroundColor: "#f2f2f2" }}>
+          <h1>This is how your Resume will look</h1>
+        </div>
         <div className={styles.previewContainer} >
-           
+
           <img
             src={img}
             alt="Resume Preview"
@@ -110,179 +247,137 @@ const ResumePreview = () => {
                 </>
               ) : (
                 <>
-                {loginprofile==="cs_center"?
-                <>
-                 <h3>Enter Jobseeker Details</h3>
-                 <input
-                  type="email"
-                  placeholder="Enter Email ID"
-                  className={styles.input}
-                  value={jobseekerForm.email}
-                  onChange={(e) =>
-                    setJobseekerForm({
-                      ...jobseekerForm,
-                      email: e.target.value
-                    })
+                  {csCenter ?
+                    <>
+                      <p style={{ color: "green", fontStyle: "italic" }}>{mailsent}</p>
+                      <h3>Enter Jobseeker Details</h3>
+                      <input
+                        type="email"
+                        placeholder="Enter Email ID"
+                        className={styles.input}
+                        value={jobseekerForm.email}
+                        onChange={(e) =>
+                          setJobseekerForm({
+                            ...jobseekerForm,
+                            email: e.target.value
+                          })
+                        }
+                      />
+
+                      {/* <input
+                        type="text"
+                        placeholder="Enter Phone Number"
+                        className={styles.input}
+                        maxLength={10}
+                        value={jobseekerForm.phone}
+                        onChange={(e) => {
+                          const value = e.target.value;
+
+                          // Allow only numbers and limit to 10 digits
+                          if (/^\d{0,10}$/.test(value)) {
+                            setJobseekerForm({
+                              ...jobseekerForm,
+                              phone: value
+                            });
+                          }
+                        }}
+                      /> */}
+
+                      <div className={styles.btnGroup}>
+                        {!isEditEnable ?
+                          <button
+                            className={styles.successBtn}
+                            onClick={() => { handleOnNavigate() }}
+                          >
+                            Verify Email
+                          </button> : ""
+                        }
+
+                        <button
+                          className={styles.dangerBtn}
+                          onClick={() => { handleCancele() }}
+                        >
+                          Cancel
+                        </button>
+                        {isEditEnable ?
+                          <button className={styles.successBtn} onClick={() => { navig() }}>
+                            Edit
+                          </button> : ""
+                        }
+                      </div>
+                    </>
+                    :
+                    <>
+                      Ensure your profile is fully completed
+                      <div className={styles.btnGroup}>
+                        <button
+                          className={styles.successBtn}
+                          onClick={() => {
+                            if (resumeAlert.selected === "one") {
+                              navigate("/resume-form", {
+                                state: { formstate: "experience", loginprofile: loginprofile, selectedTemplate: templateKey }
+                              });
+                            }
+                            else if (resumeAlert.selected === "two") {
+                              navigate("/resume-form", {
+                                state: { formstate: "entrylevelambition", loginprofile: loginprofile, selectedTemplate: templateKey }
+                              });
+                            }
+                            else if (resumeAlert.selected === "three") {
+                              navigate("/resume-form", {
+                                state: { formstate: "entrylevelpro", loginprofile: loginprofile, selectedTemplate: templateKey }
+                              });
+                            }
+                            else if (resumeAlert.selected === "five") {
+                              navigate("/resume-form", {
+                                state: { formstate: "testing", loginprofile: loginprofile, selectedTemplate: templateKey }
+                              });
+                            }
+                            else if (resumeAlert.selected === "six") {
+                              navigate("/resume-form", {
+                                state: { formstate: "nontech", loginprofile: loginprofile, selectedTemplate: templateKey }
+                              });
+                            }
+                            else if (resumeAlert.selected === "seven") {
+                              navigate("/resume-form", {
+                                state: { formstate: "nontech", loginprofile: loginprofile, selectedTemplate: templateKey }
+                              });
+                            }
+                            else if (resumeAlert.selected === "eight") {
+                              navigate("/resume-form", {
+                                state: { formstate: "nontech", loginprofile: loginprofile, selectedTemplate: templateKey }
+                              });
+                            }
+                            else if (resumeAlert.selected === "four") {
+                              navigate("/resume-form", {
+                                state: { formstate: "fullstack", loginprofile: loginprofile, selectedTemplate: templateKey }
+                              });
+                            }
+                            else {
+                              navigate("/resume-form", {
+                                state: { formstate: "freshers", loginprofile: loginprofile, selectedTemplate: templateKey }
+                              });
+                            }
+                            setResumeAlert({ show: false, selected: null });
+                          }}
+                        >
+                          Continue to Edit profile
+                        </button>
+
+                        <button
+                          className={styles.dangerBtn}
+                          onClick={() => {
+                            navigate("/resumes", {
+                              state: { selectedTemplate: templateKey }
+                            });
+                            setResumeAlert({ show: false, selected: null });
+                          }}
+                        >
+                          Continue to Download Resume
+                        </button>
+                      </div>
+                    </>
                   }
-                />
-
-<input
-  type="text"
-  placeholder="Enter Phone Number"
-  className={styles.input}
-  maxLength={10}
-  value={jobseekerForm.phone}
-  onChange={(e) => {
-    const value = e.target.value;
-
-    // Allow only numbers and limit to 10 digits
-    if (/^\d{0,10}$/.test(value)) {
-      setJobseekerForm({
-        ...jobseekerForm,
-        phone: value
-      });
-    }
-  }}
-/>
-
-                  <div className={styles.btnGroup}>
-                    <button
-                      className={styles.successBtn}
-                      onClick={() => {
-                        if (resumeAlert.selected === "one") {
-                          navigate("/resume-form", {
-                            state: { formstate: "experience", loginprofile:loginprofile, selectedTemplate: templateKey }
-                          });
-                        }
-                        else if (resumeAlert.selected === "two") {
-                          navigate("/resume-form", {
-                            state: { formstate: "entrylevelambition", loginprofile:loginprofile, selectedTemplate: templateKey }
-                          });
-                        }
-                        else if (resumeAlert.selected === "three") {
-                          navigate("/resume-form", {
-                            state: { formstate: "entrylevelpro", loginprofile:loginprofile, selectedTemplate: templateKey }
-                          });
-                        }
-                        else if (resumeAlert.selected === "five") {
-                          navigate("/resume-form", {
-                            state: { formstate: "testing", loginprofile:loginprofile, selectedTemplate: templateKey }
-                          });
-                        }
-                       else if (resumeAlert.selected === "six") {
-                          navigate("/resume-form", {
-                            state: { formstate: "nontech", loginprofile:loginprofile, selectedTemplate: templateKey }
-                          });
-                        }
-                        else if (resumeAlert.selected === "seven") {
-                          navigate("/resume-form", {
-                            state: { formstate: "nontech", loginprofile:loginprofile, selectedTemplate: templateKey }
-                          });
-                        }
-                        else if (resumeAlert.selected === "eight") {
-                          navigate("/resume-form", {
-                            state: { formstate: "nontech", loginprofile:loginprofile, selectedTemplate: templateKey }
-                          });
-                        }
-                        else if (resumeAlert.selected === "four") {
-                          navigate("/resume-form", {
-                            state: { formstate: "fullstack", loginprofile:loginprofile, selectedTemplate: templateKey }
-                          });
-                        }
-                        else {
-                          navigate("/resume-form", {
-                            state: { formstate: "freshers", loginprofile:loginprofile, selectedTemplate: templateKey }
-                          });
-                        }
-                        setResumeAlert({ show: false, selected: null });
-                      }}
-                    >
-                      Continue
-                    </button>
-
-                    <button
-                      className={styles.dangerBtn}
-                      onClick={() => {
-                        
-                        setResumeAlert({ show: false, selected: null });
-                      }}
-                    >
-                      Cancel
-                    </button>
-                  </div>
-                </>
-                :
-                <>
-                  Ensure your profile is fully completed
-                  <div className={styles.btnGroup}>
-                    <button
-                      className={styles.successBtn}
-                      onClick={() => {
-                        if (resumeAlert.selected === "one") {
-                          navigate("/resume-form", {
-                            state: { formstate: "experience", loginprofile:loginprofile, selectedTemplate: templateKey }
-                          });
-                        }
-                        else if (resumeAlert.selected === "two") {
-                          navigate("/resume-form", {
-                            state: { formstate: "entrylevelambition", loginprofile:loginprofile, selectedTemplate: templateKey }
-                          });
-                        }
-                        else if (resumeAlert.selected === "three") {
-                          navigate("/resume-form", {
-                            state: { formstate: "entrylevelpro", loginprofile:loginprofile, selectedTemplate: templateKey }
-                          });
-                        }
-                        else if (resumeAlert.selected === "five") {
-                          navigate("/resume-form", {
-                            state: { formstate: "testing", loginprofile:loginprofile, selectedTemplate: templateKey }
-                          });
-                        }
-                       else if (resumeAlert.selected === "six") {
-                          navigate("/resume-form", {
-                            state: { formstate: "nontech", loginprofile:loginprofile, selectedTemplate: templateKey }
-                          });
-                        }
-                        else if (resumeAlert.selected === "seven") {
-                          navigate("/resume-form", {
-                            state: { formstate: "nontech", loginprofile:loginprofile, selectedTemplate: templateKey }
-                          });
-                        }
-                        else if (resumeAlert.selected === "eight") {
-                          navigate("/resume-form", {
-                            state: { formstate: "nontech", loginprofile:loginprofile, selectedTemplate: templateKey }
-                          });
-                        }
-                        else if (resumeAlert.selected === "four") {
-                          navigate("/resume-form", {
-                            state: { formstate: "fullstack", loginprofile:loginprofile, selectedTemplate: templateKey }
-                          });
-                        }
-                        else {
-                          navigate("/resume-form", {
-                            state: { formstate: "freshers", loginprofile:loginprofile, selectedTemplate: templateKey }
-                          });
-                        }
-                        setResumeAlert({ show: false, selected: null });
-                      }}
-                    >
-                      Continue to Edit profile
-                    </button>
-
-                    <button
-                      className={styles.dangerBtn}
-                      onClick={() => {
-                        navigate("/resumes", {
-                          state: { selectedTemplate: templateKey }
-                        });
-                        setResumeAlert({ show: false, selected: null });
-                      }}
-                    >
-                      Continue to Download Resume
-                    </button>
-                  </div>
-                  </>
-                }
                 </>
               )}
             </div>

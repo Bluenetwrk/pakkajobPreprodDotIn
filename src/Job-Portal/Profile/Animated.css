@@ -1,0 +1,217 @@
+.coupon-overlay {
+  position: fixed;
+  inset: 0;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background: rgba(255, 255, 255, 0.96);
+
+  overflow: hidden;
+  z-index: 9999;
+}
+
+/* Center box */
+
+.coupon-box {
+  text-align: center;
+  padding: 40px;
+
+  background: white;
+  border-radius: 20px;
+
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+
+  animation: popup 0.7s ease-out;
+
+  z-index: 10;
+}
+
+.trophy {
+  font-size: 80px;
+
+  animation: trophy 1s infinite ease-in-out;
+}
+
+.coupon-box h1 {
+  margin: 10px 0;
+
+  font-size: 40px;
+  color: #e83e8c;
+
+  animation: textPop 0.8s ease-out;
+}
+
+.coupon-box p {
+  font-size: 22px;
+  margin: 10px 0;
+}
+
+/* Coupon code */
+
+.coupon-code {
+  display: inline-block;
+
+  margin: 20px 0;
+  padding: 12px 30px;
+
+  border: 2px dashed #e83e8c;
+  border-radius: 10px;
+
+  font-size: 26px;
+  font-weight: bold;
+
+  letter-spacing: 3px;
+
+  animation: couponPulse 1.5s infinite;
+}
+
+/* Falling emojis */
+
+.confetti {
+  position: absolute;
+
+  top: -80px;
+
+  font-size: 40px;
+
+  animation: fall 4s linear infinite;
+}
+
+.confetti:nth-child(1) {
+  left: 5%;
+  animation-delay: 0s;
+}
+
+.confetti:nth-child(2) {
+  left: 18%;
+  animation-delay: 1s;
+}
+
+.confetti:nth-child(3) {
+  left: 30%;
+  animation-delay: 2s;
+}
+
+.confetti:nth-child(4) {
+  left: 45%;
+  animation-delay: 0.5s;
+}
+
+.confetti:nth-child(5) {
+  left: 60%;
+  animation-delay: 1.5s;
+}
+
+.confetti:nth-child(6) {
+  left: 72%;
+  animation-delay: 2.5s;
+}
+
+.confetti:nth-child(7) {
+  left: 85%;
+  animation-delay: 0.8s;
+}
+
+.confetti:nth-child(8) {
+  left: 95%;
+  animation-delay: 1.8s;
+}
+
+
+/* Box popup */
+
+@keyframes popup {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+
+  70% {
+    transform: scale(1.1);
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+
+/* Trophy animation */
+
+@keyframes trophy {
+  0% {
+    transform: rotate(0deg) scale(1);
+  }
+
+  25% {
+    transform: rotate(-15deg) scale(1.2);
+  }
+
+  50% {
+    transform: rotate(15deg) scale(1.2);
+  }
+
+  75% {
+    transform: rotate(-10deg) scale(1.1);
+  }
+
+  100% {
+    transform: rotate(0deg) scale(1);
+  }
+}
+
+
+/* Heading */
+
+@keyframes textPop {
+  0% {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+
+/* Coupon pulse */
+
+@keyframes couponPulse {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.08);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+
+/* Falling animation */
+
+@keyframes fall {
+  0% {
+    top: -80px;
+    transform: rotate(0deg);
+    opacity: 0;
+  }
+
+  10% {
+    opacity: 1;
+  }
+
+  100% {
+    top: 110vh;
+    transform: rotate(360deg);
+    opacity: 0;
+  }
+}
