@@ -81,6 +81,7 @@ const Model = ({ isregCheck, isCSCOpen, onClose, children, msalInstance }) => {
 						}
 					);
 					setGmailuser(res.data)
+					console.log(res.data)
 					let gtoken = response.access_token
 					let userId = res.data.sub
 					let email = res.data.email
