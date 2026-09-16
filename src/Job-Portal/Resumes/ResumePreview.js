@@ -63,8 +63,7 @@ const ResumePreview = () => {
     await axios.post("/StudentProfile/regFromResume", { jobseekerForm })
       .then((res) => {
         let id = res.data.id
-        console.log(id)
-
+        // console.log(res.data)
         if (res.data == "backend error") {
           alert("something went wrong, please try again")
         } else if (res.data.message == "mail not sent") {
@@ -80,14 +79,11 @@ const ResumePreview = () => {
         } else if (res.data == "invalid email") {
           setMailsent("invalid email address")
         } else if (res.data.message == "isEditEnable is aleady true") {
-          console.log(id)
           localStorage.setItem("StudId", JSON.stringify(id));
           localStorage.setItem("JobSLog", JSON.stringify(res.data.token));
-
           setMailsent("already verified, click on edit button and start editing")
           setIsEditEnable(true)
         }
-
 
       }).catch((err) => {
         alert("some thing went wrong",)
@@ -99,9 +95,9 @@ const ResumePreview = () => {
     setResumeAlert({ show: false, selected: null });
     setMailsent("")
     setIsEditEnable(false)
-      setJobseekerForm(prev => ({
-            email: ""
-          }))
+    setJobseekerForm(prev => ({
+      email: ""
+    }))
   }
 
   function navig() {
@@ -172,7 +168,6 @@ const ResumePreview = () => {
   }, []);
 
   if (!state) return null;
-
   const { img, templateKey, loginprofile } = state;
 
   return (
@@ -252,6 +247,8 @@ const ResumePreview = () => {
                       <p style={{ color: "green", fontStyle: "italic" }}>{mailsent}</p>
                       <h3>Enter Jobseeker Details</h3>
                       <input
+
+                        disabled={mailsent}
                         type="email"
                         placeholder="Enter Email ID"
                         className={styles.input}

@@ -224,7 +224,7 @@ function StudentUpdateProfile(props) {
     const headers = { authorization: userid + " " + atob(JSON.parse(localStorage.getItem("CSCLog"))) };
     // e.preventDefault()
     await axios.put(`/CSRoute/updatProfile/${CSCId}`, {
-      name, email, phoneNumber, Aadhar, panCard, city,address,state
+      name, email, phoneNumber, Aadhar, panCard,city,address,state
     }, { headers })
       .then(async (res) => {
         let result = res.data
@@ -770,7 +770,7 @@ function StudentUpdateProfile(props) {
                   <h4>Address:
                     {/* <span style={{color:"blue"}}>{city}</span> */}
                   </h4>
-                  <input className={styles.input} value={state} onChange={(e) => { setAddress(e.target.value) }} ></input>
+                  <input className={styles.input} value={address} onChange={(e) => { setAddress(e.target.value) }} ></input>
                 </label>
                 <label className={styles.inputName}>
                   <h4>City:

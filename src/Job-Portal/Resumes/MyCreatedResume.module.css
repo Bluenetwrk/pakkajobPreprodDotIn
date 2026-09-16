@@ -1767,7 +1767,8 @@ margin-top: 11px;
     align-content: center;
     margin-top: 9px;
     border-radius: 5px;
-    padding-left: 15px;
+    padding-left: 10px;
+    padding-right: 10px;
 }
 .homeApplyMobileBtn{
     border: 1px solid rgb(40, 4, 99);

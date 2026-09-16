@@ -14,7 +14,7 @@ import TemplateSeven from './TemplateSeven';
 import ColorThemeSelector from './ColorThemeSelector';
 import TemplateEight from './TemplateEight';
 
-  
+
 function AllResumes() {
   // const [selectedTemplate, setSelectedTemplate] = useState(null);
   const [profileData, setProfileData] = useState(null);
@@ -23,83 +23,101 @@ function AllResumes() {
   const { logoutresume } = location.state || {};
   const { selectedTemplate } = location.state || {};
   const { loginprofile } = location.state || {};
+  let CSCId = JSON.parse(localStorage.getItem("CSCId"));
+  const studId = localStorage.getItem("StudId")
 
-  
-  // if(loginprofile==="cs_center"){
-  //   localStorage.setItem("csprofile", JSON.stringify(loginprofile));
-  // }
+  async function getProfile() {
+    try {
+      const res = await axios.get(`/StudentProfile/viewProfile/${studId}`)
+      const result = res.data;
+      setProfileData({
+        name: result.name,
+        email: result.email,
 
-  // console.log("login profile", loginprofile)
+        phone: result.phoneNumber,// Or: result.phone if available
+        education: [
+          { degree: "MCA", university: "LNCT University", cgpa: "8.30" },
+          { degree: "BCA", university: "MCNU", cgpa: "8.58" }
+        ],
+        skills: ["HTML", "CSS", "JavaScript", "React", "Git"]
+      });
+
+    } catch (err) {
+      alert("Something went wrong");
+    }
+  }
+
+  useEffect(() => {
+    if (logoutresume !== true)
+      getProfile();
+  }, []);
 
 
   const [themeColor, setThemeColor] = useState("#2563eb");
 
-   const navigate = useNavigate()
+  const navigate = useNavigate()
   return (
-<>
+    <>
 
-    <div>
-      {/* {console.log("st",selectedTemplate)} */}
-      {!selectedTemplate?
-      <h1 style={{ textAlign: 'center', marginTop: '20px' }}>Choose resume template<br></br> </h1>
-       :
-       <h1 style={{ textAlign: 'center', marginTop: '20px' }}>Preview Your Resume </h1>}
-      {!selectedTemplate && (
-        <TemplateGallery logoutresume={logoutresume} loginprofile={loginprofile}/>
-      )}
+      <div>
+        {/* {console.log("st",selectedTemplate)} */}
+        {!selectedTemplate ?
+          <h1 style={{ textAlign: 'center', marginTop: '20px' }}>Choose resume template<br></br> </h1>
+          :
+          <h1 style={{ textAlign: 'center', marginTop: '20px' }}>Preview Your Resume </h1>}
+        {!selectedTemplate && (
+          <TemplateGallery logoutresume={logoutresume} loginprofile={loginprofile} />
+        )}
 
-      {selectedTemplate && profileData && (
-        <div style={{ padding: '20px' }}>
-          <div style={{display:"flex", justifyContent:"space-between",marginBottom:"5px"}}>
-            <div>
-          <button
-  class={Style.jobdetailBackBtnContainer }
-  onClick={() => {
-     // First reset the template view
-    
-  }}
->
-  <div class={Style.backbtn} 
-  onClick={() => {
-    if (window.history.length > 1) {
-       navigate(-1);
-      } else {
-         navigate('/resumes'); 
-       }
-  }}
-  >Back</div>
-</button>
+        {selectedTemplate && profileData && (
+          <div style={{ padding: '20px' }}>
+            <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "5px" }}>
+              <div>
+                <button
+                  class={Style.jobdetailBackBtnContainer}
+                  onClick={() => {
+                  }} >
+                  <div class={Style.backbtn}
+                    onClick={() => {
+                      if (window.history.length > 1) {
+                        navigate(-1);
+                      } else {
+                        navigate('/resumes');
+                      }
+                    }}
+                  >Back</div>
+                </button>
 
-<button
+                {/* <button
   class={Style.jobdetailBackBtnContainer }
   onClick={() => {navigate("/Update-Profile")}}
 >
   <div class={Style.updatebtn}>Update Profile</div>
-</button>
-</div>
+</button> */}
+              </div>
 
-<div style={{marginLeft:"-6%"}}>
-    <ColorThemeSelector
-        selected={themeColor}
-        onChange={setThemeColor}
-      />
-  </div>
-  <div></div>
- 
-</div>
-{/* {console.log("selected template",themeColor)} */}
-          {selectedTemplate === 'one' && <TemplateOne data={profileData} themeColor={themeColor} />}
-          {selectedTemplate === 'two' && <TemplateTwo data={profileData} themeColor={themeColor}/>}
-          {selectedTemplate === 'three' && <TemplateThree data={profileData} themeColor={themeColor} />}
-          {selectedTemplate === 'four' && <TemplateFour data={profileData} themeColor={themeColor} />}
-          {selectedTemplate === 'five' && <TemplateFive data={profileData} themeColor={themeColor} />}
-          {selectedTemplate === 'six' && <TemplateSix data={profileData} themeColor={themeColor} />}
-          {selectedTemplate === 'seven' && <TemplateSeven data={profileData} themeColor={themeColor}/>}
-          {selectedTemplate === 'eight' && <TemplateEight data={profileData} themeColor={themeColor}/>}
-        </div>
-        
-      )}
-    </div>
+              <div style={{ marginLeft: "-6%" }}>
+                <ColorThemeSelector
+                  selected={themeColor}
+                  onChange={setThemeColor}
+                />
+              </div>
+              <div></div>
+
+            </div>
+            {/* {console.log("selected template",themeColor)} */}
+            {selectedTemplate === 'one' && <TemplateOne data={profileData} themeColor={themeColor} />}
+            {selectedTemplate === 'two' && <TemplateTwo data={profileData} themeColor={themeColor} />}
+            {selectedTemplate === 'three' && <TemplateThree data={profileData} themeColor={themeColor} />}
+            {selectedTemplate === 'four' && <TemplateFour data={profileData} themeColor={themeColor} />}
+            {selectedTemplate === 'five' && <TemplateFive data={profileData} themeColor={themeColor} />}
+            {selectedTemplate === 'six' && <TemplateSix data={profileData} themeColor={themeColor} />}
+            {selectedTemplate === 'seven' && <TemplateSeven data={profileData} themeColor={themeColor} />}
+            {selectedTemplate === 'eight' && <TemplateEight data={profileData} themeColor={themeColor} />}
+          </div>
+
+        )}
+      </div>
     </>
   );
 }

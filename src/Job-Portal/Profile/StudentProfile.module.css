@@ -913,3 +913,70 @@ overflow:hidden;
   }
 
 }
+
+/* ...for switch button */
+.emailVerification {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.verificationLabel {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.verifySwitch {
+  position: relative;
+  width: 32px;
+  height: 17px;
+  border: none;
+  border-radius: 20px;
+   background: #bdbdbd; /*Not verified */
+  cursor: pointer;
+  padding: 0;
+  transition: background 0.3s ease;
+}
+
+.switchCircle {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  left: 2px;
+  top: 1.5px;
+  background: white;
+  border-radius: 50%;
+  transition: transform 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+}
+.VerifiedSwitchCircle {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  left: 16px;
+  top: 1.5px;
+  background: white;
+  border-radius: 50%;
+  transition: transform 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+}
+
+/* .verifySwitch {
+  background: #ccc;
+} */
+
+.verified {
+  background: #007bff;
+
+}
+
+.switchCircle {
+  transform: translateX(0);
+}
+
+.verifiedCircle {
+  transform: translateX(22px);
+}
+.verificationMessage{
+  color: green;
+}

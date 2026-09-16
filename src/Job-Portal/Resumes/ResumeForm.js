@@ -1100,8 +1100,9 @@ const ResumeForm = () => {
         >
           <div style={{ fontSize: "12px", fontWeight: "800" }}>Back</div>
         </button>
+        
 
-        <button
+         {/* <button
           className={styles.tvbackbtn}
           onClick={() => {
             navigate("/support/help");
@@ -1109,7 +1110,15 @@ const ResumeForm = () => {
           style={{ marginRight: "2%" }}
         >
           <div style={{ fontSize: "12px", fontWeight: "800" }}>Help</div>
-        </button>
+        </button>  */}
+
+         <button
+          style={{ fontSize: "12px", fontWeight: 700, marginRight: "2%" }}
+          className={styles.tvbackbtn}
+          onClick={() => { navigate("/resumes", { state: { selectedTemplate: selectedTemplate } }) }}
+        >
+          Preview
+        </button> 
 
 
         {/* {xmlLoading && <p>Processing XML...</p>}
@@ -1126,7 +1135,7 @@ const ResumeForm = () => {
           onChange={handleImportXML}
         />
 
-        <button
+        {/* <button
           style={{ fontSize: "12px", fontWeight: 700 }}
           className={styles.tvbackbtn}
           disabled={xmlLoading}
@@ -1142,15 +1151,15 @@ const ResumeForm = () => {
           onClick={handleExportXML}
         >
           Export XML
-        </button>
+        </button> */}
         {/* {console.log("template key", selectedTemplate)} */}
-        <button
+         {/* <button
           style={{ fontSize: "12px", fontWeight: 700 }}
           className={styles.tvbackbtn}
           onClick={() => { navigate("/resumes", { state: { selectedTemplate: selectedTemplate } }) }}
         >
           Preview
-        </button>
+        </button> */}
       </div>
 
       <div style={{ display: "flex", justifyContent: "center" }}>
@@ -1219,18 +1228,20 @@ const ResumeForm = () => {
               value={formData.objective}
               onChange={(e) => handleChange('objective', e.target.value)}
             />
-          }<input type="text" ref={venueInputRef} value={formData.address} onChange={(e) => handleChange('address', e.target.value)} style={inputStyle} placeholder="Current Address" />
+          }
+          {/* <input type="text" ref={venueInputRef} value={formData.address} onChange={(e) => handleChange('address', e.target.value)} style={inputStyle} placeholder="Current Address" /> */}
           <input style={inputStyle} placeholder="Email" value={formData.email} onChange={(e) => handleChange('email', e.target.value)} />
           {formstate === "fullstack" &&
             <input style={inputStyle} placeholder="Linkedin" value={formData.linkedin ? formData.linkedin : ""} onChange={(e) => handleChange('linkedin', e.target.value)} />
           }
+          <h2>Experiance</h2>
           <input style={inputStyle} placeholder="Total Experience" value={formData.totalExperience} onChange={(e) => handleChange('totalExperience', e.target.value)} />
-          {/* <input
+          <input
   style={inputStyle}
   placeholder="Qualification"
   defaultValue={formData.qualification}
-/> */}
-          {/* <input style={inputStyle}  placeholder="College" value={formData.college} /> */}
+/> 
+          <input style={inputStyle}  placeholder="College" value={formData.college} />
 
           {/* QUALIFICATION DETAILS */}
           {screenSize.width > 850 ?
@@ -1350,7 +1361,7 @@ const ResumeForm = () => {
                       {/* ROW 2: BUTTONS (RIGHT SIDE, NO STYLE CHANGE) */}
                       <tr>
                         <td colSpan={7} style={{ textAlign: "right" }}>
-                          {!q.isSaved && (
+                          {/* {!q.isSaved && (
                             <button
                               style={{ ...buttonStyles, marginRight: "2px" }}
                               type="button"
@@ -1358,7 +1369,7 @@ const ResumeForm = () => {
                             >
                               Save
                             </button>
-                          )}
+                          )} */}
 
 
                           <button

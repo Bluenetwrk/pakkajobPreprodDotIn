@@ -1303,7 +1303,6 @@ function App() {
               {/* <Route path="/scan/drive/:driveId" element={<ScanDrive  />} /> */}
               <Route path="/CSC-Update-Profile" element={<CSCUpdateProfile url={axios.defaults.baseURL} />} />
               <Route path="/Update-Profile" element={<StudentUpdateProfile url={axios.defaults.baseURL} />} />
-              <Route path="/My-Profile" element={<StudentProfile />} />
               <Route path="/My-CSC-Profile" element={<CSCProfile />} />
               <Route path="/My-Applied-Jobs" element={<MyAppliedJobs url={axios.defaults.baseURL} />} />
               <Route path="/My-Applied-Drives" element={<MyAppliedDrives url={axios.defaults.baseURL} />} />
@@ -1370,6 +1369,8 @@ function App() {
               getjobs={getjobs}
               gettotalcount={gettotalcount}
               searchIcon={searchIcon} />} />
+              <Route path="/My-Profile" element={<StudentProfile />} />
+
             <Route path="/AboutUs" element={<AboutUs />} />
             {/* <Route path="/verify-email" element={<VerifyEmail />} /> */}
             {/* <Route path="/support/help" element={<AllHelps   

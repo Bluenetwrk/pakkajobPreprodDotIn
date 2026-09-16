@@ -18,6 +18,51 @@ function StudentProfile() {
 
   const tabs = ["Personal Info", "Job Info", "Education", "Skills", "Feedback", "YouTube Video"];
   const [PageLoader, setPageLoader] = useState(false)
+  const [emailVerified, setEmailVerified] = useState(false);
+
+  //  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState("");
+  
+  function getUrl() {
+    if (!localStorage.getItem("StudId")) {
+      const currentUrl = window.location.pathname + window.location.search;
+      navigate(
+        `/JobSeekerLogin?redirect=${encodeURIComponent(currentUrl)}`
+      );
+
+      return;
+    }
+  }
+  const params = new URLSearchParams(window.location.search);
+  const token = params.get("token");
+  const verifyEmail = async () => {
+
+    if (!token) {
+      setMessage("Verification token is missing");
+      return;
+    }
+    try {
+      let studId = JSON.parse(localStorage.getItem("StudId"))
+      setLoading(true);
+      const response = await axios.post(
+        "/StudentProfile/verifymail", { token, studId }
+      );
+      if (response.data == "Email verified successfully!") {
+        setEmailVerified(true)
+        setMessage(response.data);
+      }
+    } catch (error) {
+      console.log(error);
+      setMessage(
+        error.response?.data?.message ||
+        "Email verification failed"
+      );
+
+    } finally {
+      setLoading(false);
+    }
+  };
+
   // const fileInputRef = useRef(null);
 
   // const [videoFile, setVideoFile] = useState(null);
@@ -58,14 +103,14 @@ function StudentProfile() {
   //   }
   // };
 
+
   let navigate = useNavigate()
 
-  let studId = JSON.parse(localStorage.getItem("StudId"))
   async function getProfile() {
     let userid = JSON.parse(localStorage.getItem("StudId"))
     const headers = { authorization: userid + " " + atob(JSON.parse(localStorage.getItem("StudLog"))) };
     setPageLoader(true)
-    await axios.get(`/StudentProfile/viewProfile/${studId}`)
+    await axios.get(`/StudentProfile/viewProfile/${userid}`)
       .then((res) => {
         let result = res.data.result
         setProfileData([result])
@@ -79,6 +124,7 @@ function StudentProfile() {
   }
 
   useEffect(() => {
+    getUrl()
     getProfile()
   }, [])
 
@@ -194,6 +240,29 @@ function StudentProfile() {
           </div>
         </div>
         <div className={styles.actions}>
+{token?          <div className={styles.emailVerification}>
+            {message && (
+              <span className={styles.verificationMessage}>
+                {message}
+              </span>
+            )}
+            <span className={styles.verificationLabel}>
+              Email Verification
+            </span>
+
+            <button
+              type="button"
+              className={`${styles.verifySwitch} ${emailVerified ? styles.verified : ""
+                }`}
+              onClick={verifyEmail}
+              disabled={loading || emailVerified}
+            >
+              <span className={`${emailVerified ? styles.VerifiedSwitchCircle : styles.switchCircle}`}></span>
+            </button>
+
+          </div>
+          :""}
+
           <button style={{ width: "147px" }} className={styles.editBtn} onClick={updateprofile}>Edit Profile</button>
           <button className={styles.downloadBtn} onClick={resumedownload}>Download Resumes</button>
           <div className={profileData[0].isApproved ? styles.statusBadge : styles.statusBadgeReject} style={{ display: "flex" }}><strong>Account Status: </strong>{profileData[0].isApproved ? "Approved" : "Under verification"}</div>
@@ -550,8 +619,6 @@ function StudentProfile() {
 
           </div>
         )}
-
-
 
       </div>
     </div>

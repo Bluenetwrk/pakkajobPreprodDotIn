@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 
 import Footer from '../Footer/Footer';
 import styles from "./MyCreatedResume.module.css"
+import style from "./ResumePreview.module.css"
 import axios from "axios";
 import { Link, useNavigate, BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { TailSpin, Puff } from "react-loader-spinner"
@@ -56,6 +57,7 @@ function MyCreatedResume({ searchKey, setsearchKey, Filtereredjobs, setFilterere
   //   });
   // }, [])
 
+
   let JobLocationTags = ["Bangalore"]
 
   const [jobs, setJobs] = useState()
@@ -95,6 +97,7 @@ function MyCreatedResume({ searchKey, setsearchKey, Filtereredjobs, setFilterere
   const records = jobs?.slice(firstIndex, lastIndex)//0,5
   // const npage = Math.ceil(jobs?.length / recordsPerPage) // last page
   const npage = Math.ceil(totalCount / recordsPerPage) // last page
+  const csCenter = localStorage.getItem("CSCLog")
 
   const navigate = useNavigate()
   const Location = useLocation()
@@ -102,6 +105,147 @@ function MyCreatedResume({ searchKey, setsearchKey, Filtereredjobs, setFilterere
   useEffect(() => {
     getjobs()
   }, [])
+
+  const [mailsent, setMailsent] = useState()
+  const [isEditEnable, setIsEditEnable] = useState(false)
+  const [id, setId] = useState()
+
+  const [jobseekerForm, setJobseekerForm] = useState({
+    email: "",
+    phone: ""
+  });
+
+  const intervalRef = useRef(null);
+  const { state } = useLocation();
+
+  const [resumeAlert, setResumeAlert] = useState({
+    show: false,
+    selected: null
+  });
+  function navig() {
+    if (resumeAlert.selected === "one") {
+      navigate("/resume-form", {
+        state: { formstate: "experience", selectedTemplate: resumeAlert.selected }
+      });
+    }
+    else if (resumeAlert.selected === "two") {
+      navigate("/resume-form", {
+        state: { formstate: "entrylevelambition", selectedTemplate: resumeAlert.selected }
+      });
+    }
+    else if (resumeAlert.selected === "three") {
+      navigate("/resume-form", {
+        state: { formstate: "entrylevelpro", selectedTemplate: resumeAlert.selected }
+      });
+    }
+    else if (resumeAlert.selected === "five") {
+      navigate("/resume-form", {
+        state: { formstate: "testing", selectedTemplate: resumeAlert.selected }
+      });
+    }
+    else if (resumeAlert.selected === "six") {
+      navigate("/resume-form", {
+        state: { formstate: "nontech", selectedTemplate: resumeAlert.selected }
+      });
+    }
+    else if (resumeAlert.selected === "seven") {
+      navigate("/resume-form", {
+        state: { formstate: "nontech", selectedTemplate: resumeAlert.selected }
+      });
+    }
+    else if (resumeAlert.selected === "eight") {
+      navigate("/resume-form", {
+        state: { formstate: "nontech", selectedTemplate: resumeAlert.selected }
+      });
+    }
+    else if (resumeAlert.selected === "four") {
+      navigate("/resume-form", {
+        state: { formstate: "fullstack", selectedTemplate: resumeAlert.selected }
+      });
+    }
+    else {
+      navigate("/resume-form", {
+        state: { formstate: "freshers", selectedTemplate: resumeAlert.selected }
+      });
+    }
+    setResumeAlert({ show: false, selected: null });
+
+  }
+
+
+  useEffect(() => {
+    if (!id) return;
+
+    let interval;
+    const checkEditEnable = async () => {
+      try {
+        const res = await axios.get(`/StudentProfile/checkEditEnableInTimeInterval/${id}`
+        );
+        if (res.data.message == 'edit time is over') {
+          setMailsent("can not edit this profile again after 30 mins.")
+        }
+        if (res.data.isEditEnable === true) {
+          clearInterval(interval);
+          // localStorage.setItem("StudId", JSON.stringify(id));
+          navig()
+        }
+      } catch (error) {
+        console.error(error);
+        // alert("something went wrong")
+      }
+    };
+    checkEditEnable();
+    // Then every 5 seconds
+    intervalRef.current = setInterval(checkEditEnable, 5000);
+
+    return () => {
+      clearInterval(intervalRef.current);
+    }
+  }, [id]);
+
+  async function handleOnNavigate() {
+    if (!jobseekerForm.email) {
+      return
+    }
+    await axios.post("/StudentProfile/regFromResume", { jobseekerForm })
+      .then((res) => {
+        let id = res.data.id
+        // console.log(res.data)
+        if (res.data == "backend error") {
+          alert("something went wrong, please try again")
+        } else if (res.data.message == "mail not sent") {
+          alert("mail was not sent , please try again")
+        } else if (res.data.message == "mail was sent successfully") {
+          setMailsent("mail has been sent to Job seeker email id, ask Job seeker to verify the mail")
+          setId(id)
+          localStorage.setItem("StudId", JSON.stringify(id));
+          localStorage.setItem("JobSLog", JSON.stringify(res.data.token));
+          setJobseekerForm(prev => ({
+            email: ""
+          }))
+        } else if (res.data == "invalid email") {
+          setMailsent("invalid email address")
+        } else if (res.data.message == "isEditEnable is aleady true") {
+          localStorage.setItem("StudId", JSON.stringify(id));
+          localStorage.setItem("JobSLog", JSON.stringify(res.data.token));
+          setMailsent("already verified, click on edit button and start editing")
+          setIsEditEnable(true)
+        }
+
+      }).catch((err) => {
+        alert("some thing went wrong",)
+      })
+  }
+
+  function handleCancele() {
+    clearInterval(intervalRef.current);
+    setResumeAlert({ show: false, selected: null });
+    setMailsent("")
+    setIsEditEnable(false)
+    setJobseekerForm(prev => ({
+      email: ""
+    }))
+  }
 
   async function gettotalcount() {
     const headers = { authorization: 'BlueItImpulseWalkinIn' };
@@ -580,6 +724,62 @@ function MyCreatedResume({ searchKey, setsearchKey, Filtereredjobs, setFilterere
 
   return (
     <>
+
+    
+          {resumeAlert.show && (
+            <div className={style.overlay}>
+              <div
+                ref={alertRef}
+                className={style.alertBox}
+                onClick={(e) => e.stopPropagation()}
+              >
+                {csCenter ?
+                  <>
+                    <p style={{ color: "green", fontStyle: "italic" }}>{mailsent}</p>
+                    <h3>Enter Jobseeker Details</h3>
+                    <input
+
+                      disabled={mailsent}
+                      type="email"
+                      placeholder="Enter Email ID"
+                      className={style.input}
+                      value={jobseekerForm.email}
+                      onChange={(e) =>
+                        setJobseekerForm({
+                          ...jobseekerForm,
+                          email: e.target.value
+                        })
+                      }
+                    />
+                    <div className={style.btnGroup}>
+                      {!isEditEnable ?
+                        <button
+                          className={style.successBtn}
+                          onClick={() => { handleOnNavigate() }}
+                        >
+                          Verify Email
+                        </button> : ""
+                      }
+
+                      <button
+                        className={style.dangerBtn}
+                        onClick={() => { handleCancele() }}
+                      >
+                        Cancel
+                      </button>
+                      {isEditEnable ?
+                        <button className={style.successBtn} onClick={() => { navig() }}>
+                          Edit
+                        </button> : ""
+                      }
+                    </div>
+                  </>
+                  : ""
+                }
+
+              </div>
+            </div>
+          )}
       <h2 style={{ marginLeft: "10px", fontWeight: "800", marginTop: "6px", marginBottom: "-15px" }}> My Created Resume  </h2>
       {screenSize.width > 850 ?
         <>
@@ -816,8 +1016,17 @@ function MyCreatedResume({ searchKey, setsearchKey, Filtereredjobs, setFilterere
                         <li className={`${styles.li} ${styles.Skills}`}
                           style={{ cursor: "pointer", textDecoration: "underline", color: "blue" }}>{items?.selectedTemplate}
                         </li>
-              <li style={{cursor:"pointer", textDecoration:"underline"}} className={`${styles.li} ${styles.Location}`}>Edit</li>
-              <li style={{cursor:"pointer", textDecoration:"underline"}} className={`${styles.li} ${styles.Location}`}>View</li>
+                        <li style={{ cursor: "pointer", textDecoration: "underline" }}
+
+                          onClick={() =>
+                            setResumeAlert({ show: true, selected: items?.selectedTemplate })}
+                          className={`${styles.li} ${styles.Location}`}>Edit
+                        </li>
+
+                        <li style={{ cursor: "pointer", textDecoration: "underline" }}
+                          onClick={() => { navigate("/resumes", { state: { selectedTemplate: items?.selectedTemplate } }) }}
+                          className={`${styles.li} ${styles.Location}`}>View
+                        </li>
 
                       </ul>
 
@@ -827,6 +1036,7 @@ function MyCreatedResume({ searchKey, setsearchKey, Filtereredjobs, setFilterere
               )
             }
           </div>
+
 
           <div style={{ display: "flex", justifyContent: "space-between" }}>
             <div style={{ marginTop: "14px", marginLeft: "10px" }} >
@@ -864,25 +1074,7 @@ function MyCreatedResume({ searchKey, setsearchKey, Filtereredjobs, setFilterere
         :
         // Mobile View
         <>
-          {/* <div style={{display:"flex"}}> */}
-          {/* <h2 style={{marginLeft:"3%", fontWeight:"800", marginTop:"5px", marginBottom:"-15px"}}>Home</h2> */}
-          {/* <div className={styles.blogSearchContainer}> */}
-          {/* <i style={{ color: "white", fontSize: "18px", cursor: "pointer" , marginLeft:"41px",marginTop:"-38px",position:"fixed",zIndex:"999"}} onClick={() => { searchIcon(searchKey) ;setSearchClick((currentvalue)=>!currentvalue)}}
-  class="searchicon fa fa-search" ></i> */}
-          {/* <i style={{ visibility:showMobileSearchIcon?"visible":"hidden", color: "white", fontSize: "18px", cursor: "pointer" , marginLeft:"41px",marginTop:"-38px", position:"fixed",zIndex:"999"}} onClick={() => { searchIcon(searchKey) ;setSearchClick((currentvalue)=>!currentvalue);setShowMobileSearchIcon((currentvalue)=>!currentvalue);setShowSideNave((currentvalue)=>!currentvalue)}}
-              class="searchicon fa fa-search" ></i> */}
-          {/* <input style={{visibility:searchClick?"visible":"hidden"}} className={styles.blogInputboxsearch} type="text" placeholder='Search for a Job / Skills / Location / Experiance' onChange={(e) => { search(e) }} /> */}
-          {/* </div> */}
-          {/* </div> */}
-          {/* <div className={styles.searchBoth}>
-            <p className={styles.p}>Search </p>
-            <input className={styles.inputboxsearch} type="text" placeholder='Search for a Job / Skills / Location / Experiance' onChange={(e) => { search(e) }} />
-          </div> */}
-          {/* {Result ?
-            <h4 style={{ marginLeft: "18.5%", marginTop: "10px" }}> {jobs?.length} matching Result Found  </h4>
 
-            : ""
-          } */}
           <>
             <div className={styles.JobtitleFilterWrapper}>
               <buton className={Active?.length === 0 ? styles.active : styles.JobtitleFilter} onClick={() => { getjobs() }}>All</buton>
@@ -949,244 +1141,155 @@ function MyCreatedResume({ searchKey, setsearchKey, Filtereredjobs, setFilterere
               </div>
               :
               <div id={styles.JobCardWrapper} >
-
                 {
-                  // jobs?.length > 0 ?
-                  //   jobs.map((job, i) => {
-                  records?.length < 0 ?
-                    records.map((job, i) => {
+                  jobs?.length > 0 ? (
+                    jobs.map((items, i) => {
                       return (
-                        <>
-                          <div className={styles.JobCard} key={i}>
-                            {/* <p className={styles.readPageDate}>{new Date(job.createdAt).toLocaleString(
-                            "en-US",
-                            {
-                              month: "short",
-                              day: "2-digit",
-                              year: "numeric",
-                            }
-                          )} </p> */}
-                            <div className={styles.JobTitleDateWrapper} style={{ marginTop: "-16px", display: "flex", flexDirection: "row", alignItems: "center" }}>
-                              <p className={styles.jobTitle} onClick={() => {
-                                window.scrollTo({
-                                  top: 0
-                                })
-                                navigate(`/Jobdetails/${btoa(job._id)}?index=${i}`, { state: { selectedTag, }, })
-                              }} style={{ width: "100%", whiteSpace: "normal" }} >{job?.jobTitle?.charAt(0).toUpperCase() + job.jobTitle.substring(1)}</p>
-                              <p style={{ marginTop: "-5px" }} className={styles.Date}>{new Date(job.createdAt).toLocaleString(
+                        <div className={styles.JobCard} key={i}>
+
+                          {/* Name + Date */}
+                          <div
+                            className={styles.JobTitleDateWrapper}
+                            style={{
+                              marginTop: "-16px",
+                              display: "flex",
+                              flexDirection: "row",
+                              alignItems: "center"
+                            }}
+                          >
+                            <p
+                              className={styles.jobTitle}
+                              style={{
+                                width: "100%",
+                                whiteSpace: "normal",
+                                cursor: "pointer",
+                                textDecoration: "underline",
+                                color: "blue"
+                              }}
+                            >
+                              {items?.name?.toUpperCase()}
+                            </p>
+
+                            <p
+                              className={styles.Date}
+                              style={{
+                                marginTop: "-5px",
+                                whiteSpace: "nowrap"
+                              }}
+                            >
+                              {new Date(items.ResumeCreatedDate).toLocaleString(
                                 "en-US",
                                 {
                                   month: "short",
                                   day: "2-digit",
                                   year: "numeric",
                                 }
-                              )} </p>
-                            </div>
-                            {/* <br></br> */}
-                            <div className={styles.JobPagecompanyNameLocationWrapper} >
-                              {/* <img className={styles.logo} src={job.Logo} /> */}
-                              <img className={styles.homePageCompanyLogo} src={CompanyLogo} />
-                              <div class={styles.jobTitleCompanyName}>
-                                {!job.Source ?
-
-                                  // <> <span className={styles.companyName} onClick={() => { navigate(`/CheckEmpHalfProfile/${btoa(job.empId)}`) }} >{job.companyName} </span><br></br></>
-                                  <> <span style={{ textDecoration: "none" }} className={styles.companyName} >{job.companyName} </span><br></br></>
-
-                                  :
-                                  //  <> <span className={styles.companyName} onClick={()=>{checkEmpHalf(job.empId)}} >{job.companyName} </span><br></br></>
-                                  // <> <a className={`${styles.companyName}`} href={job.SourceLink} target="_blank">{job.Source}</a><br></br> </>
-                                  <> <a style={{ textDecoration: "none" }} className={`${styles.companyName}`}>{job.Source}</a><br></br> </>
-
-                                }
-                              </div>
-
-                            </div>
-
-                            <  img className={styles.jobLocationImage} src={location} />
-                            {/* <span className={styles.jobLocation}>{job.jobLocation[0].toUpperCase() + job.jobLocation.slice(1)}</span> */}
-                            <span className={styles.jobLocation}>{job?.jobLocation[0]?.toUpperCase() + job.jobLocation.slice(1)}</span>
-
-                            <span className={styles.qualificationAndExperiance}>
-                              <  img className={styles.graduationImage} src={graduation} />
-
-                              {job.qualification},   {job.experiance}Yrs Exp, {job.jobtype}
-                              {/* <span className={styles.jobtypeAndDate}> {job.jobtype}</span> */}
-                            </span><br></br>
-                            <span className={styles.jobtypeAndDate}>Posted By</span> :
-
-                            {/* {job.Source ?
-                          <> <a className={`${styles.skills}`} href={job.SourceLink} target="_blank">{job.Source}</a><br></br> </>
-                          : */}
-                            <> <span className={styles.skills}>ITwalkin</span><br></br></>
-                            {/* } */}
-
-                            {/* </div> */}
-                            {/* <div> */}
-                            {/* <span className={styles.skillsHeading}>Skills: </span><span className={styles.skills}> {job.skills}</span><br></br> */}
-
-                            <div className={styles.skillWrapper}>
-                              <span className={styles.skillsHeading}>Skills: </span><span className={styles.skills}>{job.skills}</span><br></br>
-                            </div>
-
-                            <div className={styles.ApplyPackageJobseeker}>
-                              <p style={{ marginLeft: "20px" }} className={styles.salaryRangeJobseeker}><span>&#8377;</span>{job.salaryRange === "Not disclosed" ? "Not Disclosed" : job.salaryRange + "LPA"}</p>
-
-                              {job.jobSeekerId.find((jobseeker) => {
-                                return (
-                                  jobseeker.jobSeekerId == jobSeekerId
-                                )
-                              }) ?
-                                <button className={styles.MobileAppliedButton} > Applied <span style={{ fontSize: '13.8px', marginBottom: "3px", marginLeft: "2px" }}>&#10004;</span></button>
-                                :
-                                // job .isApproved?
-                                job.SourceLink ?
-                                  // <button style={{marginRight: "13px"}} className={styles.ApplyMobileJobseeker} onClick={() => {
-                                  //   applyforOtherJob(job.SourceLink)
-                                  // }}>Apply</button>
-                                  <div ref={alertRef} style={{ position: "relative" }}>
-                                    <button style={{ marginRight: "13px" }} className={styles.ApplyMobileJobseeker} onClick={() => handleApplyClick(job._id)}>
-                                      Apply
-                                    </button>
-
-                                    {activeAlertId === job._id && (
-                                      <div
-                                        style={{
-                                          width: '74%',
-                                          padding: '20px',
-                                          backgroundColor: 'rgb(40,4,99)',
-                                          color: 'white',
-                                          fontSize: '12px',
-                                          borderRadius: '5px',
-                                          position: 'fixed',
-                                          top: '50%',
-                                          left: '50%',
-                                          transform: 'translate(-50%, -50%)',
-                                          zIndex: 9999,
-                                          boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
-                                          textAlign: 'center',
-                                        }}
-
-                                      >
-                                        <strong style={{ color: "red", textAlign: "center", fontSize: "14px" }}>NOTICE</strong><br></br>
-                                        You will be redirected to the career page of {job.Source ? job.Source : job.companyName}.
-                                        ITwalkin is not the authorised partner of this company
-                                        <br></br><br></br>
-                                        ITWALKIN.com never charges fees for job applications. If you encounter misuse or payment requests, report it through our website.<br></br>
-                                        {/* <strong>Notice:</strong> ITWALKIN.com never charges fees for job applications. If you encounter misuse or payment requests, report it through our website. */}
-
-                                        <div ref={alertRef} style={{ marginTop: '15px', display: "flex", justifyContent: "center", gap: "4px" }}>
-                                          <button
-                                            onClick={() => handleOkClick1(job.SourceLink, job._id)}
-                                            style={{
-                                              padding: '8px 16px',
-                                              backgroundColor: '#4CAF50',
-                                              color: 'white',
-                                              border: 'none',
-                                              borderRadius: '5px',
-                                              fontSize: '10px',
-                                              cursor: 'pointer',
-                                            }}
-                                          >
-                                            OK
-                                          </button>
-                                          <button
-                                            onClick={handlecancelClick}
-                                            style={{
-                                              padding: '8px 16px',
-                                              backgroundColor: '#4CAF50',
-                                              color: 'white',
-                                              border: 'none',
-                                              borderRadius: '5px',
-                                              fontSize: '10px',
-                                              cursor: 'pointer',
-                                            }}
-                                          >
-                                            Cancel
-                                          </button>
-                                        </div>
-                                      </div>
-                                    )}
-                                  </div>
-                                  :
-                                  // <button style={{marginRight: "13px"}} className={styles.ApplyMobileJobseeker} onClick={() => { applyforJob(job._id) }}>Apply
-                                  //   <span className={styles.Loader} >{Loader && job._id == clickedJobId ?
-                                  //     <TailSpin color="white" height={20} />
-                                  //     : ""}</span></button>
-                                  // :      <button className={styles.ApplyMobile} onClick={()=>{alert("You can not Apply for the job, Your account is under Approval Process")}} > Apply </button>
-                                  <div ref={alertRef} style={{ position: "relative" }}>
-                                    <button style={{ marginRight: "13px" }} className={styles.ApplyMobileJobseeker} onClick={() => handleApplyClick(job._id)}>
-                                      Apply
-                                      <span className={styles.Loader} >{Loader && job._id == clickedJobId ?
-                                        <TailSpin color="white" height={20} />
-                                        : ""}</span>
-                                    </button>
-
-                                    {activeAlertId === job._id && (
-                                      <div
-                                        style={{
-                                          width: '204px',
-                                          padding: '20px',
-                                          backgroundColor: 'rgb(40,4,99)',
-                                          color: 'white',
-                                          fontSize: '13px',
-                                          borderRadius: '5px',
-                                          position: 'fixed',
-                                          top: '50%',
-                                          left: '50%',
-                                          transform: 'translate(-50%, -50%)',
-                                          zIndex: 9999,
-                                          boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
-                                          textAlign: 'center',
-                                        }}
-
-                                      >
-                                        <strong>Notice:</strong>
-                                        You will be redirected to the career page of {job.Source ? job.Source : job.companyName}.
-                                        ITwalkin is not the authorised partner of this company
-                                        <br></br><br></br>
-                                        ITWALKIN.com never charges fees for job applications. If you encounter misuse or payment requests, report it through our website.<br></br>
-
-                                        <div ref={alertRef} style={{ marginTop: '15px' }}>
-                                          <button
-                                            onClick={() => handleOkClick2(job._id)}
-                                            style={{
-                                              padding: '8px 16px',
-                                              backgroundColor: '#4CAF50',
-                                              color: 'white',
-                                              border: 'none',
-                                              borderRadius: '5px',
-                                              fontSize: '14px',
-                                              cursor: 'pointer',
-                                            }}
-                                          >
-                                            OK
-                                          </button>
-                                        </div>
-                                      </div>
-                                    )}
-                                  </div>
-                              }
-                            </div>
-                            <p className={styles.jobDescriptionHeading}>Job Description:</p>
-                            <p className={styles.jobDescription}>
-                              {job.jobDescription
-                                ? job.jobDescription.replace(/<[^>]+>/g, '').substring(0, 100) + "..."
-                                : ""}
-                              <span onClick={() => {
-                                window.scrollTo({
-                                  top: 0
-                                })
-                                navigate(`/Jobdetails/${btoa(job._id)}?index=${i}`, { state: { selectedTag, }, })
-                              }} className={styles.seeMore}>
-                                ...read more
-                              </span>
+                              )}
                             </p>
                           </div>
-                        </>
-                      )
-                    })
-                    : <p style={{ marginLeft: "44%", color: "red" }}>No Data Found.....</p>
 
+
+                          {/* Template */}
+                          <div style={{ marginTop: "25px" }}>
+                            <span
+                              style={{
+                                fontWeight: "bold",
+                                fontSize: "18px"
+                              }}
+                            >
+                              Template:
+                            </span>
+
+                            <span
+                              style={{
+                                fontSize: "18px",
+                                marginLeft: "5px"
+                              }}
+                            >
+                              {items?.selectedTemplate}
+                            </span>
+                          </div>
+
+
+                          {/* Email */}
+                          <div style={{ marginTop: "18px" }}>
+                            <span
+                              style={{
+                                fontWeight: "bold",
+                                fontSize: "18px"
+                              }}
+                            >
+                              Email:
+                            </span>
+
+                            <span
+                              style={{
+                                fontSize: "18px",
+                                marginLeft: "5px",
+                                color: "blue",
+                                textDecoration: "underline"
+                              }}
+                            >
+                              {items?.email}
+                            </span>
+                          </div>
+
+
+                          {/* Edit + View Box */}
+                          <div
+                            className={styles.ApplyPackageJobseeker}
+                            style={{
+                              display: "flex",
+                              justifyContent: "space-between",
+                              alignItems: "center",
+                              width: "100%",
+                              marginTop: "20px",
+                              padding: "12px 10px",
+                              boxSizing: "border-box"
+                            }}
+                          >
+
+                            {/* LEFT - Edit */}
+                            <button
+                              className={styles.ApplyMobileJobseeker}
+                              style={{
+                                margin: 0
+                              }}
+                              onClick={() => {
+                                // Edit function
+                              }}
+                            >
+                              Edit
+                            </button>
+
+
+                            {/* RIGHT - View */}
+                            <button
+                              className={styles.ApplyMobileJobseeker}
+                              style={{
+                                margin: 0
+                              }}
+                              onClick={() => {
+                                navigate("/resumes", {
+                                  state: {
+                                    selectedTemplate: items?.selectedTemplate
+                                  }
+                                });
+                              }}
+                            >
+                              View
+                            </button>
+
+                          </div>
+
+                        </div>
+                      );
+                    })
+                  ) : (
+                    <p style={{ marginLeft: "47%", color: "red" }}>
+                      No Data Found......
+                    </p>
+                  )
                 }
 
               </div>
