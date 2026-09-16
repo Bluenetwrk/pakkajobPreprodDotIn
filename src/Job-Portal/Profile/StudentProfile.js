@@ -24,7 +24,7 @@ function StudentProfile() {
   const [message, setMessage] = useState("");
   
   function getUrl() {
-    if (!localStorage.getItem("StudId")) {
+    if (!localStorage.getItem("StudLog")) {
       const currentUrl = window.location.pathname + window.location.search;
       navigate(
         `/JobSeekerLogin?redirect=${encodeURIComponent(currentUrl)}`
