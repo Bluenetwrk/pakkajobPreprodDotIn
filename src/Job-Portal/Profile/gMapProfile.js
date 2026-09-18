@@ -114,8 +114,8 @@ function GMapProfile() {
           }).catch((err) => {
           })
       } catch (error) {
-        if(error.response==403){
-    alert("You don't have permission of this google console to access your Google Business account in ");
+        if (error.response?.status == 403) {
+          alert("You don't have permission of this google console to access your Google Business account in ");
 
         }
       }

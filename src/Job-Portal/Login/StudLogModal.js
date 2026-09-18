@@ -15,11 +15,12 @@ import linkedIn from "../img/icons8-linked-in-48.png"
 import github from "../img/icons8-github-50.png"
 import { auth, provider } from "../firebase"
 import { signInWithPopup, OAuthProvider, getAuth } from "firebase/auth";
+import WhatsAppLogin from "./WhatsapLogin"
 
 import { useMsal } from "@azure/msal-react";
 import { loginRequest } from "../Config";
 
-const Modal = ({ isregCheck,isStuOpen, onClose, children, msalInstance }) => {
+const Modal = ({ isregCheck, isStuOpen, onClose, children, msalInstance }) => {
 	const { instance } = useMsal();
 
 
@@ -32,7 +33,7 @@ const Modal = ({ isregCheck,isStuOpen, onClose, children, msalInstance }) => {
 	const [showotp, setshowotp] = useState(false)
 	const [Loader, setLoader] = useState(false)
 
- 
+
 	const [ipAddress, setIPAddress] = useState('')
 	// ......Modal....
 	const [open, setOpen] = React.useState(false);
@@ -54,18 +55,18 @@ const Modal = ({ isregCheck,isStuOpen, onClose, children, msalInstance }) => {
 
 	const [regAlert, setRegAlert] = useState(false);
 	const alertRef = useRef(null);
-  
+
 	useEffect(() => {
-	  const handleClickOutside = (event) => {
-		if (alertRef.current && !alertRef.current.contains(event.target)) {
-		  setRegAlert(false);
-		}
-	  };
-  
-	  document.addEventListener('mousedown', handleClickOutside);
-	  return () => {
-		document.removeEventListener('mousedown', handleClickOutside);
-	  };
+		const handleClickOutside = (event) => {
+			if (alertRef.current && !alertRef.current.contains(event.target)) {
+				setRegAlert(false);
+			}
+		};
+
+		document.addEventListener('mousedown', handleClickOutside);
+		return () => {
+			document.removeEventListener('mousedown', handleClickOutside);
+		};
 	}, []);
 
 	let location = useLocation()
@@ -97,19 +98,19 @@ const Modal = ({ isregCheck,isStuOpen, onClose, children, msalInstance }) => {
 						let result = response.data
 						let token = result.token
 						let Id = result.id
-						if(isregCheck==true && result.action == "login"){
+						if (isregCheck == true && result.action == "login") {
 							// alert("Account already exists. Please log in")
 							setRegAlert(true)
-						  }
-						
+						}
+
 						else if (result.status == "success") {
 							localStorage.setItem("StudLog", JSON.stringify(btoa(token)))
 							localStorage.setItem("StudId", JSON.stringify(Id))
-                            if(isregCheck==true) {
-								navigate("/Update-Profile", { state: { name: result.name, profileAlert: true  } })
-							} 
-							else{
-							navigate("/alljobs", { state: { name: result.name } })
+							if (isregCheck == true) {
+								navigate("/Update-Profile", { state: { name: result.name, profileAlert: true } })
+							}
+							else {
+								navigate("/alljobs", { state: { name: result.name } })
 							}
 							onClose()
 						}
@@ -284,12 +285,11 @@ const Modal = ({ isregCheck,isStuOpen, onClose, children, msalInstance }) => {
 			});
 	}
 
-	
+
 
 
 	return (
 		<>
-		
 
 			{/* <div
 			style={{
@@ -305,105 +305,105 @@ const Modal = ({ isregCheck,isStuOpen, onClose, children, msalInstance }) => {
 				zIndex:100
 			}}
 		> */}
-		     {regAlert==true?
+			{regAlert == true ?
 
-	     <div style={{position:"relative"}}>	 
-        <div
-        style={{
-          position: 'absolute',
-          top:'2px',
-          left:0,
-          width: '100vw',
-        //   height: '100vh',
-        //   backgroundColor: 'rgba(0, 0, 0, 0.4)',
-          zIndex: 9998,
-          display: 'flex',
-          alignItems: 'top',
-          justifyContent: 'center',
-        
-        }}
-      >
-        <div
-          ref={alertRef}
-          onClick={(e) => e.stopPropagation()}
-          style={{
-            width: '300px',
-            padding: '20px',
-            backgroundColor: 'rgb(40,4,99)',
-            color: 'white',
-            fontSize: '12px',
-            borderRadius: '5px',
-            zIndex: 9999,
-            boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
-            textAlign: 'center',
-           
-          }}
-        >
-         Account Already Exists!
-          <div style={{ marginTop: '15px', display: "flex", justifyContent: "center", gap: "5px" }}>
-            <button
-             onClick={() => { 
-              navigate("/JobSeekerLogin"); 
-			  setRegAlert(false);
-			  onClose();
-			}
-			}
-            
-             style={{
-                padding: '8px 16px',
-                backgroundColor: '#4CAF50',
-                color: 'white',
-                border: 'none',
-                borderRadius: '5px',
-                fontSize: '12px',
-                cursor: 'pointer',
-               
-              }}
-            >
-             Login as Jobseeker
-            </button>
-            <button
-              onClick={() => { 
-				navigate("/"); 
-				setRegAlert(false);
-				onClose();
-			  }}
-              style={{
-                padding: '8px 16px',
-                backgroundColor: '#f44336',
-                color: 'white',
-                border: 'none',
-                borderRadius: '5px',
-                fontSize: '12px',
-                cursor: 'pointer',
-                 
-                
-              }}
-            >
-              Home
-            </button>
-          </div>
-        </div>
-      </div>
+				<div style={{ position: "relative" }}>
+					<div
+						style={{
+							position: 'absolute',
+							top: '2px',
+							left: 0,
+							width: '100vw',
+							//   height: '100vh',
+							//   backgroundColor: 'rgba(0, 0, 0, 0.4)',
+							zIndex: 9998,
+							display: 'flex',
+							alignItems: 'top',
+							justifyContent: 'center',
 
-	  </div>
-           :
-			<div style={{height:"150px"}} className={styles.ModelWrapper} >
+						}}
+					>
+						<div
+							ref={alertRef}
+							onClick={(e) => e.stopPropagation()}
+							style={{
+								width: '300px',
+								padding: '20px',
+								backgroundColor: 'rgb(40,4,99)',
+								color: 'white',
+								fontSize: '12px',
+								borderRadius: '5px',
+								zIndex: 9999,
+								boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
+								textAlign: 'center',
 
-				
-				<p onClick={onClose} style={
-					{ position: "absolute", marginLeft: "85%", marginTop: "0px", cursor: "pointer", display: "inline" }}>
+							}}
+						>
+							Account Already Exists!
+							<div style={{ marginTop: '15px', display: "flex", justifyContent: "center", gap: "5px" }}>
+								<button
+									onClick={() => {
+										navigate("/JobSeekerLogin");
+										setRegAlert(false);
+										onClose();
+									}
+									}
 
-					<i className="fas fa-times" style={{ fontSize: "large" }}></i>
-				</p>
-				<>
+									style={{
+										padding: '8px 16px',
+										backgroundColor: '#4CAF50',
+										color: 'white',
+										border: 'none',
+										borderRadius: '5px',
+										fontSize: '12px',
+										cursor: 'pointer',
 
-					<div className={styles.BothsignUpWrapperModel}>
-						{isregCheck==true?
-												<p className={styles.Loginpage}>New Job Seeker Registration</p>:
-						<p className={styles.Loginpage}>Job Seeker Login</p>}
+									}}
+								>
+									Login as Jobseeker
+								</button>
+								<button
+									onClick={() => {
+										navigate("/");
+										setRegAlert(false);
+										onClose();
+									}}
+									style={{
+										padding: '8px 16px',
+										backgroundColor: '#f44336',
+										color: 'white',
+										border: 'none',
+										borderRadius: '5px',
+										fontSize: '12px',
+										cursor: 'pointer',
 
-						{/* <input maxLength="10" className={styles.inputs} type="number" placeholder='enter phone Number'
+
+									}}
+								>
+									Home
+								</button>
+							</div>
+						</div>
+					</div>
+
+				</div>
+				:
+				<div style={{ height: "150px" }} className={styles.ModelWrapper} >
+
+
+					<p onClick={onClose} style={
+						{ position: "absolute", marginLeft: "85%", marginTop: "0px", cursor: "pointer", display: "inline" }}>
+
+						<i className="fas fa-times" style={{ fontSize: "large" }}></i>
+					</p>
+					<>
+
+						<div className={styles.BothsignUpWrapperModel}>
+							{isregCheck == true ?
+								<p className={styles.Loginpage}>New Job Seeker Registration</p> :
+								<p className={styles.Loginpage}>Job Seeker Login</p>}
+
+							{/* <input maxLength="10" className={styles.inputs} type="number" placeholder='enter phone Number'
             value={PhoneNumber} autoComplete="on" onChange={(e) => { setPhoneNumber(e.target.value) }} />
 
           {showotp ?
@@ -429,54 +429,54 @@ const Modal = ({ isregCheck,isStuOpen, onClose, children, msalInstance }) => {
                         :""}
             <h4 className={styles.OR}>OR</h4> */}
 
-                      {isregCheck==true?
-					  <>
-						<div className={styles.signUpWrapper} onClick={login} >
-							<div className={styles.both}>
-								<img className={styles.google} src={GoogleImage} />
-								<span className={styles.signUpwrap} >Create Account with Google</span>
-							</div>
-						</div>
+							{isregCheck == true ?
+								<>
+									<div className={styles.signUpWrapper} onClick={login} >
+										<div className={styles.both}>
+											<img className={styles.google} src={GoogleImage} />
+											<span className={styles.signUpwrap} >Create Account with Google</span>
+										</div>
+									</div>
 
-						<div className={styles.signUpWrapper} onClick={microsoftLogin} >
-							<div className={styles.both}>
-								<img className={styles.google} src={MicosoftImage} />
-								<span className={styles.signUpwrap} >Create Account with Microsoft</span>
-							</div>
-						</div>
-						<div className={styles.signUpWrapper}>
-							<div className={styles.both}>
-								<img className={styles.google} src={linkedIn} />
-								<span className={styles.signUpwrap} >Create Account with Linkedin</span>
-					  </div>
-					  </div>
-					  </>
-					  :
-					  <>
-                      <div className={styles.signUpWrapper} onClick={login} >
-							<div className={styles.both}>
-								<img className={styles.google} src={GoogleImage} />
-								<span className={styles.signUpwrap} >Continue with Google</span>
-							</div>
-						</div>
+									<div className={styles.signUpWrapper} onClick={microsoftLogin} >
+										<div className={styles.both}>
+											<img className={styles.google} src={MicosoftImage} />
+											<span className={styles.signUpwrap} >Create Account with Microsoft</span>
+										</div>
+									</div>
+									<div className={styles.signUpWrapper}>
+										<div className={styles.both}>
+											<img className={styles.google} src={linkedIn} />
+											<span className={styles.signUpwrap} >Create Account with Linkedin</span>
+										</div>
+									</div>
+								</>
+								:
+								<>
+									<div className={styles.signUpWrapper} onClick={login} >
+										<div className={styles.both}>
+											<img className={styles.google} src={GoogleImage} />
+											<span className={styles.signUpwrap} >Continue with Google</span>
+										</div>
+									</div>
 
-						<div className={styles.signUpWrapper} onClick={microsoftLogin} >
-							<div className={styles.both}>
-								<img className={styles.google} src={MicosoftImage} />
-								<span className={styles.signUpwrap} >Continue with Microsoft</span>
-							</div>
-						</div>
-						<div className={styles.signUpWrapper}>
-							<div className={styles.both}>
-								<img className={styles.google} src={linkedIn} />
-								<span className={styles.signUpwrap} >Continue with Linkedin</span>
-					  </div>
-					  </div>
-					  </>
+									<div className={styles.signUpWrapper} onClick={microsoftLogin} >
+										<div className={styles.both}>
+											<img className={styles.google} src={MicosoftImage} />
+											<span className={styles.signUpwrap} >Continue with Microsoft</span>
+										</div>
+									</div>
+									<div className={styles.signUpWrapper}>
+										<div className={styles.both}>
+											<img className={styles.google} src={linkedIn} />
+											<span className={styles.signUpwrap} >Continue with Linkedin</span>
+										</div>
+									</div>
+								</>
 
-					  }
+							}
 
-						{/* <div className={styles.signUpWrapper}>
+							{/* <div className={styles.signUpWrapper}>
 							<div className={styles.both}>
 								<img className={styles.google} src={linkedIn} />
 								<span className={styles.signUpwrap} >Continue with Linkedin</span>
@@ -491,12 +491,12 @@ const Modal = ({ isregCheck,isStuOpen, onClose, children, msalInstance }) => {
 							</div>
 						</div> */}
 
-					</div>
-					{/* </div> */}
-				</>
+						</div>
+						{/* </div> */}
+					</>
 
-			</div>
-        }
+				</div>
+			}
 			{/* </div> */}
 		</>
 	);

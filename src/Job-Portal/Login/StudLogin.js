@@ -8,6 +8,7 @@ import GoogleImage from "../img/icons8-google-48.png"
 import MicosoftImage from "../img/icons8-windows-10-48.png"
 import linkedIn from "../img/icons8-linked-in-48.png"
 import github from "../img/icons8-github-50.png"
+import WhatsAppLogin from "./WhatsapLogin"
 
 import { useGoogleLogin } from '@react-oauth/google';
 import image from "../img/user_3177440.png"
@@ -253,6 +254,10 @@ function StudentLogin(props) {
   }
   return (
     <>
+    {/* <div style={{marginLeft:"10px"}}>
+    <WhatsAppLogin/>
+    </div> */}
+
       {/* <div className={styles.LoginpageWapper}> */}
 
 
@@ -397,6 +402,8 @@ function StudentLogin(props) {
 
         {loginpage === "jsregCheck" ?
           <>
+		<WhatsAppLogin/>
+
             <div className={styles.signUpWrapper} onClick={login} >
               <div className={styles.both}>
                 <img className={styles.google} src={GoogleImage} />
@@ -420,6 +427,8 @@ function StudentLogin(props) {
           </>
           :
           <>
+		<WhatsAppLogin/>
+
             <div className={styles.signUpWrapper} onClick={login} >
               <div className={styles.both}>
                 <img className={styles.google} src={GoogleImage} />
