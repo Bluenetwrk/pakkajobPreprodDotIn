@@ -60,7 +60,9 @@ const ResumePreview = () => {
     if (!jobseekerForm.email) {
       return
     }
-    await axios.post("/StudentProfile/regFromResume", { jobseekerForm })
+  let CSCId = JSON.parse(localStorage.getItem("CSCId"))
+
+    await axios.post("/StudentProfile/regFromResume", { jobseekerForm , CSCId})
       .then((res) => {
         let id = res.data.id
         // console.log(res.data)
@@ -169,6 +171,7 @@ const ResumePreview = () => {
 
   if (!state) return null;
   const { img, templateKey, loginprofile } = state;
+  // console.log(templateKey)
 
   return (
     <>

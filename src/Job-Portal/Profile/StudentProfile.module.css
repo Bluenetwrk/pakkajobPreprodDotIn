@@ -980,3 +980,74 @@ overflow:hidden;
 .verificationMessage{
   color: green;
 }
+
+/* verification pop up */
+
+.popupOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  z-index: 999999;
+}
+
+.verifyPopup {
+  position: relative;
+  width: 400px;
+  max-width: 90%;
+  background: #fff;
+  border-radius: 12px;
+  padding: 30px;
+  text-align: center;
+  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.25);
+}
+
+.verifyPopup h2 {
+  margin-bottom: 15px;
+}
+
+.verifyPopup p {
+  font-size: 16px;
+  color: #555;
+  margin-bottom: 25px;
+}
+
+.closePopup {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  border: none;
+  background:transparent;
+  font-size: 28px;
+  cursor: pointer;
+}
+
+.popupActions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+
+.verifyButton {
+  border: none;
+  background: rgb(40, 4, 99);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.cancelButton {
+  border: 1px solid #ccc;
+  background: white;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+}

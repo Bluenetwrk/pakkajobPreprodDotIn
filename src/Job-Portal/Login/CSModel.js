@@ -81,7 +81,6 @@ const Model = ({ isregCheck, isCSCOpen, onClose, children, msalInstance }) => {
 						}
 					);
 					setGmailuser(res.data)
-					console.log(res.data)
 					let gtoken = response.access_token
 					let userId = res.data.sub
 					let email = res.data.email
@@ -91,7 +90,6 @@ const Model = ({ isregCheck, isCSCOpen, onClose, children, msalInstance }) => {
 					await axios.post("/CSRoute/Glogin", { ipAddress, userId, email, name, gtoken, isApproved, Gpicture })
 						.then((response) => {
 							let result = response.data
-							console.log(result)
 							let token = result.token
 							let Id = result.id
 							if (isregCheck == true && result.action == "login") {

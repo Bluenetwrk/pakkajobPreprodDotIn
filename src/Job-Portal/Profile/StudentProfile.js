@@ -19,22 +19,41 @@ function StudentProfile() {
   const tabs = ["Personal Info", "Job Info", "Education", "Skills", "Feedback", "YouTube Video"];
   const [PageLoader, setPageLoader] = useState(false)
   const [emailVerified, setEmailVerified] = useState(false);
-
+  const [expiryTime, setExpiryTime] = useState();
   //  const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
-  
+  const [userName, setUserName] = useState("");
+  const [showVerifyPopup, setShowVerifyPopup] = useState(false);
+
+
   function getUrl() {
     if (!localStorage.getItem("StudLog")) {
       const currentUrl = window.location.pathname + window.location.search;
-      navigate(
-        `/JobSeekerLogin?redirect=${encodeURIComponent(currentUrl)}`
-      );
-
+      navigate(`/JobSeekerLogin?redirect=${encodeURIComponent(currentUrl)}`);
       return;
     }
   }
   const params = new URLSearchParams(window.location.search);
   const token = params.get("token");
+  const name = atob(params.get("userName"));
+  
+  useEffect(() => {
+   if (name && token) {
+    setUserName(name);
+    setShowVerifyPopup(true)
+   }
+  },[])
+
+  const unVerify = async () => {
+    let studId = JSON.parse(localStorage.getItem("StudId"))
+    const response = await axios.post("/StudentProfile/unVerifymail", { studId });
+    if (response.data.acknowledged) {
+      setMessage("")
+      getProfile()
+      setShowVerifyPopup(false)
+    }
+  }
+
   const verifyEmail = async () => {
 
     if (!token) {
@@ -44,12 +63,11 @@ function StudentProfile() {
     try {
       let studId = JSON.parse(localStorage.getItem("StudId"))
       setLoading(true);
-      const response = await axios.post(
-        "/StudentProfile/verifymail", { token, studId }
-      );
+      const response = await axios.post("/StudentProfile/verifymail", { token, studId });
       if (response.data == "Email verified successfully!") {
         setEmailVerified(true)
         setMessage(response.data);
+        getProfile()
       }
     } catch (error) {
       console.log(error);
@@ -63,47 +81,6 @@ function StudentProfile() {
     }
   };
 
-  // const fileInputRef = useRef(null);
-
-  // const [videoFile, setVideoFile] = useState(null);
-  // const [videoPreview, setVideoPreview] = useState("");
-  // const [videoUrl, setVideoUrl] = useState("");
-  // const [ytUploading, setYtUploading] = useState(false);
-  // const [ytError, setYtError] = useState("");
-
-
-
-  // const uploadVideoToYouTube = async () => {
-  //   if (!videoFile) {
-  //     setYtError("Please select a video first.");
-  //     return;
-  //   }
-
-  //   const formData = new FormData();
-  //   formData.append("video", videoFile);
-
-  //   try {
-  //     setYtUploading(true);
-  //     setYtError("");
-  //     setVideoUrl("");
-
-  //     const res = await axios.post(
-  //       "http://localhost:3000/api/uploadToYouTube", //-----------------dummy api used to test frontend
-  //       formData,
-  //       {
-  //         headers: { "Content-Type": "multipart/form-data" }
-  //       }
-  //     );
-
-  //     setVideoUrl(res.data.url);
-  //   } catch (err) {
-  //     setYtError("Upload failed. Try again.");
-  //   } finally {
-  //     setYtUploading(false);
-  //   }
-  // };
-
-
   let navigate = useNavigate()
 
   async function getProfile() {
@@ -113,6 +90,8 @@ function StudentProfile() {
     await axios.get(`/StudentProfile/viewProfile/${userid}`)
       .then((res) => {
         let result = res.data.result
+        const expiryTimeLimit = new Date(result.editEnableUntil).getTime();
+        setExpiryTime(expiryTimeLimit)
         setProfileData([result])
         // console.log(result)
         setLoading(false);
@@ -127,6 +106,7 @@ function StudentProfile() {
     getUrl()
     getProfile()
   }, [])
+
 
   // -----------you tube code----------  
 
@@ -192,7 +172,6 @@ function StudentProfile() {
           headers: { "Content-Type": "multipart/form-data" }
         }
       );
-      console.log("video upload response", res)
       setVideoUrl(res.data.url);
       setVideoPreview("");
       setYtError("Upload successful.");
@@ -225,6 +204,46 @@ function StudentProfile() {
 
 
   return (
+    <>
+    {showVerifyPopup && !expiryTime && (
+  <div className={styles.popupOverlay}>
+    <div className={styles.verifyPopup}>
+
+      <button
+        className={styles.closePopup}
+        onClick={() => setShowVerifyPopup(false)}
+      >
+        ×
+      </button>
+
+      <h2>Email Verification</h2>
+
+      <p>
+        <strong>{userName}</strong> wants you to verify the account.
+      </p>
+
+      <div className={styles.popupActions}>
+        <button
+          className={styles.verifyButton}
+          onClick={() => {
+            setShowVerifyPopup(false);
+            verifyEmail();
+          }}
+        >
+          Verify Account
+        </button>
+
+        <button
+          className={styles.cancelButton}
+          onClick={() => setShowVerifyPopup(false)}
+        >
+          Cancel
+        </button>
+      </div>
+
+    </div>
+  </div>
+)}
     <div className={styles.container}>
       {/* Header Section */}
       <div className={styles.header}>
@@ -240,7 +259,8 @@ function StudentProfile() {
           </div>
         </div>
         <div className={styles.actions}>
-{token?          <div className={styles.emailVerification}>
+
+          {token ? <div className={styles.emailVerification}>
             {message && (
               <span className={styles.verificationMessage}>
                 {message}
@@ -249,19 +269,33 @@ function StudentProfile() {
             <span className={styles.verificationLabel}>
               Email Verification
             </span>
+            {
 
-            <button
-              type="button"
-              className={`${styles.verifySwitch} ${emailVerified ? styles.verified : ""
-                }`}
-              onClick={verifyEmail}
-              disabled={loading || emailVerified}
-            >
-              <span className={`${emailVerified ? styles.VerifiedSwitchCircle : styles.switchCircle}`}></span>
-            </button>
+              expiryTime > Date.now() ?
+                <button
+                  type="button"
+                  className={`${styles.verifySwitch} ${styles.verified}`}
+                  onClick={unVerify}
+                // disabled={loading || emailVerified}
+                >
+                  <span className={`${styles.VerifiedSwitchCircle}`}></span>
+                </button>
+                :
+                <>
+                  <button
+                    type="button"
+                    className={`${styles.verifySwitch}`}
+                    onClick={verifyEmail}
+                  >
+                    <span className={`${styles.switchCircle}`}></span>
+                  </button>
+
+                </>
+            }
+
 
           </div>
-          :""}
+            : ""}
 
           <button style={{ width: "147px" }} className={styles.editBtn} onClick={updateprofile}>Edit Profile</button>
           <button className={styles.downloadBtn} onClick={resumedownload}>Download Resumes</button>
@@ -622,6 +656,7 @@ function StudentProfile() {
 
       </div>
     </div>
+    </>
   );
 }
 

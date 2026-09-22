@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import TemplateOne from './TemplateOne';
-import TemplateTwo from './TemplateTwo';
 import TemplateGallery from './TemplateGallery';
 import axios from 'axios';
 import styles from "../Jobs/Allobs.module.css"
 import Style from "./AllResumes.module.css"
 import { Navigate, useLocation, useNavigate } from 'react-router-dom';
+import TemplateOne from './TemplateOne';
+import TemplateTwo from './TemplateTwo';
 import TemplateThree from './TemplateThree';
 import TemplateFour from './TemplateFour';
 import TemplateFive from './TemplateFive';
@@ -24,33 +24,36 @@ function AllResumes() {
   const { selectedTemplate } = location.state || {};
   const { loginprofile } = location.state || {};
   let CSCId = JSON.parse(localStorage.getItem("CSCId"));
-  const studId = localStorage.getItem("StudId")
+  const studId = JSON.parse(localStorage.getItem("StudId"))
+  console.log(selectedTemplate)
 
   async function getProfile() {
     try {
       const res = await axios.get(`/StudentProfile/viewProfile/${studId}`)
       const result = res.data;
-      setProfileData({
-        name: result.name,
-        email: result.email,
+      // console.log(result)
+      setProfileData(result.result)
+      // setProfileData({
+      //   name: result.name,
+      //   email: result.email,
 
-        phone: result.phoneNumber,// Or: result.phone if available
-        education: [
-          { degree: "MCA", university: "LNCT University", cgpa: "8.30" },
-          { degree: "BCA", university: "MCNU", cgpa: "8.58" }
-        ],
-        skills: ["HTML", "CSS", "JavaScript", "React", "Git"]
-      });
+      //   phone: result.phoneNumber,// Or: result.phone if available
+      //   education: [
+      //     { degree: "MCA", university: "LNCT University", cgpa: "8.30" },
+      //     { degree: "BCA", university: "MCNU", cgpa: "8.58" }
+      //   ],
+      //   skills: ["HTML", "CSS", "JavaScript", "React", "Git"]
+      // });
 
     } catch (err) {
       alert("Something went wrong");
     }
   }
 
-  useEffect(() => {
-    if (logoutresume !== true)
-      getProfile();
-  }, []);
+  // useEffect(() => {
+  //   if (logoutresume !== true)
+  //     getProfile();
+  // }, []);
 
 
   const [themeColor, setThemeColor] = useState("#2563eb");
@@ -60,7 +63,7 @@ function AllResumes() {
     <>
 
       <div>
-        {/* {console.log("st",selectedTemplate)} */}
+
         {!selectedTemplate ?
           <h1 style={{ textAlign: 'center', marginTop: '20px' }}>Choose resume template<br></br> </h1>
           :
@@ -69,7 +72,7 @@ function AllResumes() {
           <TemplateGallery logoutresume={logoutresume} loginprofile={loginprofile} />
         )}
 
-        {selectedTemplate && profileData && (
+        {selectedTemplate && (
           <div style={{ padding: '20px' }}>
             <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "5px" }}>
               <div>
@@ -110,7 +113,7 @@ function AllResumes() {
             {selectedTemplate === 'two' && <TemplateTwo data={profileData} themeColor={themeColor} />}
             {selectedTemplate === 'three' && <TemplateThree data={profileData} themeColor={themeColor} />}
             {selectedTemplate === 'four' && <TemplateFour data={profileData} themeColor={themeColor} />}
-            {selectedTemplate === 'five' && <TemplateFive data={profileData} themeColor={themeColor} />}
+            {selectedTemplate === 'five' && <TemplateFive data={profileData} themeColor={themeColor} />} 
             {selectedTemplate === 'six' && <TemplateSix data={profileData} themeColor={themeColor} />}
             {selectedTemplate === 'seven' && <TemplateSeven data={profileData} themeColor={themeColor} />}
             {selectedTemplate === 'eight' && <TemplateEight data={profileData} themeColor={themeColor} />}

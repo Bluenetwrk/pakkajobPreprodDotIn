@@ -13,6 +13,7 @@ const ResumeForm = () => {
     profileSummary: '',
     address: '',
     email: '',
+    phoneNumber: '',
     linkedin: '',
     objective: 'My objective is to succeed in an environment of growth and excellence and earn a job which provides me job satisfaction and self development and helps me achieve personal as well as organisational goals.',
     qualification: '',
@@ -88,6 +89,8 @@ const ResumeForm = () => {
   const [formData, setFormData] = useState(initialState);
   const [profileData, setProfileData] = useState([]);
   const [successMessage, setSuccessMessage] = useState("");
+    const [phoneNumber, setphoneNumber] = useState()
+  
 
   let studId = JSON.parse(localStorage.getItem("StudId"))
   let CSCId = JSON.parse(localStorage.getItem("CSCId"));
@@ -117,6 +120,7 @@ const ResumeForm = () => {
           ...prev,
           name: result.name || "",
           email: result.email || "",
+          phoneNumber: result.phoneNumber || "",
           linkedin: result.linkedin || "",
           profileSummary: result.profileSummary || "",
           totalExperience: result.Experiance || "",
@@ -330,6 +334,7 @@ const ResumeForm = () => {
     if (field === "address") charLimit = 200;
     if (field === "name") charLimit = 50;
     if (field === "email") charLimit = 200;
+    if (field === "phoneNumber") charLimit = 10;
     if (charLimit && value.length > charLimit) return;
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
@@ -643,9 +648,12 @@ const ResumeForm = () => {
 
   // ---------- SUBMIT ----------
   const handleSubmit = async () => {
-    const { name, email, linkedin, totalExperience, profileSummary, address,
+    const { name, email,phoneNumber, linkedin, totalExperience, profileSummary, address, 
       experiences, certifications, skills, languages, qualificationDetails,
       personalDetails, achievements, interests, projects } = formData
+      console.log(name, email, linkedin, totalExperience, profileSummary, address, phoneNumber,
+      experiences, certifications, skills, languages, qualificationDetails,
+      personalDetails, achievements, interests, projects)
 
     // if (
     //   !profileSummary.trim() ||
@@ -668,7 +676,7 @@ const ResumeForm = () => {
 
     const Experiance = totalExperience;
     await axios.put(`/StudentProfile/updatProfile/${studId}`, {
-      name, email, linkedin, Experiance,
+      name, email, linkedin, Experiance, phoneNumber,
       profileSummary, address, experiences, certifications, skills, languages, qualificationDetails,
       imageConsent, personalDetails, achievements, interests, projects, CSCId, selectedTemplate
     }, { headers })
@@ -1046,51 +1054,42 @@ const ResumeForm = () => {
       .replace(/'/g, "&apos;");
   };
 
-
   return (
+
     <div className={styles.container}>
-      <div ref={alertRef} style={{ position: "relative" }}>
-        {resumeAlert &&
-          <>
-            <div className={styles.popup} >
 
-              Your resume is incomplete. Please fill in all required profile details before downloading
-              <div style={{ marginTop: '15px', display: "flex", justifyContent: "center", gap: "5px" }}>
-                <button
-                  onClick={() => setresumeAlert(false)}
-                  style={{
-                    padding: '8px 16px',
-                    backgroundColor: '#4CAF50',
-                    color: 'white',
-                    border: 'none',
-                    borderRadius: '5px',
-                    fontSize: '12px',
-                    cursor: 'pointer',
-                  }}
-                >
-                  Ok
-                </button>
-                <button
-                  onClick={() => setresumeAlert(false)}
-                  style={{
-                    padding: '8px 16px',
-                    backgroundColor: '#4CAF50',
-                    color: 'white',
-                    border: 'none',
-                    borderRadius: '5px',
-                    fontSize: '12px',
-                    cursor: 'pointer',
-                  }}
-                >
-                  Cancel
-                </button>
-              </div>
+      {/* ================= ALERT ================= */}
+      <div ref={alertRef} className={styles.alertWrapper}>
+        {resumeAlert && (
+          <div className={styles.popup}>
+            <div>
+              Your resume is incomplete. Please fill in all required
+              profile details before downloading
             </div>
-          </>
 
-        }
+            <div className={styles.popupButtons}>
+              <button
+                onClick={() => setresumeAlert(false)}
+                className={styles.popupButton}
+              >
+                Ok
+              </button>
+
+              <button
+                onClick={() => setresumeAlert(false)}
+                className={styles.popupButton}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        )}
       </div>
-      <div style={{ display: "flex", justifyContent: "space-between" }}>
+
+
+      {/* ================= TOP BAR ================= */}
+      <div className={styles.topBar}>
+
         <button
           className={styles.tvbackbtn}
           onClick={() => {
@@ -1098,849 +1097,1566 @@ const ResumeForm = () => {
             else navigate("/");
           }}
         >
-          <div style={{ fontSize: "12px", fontWeight: "800" }}>Back</div>
+          Back
         </button>
-        
 
-         {/* <button
+        <button
           className={styles.tvbackbtn}
           onClick={() => {
-            navigate("/support/help");
+            navigate("/resumes", {
+              state: {
+                selectedTemplate: selectedTemplate
+              }
+            });
           }}
-          style={{ marginRight: "2%" }}
-        >
-          <div style={{ fontSize: "12px", fontWeight: "800" }}>Help</div>
-        </button>  */}
-
-         <button
-          style={{ fontSize: "12px", fontWeight: 700, marginRight: "2%" }}
-          className={styles.tvbackbtn}
-          onClick={() => { navigate("/resumes", { state: { selectedTemplate: selectedTemplate } }) }}
         >
           Preview
-        </button> 
-
-
-        {/* {xmlLoading && <p>Processing XML...</p>}
-{xmlError && <p style={{ color: "red" }}>{xmlError}</p>} */}
+        </button>
 
       </div>
 
-      <div style={{ display: "flex", marginRight: "2%", justifyContent: "flex-end" }}>
+
+      {/* ================= XML ================= */}
+      <div className={styles.xmlActions}>
+
         <input
           type="file"
           accept=".xml"
           id="xmlImport"
-          style={{ display: "none", }}
+          className={styles.hiddenFileInput}
           onChange={handleImportXML}
         />
 
-        {/* <button
-          style={{ fontSize: "12px", fontWeight: 700 }}
-          className={styles.tvbackbtn}
-          disabled={xmlLoading}
-          onClick={() => document.getElementById("xmlImport").click()}
-        >
-          Import XML
-        </button>
-
-        <button
-          style={{ fontSize: "12px", fontWeight: 700 }}
-          className={styles.tvbackbtn}
-          disabled={xmlLoading}
-          onClick={handleExportXML}
-        >
-          Export XML
-        </button> */}
-        {/* {console.log("template key", selectedTemplate)} */}
-         {/* <button
-          style={{ fontSize: "12px", fontWeight: 700 }}
-          className={styles.tvbackbtn}
-          onClick={() => { navigate("/resumes", { state: { selectedTemplate: selectedTemplate } }) }}
-        >
-          Preview
-        </button> */}
       </div>
 
-      <div style={{ display: "flex", justifyContent: "center" }}>
-        <div><h1>Resume Builder Form</h1></div>
-      </div>
-      <div style={screenSize.width > 850 ? containerStyle : containerStylemobile} >
 
-        {/* -----------------left container------- */}
-        <div style={{ width: screenSize.width > 850 ? "48%" : "100%" }}>
-          {successMessage && <p>{successMessage}</p>}
-          <div >
-            {/* {console.log("pd",profileData[0]?.Gpicture )} */}
-            {profileData ? (
-              imageConsent === true ? (
+      {/* ================= TITLE ================= */}
+      <div className={styles.pageTitle}>
+        <h1>Resume Builder Form</h1>
+      </div>
+
+
+      {/* ================= MAIN FORM ================= */}
+      <div className={styles.formContainer}>
+
+        {/* =====================================================
+          LEFT COLUMN
+      ====================================================== */}
+        <div className={styles.formColumn}>
+
+          {/* SUCCESS MESSAGE */}
+          {successMessage && (
+            <div className={styles.successMessage}>
+              {successMessage}
+            </div>
+          )}
+
+
+          {/* ================= PROFILE ================= */}
+          <div className={styles.section}>
+
+            {/* {profileData ? (
+            imageConsent === true ? (
+              <div className={styles.profileImageWrapper}>
                 <img
                   src={profileData[0]?.Gpicture}
                   alt="Candidate"
-                  style={{ borderRadius: "47%" }}
+                  className={styles.profileImage}
                 />
-              ) : null
+              </div>
+            ) : null
+          ) : (
+            <p>Loading...</p>
+          )} */}
+
+
+            {/* {!(loginprofile === "cs_center") && (
+            <div className={styles.consentBox}>
+
+              <p className={styles.consentText}>
+                Your Google profile picture will be used on your resume.
+                Make sure you have latest profile picture updated in
+                Google account. Please confirm, do you want to add your
+                Google profile picture in resume?
+              </p>
+
+              <label className={styles.consentOption}>
+                <input
+                  type="radio"
+                  name="imageConsent"
+                  value="true"
+                  checked={imageConsent === true}
+                  onChange={() => handleConscentChange(true)}
+                />
+                {" "}Yes, I give my consent
+              </label>
+
+              <label className={styles.consentOption}>
+                <input
+                  type="radio"
+                  name="imageConsent"
+                  value="false"
+                  checked={imageConsent === false}
+                  onChange={() => handleConscentChange(false)}
+                />
+                {" "}No, I do not wish
+              </label>
+
+            </div>
+          )} */}
+
+
+            {/* NAME */}
+            <input
+              className={styles.input}
+              placeholder="Name"
+              value={formData.name}
+              onChange={(e) =>
+                handleChange("name", e.target.value)
+              }
+            />
+
+
+            {/* PROFILE SUMMARY / OBJECTIVE */}
+            {formstate !== "nontech" ? (
+              <textarea
+                className={styles.input}
+                disabled={loginprofile === "cs_center"}
+                placeholder="Profile Summary"
+                value={formData.profileSummary}
+                onChange={(e) =>
+                  handleChange("profileSummary", e.target.value)
+                }
+              />
             ) : (
-              <p>Loading...</p>
+              <textarea
+                className={styles.input}
+                disabled
+                placeholder="Objective"
+                value={formData.objective}
+                onChange={(e) =>
+                  handleChange("objective", e.target.value)
+                }
+              />
             )}
 
 
-            {!(loginprofile === "cs_center") &&
-              <div style={{ padding: "10px", fontFamily: "Arial" }}>
-                <p style={{ fontWeight: "bold" }}>
-                  Your google profile picture will be used on your resume. Make sure you have latest profile picture updated in Google account. Please confirm, Do you want to Add  your google profile picture in resume
-                </p>
-
-                <label style={{ display: "block", margin: "5px 0" }}>
-                  <input
-                    type="radio"
-                    name="imageConsent"
-                    value="true"
-                    checked={imageConsent === true}
-                    onChange={() => handleConscentChange(true)}
-                  />{" "}
-                  Yes, I give my consent
-                </label>
-
-                <label style={{ display: "block", margin: "5px 0" }}>
-                  <input
-                    type="radio"
-                    name="imageConsent"
-                    value="false"
-                    checked={imageConsent === false}
-                    onChange={() => handleConscentChange(false)}
-                  />{" "}
-                  No, I do not wish
-                </label>
-
-              </div>
-            }
-          </div>
-
-          <input style={inputStyle} placeholder="Name" value={formData.name} onChange={(e) => handleChange('name', e.target.value)} />
-          {formstate !== "nontech" ?
-            <textarea style={inputStyle} disabled={(loginprofile === "cs_center")} placeholder="Profile Summary" value={formData.profileSummary} onChange={(e) => handleChange('profileSummary', e.target.value)} />
-            :
-            <textarea
-              style={inputStyle}
-              disabled
-              placeholder="Objective"
-              value={formData.objective}
-              onChange={(e) => handleChange('objective', e.target.value)}
+            {/* EMAIL */}
+            <input
+              className={styles.input}
+              placeholder="Email"
+              value={formData.email}
+              onChange={(e) =>
+                handleChange("email", e.target.value)
+              }
             />
-          }
-          {/* <input type="text" ref={venueInputRef} value={formData.address} onChange={(e) => handleChange('address', e.target.value)} style={inputStyle} placeholder="Current Address" /> */}
-          <input style={inputStyle} placeholder="Email" value={formData.email} onChange={(e) => handleChange('email', e.target.value)} />
-          {formstate === "fullstack" &&
-            <input style={inputStyle} placeholder="Linkedin" value={formData.linkedin ? formData.linkedin : ""} onChange={(e) => handleChange('linkedin', e.target.value)} />
-          }
-          <h2>Experiance</h2>
-          <input style={inputStyle} placeholder="Total Experience" value={formData.totalExperience} onChange={(e) => handleChange('totalExperience', e.target.value)} />
-          <input
-  style={inputStyle}
-  placeholder="Qualification"
-  defaultValue={formData.qualification}
-/> 
-          <input style={inputStyle}  placeholder="College" value={formData.college} />
+            <input
+              className={styles.input}
+              placeholder="phone number"
+              value={formData.phoneNumber}
+              // onChange={(e)=>{setphoneNumber(e.target.value)}}
+              onChange={(e) =>
+                handleChange("phoneNumber", e.target.value)
+              }
+            />
 
-          {/* QUALIFICATION DETAILS */}
-          {screenSize.width > 850 ?
-            <>
-              <h2>Education</h2>
-              <button style={buttonStyle} type="button" onClick={addQualificationRow}>+ Add New Education</button>
 
-              <table style={{ width: "100%", borderCollapse: "collapse", marginBottom: "20px", marginLeft: "0%" }}>
+            {/* LINKEDIN */}
+            {formstate === "fullstack" && (
+              <input
+                className={styles.input}
+                placeholder="Linkedin"
+                value={formData.linkedin || ""}
+                onChange={(e) =>
+                  handleChange("linkedin", e.target.value)
+                }
+              />
+            )}
 
-                <thead>
-                  <tr style={{ background: "#eee" }}>
-                    <th style={{ border: "1px solid #ccc", padding: "8px" }}>School/College/<br></br>University Name</th>
-                    <th style={{ border: "1px solid #ccc", padding: "8px" }}>Degree</th>
-                    {!(loginprofile === "cs_center") &&
-                      <th style={{ border: "1px solid #ccc", padding: "8px" }}>Field of study (Degree/Masters<br></br>/School)</th>
-                    }
-                    <th style={{ border: "1px solid #ccc", padding: "8px" }}>Grade (% or CGPA)</th>
-                    <th style={{ border: "1px solid #ccc", padding: "8px" }}>year of passing</th>
-                    {/* <th style={{ border: "1px solid #ccc", padding: "8px" }}>State Code</th> */}
-                    {!(loginprofile === "cs_center") &&
-                      <>
-                        <th style={{ border: "1px solid #ccc", padding: "8px" }}>Location (Country/<br></br>Region)</th>
-                        <th style={{ border: "1px solid #ccc", padding: "8px" }}>City</th>
-                      </>
-                    }
-                    {/* <th style={{ border: "1px solid #ccc", padding: "8px" }}>Action</th> */}
-                  </tr>
-                </thead>
-                <tbody>
-                  {formData.qualificationDetails.map((q, i) => (
-                    <React.Fragment key={i}>
-                      {/* ROW 1: INPUTS (UNCHANGED INLINE STYLES) */}
+
+            {/* EXPERIENCE */}
+            <h2>Experience</h2>
+
+            <input
+              className={styles.input}
+              placeholder="Total Experience"
+              value={formData.totalExperience}
+              onChange={(e) =>
+                handleChange("totalExperience", e.target.value)
+              }
+            />
+
+            {/* =====================================================
+              EDUCATION - DESKTOP
+          ====================================================== */}
+            {screenSize.width > 850 ? (
+              <div className={styles.section}>
+
+                <h2>Education</h2>
+
+                <button
+                  className={styles.button}
+                  type="button"
+                  onClick={addQualificationRow}
+                >
+                  + Add New Education
+                </button>
+
+                <div className={styles.educationTableWrapper}>
+
+                  <table className={styles.educationTable}>
+
+                    <thead>
                       <tr>
-                        <td>
-                          <input
-                            maxLength={40}
-                            style={inputStyles}
-                            placeholder="College Name"
-                            value={q.collegeName}
-                            onChange={(e) =>
-                              handleQualificationChange(i, "collegeName", e.target.value)
-                            }
-                          />
-                        </td>
 
-                        <td>
-                          <input
-                            style={{ ...inputStyles, width: "76%" }}
-                            placeholder="Degree"
-                            value={q.degree}
-                            onChange={(e) =>
-                              handleQualificationChange(i, "degree", e.target.value)
-                            }
-                          />
-                        </td>
-                        {!(loginprofile === "cs_center") &&
-                          <td>
-                            <input
-                              style={inputStyles}
-                              placeholder="study field"
-                              value={q.studyField}
-                              onChange={(e) =>
-                                handleQualificationChange(i, "studyField", e.target.value)
-                              }
-                            />
-                          </td>
-                        }
+                        <th>
+                          School/College/
+                          <br />
+                          University Name
+                        </th>
 
-                        <td>
-                          <input
-                            style={{ ...inputStyles, width: "76%" }}
-                            placeholder="% or CGPA"
-                            value={q.score}
-                            onChange={(e) =>
-                              handleQualificationChange(i, "score", e.target.value)
-                            }
-                          />
-                        </td>
+                        <th>
+                          Degree
+                        </th>
 
-                        <td>
-                          <input
-                            style={{ ...inputStyles, width: "76%" }}
-                            placeholder="yop"
-                            value={q.yop}
-                            onChange={(e) =>
-                              handleQualificationChange(i, "yop", e.target.value)
-                            }
-                          />
-                        </td>
-                        {!(loginprofile === "cs_center") &&
+                        {!(loginprofile === "cs_center") && (
+                          <th>
+                            Field of study
+                            <br />
+                            (Degree/Masters/School)
+                          </th>
+                        )}
+
+                        <th>
+                          Grade
+                          <br />
+                          (% or CGPA)
+                        </th>
+
+                        <th>
+                          Year of Passing
+                        </th>
+
+                        {!(loginprofile === "cs_center") && (
                           <>
-                            <td>
-                              <input
-                                style={{ ...inputStyles, width: "76%" }}
-                                placeholder="Country"
-                                value={q.country}
-                                onChange={(e) =>
-                                  handleQualificationChange(i, "country", e.target.value)
-                                }
-                              />
-                            </td>
+                            <th>
+                              Location
+                              <br />
+                              (Country/Region)
+                            </th>
 
-                            <td>
-                              <input
-                                style={{ ...inputStyles, width: "70%" }}
-                                placeholder="City"
-                                value={q.city}
-                                onChange={(e) =>
-                                  handleQualificationChange(i, "city", e.target.value)
-                                }
-                              />
-                            </td>
+                            <th>
+                              City
+                            </th>
                           </>
-                        }
+                        )}
+
                       </tr>
+                    </thead>
 
-                      {/* ROW 2: BUTTONS (RIGHT SIDE, NO STYLE CHANGE) */}
-                      <tr>
-                        <td colSpan={7} style={{ textAlign: "right" }}>
-                          {/* {!q.isSaved && (
-                            <button
-                              style={{ ...buttonStyles, marginRight: "2px" }}
-                              type="button"
-                              onClick={() => handleQualificationSave(i)}
+
+                    <tbody>
+
+                      {formData.qualificationDetails.map((q, i) => (
+                        <React.Fragment key={i}>
+
+                          <tr>
+
+                            <td>
+                              <input
+                                maxLength={40}
+                                className={styles.tableInput}
+                                placeholder="College Name"
+                                value={q.collegeName}
+                                onChange={(e) =>
+                                  handleQualificationChange(
+                                    i,
+                                    "collegeName",
+                                    e.target.value
+                                  )
+                                }
+                              />
+                            </td>
+
+
+                            <td>
+                              <input
+                                className={styles.tableInput}
+                                placeholder="Degree"
+                                value={q.degree}
+                                onChange={(e) =>
+                                  handleQualificationChange(
+                                    i,
+                                    "degree",
+                                    e.target.value
+                                  )
+                                }
+                              />
+                            </td>
+
+
+                            {!(loginprofile === "cs_center") && (
+                              <td>
+                                <input
+                                  className={styles.tableInput}
+                                  placeholder="Study field"
+                                  value={q.studyField}
+                                  onChange={(e) =>
+                                    handleQualificationChange(
+                                      i,
+                                      "studyField",
+                                      e.target.value
+                                    )
+                                  }
+                                />
+                              </td>
+                            )}
+
+
+                            <td>
+                              <input
+                                className={styles.tableInput}
+                                placeholder="% or CGPA"
+                                value={q.score}
+                                onChange={(e) =>
+                                  handleQualificationChange(
+                                    i,
+                                    "score",
+                                    e.target.value
+                                  )
+                                }
+                              />
+                            </td>
+
+
+                            <td>
+                              <input
+                                className={styles.tableInput}
+                                placeholder="YOP"
+                                value={q.yop}
+                                onChange={(e) =>
+                                  handleQualificationChange(
+                                    i,
+                                    "yop",
+                                    e.target.value
+                                  )
+                                }
+                              />
+                            </td>
+
+
+                            {!(loginprofile === "cs_center") && (
+                              <>
+                                <td>
+                                  <input
+                                    className={styles.tableInput}
+                                    placeholder="Country"
+                                    value={q.country}
+                                    onChange={(e) =>
+                                      handleQualificationChange(
+                                        i,
+                                        "country",
+                                        e.target.value
+                                      )
+                                    }
+                                  />
+                                </td>
+
+                                <td>
+                                  <input
+                                    className={styles.tableInput}
+                                    placeholder="City"
+                                    value={q.city}
+                                    onChange={(e) =>
+                                      handleQualificationChange(
+                                        i,
+                                        "city",
+                                        e.target.value
+                                      )
+                                    }
+                                  />
+                                </td>
+                              </>
+                            )}
+
+                          </tr>
+
+
+                          <tr>
+
+                            <td
+                              colSpan={
+                                loginprofile === "cs_center"
+                                  ? 5
+                                  : 7
+                              }
+                              className={styles.tableActions}
                             >
-                              Save
-                            </button>
-                          )} */}
 
-
-                          <button
-                            style={{ ...buttonStyles, marginRight: "2px" }}
-                            type="button"
-                            onClick={() => { clearQualificationRow(i) }}
-                          >
-                            Cancel
-                          </button>
-
-                          <button
-                            style={buttonStyles}
-                            type="button"
-                            onClick={() => { removeQualificationRow(i) }}
-                          >
-                            Delete
-                          </button>
-                        </td>
-                      </tr>
-                    </React.Fragment>
-                  ))}
-
-                </tbody>
-              </table>
-            </> :
-            <>
-              {/* QUALIFICATION DETAILS */}
-              <h2>Education</h2>
-              {formData.qualificationDetails.map((q, i) => (
-                <div key={i} style={{ ...sectionStyle, display: "flex", flexWrap: "wrap", gap: "10px" }}>
-                  <input
-                    style={{ ...inputStyle, flex: "1 1 200px" }}
-                    placeholder="College Name"
-                    maxLength={20}
-                    value={q.collegeName}
-                    onChange={(e) => handleQualificationChange(i, "collegeName", e.target.value)}
-                  />
-                  <input
-                    style={{ ...inputStyle, flex: "1 1 180px" }}
-                    placeholder="Degree/Masters/School"
-                    value={q.degree}
-                    onChange={(e) => handleQualificationChange(i, "degree", e.target.value)}
-                  />
-                  {!(loginprofile === "cs_center") &&
-                    <input
-                      style={{ ...inputStyle, flex: "1 1 180px" }}
-                      placeholder="Study Field"
-                      value={q.studyField}
-                      onChange={(e) => handleQualificationChange(i, "studyField", e.target.value)}
-                    />
-                  }
-                  <input
-                    style={{ ...inputStyle, flex: "1 1 120px" }}
-                    placeholder="% or CGPA"
-                    value={q.score}
-                    onChange={(e) => handleQualificationChange(i, "score", e.target.value)}
-                  />
-
-                  <input
-                    style={{ ...inputStyle, flex: "1 1 120px" }}
-                    placeholder="YOP"
-                    value={q.yop}
-                    onChange={(e) => handleQualificationChange(i, "yop", e.target.value)}
-                  />
-                  {!(loginprofile === "cs_center") &&
-                    <>
-                      <input
-                        style={{ ...inputStyle, flex: "1 1 120px" }}
-                        placeholder="Country"
-                        value={q.country}
-                        onChange={(e) => handleQualificationChange(i, "country", e.target.value)}
-                      />
-                      <input
-                        style={{ ...inputStyle, flex: "1 1 120px" }}
-                        placeholder="State Code"
-                        value={q.city}
-                        onChange={(e) => handleQualificationChange(i, "city", e.target.value)}
-                      />
-                    </>
-                  }
-                  <div style={{ display: "flex", gap: "4px" }}>
-                    <button style={{ ...buttonStyle, height: "30px" }} type="button" onClick={() => handleQualificationSave(i)}>Save</button>
-                    <button style={{ ...buttonStyle, height: "30px" }} type="button" onClick={() => clearQualificationRow(i)}>Cancel</button>
-                    <button style={{ ...buttonStyle, height: "30px" }} type="button" onClick={() => removeQualificationRow(i)}>Delete</button>
-                  </div>
-                </div>
-              ))}
-              <button style={buttonStyle} type="button" onClick={addQualificationRow}>Add Education</button>
-
-            </>
-
-          }
-          {/* EXPERIENCES */}
-          <h2>Experience</h2>
-          {formData.experiences.map((exp, i) => (
-            <div key={i} style={sectionStyle}>
-              <input style={inputStyle} placeholder="Company" value={exp.company} onChange={(e) => handleExperienceChange(i, 'company', e.target.value)} />
-              <input style={inputStyle} placeholder="Role" value={exp.role} onChange={(e) => handleExperienceChange(i, 'role', e.target.value)} />
-              <div style={{ display: "flex", gap: '10px' }}>
-                <input style={{ ...inputStyle, width: '50%' }} type="date" value={exp.startDate} onChange={(e) => handleExperienceChange(i, 'startDate', e.target.value)} />
-                <input style={{ ...inputStyle, width: '50%' }} type="date" value={exp.endDate} onChange={(e) => handleExperienceChange(i, 'endDate', e.target.value)} />
-              </div>
-              {exp.descriptions.map((desc, j) => (
-                <div key={j}>
-                  <textarea style={inputStyle} placeholder={`Role Description ${j + 1}`} value={desc} onChange={(e) => handleRoleDescriptionChange(i, j, e.target.value)} />
-                  <button style={buttonStyle} type="button" onClick={() => removeRoleDescription(i, j)}>Remove Row</button>
-                </div>
-              ))}
-              <button style={buttonStyle} type="button" onClick={() => addRoleDescription(i)}> Add Row</button>
-              <button style={{ ...buttonStyle, marginLeft: "2px" }} type="button" onClick={() => removeExperience(i)}>Remove Experience</button>
-            </div>
-          ))}
-          <button style={buttonStyle} type="button" onClick={addExperience}>Add Experience</button>
-        </div>
-
-        {/* ---------------------------------right container------------- */}
-        <div style={{ width: screenSize.width > 850 ? "48%" : "100%" }}>
-          {/* CERTIFICATIONS */}
-          <h2>Certifications</h2>
-          {formData.certifications.map((cert, i) => (
-            <div key={i}>
-              <input style={inputStyle} placeholder="Enter Certification" value={cert} onChange={(e) => handleCertificationChange(i, e.target.value)} />
-              <button style={buttonStyle} type="button" onClick={() => removeCertification(i)}>Remove</button>
-            </div>
-          ))}
-          <button style={buttonStyle} type="button" onClick={addCertification}>Add Certification</button>
-
-          {/* SKILLS */}
-          <h2>Skills</h2>
-          {/* {formData.skills.length===0
-?
-<button style={buttonStyle} type="button" onClick={addSkillSection}>
-  + Add Skill Section
-</button>
-: */}
-
-          <>
-            {(() => {
-              const allowedHeadings =
-                FORMSTATE_MAP[formstate] || FORMSTATE_MAP.default;
-
-              const filteredSkills = isXmlImported
-                ? formData.skills.map((skill, originalIndex) => ({
-                  skill,
-                  originalIndex,
-                }))
-                : formData.skills
-                  .map((skill, originalIndex) => ({ skill, originalIndex }))
-                  .filter(({ skill }) => {
-                    if (!skill.heading) return true;
-                    return allowedHeadings.includes(skill.heading);
-                  });
-
-
-              return (
-                <>
-                  {filteredSkills.map(({ skill, originalIndex }) => {
-                    const suggestions =
-                      skill.heading && SKILL_LIBRARY[skill.heading]
-                        ? SKILL_LIBRARY[skill.heading].filter((s) =>
-                          s.toLowerCase().includes(skillSearch.toLowerCase())
-                        )
-                        : [];
-
-                    return (
-                      <div key={originalIndex} style={sectionStyle}>
-                        {/* HEADING SELECTOR */}
-                        <label><b>Skill Category</b></label>
-                        <select
-                          style={inputStyle}
-                          value={skill.heading}
-                          onChange={(e) =>
-                            selectSkillHeading(originalIndex, e.target.value)
-                          }
-                        >
-                          <option value="">Select Heading</option>
-                          {allowedHeadings.map((h) => (
-                            <option key={h} value={h}>
-                              {h}
-                            </option>
-                          ))}
-                        </select>
-
-                        {/* SELECTED SKILL CHIPS */}
-                        <div style={{ marginBottom: "10px" }}>
-                          {skill.items.map((item) => (
-                            <span
-                              key={item}
-                              style={{
-                                display: "inline-flex",
-                                alignItems: "center",
-                                padding: "6px 10px",
-                                background: "#e6e6e6",
-                                borderRadius: "20px",
-                                marginRight: "6px",
-                                marginBottom: "6px",
-                                fontSize: "13px",
-                              }}
-                            >
-                              {item}
                               <button
+                                className={`${styles.button} ${styles.buttonSecondary}`}
                                 type="button"
                                 onClick={() =>
-                                  removeSkillChip(originalIndex, item)
+                                  clearQualificationRow(i)
                                 }
-                                style={{
-                                  marginLeft: "6px",
-                                  border: "none",
-                                  background: "transparent",
-                                  cursor: "pointer",
-                                  fontWeight: "bold",
-                                }}
                               >
-                                ×
+                                Cancel
                               </button>
-                            </span>
-                          ))}
-                        </div>
 
-                        {/* ADD SKILL INPUT */}
-                        {skill.heading && (
-                          <div
-                            ref={(el) =>
-                              (skillBoxRef.current[originalIndex] = el)
-                            }
-                          >
-                            <input
-                              style={inputStyle}
-                              placeholder="Add skill"
-                              value={skillSearch}
-                              onFocus={() =>
-                                setActiveSkillIndex(originalIndex)
-                              }
-                              onChange={(e) =>
-                                setSkillSearch(e.target.value)
-                              }
-                              onKeyDown={(e) => {
-                                if (e.key === "Enter" && skillSearch.trim()) {
-                                  addSkillChip(
-                                    originalIndex,
-                                    skillSearch.trim()
-                                  );
-                                  e.preventDefault();
+                              <button
+                                className={`${styles.button} ${styles.buttonDanger}`}
+                                type="button"
+                                onClick={() =>
+                                  removeQualificationRow(i)
                                 }
-                              }}
-                            />
+                              >
+                                Delete
+                              </button>
 
-                            {/* DROPDOWN */}
-                            {activeSkillIndex === originalIndex &&
-                              suggestions.length > 0 && (
-                                <div
-                                  style={{
-                                    border: "1px solid #ccc",
-                                    maxHeight: "160px",
-                                    overflowY: "auto",
-                                    background: "#fff",
-                                  }}
+                            </td>
+
+                          </tr>
+
+                        </React.Fragment>
+                      ))}
+
+                    </tbody>
+
+                  </table>
+
+                </div>
+
+              </div>
+            ) : (
+
+              /* =====================================================
+                 EDUCATION - MOBILE
+              ====================================================== */
+
+              <>
+
+                <h2>Education</h2>
+
+                {formData.qualificationDetails.map((q, i) => (
+
+                  <div
+                    key={i}
+                    className={styles.educationCard}
+                  >
+
+                    <input
+                      className={styles.input}
+                      placeholder="College Name"
+                      maxLength={20}
+                      value={q.collegeName}
+                      onChange={(e) =>
+                        handleQualificationChange(
+                          i,
+                          "collegeName",
+                          e.target.value
+                        )
+                      }
+                    />
+
+                    <input
+                      className={styles.input}
+                      placeholder="Degree/Masters/School"
+                      value={q.degree}
+                      onChange={(e) =>
+                        handleQualificationChange(
+                          i,
+                          "degree",
+                          e.target.value
+                        )
+                      }
+                    />
+
+
+                    {!(loginprofile === "cs_center") && (
+                      <input
+                        className={styles.input}
+                        placeholder="Study Field"
+                        value={q.studyField}
+                        onChange={(e) =>
+                          handleQualificationChange(
+                            i,
+                            "studyField",
+                            e.target.value
+                          )
+                        }
+                      />
+                    )}
+
+
+                    <input
+                      className={styles.input}
+                      placeholder="% or CGPA"
+                      value={q.score}
+                      onChange={(e) =>
+                        handleQualificationChange(
+                          i,
+                          "score",
+                          e.target.value
+                        )
+                      }
+                    />
+
+
+                    <input
+                      className={styles.input}
+                      placeholder="YOP"
+                      value={q.yop}
+                      onChange={(e) =>
+                        handleQualificationChange(
+                          i,
+                          "yop",
+                          e.target.value
+                        )
+                      }
+                    />
+
+
+                    {!(loginprofile === "cs_center") && (
+                      <>
+                        <input
+                          className={styles.input}
+                          placeholder="Country"
+                          value={q.country}
+                          onChange={(e) =>
+                            handleQualificationChange(
+                              i,
+                              "country",
+                              e.target.value
+                            )
+                          }
+                        />
+
+                        <input
+                          className={styles.input}
+                          placeholder="City"
+                          value={q.city}
+                          onChange={(e) =>
+                            handleQualificationChange(
+                              i,
+                              "city",
+                              e.target.value
+                            )
+                          }
+                        />
+                      </>
+                    )}
+
+
+                    <div className={styles.educationActions}>
+
+                      <button
+                        className={styles.button}
+                        type="button"
+                        onClick={() =>
+                          handleQualificationSave(i)
+                        }
+                      >
+                        Save
+                      </button>
+
+                      <button
+                        className={`${styles.button} ${styles.buttonSecondary}`}
+                        type="button"
+                        onClick={() =>
+                          clearQualificationRow(i)
+                        }
+                      >
+                        Cancel
+                      </button>
+
+                      <button
+                        className={`${styles.button} ${styles.buttonDanger}`}
+                        type="button"
+                        onClick={() =>
+                          removeQualificationRow(i)
+                        }
+                      >
+                        Delete
+                      </button>
+
+                    </div>
+
+                  </div>
+
+                ))}
+
+
+                <button
+                  className={styles.button}
+                  type="button"
+                  onClick={addQualificationRow}
+                >
+                  + Add Education
+                </button>
+
+              </>
+            )}
+
+
+            {/* =====================================================
+              EXPERIENCES
+          ====================================================== */}
+
+            <h2>Experience</h2>
+
+            {formData.experiences.map((exp, i) => (
+
+              <div
+                key={i}
+                className={styles.experienceBox}
+              >
+
+                <input
+                  className={styles.input}
+                  placeholder="Company"
+                  value={exp.company}
+                  onChange={(e) =>
+                    handleExperienceChange(
+                      i,
+                      "company",
+                      e.target.value
+                    )
+                  }
+                />
+
+                <input
+                  className={styles.input}
+                  placeholder="Role"
+                  value={exp.role}
+                  onChange={(e) =>
+                    handleExperienceChange(
+                      i,
+                      "role",
+                      e.target.value
+                    )
+                  }
+                />
+
+
+                <div className={styles.dateRow}>
+
+                  <input
+                    className={`${styles.input} ${styles.dateInput}`}
+                    type="date"
+                    value={exp.startDate}
+                    onChange={(e) =>
+                      handleExperienceChange(
+                        i,
+                        "startDate",
+                        e.target.value
+                      )
+                    }
+                  />
+
+                  <input
+                    className={`${styles.input} ${styles.dateInput}`}
+                    type="date"
+                    value={exp.endDate}
+                    onChange={(e) =>
+                      handleExperienceChange(
+                        i,
+                        "endDate",
+                        e.target.value
+                      )
+                    }
+                  />
+
+                </div>
+
+
+                {exp.descriptions.map((desc, j) => (
+
+                  <div key={j}>
+
+                    <textarea
+                      className={styles.input}
+                      placeholder={`Role Description ${j + 1}`}
+                      value={desc}
+                      onChange={(e) =>
+                        handleRoleDescriptionChange(
+                          i,
+                          j,
+                          e.target.value
+                        )
+                      }
+                    />
+
+                    {/* <button
+                    className={`${styles.button} ${styles.buttonDanger}`}
+                    type="button"
+                    onClick={() =>
+                      removeRoleDescription(i, j)
+                    }
+                  >
+                    Remove Row
+                  </button> */}
+                                    <button
+                    className={`${styles.button} ${styles.buttonDanger}`}
+                    type="button"
+                    onClick={() =>
+                      removeExperience(i)
+                    }
+                  >
+                    Remove Experience
+                  </button>
+
+                  </div>
+
+                ))}
+
+               
+              </div>
+
+            ))}
+
+ <div className={styles.buttonGroup}>
+                  {/* 
+
+                <button
+                  className={styles.button}
+                  type="button"
+                  onClick={() =>
+                    addRoleDescription(i)
+                  }
+                >
+                  + Add Row
+                </button> */}
+
+
+                              <button
+              className={styles.button}
+              type="button"
+              onClick={addExperience}
+            >
+              + Add Experience
+            </button>
+
+                </div>
+
+
+
+          </div>
+
+
+          {/* =====================================================
+            RIGHT COLUMN
+        ====================================================== */}
+
+          <div className={styles.formColumn}>
+
+            {/* =====================================================
+              CERTIFICATIONS
+          ====================================================== */}
+
+            <div className={styles.section}>
+
+              <h2>Certifications</h2>
+
+              {formData.certifications.map((cert, i) => (
+
+                <div
+                  key={i}
+                  className={styles.dynamicField}
+                >
+
+                  <input
+                    className={styles.input}
+                    placeholder="Enter Certification"
+                    value={cert}
+                    onChange={(e) =>
+                      handleCertificationChange(
+                        i,
+                        e.target.value
+                      )
+                    }
+                  />
+
+                  <button
+                    className={`${styles.button} ${styles.buttonDanger}`}
+                    type="button"
+                    onClick={() =>
+                      removeCertification(i)
+                    }
+                  >
+                    Remove
+                  </button>
+
+                </div>
+
+              ))}
+
+
+              <button
+                className={styles.button}
+                type="button"
+                onClick={addCertification}
+              >
+                + Add Certification
+              </button>
+
+            </div>
+
+
+            {/* =====================================================
+              SKILLS
+          ====================================================== */}
+
+            <div className={styles.section}>
+
+              <h2>Skills</h2>
+
+              {(() => {
+
+                const allowedHeadings =
+                  FORMSTATE_MAP[formstate] ||
+                  FORMSTATE_MAP.default;
+
+                const filteredSkills = isXmlImported
+                  ? formData.skills.map(
+                    (skill, originalIndex) => ({
+                      skill,
+                      originalIndex
+                    })
+                  )
+                  : formData.skills
+                    .map(
+                      (skill, originalIndex) => ({
+                        skill,
+                        originalIndex
+                      })
+                    )
+                    .filter(({ skill }) => {
+
+                      if (!skill.heading) return true;
+
+                      return allowedHeadings.includes(
+                        skill.heading
+                      );
+
+                    });
+
+
+                return (
+                  <>
+                    {filteredSkills.map(
+                      ({ skill, originalIndex }) => {
+
+                        const suggestions =
+                          skill.heading &&
+                            SKILL_LIBRARY[skill.heading]
+                            ? SKILL_LIBRARY[
+                              skill.heading
+                            ].filter((s) =>
+                              s
+                                .toLowerCase()
+                                .includes(
+                                  skillSearch.toLowerCase()
+                                )
+                            )
+                            : [];
+
+
+                        return (
+
+                          <div
+                            key={originalIndex}
+                            className={styles.skillBox}
+                          >
+
+                            <label
+                              className={styles.skillLabel}
+                            >
+                              <b>Skill Category</b>
+                            </label>
+
+
+                            <select
+                              className={`${styles.input} ${styles.select}`}
+                              value={skill.heading}
+                              onChange={(e) =>
+                                selectSkillHeading(
+                                  originalIndex,
+                                  e.target.value
+                                )
+                              }
+                            >
+
+                              <option value="">
+                                Select Heading
+                              </option>
+
+                              {allowedHeadings.map((h) => (
+
+                                <option
+                                  key={h}
+                                  value={h}
                                 >
-                                  {suggestions.map((s) => (
+                                  {h}
+                                </option>
+
+                              ))}
+
+                            </select>
+
+
+                            {/* SKILL CHIPS */}
+
+                            <div className={styles.skillChips}>
+
+                              {skill.items.map((item) => (
+
+                                <span
+                                  key={item}
+                                  className={styles.skillChip}
+                                >
+
+                                  {item}
+
+                                  <button
+                                    type="button"
+                                    onClick={() =>
+                                      removeSkillChip(
+                                        originalIndex,
+                                        item
+                                      )
+                                    }
+                                  >
+                                    ×
+                                  </button>
+
+                                </span>
+
+                              ))}
+
+                            </div>
+
+
+                            {/* ADD SKILL */}
+
+                            {skill.heading && (
+
+                              <div
+                                ref={(el) =>
+                                (skillBoxRef.current[
+                                  originalIndex
+                                ] = el)
+                                }
+                              >
+
+                                <input
+                                  className={styles.input}
+                                  placeholder="Add skill"
+                                  value={skillSearch}
+                                  onFocus={() =>
+                                    setActiveSkillIndex(
+                                      originalIndex
+                                    )
+                                  }
+                                  onChange={(e) =>
+                                    setSkillSearch(
+                                      e.target.value
+                                    )
+                                  }
+                                  onKeyDown={(e) => {
+
+                                    if (
+                                      e.key === "Enter" &&
+                                      skillSearch.trim()
+                                    ) {
+
+                                      addSkillChip(
+                                        originalIndex,
+                                        skillSearch.trim()
+                                      );
+
+                                      e.preventDefault();
+                                    }
+
+                                  }}
+                                />
+
+
+                                {activeSkillIndex ===
+                                  originalIndex &&
+                                  suggestions.length > 0 && (
+
                                     <div
-                                      key={s}
-                                      onClick={() =>
-                                        addSkillChip(originalIndex, s)
+                                      className={
+                                        styles.skillDropdown
                                       }
-                                      style={{
-                                        padding: "8px",
-                                        cursor: "pointer",
-                                      }}
                                     >
-                                      {s}
+
+                                      {suggestions.map((s) => (
+
+                                        <div
+                                          key={s}
+                                          className={
+                                            styles.skillSuggestion
+                                          }
+                                          onClick={() =>
+                                            addSkillChip(
+                                              originalIndex,
+                                              s
+                                            )
+                                          }
+                                        >
+                                          {s}
+                                        </div>
+
+                                      ))}
+
                                     </div>
-                                  ))}
-                                </div>
-                              )}
+
+                                  )}
+
+                              </div>
+
+                            )}
+
+
+                            <button
+                              type="button"
+                              className={`${styles.button} ${styles.buttonDanger}`}
+                              onClick={() =>
+                                removeSkillSection(
+                                  originalIndex
+                                )
+                              }
+                            >
+                              Remove Section
+                            </button>
+
                           </div>
-                        )}
+
+                        );
+
+                      }
+                    )}
+
+
+                    {allowedHeadings.some(
+                      (h) =>
+                        !formData.skills.some(
+                          (s) =>
+                            s.heading === h
+                        )
+                    ) && (
 
                         <button
                           type="button"
-                          style={{ ...buttonStyle, marginTop: "10px" }}
-                          onClick={() => removeSkillSection(originalIndex)}
+                          className={styles.button}
+                          onClick={addSkillSection}
                         >
-                          Remove Section
+                          + Add Skills
                         </button>
-                      </div>
-                    );
-                  })}
 
-                  {/* ADD SKILL SECTION BUTTON */}
-                  {allowedHeadings.some(
-                    (h) => !formData.skills.some((s) => s.heading === h)
-                  ) && (
-                      <button
-                        type="button"
-                        style={buttonStyle}
-                        onClick={addSkillSection}
-                      >
-                        + Add Skills
-                      </button>
-                    )}
-                </>
-              );
-            })()}
-          </>
+                      )}
+
+                  </>
+                );
+
+              })()}
+
+            </div>
 
 
-          {/* } */}
+            {/* =====================================================
+              LANGUAGES - FRESHERS
+          ====================================================== */}
 
-          {formstate == "freshers" &&
-            <>
-              <h2>Languages</h2>
-              {formData.languages.map((lang, i) => (
-                <div key={i}>
-                  <input style={inputStyle} placeholder="Language" value={lang} onChange={(e) => handleLanguageChange(i, e.target.value)} />
-                  <button style={buttonStyle} type="button" onClick={() => removeLanguage(i)}>Remove</button>
-                </div>
-              ))}
-              <button style={buttonStyle} type="button" onClick={() => addLanguage()}>Add</button>
-            </>
-          }
+            {formstate === "freshers" && (
 
+              <div className={styles.section}>
 
-          {/* LANGUAGES */}
-          {/* 
-        <button style={buttonStyle} type="button" onClick={addLanguage}>Add Language</button> */}
-          {/* <div style={{ padding: "10px", fontFamily: "Arial" }}>
-      <p style={{ fontWeight: "bold" }}>
-        Would you like to include a photo from Google in your resume?
-      </p> */}
-
-          {/* <label style={{ display: "block", margin: "5px 0" }}>
-        <input
-          type="radio"
-          name="imageConsent"
-          value="true"
-          checked={imageConsent === true}
-          onChange={() => handleConscentChange(true)}
-        />{" "}
-        Yes, I give my consent
-      </label>
-
-      <label style={{ display: "block", margin: "5px 0" }}>
-        <input
-          type="radio"
-          name="imageConsent"
-          value="false"
-          checked={imageConsent === false}
-          onChange={() => handleConscentChange(false)}
-        />{" "}
-        No, I do not wish
-      </label>
-
-      </div> */}
-          {formstate == "freshers" || formstate == "nontech" &&
-            <>
-              {/* <div> */}
-              {/* PERSONAL DETAILS */}
-              <h2>Personal Details</h2>
-
-
-              {/* Father Name */}
-              <h3>Father Name:</h3>
-              <input
-                type="text"
-                name="fatherName"
-                value={formData?.personalDetails[0]?.fatherName}
-                placeholder="Enter father name"
-                onChange={handlePersonalChange}
-                style={inputStyle}
-              />
-
-              {/* Mother Name */}
-              <h3>Mother Name:</h3>
-              <input
-                type="text"
-                name="motherName"
-                value={formData?.personalDetails[0]?.motherName}
-                placeholder="Enter mother name"
-                onChange={handlePersonalChange}
-                style={inputStyle}
-              />
-
-              {/* Nationality */}
-              <h3>Nationality:</h3>
-              <input
-                type="text"
-                name="Nationality"
-                value={formData?.personalDetails[0]?.Nationality}
-                placeholder="Enter nationality"
-                onChange={handlePersonalChange}
-                style={inputStyle}
-              />
-              <>
                 <h2>Languages</h2>
+
                 {formData.languages.map((lang, i) => (
-                  <div key={i}>
-                    <input style={inputStyle} placeholder="Language" value={lang} onChange={(e) => handleLanguageChange(i, e.target.value)} />
-                    <button style={buttonStyle} type="button" onClick={() => removeLanguage(i)}>Remove</button>
+
+                  <div
+                    key={i}
+                    className={styles.dynamicField}
+                  >
+
+                    <input
+                      className={styles.input}
+                      placeholder="Language"
+                      value={lang}
+                      onChange={(e) =>
+                        handleLanguageChange(
+                          i,
+                          e.target.value
+                        )
+                      }
+                    />
+
+                    <button
+                      className={`${styles.button} ${styles.buttonDanger}`}
+                      type="button"
+                      onClick={() =>
+                        removeLanguage(i)
+                      }
+                    >
+                      Remove
+                    </button>
+
                   </div>
+
                 ))}
-                <button style={buttonStyle} type="button" onClick={() => addLanguage()}>Add</button>
-              </>
-              {/* Gender */}
-              <h3>Gender:</h3>
-              <div>
-                <label>
-                  <input
-                    type="radio"
-                    name="gender"
-                    value="Male"
-                    checked={formData.personalDetails[0]?.gender === "Male"}
-                    onChange={handlePersonalChange}
-                  />
-                  Male
-                </label>
 
-                <label style={{ marginLeft: "20px" }}>
-                  <input
-                    type="radio"
-                    name="gender"
-                    value="Female"
-                    checked={formData.personalDetails[0]?.gender === "Female"}
-                    onChange={handlePersonalChange}
-                  />
-                  Female
-                </label>
 
-                <label style={{ marginLeft: "20px" }}>
-                  <input
-                    type="radio"
-                    name="gender"
-                    value="Other"
-                    checked={formData.personalDetails[0]?.gender === "Other"}
-                    onChange={handlePersonalChange}
-                  />
-                  Other
-                </label>
+                <button
+                  className={styles.button}
+                  type="button"
+                  onClick={addLanguage}
+                >
+                  + Add Language
+                </button>
+
               </div>
 
-              {/* Marital Status */}
-              <h3>
-                Marital Status:
-              </h3>
-              <div>
-                <label>
+            )}
+
+
+            {/* =====================================================
+              PERSONAL DETAILS
+          ====================================================== */}
+
+            {(formstate === "freshers" ||
+              formstate === "nontech") && (
+
+                <div className={styles.personalSection}>
+
+                  <h2>Personal Details</h2>
+
+
+                  <h3>Father Name:</h3>
+
                   <input
-                    type="radio"
-                    name="maritalStatus"
-                    value="Single"
-                    checked={formData?.personalDetails[0]?.maritalStatus === "Single"}
+                    type="text"
+                    name="fatherName"
+                    value={
+                      formData?.personalDetails[0]?.fatherName
+                    }
+                    placeholder="Enter father name"
                     onChange={handlePersonalChange}
+                    className={styles.input}
                   />
-                  Single
-                </label>
 
 
-                <label style={{ marginLeft: "20px" }}>
+                  <h3>Mother Name:</h3>
+
                   <input
-                    type="radio"
-                    name="maritalStatus"
-                    value="Married"
-                    checked={formData?.personalDetails[0]?.maritalStatus === "Married"}
+                    type="text"
+                    name="motherName"
+                    value={
+                      formData?.personalDetails[0]?.motherName
+                    }
+                    placeholder="Enter mother name"
                     onChange={handlePersonalChange}
+                    className={styles.input}
                   />
-                  Married
-                </label>
-              </div>
 
-              {/* Date of Birth */}
-              <h3>
-                Date of Birth:
-              </h3>
-              <input
-                type="date"
-                name="dob"
-                value={formData?.personalDetails[0]?.dob}
-                onChange={handlePersonalChange}
-                style={{ width: "20%", height: "10px" }}
-              />
-            </>
-          }
 
-          {/* ACHIEVEMENTS */}
-          {(formstate == "freshers" || formstate == "fullstack" || formstate == "entrylevelpro" || formstate == "entrylevelambition") &&
-            <>
-              <h2>Achievements</h2>
-              {formData?.achievements?.map((item, index) => (
-                <div key={index} style={{ marginBottom: "10px" }}>
+                  <h3>Nationality:</h3>
+
                   <input
                     type="text"
-                    value={item}
-                    placeholder="Enter achievement"
-                    onChange={(e) =>
-                      handleDynamicChange(index, "achievements", e.target.value)
+                    name="Nationality"
+                    value={
+                      formData?.personalDetails[0]?.Nationality
                     }
-                    style={inputStyle}
+                    placeholder="Enter nationality"
+                    onChange={handlePersonalChange}
+                    className={styles.input}
                   />
-                  <button
-                    onClick={() => removeField("achievements", index)}
-                    style={buttonStyle}
-                  >
-                    Remove
-                  </button>
-                </div>
-              ))}
-              <button onClick={() => addField("achievements")} style={buttonStyle}>Add Achievement</button>
-            </>
-          }
 
-          {/* INTERESTS */}
-          {/* {console.log("fomrstate",formstate)} */}
-          {(formstate == "freshers" || formstate == "nontech" || formstate == "entrylevelpro") &&
-            <>
-              <h2>Hobbies</h2>
-              {formData?.interests?.map((item, index) => (
-                <div key={index} style={{ marginBottom: "10px" }}>
+
+                  {/* LANGUAGES */}
+
+                  <h2>Languages</h2>
+
+                  {formData.languages.map((lang, i) => (
+
+                    <div
+                      key={i}
+                      className={styles.dynamicField}
+                    >
+
+                      <input
+                        className={styles.input}
+                        placeholder="Language"
+                        value={lang}
+                        onChange={(e) =>
+                          handleLanguageChange(
+                            i,
+                            e.target.value
+                          )
+                        }
+                      />
+
+                      <button
+                        className={`${styles.button} ${styles.buttonDanger}`}
+                        type="button"
+                        onClick={() =>
+                          removeLanguage(i)
+                        }
+                      >
+                        Remove
+                      </button>
+
+                    </div>
+
+                  ))}
+
+
+                  <button
+                    className={styles.button}
+                    type="button"
+                    onClick={addLanguage}
+                  >
+                    + Add Language
+                  </button>
+
+
+                  {/* GENDER */}
+
+                  <h3>Gender:</h3>
+
+                  <div className={styles.radioGroup}>
+
+                    <label className={styles.radioOption}>
+                      <input
+                        type="radio"
+                        name="gender"
+                        value="Male"
+                        checked={
+                          formData.personalDetails[0]?.gender ===
+                          "Male"
+                        }
+                        onChange={handlePersonalChange}
+                      />
+                      Male
+                    </label>
+
+
+                    <label className={styles.radioOption}>
+                      <input
+                        type="radio"
+                        name="gender"
+                        value="Female"
+                        checked={
+                          formData.personalDetails[0]?.gender ===
+                          "Female"
+                        }
+                        onChange={handlePersonalChange}
+                      />
+                      Female
+                    </label>
+
+
+                    <label className={styles.radioOption}>
+                      <input
+                        type="radio"
+                        name="gender"
+                        value="Other"
+                        checked={
+                          formData.personalDetails[0]?.gender ===
+                          "Other"
+                        }
+                        onChange={handlePersonalChange}
+                      />
+                      Other
+                    </label>
+
+                  </div>
+
+
+                  {/* MARITAL STATUS */}
+
+                  <h3>Marital Status:</h3>
+
+                  <div className={styles.radioGroup}>
+
+                    <label className={styles.radioOption}>
+                      <input
+                        type="radio"
+                        name="maritalStatus"
+                        value="Single"
+                        checked={
+                          formData?.personalDetails[0]
+                            ?.maritalStatus === "Single"
+                        }
+                        onChange={handlePersonalChange}
+                      />
+                      Single
+                    </label>
+
+
+                    <label className={styles.radioOption}>
+                      <input
+                        type="radio"
+                        name="maritalStatus"
+                        value="Married"
+                        checked={
+                          formData?.personalDetails[0]
+                            ?.maritalStatus === "Married"
+                        }
+                        onChange={handlePersonalChange}
+                      />
+                      Married
+                    </label>
+
+                  </div>
+
+
+                  {/* DOB */}
+
+                  <h3>Date of Birth:</h3>
+
                   <input
-                    type="text"
-                    value={item}
-                    placeholder="Enter interest"
-                    onChange={(e) =>
-                      handleDynamicChange(index, "interests", e.target.value)
-
+                    type="date"
+                    name="dob"
+                    value={
+                      formData?.personalDetails[0]?.dob
                     }
-                    style={inputStyle}
+                    onChange={handlePersonalChange}
+                    className={styles.dobInput}
                   />
-                  <button
-                    onClick={() => removeField("interests", index)}
-                    style={buttonStyle}
-                  >
-                    Remove
-                  </button>
-                </div>
-              ))}
-              <button onClick={() => addField("interests")} style={buttonStyle}>Add Interest</button>
-            </>
-          }
-          {(formstate == "freshers" || formstate == "fullstack" || formstate == "entrylevelpro" || formstate == "entrylevelambition") &&
-            <>
-              <h2>Projects</h2>
-              {formData?.projects?.map((item, index) => (
-                <div key={index} style={{ marginBottom: "10px" }}>
-                  <input
-                    type="text"
-                    value={item}
-                    placeholder="Enter project"
-                    onChange={(e) =>
-                      handleDynamicChange(index, "projects", e.target.value)
 
-                    }
-                    style={inputStyle}
-                  />
-                  <button
-                    onClick={() => removeField("projects", index)}
-                    style={buttonStyle}
-                  >
-                    Remove
-                  </button>
                 </div>
-              ))}
-              <button onClick={() => addField("projects")} style={buttonStyle}>Add Projects</button>
-              {/* </div> */}
-            </>
-          }
+
+              )}
+
+
+            {/* =====================================================
+              ACHIEVEMENTS
+          ====================================================== */}
+
+            {(formstate === "freshers" ||
+              formstate === "fullstack" ||
+              formstate === "entrylevelpro" ||
+              formstate === "entrylevelambition") && (
+
+                <div className={styles.section}>
+
+                  <h2>Achievements</h2>
+
+                  {formData?.achievements?.map(
+                    (item, index) => (
+
+                      <div
+                        key={index}
+                        className={styles.dynamicField}
+                      >
+
+                        <input
+                          type="text"
+                          value={item}
+                          placeholder="Enter achievement"
+                          onChange={(e) =>
+                            handleDynamicChange(
+                              index,
+                              "achievements",
+                              e.target.value
+                            )
+                          }
+                          className={styles.input}
+                        />
+
+                        <button
+                          type="button"
+                          onClick={() =>
+                            removeField(
+                              "achievements",
+                              index
+                            )
+                          }
+                          className={`${styles.button} ${styles.buttonDanger}`}
+                        >
+                          Remove
+                        </button>
+
+                      </div>
+
+                    )
+                  )}
+
+
+                  <button
+                    type="button"
+                    onClick={() =>
+                      addField("achievements")
+                    }
+                    className={styles.button}
+                  >
+                    + Add Achievement
+                  </button>
+
+                </div>
+
+              )}
+
+
+            {/* =====================================================
+              HOBBIES
+          ====================================================== */}
+
+            {(formstate === "freshers" ||
+              formstate === "nontech" ||
+              formstate === "entrylevelpro") && (
+
+                <div className={styles.section}>
+
+                  <h2>Hobbies</h2>
+
+                  {formData?.interests?.map(
+                    (item, index) => (
+
+                      <div
+                        key={index}
+                        className={styles.dynamicField}
+                      >
+
+                        <input
+                          type="text"
+                          value={item}
+                          placeholder="Enter interest"
+                          onChange={(e) =>
+                            handleDynamicChange(
+                              index,
+                              "interests",
+                              e.target.value
+                            )
+                          }
+                          className={styles.input}
+                        />
+
+                        <button
+                          type="button"
+                          onClick={() =>
+                            removeField(
+                              "interests",
+                              index
+                            )
+                          }
+                          className={`${styles.button} ${styles.buttonDanger}`}
+                        >
+                          Remove
+                        </button>
+
+                      </div>
+
+                    )
+                  )}
+
+
+                  <button
+                    type="button"
+                    onClick={() =>
+                      addField("interests")
+                    }
+                    className={styles.button}
+                  >
+                    + Add Interest
+                  </button>
+
+                </div>
+
+              )}
+
+
+            {/* =====================================================
+              PROJECTS
+          ====================================================== */}
+
+            {(formstate === "freshers" ||
+              formstate === "fullstack" ||
+              formstate === "entrylevelpro" ||
+              formstate === "entrylevelambition") && (
+
+                <div className={styles.section}>
+
+                  <h2>Projects</h2>
+
+                  {formData?.projects?.map(
+                    (item, index) => (
+
+                      <div
+                        key={index}
+                        className={styles.dynamicField}
+                      >
+
+                        <input
+                          type="text"
+                          value={item}
+                          placeholder="Enter project"
+                          onChange={(e) =>
+                            handleDynamicChange(
+                              index,
+                              "projects",
+                              e.target.value
+                            )
+                          }
+                          className={styles.input}
+                        />
+
+                        <button
+                          type="button"
+                          onClick={() =>
+                            removeField(
+                              "projects",
+                              index
+                            )
+                          }
+                          className={`${styles.button} ${styles.buttonDanger}`}
+                        >
+                          Remove
+                        </button>
+
+                      </div>
+
+                    )
+                  )}
+
+
+                  <button
+                    type="button"
+                    onClick={() =>
+                      addField("projects")
+                    }
+                    className={styles.button}
+                  >
+                    + Add Project
+                  </button>
+
+                </div>
+
+              )}
+
+          </div>
+
+        </div>
+
+
+        {/* ================= SAVE ================= */}
+
+        <div className={styles.saveArea}>
+
+          <button
+            className={styles.saveButton}
+            onClick={handleSubmit}
+          >
+            Save Resume
+          </button>
+
         </div>
 
       </div>
-      <div style={{ display: "flex", justifyContent: "center", marginBottom: "20px" }}>
-        <button style={{ ...buttonStyle, display: 'block', marginTop: '20px', backgroundColor: 'green' }} onClick={handleSubmit}>Save</button>
-      </div>
-
     </div>
   );
 };

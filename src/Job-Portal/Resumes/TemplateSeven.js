@@ -11,9 +11,12 @@ const TemplateSeven = ({themeColor}) => {
     window.scrollTo(0, 0);
 
     const fetchProfile = async () => {
+      console.log("sdhugskudgk")
       try {
         const res = await axios.get(`/StudentProfile/viewProfile/${studId}`);
         setProfileData(res.data.result);
+  console.log(res.data.result)
+
       } catch {
         alert("Failed to load profile");
       }

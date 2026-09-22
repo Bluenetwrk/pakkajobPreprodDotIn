@@ -1,87 +1,730 @@
-/* 
+/* ================================
+   MAIN PAGE
+================================ */
+
 .container {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 20px;
-    font-family: Arial, sans-serif;
-  }
-  
-  .container h1,
-  .container h2 {
-    color: #333;
-    margin-top: 20px;
-    margin-bottom: 10px;
-  }
-  
-  input,
-  textarea {
-    display: block;
-    width: 98%;
-    padding: 10px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    resize: vertical;
-  }
-  
-  button {
-    margin-top: 5px;
-    padding: 8px 14px;
-    background-color: rgb(40, 4, 99);
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  button:hover {
-    background-color: #0056b3;
-  }
-  
-  .section {
-    background: #f8f8f8;
-    border: 1px solid #ddd;
-    padding: 15px;
-    margin-bottom: 20px;
-    border-radius: 5px;
-  }
-   */
-   .tvbackbtn {
-    background-color: rgb(40, 4, 99);
-    color: white;
-    border: none;
-    padding: 0px 10px;
-    cursor: pointer;
-    border-radius: 5px;
-    margin-top: -25px;
-    font-weight: 500;
-    font-size: 1rem;
-    margin-left: 20px;
-    height: 30px;
-    display: flex;
-    align-items: center;
-    gap: 3px;
-    align-self: flex-start; /* ensures it's aligned left */
-    margin-top: 25px;
-  }
-  .popup {
-    width: 300px;
-    padding: 20px;
-    background-color: rgb(40, 4, 99);
-    color: white;
-    font-size: 12px;
-    border-radius: 5px;
-    position: fixed;
-    top: 17%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 9999;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    text-align: center;
+  min-height: 100vh;
+  background: #f5f7fb;
+  padding: 20px 28px 40px;
+  font-family: Arial, Helvetica, sans-serif;
+  color: #202124;
+  box-sizing: border-box;
+}
+
+.topBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+}
+
+.pageTitle {
+  text-align: center;
+  margin: 10px 0 30px;
+}
+
+.pageTitle h1 {
+  margin: 0;
+  font-size: 30px;
+  font-weight: 700;
+  color: #24104f;
+}
+
+.formContainer {
+  width: 100%;
+  max-width: 1500px;
+  margin: 0 auto;
+  /* display: flex; */
+  align-items: flex-start;
+  gap: 24px;
+}
+
+.formColumn {
+  width: 100%;
+  min-width: 0;
+}
+
+/* ================================
+   TOP BUTTONS
+================================ */
+
+.tvbackbtn {
+  border: none;
+  background: #280463;
+  color: white;
+  padding: 10px 18px;
+  border-radius: 7px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 700;
+  transition: 0.2s ease;
+  box-shadow: 0 2px 6px rgba(40, 4, 99, 0.2);
+}
+
+.tvbackbtn:hover {
+  background: #3b0b82;
+  transform: translateY(-1px);
+}
+
+.tvbackbtn:active {
+  transform: translateY(0);
+}
+
+
+/* ================================
+   FORM SECTIONS
+================================ */
+
+.section {
+  background: #ffffff;
+  border: 1px solid #e4e7ec;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 22px;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.05);
+}
+
+.section h2 {
+  margin-top: 0;
+}
+
+.sectionTitle {
+  font-size: 20px;
+  font-weight: 700;
+  color: #280463;
+  margin: 0 0 16px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.container h2 {
+  color: #280463;
+  font-size: 20px;
+  margin: 24px 0 14px;
+}
+
+.container h3 {
+  font-size: 14px;
+  color: #444;
+  margin: 15px 0 7px;
+}
+
+
+/* ================================
+   INPUTS
+================================ */
+
+.input {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 11px 13px;
+  margin-bottom: 12px;
+  border: 1px solid #d7dbe2;
+  border-radius: 7px;
+  background: #fff;
+  color: #222;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.input:focus {
+  border-color: #6f35c2;
+  box-shadow: 0 0 0 3px rgba(111, 53, 194, 0.1);
+}
+
+.input:disabled {
+  background: #f1f3f5;
+  color: #777;
+  cursor: not-allowed;
+}
+
+textarea.input {
+  min-height: 100px;
+  resize: vertical;
+  line-height: 1.5;
+}
+
+.select {
+  appearance: auto;
+}
+
+.tableInput {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 8px;
+  border: 1px solid #d4d7dc;
+  border-radius: 5px;
+  outline: none;
+  font-size: 13px;
+}
+
+.tableInput:focus {
+  border-color: #6f35c2;
+}
+
+
+/* ================================
+   BUTTONS
+================================ */
+
+.button {
+  margin-top: 5px;
+  padding: 9px 15px;
+  background: #280463;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  transition: 0.2s ease;
+}
+
+.button:hover {
+  background: #3b0b82;
+  transform: translateY(-1px);
+}
+
+.button:active {
+  transform: translateY(0);
+}
+
+.buttonSecondary {
+  background: #6c757d;
+}
+
+.buttonSecondary:hover {
+  background: #545b62;
+}
+
+.buttonDanger {
+  background: #d93025;
+}
+
+.buttonDanger:hover {
+  background: #b9231b;
+}
+
+.saveButton {
+  display: block;
+  min-width: 130px;
+  padding: 12px 28px;
+  border: none;
+  border-radius: 8px;
+  background: #16803c;
+  color: white;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 3px 8px rgba(22, 128, 60, 0.25);
+  transition: 0.2s ease;
+}
+
+.saveButton:hover {
+  background: #126b32;
+  transform: translateY(-1px);
+}
+
+.buttonGroup {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+
+.addButton {
+  margin-top: 5px;
+}
+
+
+/* ================================
+   PROFILE IMAGE
+================================ */
+
+.profileImageWrapper {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.profileImage {
+  width: 115px;
+  height: 115px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 4px solid #eee;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.12);
+}
+
+
+/* ================================
+   IMAGE CONSENT
+================================ */
+
+.consentBox {
+  padding: 15px;
+  margin-bottom: 18px;
+  background: #f8f6fc;
+  border: 1px solid #e2d9f1;
+  border-radius: 9px;
+  font-family: Arial, sans-serif;
+}
+
+.consentText {
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 1.5;
+  margin-top: 0;
+}
+
+.consentOption {
+  display: block;
+  margin: 8px 0;
+  font-size: 14px;
+}
+
+
+/* ================================
+   EXPERIENCE
+================================ */
+
+.experienceBox {
+  background: #fff;
+  border: 1px solid #e3e5e8;
+  padding: 18px;
+  margin-bottom: 18px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.dateRow {
+  display: flex;
+  gap: 10px;
+}
+
+.dateInput {
+  flex: 1;
+}
+
+
+/* ================================
+   SKILLS
+================================ */
+
+.skillBox {
+  background: #fff;
+  border: 1px solid #e2e4e8;
+  padding: 18px;
+  margin-bottom: 18px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.skillLabel {
+  display: block;
+  margin-bottom: 8px;
+  color: #333;
+  font-size: 14px;
+}
+
+.skillChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-bottom: 12px;
+}
+
+.skillChip {
+  display: inline-flex;
+  align-items: center;
+  padding: 7px 11px;
+  background: #eee8f8;
+  color: #280463;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.skillChip button {
+  margin-left: 7px;
+  border: none;
+  background: transparent;
+  color: #555;
+  cursor: pointer;
+  font-size: 17px;
+  line-height: 1;
+  padding: 0;
+}
+
+.skillChip button:hover {
+  color: #d93025;
+}
+
+.skillDropdown {
+  border: 1px solid #d1d5db;
+  max-height: 170px;
+  overflow-y: auto;
+  background: #fff;
+  border-radius: 6px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+.skillSuggestion {
+  padding: 9px 11px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.skillSuggestion:hover {
+  background: #f2eef8;
+}
+
+
+/* ================================
+   EDUCATION TABLE
+================================ */
+
+.educationTableWrapper {
+  width: 100%;
+  overflow-x: auto;
+  margin-bottom: 20px;
+  border-radius: 8px;
+}
+
+.educationTable {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+}
+
+.educationTable th {
+  background: #f0edf5;
+  color: #280463;
+  border: 1px solid #d8d8dc;
+  padding: 10px 7px;
+  font-size: 12px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.educationTable td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  vertical-align: middle;
+}
+
+.educationTable tr:nth-child(even) {
+  background: #fafafa;
+}
+
+.tableActions {
+  text-align: right;
+  padding: 8px !important;
+}
+
+
+/* ================================
+   MOBILE EDUCATION CARD
+================================ */
+
+.educationCard {
+  background: white;
+  border: 1px solid #e2e4e8;
+  padding: 18px;
+  border-radius: 10px;
+  margin-bottom: 18px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.educationActions {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+
+
+/* ================================
+   RADIO GROUP
+================================ */
+
+.radioGroup {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 15px;
+}
+
+.radioOption {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+
+/* ================================
+   PERSONAL DETAILS
+================================ */
+
+.personalSection {
+  background: white;
+  border: 1px solid #e3e5e8;
+  border-radius: 10px;
+  padding: 18px;
+  margin-bottom: 20px;
+}
+
+.dobInput {
+  width: 170px;
+  padding: 9px;
+  border: 1px solid #d5d8dd;
+  border-radius: 6px;
+}
+
+
+/* ================================
+   DYNAMIC FIELDS
+================================ */
+
+.dynamicField {
+  margin-bottom: 12px;
+}
+
+.dynamicActions {
+  display: flex;
+  gap: 7px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+
+/* ================================
+   SUCCESS MESSAGE
+================================ */
+
+.successMessage {
+  padding: 10px 14px;
+  margin-bottom: 15px;
+  background: #edf8f0;
+  border: 1px solid #b7dfc0;
+  border-radius: 7px;
+  color: #16803c;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+
+/* ================================
+   ALERT POPUP
+================================ */
+
+.alertWrapper {
+  position: relative;
+}
+
+.popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(420px, calc(100vw - 40px));
+  padding: 25px;
+  background: white;
+  border-radius: 12px;
+  border: 1px solid #ddd;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+  z-index: 9999;
+  text-align: center;
+  line-height: 1.5;
+  font-size: 14px;
+}
+
+.popupButtons {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 18px;
+}
+
+.popupButton {
+  padding: 8px 17px;
+  background: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+
+/* ================================
+   SAVE AREA
+================================ */
+
+.saveArea {
+  display: flex;
+  justify-content: center;
+  margin: 25px 0 10px;
+}
+
+
+/* ================================
+   XML
+================================ */
+
+.hiddenFileInput {
+  display: none;
+}
+
+.xmlActions {
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 2%;
+  gap: 8px;
+}
+
+
+/* ================================
+   RESPONSIVE
+================================ */
+
+@media (max-width: 1100px) {
+  .container {
+    padding: 18px;
   }
 
-  @media(max-width:475px){
-    .popup{
-      top:19%;
-    }
+  .formContainer {
+    gap: 18px;
   }
+
+  .section {
+    padding: 16px;
+  }
+
+  .educationTable th,
+  .educationTable td {
+    font-size: 11px;
+  }
+}
+
+
+@media (max-width: 850px) {
+  .container {
+    padding: 14px;
+  }
+
+  .formContainer {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .formColumn {
+    width: 100%;
+  }
+
+  .pageTitle h1 {
+    font-size: 25px;
+  }
+
+  .section {
+    padding: 15px;
+    border-radius: 9px;
+  }
+
+  .dateRow {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .dateInput {
+    width: 100% !important;
+  }
+
+  .input {
+    width: 100%;
+  }
+
+  .educationCard {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .educationCard .input {
+    flex: 1 1 220px;
+  }
+
+  .radioGroup {
+    gap: 12px;
+  }
+}
+
+
+@media (max-width: 600px) {
+  .container {
+    padding: 10px;
+  }
+
+  .topBar {
+    margin-bottom: 12px;
+  }
+
+  .tvbackbtn {
+    padding: 8px 12px;
+    font-size: 11px;
+  }
+
+  .pageTitle {
+    margin: 10px 0 20px;
+  }
+
+  .pageTitle h1 {
+    font-size: 22px;
+  }
+
+  .container h2 {
+    font-size: 18px;
+  }
+
+  .section,
+  .experienceBox,
+  .skillBox,
+  .educationCard,
+  .personalSection {
+    padding: 13px;
+  }
+
+  .input {
+    font-size: 13px;
+    padding: 10px;
+  }
+
+  .button {
+    font-size: 12px;
+    padding: 8px 12px;
+  }
+
+  .profileImage {
+    width: 90px;
+    height: 90px;
+  }
+
+  .popup {
+    width: calc(100vw - 30px);
+    padding: 20px;
+  }
+
+  .educationActions,
+  .dynamicActions,
+  .buttonGroup {
+    width: 100%;
+  }
+
+  .saveButton {
+    width: 100%;
+  }
+}
