@@ -33,6 +33,11 @@ function StudentLogin(props) {
   const [Loader, setLoader] = useState(false)
 
   const [ipAddress, setIPAddress] = useState('')
+  const [showWhatsAppLogin, setShowWhatsAppLogin] = useState(false);
+
+const handleWhatsaplogin = () => {
+    setShowWhatsAppLogin(true);
+};
 
   useEffect(() => {
     fetch('https://api.ipify.org?format=json')
@@ -254,7 +259,7 @@ function StudentLogin(props) {
   }
   return (
     <>
-    {/* <div style={{marginLeft:"10px"}}>
+      {/* <div style={{marginLeft:"10px"}}>
     <WhatsAppLogin/>
     </div> */}
 
@@ -361,7 +366,7 @@ function StudentLogin(props) {
         {loginpage === "jsregCheck" ?
           <p className={styles.Loginpage} style={{ marginLeft: "27px" }}> New Job Seeker Registration page</p>
           :
-          <p className={styles.Loginpage}> Job Seeker Login page  </p>
+          <p className={styles.Loginpage}> Job Seeker Login page </p>
         }
         {/* <div className={styles.signUpWrapper}  >
         <div className={styles.both}>
@@ -402,7 +407,7 @@ function StudentLogin(props) {
 
         {loginpage === "jsregCheck" ?
           <>
-		<WhatsAppLogin/>
+            {/* <WhatsAppLogin/> */}
 
             <div className={styles.signUpWrapper} onClick={login} >
               <div className={styles.both}>
@@ -427,12 +432,26 @@ function StudentLogin(props) {
           </>
           :
           <>
-		<WhatsAppLogin/>
+                {showWhatsAppLogin && (
+            <WhatsAppLogin
+                onClose={() => setShowWhatsAppLogin(false)}
+            />
+        )}
 
             <div className={styles.signUpWrapper} onClick={login} >
               <div className={styles.both}>
                 <img className={styles.google} src={GoogleImage} />
                 <span className={styles.signUpwrap} >Continue with Google</span>
+              </div>
+            </div>
+
+             <div className={styles.signUpWrapper} onClick={handleWhatsaplogin} >
+              <div className={styles.both}>
+                <img className={styles.google}
+                  src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg"
+                  alt="WhatsApp"
+                />
+                <span className={styles.signUpwrap} >Continue with whatsapp</span>
               </div>
             </div>
 
@@ -449,6 +468,7 @@ function StudentLogin(props) {
                 <span className={styles.signUpwrap} >Continue with Linkedin</span>
               </div>
             </div>
+           
           </>
 
         }

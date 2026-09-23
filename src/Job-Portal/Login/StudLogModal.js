@@ -16,7 +16,6 @@ import github from "../img/icons8-github-50.png"
 import { auth, provider } from "../firebase"
 import { signInWithPopup, OAuthProvider, getAuth } from "firebase/auth";
 import WhatsAppLogin from "./WhatsapLogin"
-
 import { useMsal } from "@azure/msal-react";
 import { loginRequest } from "../Config";
 
@@ -37,6 +36,12 @@ const Modal = ({ isregCheck, isStuOpen, onClose, children, msalInstance }) => {
 	const [ipAddress, setIPAddress] = useState('')
 	// ......Modal....
 	const [open, setOpen] = React.useState(false);
+	  const [showWhatsAppLogin, setShowWhatsAppLogin] = useState(false);
+	
+	const handleWhatsaplogin = () => {
+		setShowWhatsAppLogin(true);
+	};
+	
 
 	const handleClose = () => {
 		setOpen(false);
@@ -453,6 +458,12 @@ const Modal = ({ isregCheck, isStuOpen, onClose, children, msalInstance }) => {
 								</>
 								:
 								<>
+								      {showWhatsAppLogin && (
+            <WhatsAppLogin
+                onClose={() => setShowWhatsAppLogin(false)}
+            />
+        )}
+
 									<div className={styles.signUpWrapper} onClick={login} >
 										<div className={styles.both}>
 											<img className={styles.google} src={GoogleImage} />
@@ -460,12 +471,23 @@ const Modal = ({ isregCheck, isStuOpen, onClose, children, msalInstance }) => {
 										</div>
 									</div>
 
-									<div className={styles.signUpWrapper} onClick={microsoftLogin} >
+									<div className={styles.signUpWrapper} onClick={handleWhatsaplogin} >
+										<div className={styles.both}>
+											<img className={styles.google}
+												src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg"
+												alt="WhatsApp"
+											/>
+											<span className={styles.signUpwrap} >Continue with whatsapp</span>
+										</div>
+									</div>
+
+									{/* <div className={styles.signUpWrapper} onClick={microsoftLogin} >
 										<div className={styles.both}>
 											<img className={styles.google} src={MicosoftImage} />
 											<span className={styles.signUpwrap} >Continue with Microsoft</span>
 										</div>
 									</div>
+									 */}
 									<div className={styles.signUpWrapper}>
 										<div className={styles.both}>
 											<img className={styles.google} src={linkedIn} />

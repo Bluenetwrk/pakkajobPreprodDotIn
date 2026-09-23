@@ -1,0 +1,309 @@
+.popupOverlay {
+    position: fixed;
+    inset: 0;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(4px);
+
+    z-index: 9999;
+}
+
+
+
+.whatsappCard {
+    position: relative;
+    width: 350px;
+    background: #ffffff;
+    border-radius: 22px;
+    padding: 30px 30px 30px;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.20);
+    animation: popupAnimation 0.25s ease-out;
+}
+
+
+@keyframes popupAnimation {
+
+    from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.96);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+.closeButton {
+    position: absolute;
+    top: 12px;
+    right: 15px;
+    width: 30px;
+    height: 30px;
+    border: none;
+    border-radius: 50%;
+    background: #f3f3f3;
+    color: #555;
+    font-size: 26px;
+    line-height: 30px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.closeButton:hover {
+    background: #e5e5e5;
+    color: #222;
+}
+
+/* WhatsApp Logo */
+
+.logoCircle {
+    width: 66px;
+    height: 66px;
+
+    margin: 0 auto 18px;
+
+    border-radius: 50%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background: #e9f9ef;
+
+    box-shadow:
+        0 6px 20px rgba(37, 211, 102, 0.20);
+}
+
+
+.logoCircle img {
+    width: 48px;
+    height: 48px;
+}
+
+
+/* Heading */
+
+.title {
+    margin: 0;
+
+    font-size: 22px;
+
+    font-weight: 700;
+
+    color: #111111;
+}
+
+
+.subtitle {
+    margin-top: 10px;
+    margin-bottom: 20px;
+
+    color: #777777;
+
+    font-size: 14px;
+
+    line-height: 1.5;
+}
+
+
+/* Mobile Input */
+
+.inputGroup {
+    height: 40px;
+
+    display: flex;
+
+    border: 1px solid #d7d7d7;
+
+    border-radius: 10px;
+
+    overflow: hidden;
+
+    background: #ffffff;
+
+    transition: 0.2s;
+}
+
+
+.inputGroup:focus-within {
+    border-color: #25d366;
+
+    box-shadow:
+        0 0 0 3px rgba(37, 211, 102, 0.12);
+}
+
+
+.countryCode {
+    width: 62px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-size: 16px;
+    font-weight: 600;
+
+    color: #444444;
+
+    background: #f7f7f7;
+
+    border-right: 1px solid #dddddd;
+}
+
+
+.inputGroup input {
+    flex: 1;
+
+    border: none;
+    outline: none;
+
+    padding: 0 15px;
+
+    font-size: 16px;
+
+    color: #222222;
+
+    background: transparent;
+}
+
+
+.inputGroup input::placeholder {
+    color: #999999;
+}
+
+
+/* Send OTP Button */
+
+.sendOtpButton {
+    width: 100%;
+    height: 40px;
+    margin-top: 16px;
+    border: none;
+    border-radius: 10px;
+    background: rgb(40, 4, 99);
+    color: white;
+    font-size: 17px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 9px;
+
+    box-shadow:
+        0 6px 16px rgba(37, 211, 102, 0.25);
+}
+
+
+.sendOtpButton:hover {
+    background: #1ebe5d;
+
+    transform: translateY(-1px);
+
+    box-shadow:
+        0 8px 20px rgba(37, 211, 102, 0.30);
+}
+
+
+.sendOtpButton:active {
+    transform: translateY(0);
+}
+
+
+.sendOtpButton:disabled {
+    background: #8edfad;
+
+    cursor: not-allowed;
+
+    transform: none;
+
+    box-shadow: none;
+}
+
+
+/* Loading Spinner */
+
+.spinner {
+    width: 17px;
+    height: 17px;
+
+    border: 2px solid rgba(255, 255, 255, 0.4);
+
+    border-top-color: white;
+
+    border-radius: 50%;
+
+    animation: spin 0.7s linear infinite;
+}
+
+
+@keyframes spin {
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+
+/* Bottom Secure Message */
+
+.secureText {
+    margin-top: 20px;
+
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    gap: 7px;
+
+    color: #777777;
+
+    font-size: 12px;
+
+    line-height: 1.4;
+}
+
+
+.checkIcon {
+    width: 18px;
+    height: 18px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 50%;
+
+    background: #e8f8ee;
+
+    color: #20b858;
+
+    font-size: 12px;
+
+    font-weight: bold;
+}
+
+
+/* Mobile */
+
+@media (max-width: 480px) {
+
+    .whatsappCard {
+        width: calc(100% - 32px);
+
+        padding: 30px 22px 25px;
+    }
+
+    .title {
+        font-size: 24px;
+    }
+
+}
