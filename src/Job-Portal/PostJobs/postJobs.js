@@ -9,6 +9,8 @@ import HTMLReactParser from 'html-react-parser'
 import { Editor } from 'react-draft-wysiwyg';
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import Style from "./postJobs.module.css"
+import styles from "../Profile/StudentProfile.module.css"
+import { Puff } from 'react-loader-spinner'
 import socketIO from 'socket.io-client';
 import CreatableSelect from "react-select"
 import useScreenSize from '../SizeHook';
@@ -56,15 +58,82 @@ function PostJobs(props) {
     const [skills, setSkills] = useState("")
     const [concent, setconcent] = useState(false)
 
-    // function handleChange(tag) {
-    //     setTag(tag)
-    //     const Tagskills=tag.map((tag,i)=>{
-    //         return(
-    //             tag.value
-    //         )
-    //     })
-    //     setSkills(Tagskills.toString())        
-    // }
+  // -----------you tube code----------      
+      const [videoFile, setVideoFile] = useState(null);
+      const [videoPreview, setVideoPreview] = useState("");
+      const [videoUrl, setVideoUrl] = useState(""); // existing URL
+      const [ytUploading, setYtUploading] = useState(false);
+      const [ytError, setYtError] = useState("");
+      const fileInputRef = useRef(null);
+      const [uploadConsent, setuploadConsent] = useState(false);
+      const [disclaimerConsent, setdisclaimerConsent] = useState(false);
+    
+      useEffect(() => {
+        if (profileData && profileData?.url) {
+          setVideoUrl(profileData[0].url ? profileData[0].url : "");
+          setVideoPreview(""); // YouTube preview replaces local preview
+        }
+      }, [profileData]);
+    
+      const removeLocalVideo = () => {
+        setVideoPreview("");
+        setVideoFile(null);
+        setYtError("");
+    
+        if (fileInputRef.current) {
+          fileInputRef.current.value = "";
+        }
+      };
+    
+      const deleteYouTubeVideo = async () => {
+        try {
+          const response = await axios.post("/api/deleteYouTubeVideo", {
+            url: videoUrl
+          });
+    
+          setVideoUrl("");
+          setVideoPreview("");
+          setYtError("")
+          alert("Video deleted successfully!");
+    
+        } catch (error) {
+          alert("Failed to delete YouTube video.");
+        }
+      };
+    
+      const uploadVideoToYouTube = async (file) => {
+        // let studId = JSON.parse(localStorage.getItem("StudId"))
+        if (!file) {
+          setYtError("No video selected.");
+          return;
+        }
+    
+        const formData = new FormData();
+        formData.append("video", file);
+    
+        try {
+          setYtUploading(true);
+          setYtError("");
+          setVideoUrl("");
+          const res = await axios.post(`/jobpost/uploadToYouTube`,
+            formData,
+            {
+              headers: { "Content-Type": "multipart/form-data" }
+            }
+          );
+          console.log(res)
+          setVideoUrl(res.data.url);
+          setVideoPreview("");
+          setYtError("Upload successful.");
+    
+        } catch (err) {
+          console.log("video upload response", err)
+          setYtError("Upload failed.");
+        } finally {
+          setYtUploading(false);
+        }
+      };
+    
 
     function handleSalary(e){
         const sanitizedValue = e.target.value.replace(/[A-Za-z]/g, '');
@@ -94,6 +163,7 @@ function PostJobs(props) {
         await axios.get(`/EmpProfile/getProfile/${empId}`, { headers })
             .then((res) => {
                 let result = res.data.result
+                console.log(result)
                 let companyName = res.data.result.CompanyName
                 setProfileData([result])
                 setCompanyName(companyName)
@@ -112,6 +182,7 @@ function PostJobs(props) {
         await axios.get(`/EmpProfile/getLogo/${empId}`, { headers })
             .then((res) => {
                 let result = res.data
+                console.log("logo",result)
                 setLogo(result)
             }).catch((err) => {
                 alert("some thing went wrong")
@@ -134,7 +205,7 @@ function PostJobs(props) {
         let jobTitle = jobtitle 
         let jobLocation = joblocation.toLowerCase()
         await axios.post("/jobpost/jobpost/", {
-            Logo, SourceLink, Source, empId, jobTitle, companyName,companyHomeLink,
+            Logo, SourceLink, Source, empId, jobTitle, companyName,companyHomeLink, videoUrl,
             jobDescription, jobtype, salaryRange, jobLocation, qualification, experiance, skills, Tags
         }, { headers })
             .then((res) => {
@@ -476,6 +547,134 @@ const [showTooltip, setShowTooltip] = useState(false);
 
 
                                         {Logo ? <p ><span style={{ color: "blue" }}>Note** :</span> Logo will also be posted with the Job</p> : ""}
+
+
+                                        <div className={styles.infoSection}>
+                                                      <h3>YouTube Video Upload</h3>
+                                        
+                                                      <div>
+                                                        <label style={{ cursor: "pointer" }}>
+                                                          <input
+                                                            type="checkbox"
+                                                            checked={uploadConsent}
+                                                            onChange={(e) => setuploadConsent(e.target.checked)}
+                                                          />
+                                                          You agree to upload only interview clip
+                                                        </label>
+                                        
+                                                        <br />
+                                        
+                                                        <label style={{ cursor: "pointer" }}>
+                                                          <input
+                                                            type="checkbox"
+                                                            checked={disclaimerConsent}
+                                                            onChange={(e) => setdisclaimerConsent(e.target.checked)}
+                                        
+                                                          />
+                                                          Itwalkin is not responsible for misuse of this video by the employer
+                                                        </label>
+                                                        <p><span style={{ fontWeight: "bold" }}>Note:</span>This video will required by ITWalkin Admin. This video will be shared only to fortune 500 employer</p>
+                                                      </div>
+                                        
+                                                      {/* {ytUploading && <p className={styles.loadingText}>Uploading… please wait...</p>} */}
+                                                      {ytError && <p className={styles.errorTextRed}>{ytError}</p>}
+                                                      {/* UPLOAD CARD */}
+                                                      <div
+                                                        className={styles.youtubeCard}
+                                                        onClick={() => {
+                                                          if (!videoPreview && !videoUrl)
+                                                            fileInputRef.current.click();
+                                                        }}
+                                                        onDragOver={(e) => e.preventDefault()}
+                                                        onDrop={(e) => {
+                                                          e.preventDefault();
+                                                          const file = e.dataTransfer.files[0];
+                                                          if (file && file.type.startsWith("video/")) {
+                                                            setVideoFile(file);
+                                                            setVideoPreview(URL.createObjectURL(file));
+                                                            setVideoUrl("");
+                                                          }
+                                                        }}
+                                                      >
+                                                        {/* Hidden File Input */}
+                                                        <input
+                                                          type="file"
+                                                          accept="video/*"
+                                                          ref={fileInputRef}
+                                                          style={{ display: "none" }}
+                                                          onChange={(e) => {
+                                                            const file = e.target.files[0];
+                                                            if (file) {
+                                                              setVideoFile(file);
+                                                              setVideoPreview(URL.createObjectURL(file));
+                                                              setVideoUrl("");
+                                                              setYtError("");
+                                        
+                                                              // IMPORTANT — pass file directly to upload function
+                                                              uploadVideoToYouTube(file);
+                                                            }
+                                                          }}
+                                                        />
+                                        
+                                                        {/* CASE 1 — NO VIDEO SELECTED */}
+                                                        {!videoPreview && !videoUrl && (
+                                                          <>
+                                                            <button disabled={!(uploadConsent && disclaimerConsent)}
+                                                              style={{ backgroundColor: uploadConsent && disclaimerConsent ? "rgb(40,4,99)" : "grey" }} className={styles.uploadBtnBlue}>
+                                                              Upload Video to YouTube</button>
+                                                            <p className={styles.dropText}>
+                                                              or drop a file,<br /> paste video or URL
+                                                            </p>
+                                                          </>
+                                                        )}
+                                        
+                                                        {/* CASE 2 — LOCAL VIDEO PREVIEW */}
+                                                        {ytUploading ?
+                                                          <div style={{ display: "flex", flexDirection: "column" }}>
+                                                            <Puff height="80" width="80" color="#4fa94d" ariaLabel="bars-loading" />
+                                                            <div><p style={{ color: "red" }}>Uploading.......</p></div>
+                                                          </div>
+                                                          :
+                                                          (videoPreview && (
+                                                            <div className={styles.previewWrapper}>
+                                                              <video src={videoPreview} controls className={styles.videoPreview} />
+                                        
+                                                              <button
+                                                                className={styles.removeVideoBtn}
+                                                                onClick={(e) => {
+                                                                  e.stopPropagation();
+                                                                  removeLocalVideo();
+                                                                }}
+                                                              >
+                                                                Delete Videos
+                                                              </button>
+                                                            </div>
+                                                          ))
+                                                        }
+                                        
+                                                        {/* CASE 3 — EXISTING YOUTUBE VIDEO PREVIEW */}
+                                                        {videoUrl && !videoPreview && (
+                                                          <div className={styles.previewWrapper}>
+                                                            <iframe
+                                                              className={styles.youtubeFrame}
+                                                              src={videoUrl.replace("watch?v=", "embed/")}
+                                                              allowFullScreen
+                                                            ></iframe>
+                                        
+                                                            <button
+                                                              className={styles.removeVideoBtn}
+                                                              onClick={(e) => {
+                                                                e.stopPropagation();
+                                                                deleteYouTubeVideo();
+                                                              }}
+                                                            >
+                                                              Delete YouTube Video
+                                                            </button>
+                                                          </div>
+                                                        )}
+                                                      </div>                                                                       
+                                        
+                                                    </div>
                                         <div style={{display:"flex", justifyContent:"center"}}>
                                         <button style={{width:"132px"}} disabled={!concent} className={concent?Style.button: Style.disableButton} onClick={postJob}>Post Job</button>
                                         </div>

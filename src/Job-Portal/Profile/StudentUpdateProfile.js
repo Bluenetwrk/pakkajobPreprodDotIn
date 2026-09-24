@@ -149,31 +149,30 @@ function StudentUpdateProfile(props) {
   const [Skills, setSkills] = useState([])
 
 
-
-  const [currentEmp, setCurrentEmp] = useState("");
-  const currentEmpInputRef = useRef(null);
-  //--------------- Current emp----------
-  useEffect(() => {
-    if (currentEmpInputRef.current && !currentEmpInputRef.current.autocomplete) {
-      const autocomplete = new window.google.maps.places.Autocomplete(currentEmpInputRef.current, {
-        fields: ["formatted_address", "geometry", "address_components", "place_id", "name"],
-      });
-
-      autocomplete.addListener("place_changed", () => {
-        const place = autocomplete.getPlace();
-        if (place && place.formatted_address) {
-          const displayValue =
-            place.name && place.name !== place.formatted_address
-              ? `${place.name}, ${place.formatted_address}`
-              : place.formatted_address;
-
-          setCurrentEmp(displayValue);
-        }
-      });
-
-      currentEmpInputRef.current.autocomplete = autocomplete; // attach instance
-    }
-  }, []);
+  const[currentEmp, setCurrentEmp]=useState("");
+      const currentEmpInputRef = useRef(null);
+      //--------------- Current emp----------
+        useEffect(() => {
+          if (currentEmpInputRef.current && !currentEmpInputRef.current.autocomplete) {
+            const autocomplete = new window.google.maps.places.Autocomplete(currentEmpInputRef.current, {
+              fields: ["formatted_address", "geometry", "address_components", "place_id", "name"],
+            });
+        
+            autocomplete.addListener("place_changed", () => {
+              const place = autocomplete.getPlace();
+              if (place && place.formatted_address) {
+                const displayValue =
+                  place.name && place.name !== place.formatted_address
+                    ? `${place.name}, ${place.formatted_address}`
+                    : place.formatted_address;
+        
+                setCurrentEmp(displayValue);
+              }
+            });
+        
+            currentEmpInputRef.current.autocomplete = autocomplete; // attach instance
+          }
+        }, []);
   //  console.log(Skills)
   function handleTags(key) {
     // setTag(tag)   
@@ -276,7 +275,6 @@ function StudentUpdateProfile(props) {
     const headers = { authorization: userid + " " + atob(JSON.parse(localStorage.getItem("StudLog"))) };
     await axios.get(`/StudentProfile/viewProfile/${studId}`)
       .then((res) => {
-        console.log("res", res.data.result)
         let result = res.data.result
         if (result) {
           setResulttagTag(result.Tags)
@@ -926,15 +924,15 @@ function StudentUpdateProfile(props) {
 
                 <label className={styles.inputName}>
                   <h4>Current Employer:</h4>
-                  <input
-                    type="text"
-                    ref={currentEmpInputRef}
-                    value={currentEmp}
-                    onChange={(e) => setCurrentEmp(e.target.value)}
-                    className={styles.input}
-                    style={{ width: "80%", }}
-                    placeholder="Search your Current Employer"
-                  />
+                    <input
+                   type="text"
+                   ref={currentEmpInputRef}  
+                   value={currentEmp}
+                   onChange={(e) => setCurrentEmp(e.target.value)}
+                   className={styles.input}
+                   style={{ width: "80%",}}
+                   placeholder="Search your Current Employer"
+                 /> 
                 </label>
                 <label className={styles.inputName}>
                   {/* <h4>Experience: &nbsp;<span className={styles.hint}>(e.g 3Y or 10Y)</span></h4> */}

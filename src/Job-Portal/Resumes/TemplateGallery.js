@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./gallery.css";
-import template1 from "../img/template1.JPG";
-import template2 from "../img/template2.png";
-import template3 from "../img/template3.jpg";
-import template4 from "../img/template4.png";
-import template5 from "../img/template5.jpg";
+// import template1 from "../img/template1.JPG";
+// import template2 from "../img/template2.png";
+// import template3 from "../img/template3.jpg";
+// import template4 from "../img/template4.png";
+// import template5 from "../img/template5.jpg";
 import template6 from "../img/template6.png";
 import template7 from "../img/template7.jpg";
 
@@ -85,7 +85,7 @@ const TemplateGallery = ({ onSelect, logoutresume, loginprofile }) => {
           <img src={template6} alt="Template Six" className="blurred" />
         </div> 
 
-        <div
+        {/* <div
           className="template-card"
           onClick={() => { 
             // if (logoutresume === true) {
@@ -100,9 +100,9 @@ const TemplateGallery = ({ onSelect, logoutresume, loginprofile }) => {
             experience. You can add up to 20 bullet points.
           </p>
           <img src={template1} alt="Template One" className="blurred" />
-        </div>
+        </div> */}
 
-        <div
+        {/* <div
           className="template-card"
           onClick={() => { 
             // if (logoutresume === true) {
@@ -116,9 +116,9 @@ const TemplateGallery = ({ onSelect, logoutresume, loginprofile }) => {
             This resume is created for Full Stack Web Developer
           </p>
           <img src={template4} alt="Template Four" className="blurred" />
-        </div>
+        </div> */}
 
-        <div
+        {/* <div
           className="template-card"
           onClick={() => { 
             // if (logoutresume === true) {
@@ -132,9 +132,9 @@ const TemplateGallery = ({ onSelect, logoutresume, loginprofile }) => {
           Perfect for testers with hands-on experience in functional and UI testing.
           </p>
           <img src={template3} alt="Template Five" className="blurred" />
-        </div>
+        </div> */}
 
-        <div
+        {/* <div
           className="template-card"
           onClick={() => { 
             // if (logoutresume === true) {
@@ -148,9 +148,9 @@ const TemplateGallery = ({ onSelect, logoutresume, loginprofile }) => {
            Designed for a fresher with skills like Pro
           </p>
           <img src={template5} alt="Template Three" className="blurred" />
-        </div>
+        </div> */}
 
-        <div
+        {/* <div
           className="template-card"
           onClick={() =>{ 
             // if (logoutresume === true) {
@@ -165,7 +165,7 @@ const TemplateGallery = ({ onSelect, logoutresume, loginprofile }) => {
             Designed to achieve your Ambition
           </p>
           <img src={template2} alt="Template Two" className="blurred" />
-        </div>
+        </div> */}
 
 
         {/* <div

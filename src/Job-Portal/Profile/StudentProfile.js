@@ -36,13 +36,13 @@ function StudentProfile() {
   const params = new URLSearchParams(window.location.search);
   const token = params.get("token");
   const name = atob(params.get("userName"));
-  
+
   useEffect(() => {
-   if (name && token) {
-    setUserName(name);
-    setShowVerifyPopup(true)
-   }
-  },[])
+    if (name && token) {
+      setUserName(name);
+      setShowVerifyPopup(true)
+    }
+  }, [])
 
   const unVerify = async () => {
     let studId = JSON.parse(localStorage.getItem("StudId"))
@@ -144,6 +144,7 @@ function StudentProfile() {
 
       setVideoUrl("");
       setVideoPreview("");
+      setYtError("")
       alert("Video deleted successfully!");
 
     } catch (error) {
@@ -152,6 +153,7 @@ function StudentProfile() {
   };
 
   const uploadVideoToYouTube = async (file) => {
+    let studId = JSON.parse(localStorage.getItem("StudId"))
     if (!file) {
       setYtError("No video selected.");
       return;
@@ -164,14 +166,13 @@ function StudentProfile() {
       setYtUploading(true);
       setYtError("");
       setVideoUrl("");
-
-      const res = await axios.post(
-        "/StudentProfile/uploadToYouTube",
+      const res = await axios.post(`/StudentProfile/uploadToYouTube/${studId}`,
         formData,
         {
           headers: { "Content-Type": "multipart/form-data" }
         }
       );
+
       setVideoUrl(res.data.url);
       setVideoPreview("");
       setYtError("Upload successful.");
@@ -200,213 +201,210 @@ function StudentProfile() {
   </div>;
   if (error) return <p className={styles.errorText}>{error}</p>;
   if (!profileData) return null;
-
-
-
   return (
     <>
-    {showVerifyPopup && !expiryTime && (
-  <div className={styles.popupOverlay}>
-    <div className={styles.verifyPopup}>
+      {showVerifyPopup && (
+        <div className={styles.popupOverlay}>
+          <div className={styles.verifyPopup}>
 
-      <button
-        className={styles.closePopup}
-        onClick={() => setShowVerifyPopup(false)}
-      >
-        ×
-      </button>
+            <button
+              className={styles.closePopup}
+              onClick={() => setShowVerifyPopup(false)}
+            >
+              ×
+            </button>
 
-      <h2>Email Verification</h2>
+            <h2>Email Verification</h2>
 
-      <p>
-        <strong>{userName}</strong> wants you to verify the account.
-      </p>
+            <p>
+              <strong>{userName}</strong> wants you to verify the account.
+            </p>
 
-      <div className={styles.popupActions}>
-        <button
-          className={styles.verifyButton}
-          onClick={() => {
-            setShowVerifyPopup(false);
-            verifyEmail();
-          }}
-        >
-          Verify Account
-        </button>
+            <div className={styles.popupActions}>
+              <button
+                className={styles.verifyButton}
+                onClick={() => {
+                  setShowVerifyPopup(false);
+                  verifyEmail();
+                }}
+              >
+                Verify Account
+              </button>
 
-        <button
-          className={styles.cancelButton}
-          onClick={() => setShowVerifyPopup(false)}
-        >
-          Cancel
-        </button>
-      </div>
+              <button
+                className={styles.cancelButton}
+                onClick={() => setShowVerifyPopup(false)}
+              >
+                Cancel
+              </button>
+            </div>
 
-    </div>
-  </div>
-)}
-    <div className={styles.container}>
-      {/* Header Section */}
-      <div className={styles.header}>
-        <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center" }}>
-          <div className={styles.avatar}>
-            <img src={profileData[0].Gpicture ? profileData[0].Gpicture : profileDp} />
-          </div>
-
-          <div className={styles.details}>
-            <h2 className={styles.name}>{profileData[0].name ? profileData[0].name : ""}</h2>
-            <p className={styles.email}>{profileData[0].email ? profileData[0].email : ""}</p>
-            <p className={styles.city}>{profileData[0].city ? profileData[0].city : ""}</p>
           </div>
         </div>
-        <div className={styles.actions}>
+      )}
+      <div className={styles.container}>
+        {/* Header Section */}
+        <div className={styles.header}>
+          <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center" }}>
+            <div className={styles.avatar}>
+              <img src={profileData[0].Gpicture ? profileData[0].Gpicture : profileDp} />
+            </div>
 
-          {token ? <div className={styles.emailVerification}>
-            {message && (
-              <span className={styles.verificationMessage}>
-                {message}
+            <div className={styles.details}>
+              <h2 className={styles.name}>{profileData[0].name ? profileData[0].name : ""}</h2>
+              <p className={styles.email}>{profileData[0].email ? profileData[0].email : ""}</p>
+              <p className={styles.city}>{profileData[0].city ? profileData[0].city : ""}</p>
+            </div>
+          </div>
+          <div className={styles.actions}>
+
+            {token ? <div className={styles.emailVerification}>
+              {message && (
+                <span className={styles.verificationMessage}>
+                  {message}
+                </span>
+              )}
+              <span className={styles.verificationLabel}>
+                Email Verification
               </span>
-            )}
-            <span className={styles.verificationLabel}>
-              Email Verification
-            </span>
-            {
+              {
 
-              expiryTime > Date.now() ?
-                <button
-                  type="button"
-                  className={`${styles.verifySwitch} ${styles.verified}`}
-                  onClick={unVerify}
-                // disabled={loading || emailVerified}
-                >
-                  <span className={`${styles.VerifiedSwitchCircle}`}></span>
-                </button>
-                :
-                <>
+                expiryTime > Date.now() ?
                   <button
                     type="button"
-                    className={`${styles.verifySwitch}`}
-                    onClick={verifyEmail}
+                    className={`${styles.verifySwitch} ${styles.verified}`}
+                    onClick={unVerify}
+                  // disabled={loading || emailVerified}
                   >
-                    <span className={`${styles.switchCircle}`}></span>
+                    <span className={`${styles.VerifiedSwitchCircle}`}></span>
                   </button>
+                  :
+                  <>
+                    <button
+                      type="button"
+                      className={`${styles.verifySwitch}`}
+                      onClick={verifyEmail}
+                    >
+                      <span className={`${styles.switchCircle}`}></span>
+                    </button>
 
-                </>
-            }
+                  </>
+              }
 
 
+            </div>
+              : ""}
+
+            <button style={{ width: "147px" }} className={styles.editBtn} onClick={updateprofile}>Edit Profile</button>
+            <button className={styles.downloadBtn} onClick={resumedownload}>Download Resumes</button>
+            <div className={profileData[0].isApproved ? styles.statusBadge : styles.statusBadgeReject} style={{ display: "flex" }}><strong>Account Status: </strong>{profileData[0].isApproved ? "Approved" : "Under verification"}</div>
+            {/* <span style={{width:"120px",textAlign:"center"}}  className={styles.statusBadge} onClick={()=>setShowApprovedStatus(prev=>!prev)}>Account Status</span> */}
           </div>
-            : ""}
 
-          <button style={{ width: "147px" }} className={styles.editBtn} onClick={updateprofile}>Edit Profile</button>
-          <button className={styles.downloadBtn} onClick={resumedownload}>Download Resumes</button>
-          <div className={profileData[0].isApproved ? styles.statusBadge : styles.statusBadgeReject} style={{ display: "flex" }}><strong>Account Status: </strong>{profileData[0].isApproved ? "Approved" : "Under verification"}</div>
-          {/* <span style={{width:"120px",textAlign:"center"}}  className={styles.statusBadge} onClick={()=>setShowApprovedStatus(prev=>!prev)}>Account Status</span> */}
+
         </div>
 
 
-      </div>
+        {/* Tabs Section */}
+        <div className={styles.tabs}>
+          {tabs.map((tab) => (
+            <button
+              key={tab}
+              className={`${styles.tabBtn} ${activeTab === tab ? styles.activeTab : ""
+                }`}
+              onClick={() => { setActiveTab(tab); setShowApprovedStatus(false) }}
 
+            >
+              {tab}
+            </button>
+          ))}
+        </div>
 
-      {/* Tabs Section */}
-      <div className={styles.tabs}>
-        {tabs.map((tab) => (
-          <button
-            key={tab}
-            className={`${styles.tabBtn} ${activeTab === tab ? styles.activeTab : ""
-              }`}
-            onClick={() => { setActiveTab(tab); setShowApprovedStatus(false) }}
+        {/* Dynamic Tab Content */}
+        <div className={styles.content}>
+          {activeTab === "Personal Info" && (
+            <div className={styles.infoSection}>
+              <h3>Personal Information</h3>
+              <div>
+                <strong>Name</strong><br></br> {profileData[0].name ? profileData[0].name : ""}
+              </div>
+              <div>
+                <strong>Email</strong><br></br> {profileData[0].email ? profileData[0].email : ""}
+              </div>
+              <div>
+                <strong>Phone</strong><br></br> {profileData[0].phoneNumber ? profileData[0].phoneNumber : ""}
+              </div>
+              <div>
+                <strong>City</strong><br></br> {profileData[0].city ? profileData[0].city : ""}
+              </div>
+              {showApprovedStatus &&
+                (profileData[0].isApproved ?
+                  //  <div className={styles.aprovedStatus}>
+                  //   <div><strong style={{color:"Black"}}>Account Status</strong></div>
+                  //   <div><strong style={{color:"green"}}>Congratulations—your account has been approved</strong></div>
+                  //  </div>
+                  <div>
+                    <strong>Account Status</strong><br></br>Congratulations—your account has been approved
+                  </div>
+                  :
+                  <div>
+                    <strong>Account Status</strong><br></br>Your account is in under Verfication process
+                  </div>
+                  //  <div className={styles.aprovedStatus}>
+                  //   <div><strong style={{color:"Black"}}>Account Status</strong></div>
+                  //   <div><strong style={{color:"red"}}></strong></div>
+                  //   <div><strong style={{color:"red"}}>Your account is in under Verfication process</strong></div>
+                  //  </div> 
+                )
+              }
+            </div>
+          )}
 
-          >
-            {tab}
-          </button>
-        ))}
-      </div>
-
-      {/* Dynamic Tab Content */}
-      <div className={styles.content}>
-        {activeTab === "Personal Info" && (
-          <div className={styles.infoSection}>
-            <h3>Personal Information</h3>
-            <div>
-              <strong>Name</strong><br></br> {profileData[0].name ? profileData[0].name : ""}
-            </div>
-            <div>
-              <strong>Email</strong><br></br> {profileData[0].email ? profileData[0].email : ""}
-            </div>
-            <div>
-              <strong>Phone</strong><br></br> {profileData[0].phoneNumber ? profileData[0].phoneNumber : ""}
-            </div>
-            <div>
-              <strong>City</strong><br></br> {profileData[0].city ? profileData[0].city : ""}
-            </div>
-            {showApprovedStatus &&
-              (profileData[0].isApproved ?
-                //  <div className={styles.aprovedStatus}>
-                //   <div><strong style={{color:"Black"}}>Account Status</strong></div>
-                //   <div><strong style={{color:"green"}}>Congratulations—your account has been approved</strong></div>
-                //  </div>
-                <div>
-                  <strong>Account Status</strong><br></br>Congratulations—your account has been approved
-                </div>
-                :
-                <div>
-                  <strong>Account Status</strong><br></br>Your account is in under Verfication process
-                </div>
-                //  <div className={styles.aprovedStatus}>
-                //   <div><strong style={{color:"Black"}}>Account Status</strong></div>
-                //   <div><strong style={{color:"red"}}></strong></div>
-                //   <div><strong style={{color:"red"}}>Your account is in under Verfication process</strong></div>
-                //  </div> 
-              )
-            }
-          </div>
-        )}
-
-        {activeTab === "Job Info" && (
-          <div className={styles.infoSection}>
-            <h3>Employment Details</h3>
-            <div>
-              <strong>Current Employer :</strong> {profileData[0].currentEmp ? profileData[0].currentEmp : ""}
-            </div>
-            {/* <div>
+          {activeTab === "Job Info" && (
+            <div className={styles.infoSection}>
+              <h3>Employment Details</h3>
+              <div>
+                <strong>Current Employer :</strong> {profileData[0].currentEmp ? profileData[0].currentEmp : ""}
+              </div>
+              {/* <div>
               <strong>Role:</strong> {profileData[0].currentRole}
             </div>
             <div>
               <strong>Duration:</strong> {profileData[0].currentDuration}
             </div> */}
-            <br />
-            <div style={{ marginTop: "-26px" }}>
-              <strong>Previous Employer :</strong>{" "}
-              {profileData[0].employers && profileData[0].employers.length > 0 ? (
-                profileData[0].employers.map((emp, index) => (
-                  <span key={index}>
-                    {emp.name}
-                    {index < profileData[0].employers.length - 1 && ", "}
-                  </span>
-                ))
-              ) : (
-                ""
-              )}
+              <br />
+              <div style={{ marginTop: "-26px" }}>
+                <strong>Previous Employer :</strong>{" "}
+                {profileData[0].employers && profileData[0].employers.length > 0 ? (
+                  profileData[0].employers.map((emp, index) => (
+                    <span key={index}>
+                      {emp.name}
+                      {index < profileData[0].employers.length - 1 && ", "}
+                    </span>
+                  ))
+                ) : (
+                  ""
+                )}
 
-            </div>
-            <div>
-              <strong>Expected CTC : </strong>
-              {profileData[0].currentCTC ? `${profileData[0].currentCTC} LPA` : ""}
-            </div>
+              </div>
+              <div>
+                <strong>Expected CTC : </strong>
+                {profileData[0].currentCTC ? `${profileData[0].currentCTC} LPA` : ""}
+              </div>
 
-            <div>
-              <strong>Experience : </strong>
-              {profileData[0].Experiance ? `${profileData[0].Experiance} Yrs` : ""}
-            </div>
+              <div>
+                <strong>Experience : </strong>
+                {profileData[0].Experiance ? `${profileData[0].Experiance} Yrs` : ""}
+              </div>
 
 
-            {/* <div>
+              {/* <div>
               <strong>Role:</strong> {profileData[0].previousRole}
             </div>
             <div>
               <strong>Duration:</strong> {profileData[0].previousDuration}
             </div> */}
-            {/* {showApprovedStatus &&
+              {/* {showApprovedStatus &&
             (profileData[0].isApproved?
              <div className={styles.aprovedStatus}>
               <div><strong style={{color:"Black"}}>Account Status</strong></div>
@@ -420,26 +418,26 @@ function StudentProfile() {
              </div> 
             )
           } */}
-          </div>
-        )}
+            </div>
+          )}
 
-        {activeTab === "Education" && (
-          <div className={styles.educationSection}>
-            <h3>Educational Details</h3>
-            <div style={{ display: "flex", }}>
-              <strong style={{ marginTop: "-4px" }}>10<sup>th</sup>: </strong> {profileData[0].tenth ? profileData[0].tenth : ""}
-            </div>
-            <div style={{ display: "flex", }}>
-              <strong style={{ marginTop: "-4px" }}>12<sup>th</sup>: </strong> {profileData[0].twelfth ? profileData[0].twelfth : ""}
-            </div>
-            <div style={{ display: "flex", }}>
-              <div> <strong>Degree/Diploma: </strong></div>
-              <div> {profileData[0].degree ? profileData[0].degree : ""}</div>
-            </div>
-            <div style={{ display: "flex", }}>
-              <strong>Masters: </strong> {profileData[0].college ? profileData[0].college : ""}
-            </div>
-            {/* {showApprovedStatus &&
+          {activeTab === "Education" && (
+            <div className={styles.educationSection}>
+              <h3>Educational Details</h3>
+              <div style={{ display: "flex", }}>
+                <strong style={{ marginTop: "-4px" }}>10<sup>th</sup>: </strong> {profileData[0].tenth ? profileData[0].tenth : ""}
+              </div>
+              <div style={{ display: "flex", }}>
+                <strong style={{ marginTop: "-4px" }}>12<sup>th</sup>: </strong> {profileData[0].twelfth ? profileData[0].twelfth : ""}
+              </div>
+              <div style={{ display: "flex", }}>
+                <div> <strong>Degree/Diploma: </strong></div>
+                <div> {profileData[0].degree ? profileData[0].degree : ""}</div>
+              </div>
+              <div style={{ display: "flex", }}>
+                <strong>Masters: </strong> {profileData[0].college ? profileData[0].college : ""}
+              </div>
+              {/* {showApprovedStatus &&
             (profileData[0].isApproved?
              <div className={styles.aprovedStatus}>
               <div><strong style={{color:"Black"}}>Account Status</strong></div>
@@ -453,15 +451,15 @@ function StudentProfile() {
              </div> 
             )
           } */}
-          </div>
-        )}
-
-        {activeTab === "Skills" && (
-          <div className={styles.infoSection}>
-            <div style={{ display: "flex", }}>
-              <strong> Skills: </strong> {profileData[0].Skills ? profileData[0].Skills : ""}
             </div>
-            {/* {showApprovedStatus &&
+          )}
+
+          {activeTab === "Skills" && (
+            <div className={styles.infoSection}>
+              <div style={{ display: "flex", }}>
+                <strong> Skills: </strong> {profileData[0].Skills ? profileData[0].Skills : ""}
+              </div>
+              {/* {showApprovedStatus &&
             (profileData[0].isApproved?
              <div className={styles.aprovedStatus}>
               <div><strong style={{color:"Black"}}>Account Status</strong></div>
@@ -476,20 +474,20 @@ function StudentProfile() {
             )
           }  */}
 
-          </div>
-        )}
+            </div>
+          )}
 
-        {activeTab === "Feedback" && (
-          <div className={styles.infoSection}>
-            <h3>Feedback</h3>
-            {/* {profileData[0].feedback.map((item, index) => (
+          {activeTab === "Feedback" && (
+            <div className={styles.infoSection}>
+              <h3>Feedback</h3>
+              {/* {profileData[0].feedback.map((item, index) => (
               <div key={index}>
                 <strong>{item.title}:</strong>
                 <p>{item.comment}</p>
               </div>
             ))} */}
-            {profileData[0].message ? profileData[0].message : "No FeedBack"}
-            {/* {showApprovedStatus &&
+              {profileData[0].message ? profileData[0].message : "No FeedBack"}
+              {/* {showApprovedStatus &&
             (profileData[0].isApproved?
              <div className={styles.aprovedStatus}>
               <div><strong style={{color:"Black"}}>Account Status</strong></div>
@@ -503,142 +501,138 @@ function StudentProfile() {
              </div> 
             )
           } */}
-          </div>
-        )}
-
-        {/* YOUTUBE TAB */}
-
-        {/* YOUTUBE TAB */}
-
-        {/* YOUTUBE TAB */}
-        {activeTab === "YouTube Video" && (
-          <div className={styles.infoSection}>
-            <h3>YouTube Video Upload</h3>
-
-            <div>
-              <label style={{ cursor: "pointer" }}>
-                <input
-                  type="checkbox"
-                  checked={uploadConsent}
-                  onChange={(e) => setuploadConsent(e.target.checked)}
-                />
-                You agree to upload only interview clip
-              </label>
-
-              <br />
-
-              <label style={{ cursor: "pointer" }}>
-                <input
-                  type="checkbox"
-                  checked={disclaimerConsent}
-                  onChange={(e) => setdisclaimerConsent(e.target.checked)}
-
-                />
-                Itwalkin is not responsible for misuse of this video by the employer
-              </label>
-              <p><span style={{ fontWeight: "bold" }}>Note:</span>This video will required by ITWalkin Admin. This video will be shared only to fortune 500 employer</p>
             </div>
+          )}
 
-            {/* {ytUploading && <p className={styles.loadingText}>Uploading… please wait...</p>} */}
-            {ytError && <p className={styles.errorTextRed}>{ytError}</p>}
-            {/* UPLOAD CARD */}
-            <div
-              className={styles.youtubeCard}
-              onClick={() => {
-                if (!videoPreview && !videoUrl)
-                  fileInputRef.current.click();
-              }}
-              onDragOver={(e) => e.preventDefault()}
-              onDrop={(e) => {
-                e.preventDefault();
-                const file = e.dataTransfer.files[0];
-                if (file && file.type.startsWith("video/")) {
-                  setVideoFile(file);
-                  setVideoPreview(URL.createObjectURL(file));
-                  setVideoUrl("");
-                }
-              }}
-            >
-              {/* Hidden File Input */}
-              <input
-                type="file"
-                accept="video/*"
-                ref={fileInputRef}
-                style={{ display: "none" }}
-                onChange={(e) => {
-                  const file = e.target.files[0];
-                  if (file) {
+          {/* YOUTUBE TAB */}
+          {activeTab === "YouTube Video" && (
+            <div className={styles.infoSection}>
+              <h3>YouTube Video Upload</h3>
+
+              <div>
+                <label style={{ cursor: "pointer" }}>
+                  <input
+                    type="checkbox"
+                    checked={uploadConsent}
+                    onChange={(e) => setuploadConsent(e.target.checked)}
+                  />
+                  You agree to upload only interview clip
+                </label>
+
+                <br />
+
+                <label style={{ cursor: "pointer" }}>
+                  <input
+                    type="checkbox"
+                    checked={disclaimerConsent}
+                    onChange={(e) => setdisclaimerConsent(e.target.checked)}
+
+                  />
+                  Itwalkin is not responsible for misuse of this video by the employer
+                </label>
+                <p><span style={{ fontWeight: "bold" }}>Note:</span>This video will required by ITWalkin Admin. This video will be shared only to fortune 500 employer</p>
+              </div>
+
+              {/* {ytUploading && <p className={styles.loadingText}>Uploading… please wait...</p>} */}
+              {ytError && <p className={styles.errorTextRed}>{ytError}</p>}
+              {/* UPLOAD CARD */}
+              <div
+                className={styles.youtubeCard}
+                onClick={() => {
+                  if (!videoPreview && !videoUrl)
+                    fileInputRef.current.click();
+                }}
+                onDragOver={(e) => e.preventDefault()}
+                onDrop={(e) => {
+                  e.preventDefault();
+                  const file = e.dataTransfer.files[0];
+                  if (file && file.type.startsWith("video/")) {
                     setVideoFile(file);
                     setVideoPreview(URL.createObjectURL(file));
                     setVideoUrl("");
-                    setYtError("");
-
-                    // IMPORTANT — pass file directly to upload function
-                    uploadVideoToYouTube(file);
                   }
                 }}
-              />
+              >
+                {/* Hidden File Input */}
+                <input
+                  type="file"
+                  accept="video/*"
+                  ref={fileInputRef}
+                  style={{ display: "none" }}
+                  onChange={(e) => {
+                    const file = e.target.files[0];
+                    if (file) {
+                      setVideoFile(file);
+                      setVideoPreview(URL.createObjectURL(file));
+                      setVideoUrl("");
+                      setYtError("");
 
-              {/* CASE 1 — NO VIDEO SELECTED */}
-              {!videoPreview && !videoUrl && (
-                <>
-                  <button disabled={!(uploadConsent && disclaimerConsent)}
-                    style={{ backgroundColor: uploadConsent && disclaimerConsent ? "rgb(40,4,99)" : "grey" }} className={styles.uploadBtnBlue}>
-                    Upload Video to YouTube</button>
-                  <p className={styles.dropText}>
-                    or drop a file,<br /> paste video or URL
-                  </p>
-                </>
-              )}
+                      // IMPORTANT — pass file directly to upload function
+                      uploadVideoToYouTube(file);
+                    }
+                  }}
+                />
 
-              {/* CASE 2 — LOCAL VIDEO PREVIEW */}
-              {ytUploading ?
-                <div style={{ display: "flex", flexDirection: "column" }}>
-                  <Puff height="80" width="80" color="#4fa94d" ariaLabel="bars-loading" />
-                  <div><p style={{ color: "red" }}>Uploading.......</p></div>
-                </div>
-                :
-                (videoPreview && (
+                {/* CASE 1 — NO VIDEO SELECTED */}
+                {!videoPreview && !videoUrl && (
+                  <>
+                    <button disabled={!(uploadConsent && disclaimerConsent)}
+                      style={{ backgroundColor: uploadConsent && disclaimerConsent ? "rgb(40,4,99)" : "grey" }} className={styles.uploadBtnBlue}>
+                      Upload Video to YouTube</button>
+                    <p className={styles.dropText}>
+                      or drop a file,<br /> paste video or URL
+                    </p>
+                  </>
+                )}
+
+                {/* CASE 2 — LOCAL VIDEO PREVIEW */}
+                {ytUploading ?
+                  <div style={{ display: "flex", flexDirection: "column" }}>
+                    <Puff height="80" width="80" color="#4fa94d" ariaLabel="bars-loading" />
+                    <div><p style={{ color: "red" }}>Uploading.......</p></div>
+                  </div>
+                  :
+                  (videoPreview && (
+                    <div className={styles.previewWrapper}>
+                      <video src={videoPreview} controls className={styles.videoPreview} />
+
+                      <button
+                        className={styles.removeVideoBtn}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          removeLocalVideo();
+                        }}
+                      >
+                        Delete Videos
+                      </button>
+                    </div>
+                  ))
+                }
+
+                {/* CASE 3 — EXISTING YOUTUBE VIDEO PREVIEW */}
+                {videoUrl && !videoPreview && (
                   <div className={styles.previewWrapper}>
-                    <video src={videoPreview} controls className={styles.videoPreview} />
+                    <iframe
+                      className={styles.youtubeFrame}
+                      src={videoUrl.replace("watch?v=", "embed/")}
+                      allowFullScreen
+                    ></iframe>
 
                     <button
                       className={styles.removeVideoBtn}
                       onClick={(e) => {
                         e.stopPropagation();
-                        removeLocalVideo();
+                        deleteYouTubeVideo();
                       }}
                     >
-                      Delete Videos
+                      Delete YouTube Video
                     </button>
                   </div>
-                ))
-              }
+                )}
+              </div>
 
-              {/* CASE 3 — EXISTING YOUTUBE VIDEO PREVIEW */}
-              {videoUrl && !videoPreview && (
-                <div className={styles.previewWrapper}>
-                  <iframe
-                    className={styles.youtubeFrame}
-                    src={videoUrl.replace("watch?v=", "embed/")}
-                    allowFullScreen
-                  ></iframe>
-
-                  <button
-                    className={styles.removeVideoBtn}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      deleteYouTubeVideo();
-                    }}
-                  >
-                    Delete YouTube Video
-                  </button>
-                </div>
-              )}
-            </div>
-
-            {/* UPLOAD TO YOUTUBE BUTTON */}
-            {/* {!videoUrl && (
+              {/* UPLOAD TO YOUTUBE BUTTON */}
+              {/* {!videoUrl && (
       <div style={{display:"flex", justifyContent:"center"}}>
       <button
         onClick={uploadVideoToYouTube}
@@ -651,11 +645,11 @@ function StudentProfile() {
     )} */}
 
 
-          </div>
-        )}
+            </div>
+          )}
 
+        </div>
       </div>
-    </div>
     </>
   );
 }

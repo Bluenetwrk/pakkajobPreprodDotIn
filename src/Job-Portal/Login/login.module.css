@@ -9,13 +9,13 @@
 .ModelWrapper{
     position: fixed;
         background: white;
-        height: 151px;
+        height: 150px;
         width: 275px;
         border: 1px solid #000;
         border-radius: 10px;
         box-shadow: 2px solid black;
         z-index:100;
-        margin-left:64%;
+        margin-left:68%;
 }
 /* .ModelWrapper::after {
     content: "";

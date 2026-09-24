@@ -393,7 +393,7 @@ const Modal = ({ isregCheck, isStuOpen, onClose, children, msalInstance }) => {
 
 				</div>
 				:
-				<div style={{ height: "150px" }} className={styles.ModelWrapper} >
+				<div style={{ height: "190px" }} className={styles.ModelWrapper} >
 
 
 					<p onClick={onClose} style={
@@ -481,13 +481,13 @@ const Modal = ({ isregCheck, isStuOpen, onClose, children, msalInstance }) => {
 										</div>
 									</div>
 
-									{/* <div className={styles.signUpWrapper} onClick={microsoftLogin} >
+									 <div className={styles.signUpWrapper} onClick={microsoftLogin} >
 										<div className={styles.both}>
 											<img className={styles.google} src={MicosoftImage} />
 											<span className={styles.signUpwrap} >Continue with Microsoft</span>
 										</div>
 									</div>
-									 */}
+									 
 									<div className={styles.signUpWrapper}>
 										<div className={styles.both}>
 											<img className={styles.google} src={linkedIn} />

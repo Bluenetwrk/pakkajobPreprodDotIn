@@ -11,12 +11,10 @@ const TemplateSeven = ({themeColor}) => {
     window.scrollTo(0, 0);
 
     const fetchProfile = async () => {
-      console.log("sdhugskudgk")
       try {
         const res = await axios.get(`/StudentProfile/viewProfile/${studId}`);
         setProfileData(res.data.result);
-  console.log(res.data.result)
-
+        console.log(res.data.result)
       } catch {
         alert("Failed to load profile");
       }
@@ -128,7 +126,7 @@ const TemplateSeven = ({themeColor}) => {
         <Section title="EXPERIENCE" themeColor={themeColor}>
   <ul
     style={{
-  display: "grid",
+  // display: "grid",
   gridTemplateColumns: "1fr 1fr",   // two columns (left + right)
   gridTemplateRows: "repeat(3, auto)", // 3 rows
   gap: "4px 20px",
@@ -138,9 +136,14 @@ const TemplateSeven = ({themeColor}) => {
     {Object.values(profileData.experiences || {})
       .slice(0, 6)
       .map((e, i) => (
+        <>
         <li style={{ color: "black" }} key={i}>
-          {e.company} – {e.role}
+       <span style={{display:"block", fontWeight:"bold"}}>Company {i+1}</span>
+          {e.company}-{e.role} ({new Date(e.startDate).toLocaleDateString("en-US", { dateStyle: "medium" })} - {new Date(e.endDate).toLocaleDateString("en-US",{dateStyle:"medium"})})
+       <span style={{display:"block"}}>{e.descriptions[0]}</span>
         </li>
+
+        </>
       ))}
   </ul>
 </Section>
