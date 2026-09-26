@@ -7,8 +7,8 @@ const ResumePreview = () => {
   const { state } = useLocation();
   const navigate = useNavigate();
   // let CSCAuth = localStorage.getItem("CSCLog")
-  const studId = localStorage.getItem("StudId") || localStorage.getItem("CSCLog")
-  const csCenter = localStorage.getItem("CSCLog")
+  const studId = JSON.parse(localStorage.getItem("StudId")) || JSON.parse(localStorage.getItem("CSCLog"))
+  const csCenter = JSON.parse(localStorage.getItem("CSCLog"))
   const logoutresume = !(Boolean(studId));
   const [resumeAlert, setResumeAlert] = useState({
     show: false,

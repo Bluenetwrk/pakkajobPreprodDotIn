@@ -49,8 +49,6 @@ import SearchParams from "./Job-Portal/Login/SearchParams ";
 import SearchParamsEmp from "./Job-Portal/Login/SearchParamsEmp";
 import SearchParamsDub from "./Job-Portal/Login/SearchParamsDupStuD";
 import SearchParamsDubEmp from "./Job-Portal/Login/SearchParamsDupEmp";
-import CheckEmpProfileForAdmin from "./Job-Portal/Profile/CheckEmplProfileForAdmin";
-import CheckStudentProfileForAdmin from "./Job-Portal/Profile/CheckStuForAdmin";
 import CheckArchivedJobSeeker from "./Job-Portal/Profile/CheckArchivedStud";
 import SearchCandidate from "./Job-Portal/AppliedUserProfile/SearchCandidat";
 import SearchCandHome from "./Job-Portal/AppliedUserProfile/SearchCandHome";
@@ -97,6 +95,17 @@ import ResumePreview from "./Job-Portal/Resumes/ResumePreview";
 import MyCreatedResume from "./Job-Portal/Resumes/MyCreatedResume";
 import CSLogin from "./Job-Portal/Login/CSLogin";
 import CSModel from "./Job-Portal/Login/CSModel";
+// admin
+import AdminLogin from "./Job-Portal/Login/AdminLogin"
+import AdminProfile from "./Job-Portal/Admin/AdminProfile"
+import AllJobsForAdmin from "./Job-Portal/Admin/AllJobsForAdmin"
+import AllJobSeekers from "./Job-Portal/Admin/AllJobSeekers"
+import AllEmployees from "./Job-Portal/Admin/AllEmployees"
+import CheckEmpProfileForAdmin from "./Job-Portal/Profile/CheckEmplProfileForAdmin";
+import CheckStudentProfileForAdmin from "./Job-Portal/Profile/CheckStuForAdmin";
+import AdminUpdate from "./Job-Portal/Admin/AdminUpdate"
+import AdminPostJobs from "./Job-Portal/Admin/AdminJobPosts";
+import AllIds from "./Job-Portal/Admin/Allid'sStudent";
 // import VerifyEmail from "./Job-Portal/Login/verifyEmail";
 
 // import ConsultationServices from "./Job-Portal/Consultation Services/ConsultationServices";
@@ -1220,7 +1229,7 @@ function App() {
             </Route>
             {/* ..........Jobseeker Private component i,e can not search in URL......... */}
             <Route element={<StudPrivate />}>
-            <Route path="/resume-form" element={<ResumeForm />}></Route>
+              <Route path="/resume-form" element={<ResumeForm />}></Route>
 
               <Route path="/scanner" element={<QRScanner />} />
               <Route path="/myCreatedResume" element={<MyCreatedResume url={axios.defaults.baseURL}
@@ -1369,7 +1378,7 @@ function App() {
               getjobs={getjobs}
               gettotalcount={gettotalcount}
               searchIcon={searchIcon} />} />
-              <Route path="/My-Profile" element={<StudentProfile />} />
+            <Route path="/My-Profile" element={<StudentProfile />} />
 
             <Route path="/AboutUs" element={<AboutUs />} />
             {/* <Route path="/verify-email" element={<VerifyEmail />} /> */}
@@ -1384,8 +1393,22 @@ function App() {
             <Route path="/Contact" element={<Contact />} />
             <Route path="/TermsAndCondition" element={<TermsAndCondition />} />
             <Route path="*" element={<h2 style={{ marginLeft: "43%", marginTop: "10%", color: " rgb(40, 4, 99)" }}>Page Not Found</h2>} />
+{/* ..........................Admin............ */}
+            <Route path="/BIAdd@Logg" element={<AdminLogin />} />
+            <Route path="/BIAdd@Gmail" element={<SearchParams />} />
+            <Route path="/BIAdd@GmailEmp" element={<SearchParamsEmp />} />
+            <Route path="/BIAdd@Gmaill" element={<SearchParamsDub />} />
+            <Route path="/BIAdd@Gmaile" element={<SearchParamsDubEmp />} />
+            <Route path="/BIAddmin@Profile" element={<AdminProfile />} />
+            <Route path="/BIAddmin@AllJobs" element={<AllJobsForAdmin />} />
+            <Route path="/BIAddmin@AllJobSeekers" element={<AllJobSeekers />} />
+            <Route path="/BIAddmin@AllEmployees" element={<AllEmployees />} />
+            <Route path="/BIAddmin@CheckEmpProfile/:CP" element={<CheckEmpProfileForAdmin />} />
+            <Route path="/BIAddmin@CheckStudentProfile/:CP" element={<CheckStudentProfileForAdmin />} />
+            <Route path="/BIAddmin@AdminUpdate" element={<AdminUpdate />} />
+            <Route path="/BIAddmin@PostJob" element={<AdminPostJobs />} />
+            <Route path="/BIAddmin@AllIds" element={<AllIds />} />
           </Routes>
-
 
         </div>
 

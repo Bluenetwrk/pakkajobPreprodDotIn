@@ -89,8 +89,8 @@ const ResumeForm = () => {
   const [formData, setFormData] = useState(initialState);
   const [profileData, setProfileData] = useState([]);
   const [successMessage, setSuccessMessage] = useState("");
-    const [phoneNumber, setphoneNumber] = useState()
-  
+  const [phoneNumber, setphoneNumber] = useState()
+
 
   let studId = JSON.parse(localStorage.getItem("StudId"))
   let CSCId = JSON.parse(localStorage.getItem("CSCId"));
@@ -648,10 +648,10 @@ const ResumeForm = () => {
 
   // ---------- SUBMIT ----------
   const handleSubmit = async () => {
-    const { name, email,phoneNumber, linkedin, totalExperience, profileSummary, address, 
+    const { name, email, phoneNumber, linkedin, totalExperience, profileSummary, address,
       experiences, certifications, skills, languages, qualificationDetails,
       personalDetails, achievements, interests, projects } = formData
-      console.log(name, email, linkedin, totalExperience, profileSummary, address, phoneNumber,
+    console.log(name, email, linkedin, totalExperience, profileSummary, address, phoneNumber,
       experiences, certifications, skills, languages, qualificationDetails,
       personalDetails, achievements, interests, projects)
 
@@ -1262,7 +1262,7 @@ const ResumeForm = () => {
 
 
             {/* LINKEDIN */}
-            {formstate === "fullstack" && (
+            {/* {formstate === "fullstack" && (
               <input
                 className={styles.input}
                 placeholder="Linkedin"
@@ -1271,11 +1271,11 @@ const ResumeForm = () => {
                   handleChange("linkedin", e.target.value)
                 }
               />
-            )}
+            )} */}
 
 
             {/* EXPERIENCE */}
-            <h2>Experience</h2>
+            {/* <h2>Experience</h2>
 
             <input
               className={styles.input}
@@ -1284,7 +1284,7 @@ const ResumeForm = () => {
               onChange={(e) =>
                 handleChange("totalExperience", e.target.value)
               }
-            />
+            /> */}
 
             {/* =====================================================
               EDUCATION - DESKTOP
@@ -1773,7 +1773,7 @@ const ResumeForm = () => {
 
                   <div key={j}>
 
-                    <textarea
+                    {/* <textarea
                       className={styles.input}
                       placeholder={`Role Description ${j + 1}`}
                       value={desc}
@@ -1784,7 +1784,7 @@ const ResumeForm = () => {
                           e.target.value
                         )
                       }
-                    />
+                    /> */}
 
                     {/* <button
                     className={`${styles.button} ${styles.buttonDanger}`}
@@ -1795,27 +1795,27 @@ const ResumeForm = () => {
                   >
                     Remove Row
                   </button> */}
-                                    <button
-                    className={`${styles.button} ${styles.buttonDanger}`}
-                    type="button"
-                    onClick={() =>
-                      removeExperience(i)
-                    }
-                  >
-                    Remove Experience
-                  </button>
+                    <button
+                      className={`${styles.button} ${styles.buttonDanger}`}
+                      type="button"
+                      onClick={() =>
+                        removeExperience(i)
+                      }
+                    >
+                      Remove Experience
+                    </button>
 
                   </div>
 
                 ))}
 
-               
+
               </div>
 
             ))}
 
- <div className={styles.buttonGroup}>
-                  {/* 
+            <div className={styles.buttonGroup}>
+              {/* 
 
                 <button
                   className={styles.button}
@@ -1828,15 +1828,15 @@ const ResumeForm = () => {
                 </button> */}
 
 
-                              <button
-              className={styles.button}
-              type="button"
-              onClick={addExperience}
-            >
-              + Add Experience
-            </button>
+              <button
+                className={styles.button}
+                type="button"
+                onClick={addExperience}
+              >
+                + Add Experience
+              </button>
 
-                </div>
+            </div>
 
 
 
@@ -1853,7 +1853,7 @@ const ResumeForm = () => {
               CERTIFICATIONS
           ====================================================== */}
 
-            <div className={styles.section}>
+            {/* <div className={styles.section}>
 
               <h2>Certifications</h2>
 
@@ -1899,329 +1899,16 @@ const ResumeForm = () => {
                 + Add Certification
               </button>
 
-            </div>
+            </div> */}
 
 
             {/* =====================================================
               SKILLS
           ====================================================== */}
-
-            <div className={styles.section}>
-
+            <div>
               <h2>Skills</h2>
-
-              {(() => {
-
-                const allowedHeadings =
-                  FORMSTATE_MAP[formstate] ||
-                  FORMSTATE_MAP.default;
-
-                const filteredSkills = isXmlImported
-                  ? formData.skills.map(
-                    (skill, originalIndex) => ({
-                      skill,
-                      originalIndex
-                    })
-                  )
-                  : formData.skills
-                    .map(
-                      (skill, originalIndex) => ({
-                        skill,
-                        originalIndex
-                      })
-                    )
-                    .filter(({ skill }) => {
-
-                      if (!skill.heading) return true;
-
-                      return allowedHeadings.includes(
-                        skill.heading
-                      );
-
-                    });
-
-
-                return (
-                  <>
-                    {filteredSkills.map(
-                      ({ skill, originalIndex }) => {
-
-                        const suggestions =
-                          skill.heading &&
-                            SKILL_LIBRARY[skill.heading]
-                            ? SKILL_LIBRARY[
-                              skill.heading
-                            ].filter((s) =>
-                              s
-                                .toLowerCase()
-                                .includes(
-                                  skillSearch.toLowerCase()
-                                )
-                            )
-                            : [];
-
-
-                        return (
-
-                          <div
-                            key={originalIndex}
-                            className={styles.skillBox}
-                          >
-
-                            <label
-                              className={styles.skillLabel}
-                            >
-                              <b>Skill Category</b>
-                            </label>
-
-
-                            <select
-                              className={`${styles.input} ${styles.select}`}
-                              value={skill.heading}
-                              onChange={(e) =>
-                                selectSkillHeading(
-                                  originalIndex,
-                                  e.target.value
-                                )
-                              }
-                            >
-
-                              <option value="">
-                                Select Heading
-                              </option>
-
-                              {allowedHeadings.map((h) => (
-
-                                <option
-                                  key={h}
-                                  value={h}
-                                >
-                                  {h}
-                                </option>
-
-                              ))}
-
-                            </select>
-
-
-                            {/* SKILL CHIPS */}
-
-                            <div className={styles.skillChips}>
-
-                              {skill.items.map((item) => (
-
-                                <span
-                                  key={item}
-                                  className={styles.skillChip}
-                                >
-
-                                  {item}
-
-                                  <button
-                                    type="button"
-                                    onClick={() =>
-                                      removeSkillChip(
-                                        originalIndex,
-                                        item
-                                      )
-                                    }
-                                  >
-                                    ×
-                                  </button>
-
-                                </span>
-
-                              ))}
-
-                            </div>
-
-
-                            {/* ADD SKILL */}
-
-                            {skill.heading && (
-
-                              <div
-                                ref={(el) =>
-                                (skillBoxRef.current[
-                                  originalIndex
-                                ] = el)
-                                }
-                              >
-
-                                <input
-                                  className={styles.input}
-                                  placeholder="Add skill"
-                                  value={skillSearch}
-                                  onFocus={() =>
-                                    setActiveSkillIndex(
-                                      originalIndex
-                                    )
-                                  }
-                                  onChange={(e) =>
-                                    setSkillSearch(
-                                      e.target.value
-                                    )
-                                  }
-                                  onKeyDown={(e) => {
-
-                                    if (
-                                      e.key === "Enter" &&
-                                      skillSearch.trim()
-                                    ) {
-
-                                      addSkillChip(
-                                        originalIndex,
-                                        skillSearch.trim()
-                                      );
-
-                                      e.preventDefault();
-                                    }
-
-                                  }}
-                                />
-
-
-                                {activeSkillIndex ===
-                                  originalIndex &&
-                                  suggestions.length > 0 && (
-
-                                    <div
-                                      className={
-                                        styles.skillDropdown
-                                      }
-                                    >
-
-                                      {suggestions.map((s) => (
-
-                                        <div
-                                          key={s}
-                                          className={
-                                            styles.skillSuggestion
-                                          }
-                                          onClick={() =>
-                                            addSkillChip(
-                                              originalIndex,
-                                              s
-                                            )
-                                          }
-                                        >
-                                          {s}
-                                        </div>
-
-                                      ))}
-
-                                    </div>
-
-                                  )}
-
-                              </div>
-
-                            )}
-
-
-                            <button
-                              type="button"
-                              className={`${styles.button} ${styles.buttonDanger}`}
-                              onClick={() =>
-                                removeSkillSection(
-                                  originalIndex
-                                )
-                              }
-                            >
-                              Remove Section
-                            </button>
-
-                          </div>
-
-                        );
-
-                      }
-                    )}
-
-
-                    {allowedHeadings.some(
-                      (h) =>
-                        !formData.skills.some(
-                          (s) =>
-                            s.heading === h
-                        )
-                    ) && (
-
-                        <button
-                          type="button"
-                          className={styles.button}
-                          onClick={addSkillSection}
-                        >
-                          + Add Skills
-                        </button>
-
-                      )}
-
-                  </>
-                );
-
-              })()}
-
+              <input placeholder='enter skills' />
             </div>
-
-
-            {/* =====================================================
-              LANGUAGES - FRESHERS
-          ====================================================== */}
-
-            {formstate === "freshers" && (
-
-              <div className={styles.section}>
-
-                <h2>Languages</h2>
-
-                {formData.languages.map((lang, i) => (
-
-                  <div
-                    key={i}
-                    className={styles.dynamicField}
-                  >
-
-                    <input
-                      className={styles.input}
-                      placeholder="Language"
-                      value={lang}
-                      onChange={(e) =>
-                        handleLanguageChange(
-                          i,
-                          e.target.value
-                        )
-                      }
-                    />
-
-                    <button
-                      className={`${styles.button} ${styles.buttonDanger}`}
-                      type="button"
-                      onClick={() =>
-                        removeLanguage(i)
-                      }
-                    >
-                      Remove
-                    </button>
-
-                  </div>
-
-                ))}
-
-
-                <button
-                  className={styles.button}
-                  type="button"
-                  onClick={addLanguage}
-                >
-                  + Add Language
-                </button>
-
-              </div>
-
-            )}
-
-
             {/* =====================================================
               PERSONAL DETAILS
           ====================================================== */}
@@ -2299,29 +1986,10 @@ const ResumeForm = () => {
                         }
                       />
 
-                      <button
-                        className={`${styles.button} ${styles.buttonDanger}`}
-                        type="button"
-                        onClick={() =>
-                          removeLanguage(i)
-                        }
-                      >
-                        Remove
-                      </button>
 
                     </div>
 
                   ))}
-
-
-                  <button
-                    className={styles.button}
-                    type="button"
-                    onClick={addLanguage}
-                  >
-                    + Add Language
-                  </button>
-
 
                   {/* GENDER */}
 
@@ -2432,80 +2100,6 @@ const ResumeForm = () => {
 
               )}
 
-
-            {/* =====================================================
-              ACHIEVEMENTS
-          ====================================================== */}
-
-            {(formstate === "freshers" ||
-              formstate === "fullstack" ||
-              formstate === "entrylevelpro" ||
-              formstate === "entrylevelambition") && (
-
-                <div className={styles.section}>
-
-                  <h2>Achievements</h2>
-
-                  {formData?.achievements?.map(
-                    (item, index) => (
-
-                      <div
-                        key={index}
-                        className={styles.dynamicField}
-                      >
-
-                        <input
-                          type="text"
-                          value={item}
-                          placeholder="Enter achievement"
-                          onChange={(e) =>
-                            handleDynamicChange(
-                              index,
-                              "achievements",
-                              e.target.value
-                            )
-                          }
-                          className={styles.input}
-                        />
-
-                        <button
-                          type="button"
-                          onClick={() =>
-                            removeField(
-                              "achievements",
-                              index
-                            )
-                          }
-                          className={`${styles.button} ${styles.buttonDanger}`}
-                        >
-                          Remove
-                        </button>
-
-                      </div>
-
-                    )
-                  )}
-
-
-                  <button
-                    type="button"
-                    onClick={() =>
-                      addField("achievements")
-                    }
-                    className={styles.button}
-                  >
-                    + Add Achievement
-                  </button>
-
-                </div>
-
-              )}
-
-
-            {/* =====================================================
-              HOBBIES
-          ====================================================== */}
-
             {(formstate === "freshers" ||
               formstate === "nontech" ||
               formstate === "entrylevelpro") && (
@@ -2536,104 +2130,11 @@ const ResumeForm = () => {
                           className={styles.input}
                         />
 
-                        <button
-                          type="button"
-                          onClick={() =>
-                            removeField(
-                              "interests",
-                              index
-                            )
-                          }
-                          className={`${styles.button} ${styles.buttonDanger}`}
-                        >
-                          Remove
-                        </button>
 
                       </div>
 
                     )
                   )}
-
-
-                  <button
-                    type="button"
-                    onClick={() =>
-                      addField("interests")
-                    }
-                    className={styles.button}
-                  >
-                    + Add Interest
-                  </button>
-
-                </div>
-
-              )}
-
-
-            {/* =====================================================
-              PROJECTS
-          ====================================================== */}
-
-            {(formstate === "freshers" ||
-              formstate === "fullstack" ||
-              formstate === "entrylevelpro" ||
-              formstate === "entrylevelambition") && (
-
-                <div className={styles.section}>
-
-                  <h2>Projects</h2>
-
-                  {formData?.projects?.map(
-                    (item, index) => (
-
-                      <div
-                        key={index}
-                        className={styles.dynamicField}
-                      >
-
-                        <input
-                          type="text"
-                          value={item}
-                          placeholder="Enter project"
-                          onChange={(e) =>
-                            handleDynamicChange(
-                              index,
-                              "projects",
-                              e.target.value
-                            )
-                          }
-                          className={styles.input}
-                        />
-
-                        <button
-                          type="button"
-                          onClick={() =>
-                            removeField(
-                              "projects",
-                              index
-                            )
-                          }
-                          className={`${styles.button} ${styles.buttonDanger}`}
-                        >
-                          Remove
-                        </button>
-
-                      </div>
-
-                    )
-                  )}
-
-
-                  <button
-                    type="button"
-                    onClick={() =>
-                      addField("projects")
-                    }
-                    className={styles.button}
-                  >
-                    + Add Project
-                  </button>
-
                 </div>
 
               )}
