@@ -26,8 +26,9 @@
     min-height: 100vh;
     background-color: #f2f2f2;
     display: flex;
+    flex-direction: column;
     justify-content: center;
-    align-items: start;
+    align-items: center;
     padding: 30px;
     overflow-x: auto;
   }
@@ -41,6 +42,60 @@
     cursor: pointer;
     border-radius: 10px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  }
+
+  .previewButton {
+    margin-top: 18px;
+    padding: 10px 18px;
+    border: 0;
+    border-radius: 6px;
+    background-color: #280463;
+    color: #fff;
+    font-size: 14px;
+    cursor: pointer;
+  }
+
+  .previewPopupOverlay {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    background-color: rgba(0, 0, 0, 0.75);
+  }
+
+  .previewPopup {
+    position: relative;
+    max-width: min(900px, 100%);
+    max-height: 100%;
+    overflow: auto;
+    background-color: #fff;
+    border-radius: 8px;
+  }
+
+  .previewPopupImage {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .previewPopupClose {
+    position: sticky;
+    top: 8px;
+    float: right;
+    z-index: 1;
+    margin: 8px 8px -42px 0;
+    width: 34px;
+    height: 34px;
+    border: 0;
+    border-radius: 50%;
+    background: #280463;
+    color: #fff;
+    font-size: 24px;
+    line-height: 1;
+    cursor: pointer;
   }
   
   /* Overlay */
@@ -115,6 +170,14 @@
       max-width: 100%;
       transform: scale(0.9); /* zoom-out for mobile */
       box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .previewPopupOverlay {
+      padding: 12px;
+    }
+
+    .previewButton {
+      font-size: 13px;
     }
   
     .alertBox {
@@ -275,6 +338,4 @@
   border-radius: 8px;
   cursor: pointer;
 }
-
-
 
