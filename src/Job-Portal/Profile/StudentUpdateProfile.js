@@ -150,29 +150,68 @@ function StudentUpdateProfile(props) {
 
 
   const[currentEmp, setCurrentEmp]=useState("");
-      const currentEmpInputRef = useRef(null);
-      //--------------- Current emp----------
-        useEffect(() => {
-          if (currentEmpInputRef.current && !currentEmpInputRef.current.autocomplete) {
-            const autocomplete = new window.google.maps.places.Autocomplete(currentEmpInputRef.current, {
-              fields: ["formatted_address", "geometry", "address_components", "place_id", "name"],
-            });
-        
-            autocomplete.addListener("place_changed", () => {
-              const place = autocomplete.getPlace();
-              if (place && place.formatted_address) {
-                const displayValue =
-                  place.name && place.name !== place.formatted_address
-                    ? `${place.name}, ${place.formatted_address}`
-                    : place.formatted_address;
-        
-                setCurrentEmp(displayValue);
-              }
-            });
-        
-            currentEmpInputRef.current.autocomplete = autocomplete; // attach instance
+  const currentEmpInputRef = useRef(null);
+  const currentEmpMobileInputRef = useRef(null);
+
+  useEffect(() => {
+    const attachAutocomplete = () => {
+      if (!window.google?.maps?.places) return false;
+
+      [currentEmpInputRef.current, currentEmpMobileInputRef.current].forEach((input) => {
+        if (!input || input.autocomplete) return;
+
+        const autocomplete = new window.google.maps.places.Autocomplete(input, {
+          fields: ["formatted_address", "geometry", "address_components", "place_id", "name"],
+        });
+
+        autocomplete.addListener("place_changed", () => {
+          const place = autocomplete.getPlace();
+          if (place?.name || place?.formatted_address) {
+            const displayValue =
+              place.name && place.formatted_address && place.name !== place.formatted_address
+                ? `${place.name}, ${place.formatted_address}`
+                : place.name || place.formatted_address;
+
+            setCurrentEmp(displayValue);
           }
-        }, []);
+        });
+
+        input.autocomplete = autocomplete;
+      });
+
+      return true;
+    };
+
+    if (attachAutocomplete()) return;
+
+    const mapsScript = document.querySelector('script[src*="maps.googleapis.com/maps/api/js"]');
+    if (!mapsScript) {
+      console.error("Google Maps script is missing; Current Employer autocomplete cannot start.");
+      return;
+    }
+
+    const handleLoad = () => {
+      if (!attachAutocomplete()) {
+        console.error("Google Places did not load; Current Employer autocomplete cannot start.");
+      }
+    };
+    const handleError = () => {
+      console.error("Google Maps script failed to load; Current Employer autocomplete cannot start.");
+    };
+
+    mapsScript.addEventListener("load", handleLoad, { once: true });
+    mapsScript.addEventListener("error", handleError, { once: true });
+
+    if (attachAutocomplete()) {
+      mapsScript.removeEventListener("load", handleLoad);
+      mapsScript.removeEventListener("error", handleError);
+    }
+
+    return () => {
+      mapsScript.removeEventListener("load", handleLoad);
+      mapsScript.removeEventListener("error", handleError);
+    };
+  }, []);
   //  console.log(Skills)
   function handleTags(key) {
     // setTag(tag)   
@@ -926,7 +965,7 @@ function StudentUpdateProfile(props) {
                   <h4>Current Employer:</h4>
                     <input
                    type="text"
-                   ref={currentEmpInputRef}  
+                   ref={currentEmpInputRef}
                    value={currentEmp}
                    onChange={(e) => setCurrentEmp(e.target.value)}
                    className={styles.input}
@@ -1340,7 +1379,7 @@ function StudentUpdateProfile(props) {
                 <h4 className={styles.MobileName}>Current Employer:</h4>
                 <input
                   type="text"
-                  ref={currentEmpInputRef}
+                  ref={currentEmpMobileInputRef}
                   value={currentEmp}
                   onChange={(e) => setCurrentEmp(e.target.value)}
                   className={styles.Mobileinput}

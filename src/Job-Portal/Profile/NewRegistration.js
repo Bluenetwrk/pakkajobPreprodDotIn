@@ -562,7 +562,7 @@ const helpData = [
     };
 
     loadScript(
-      `https://maps.googleapis.com/maps/api/js?key=AIzaSyBJ1-4QU6vh2XuUhENkFLY1YRX5barmKZk&libraries=places`,
+      `https://maps.googleapis.com/maps/api/js?key=AIzaSyCYSlZWgij1UdbIygPumO2QQ3k6uRJT71g&libraries=places`,
       initAutocomplete
     );
   }, []);
