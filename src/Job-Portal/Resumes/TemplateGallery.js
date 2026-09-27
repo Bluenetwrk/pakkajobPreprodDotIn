@@ -68,7 +68,7 @@ const TemplateGallery = ({ onSelect, logoutresume, loginprofile }) => {
           <img src={template7} alt="Template Seven" className="blurred" />
         </div>
 
-        <div
+        {/* <div
           className="template-card"
           onClick={() => {
             // if (logoutresume === true) {
@@ -83,7 +83,7 @@ const TemplateGallery = ({ onSelect, logoutresume, loginprofile }) => {
             Best suited for non-technical job roles.
           </p>
           <img src={template6} alt="Template Six" className="blurred" />
-        </div> 
+        </div>  */}
 
         {/* <div
           className="template-card"

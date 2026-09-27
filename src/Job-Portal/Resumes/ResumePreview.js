@@ -103,27 +103,8 @@ const ResumePreview = () => {
   }
 
   function navig() {
-    if (resumeAlert.selected === "one") {
-      navigate("/resume-form", {
-        state: { formstate: "experience", loginprofile: loginprofile, selectedTemplate: templateKey }
-      });
-    }
-    else if (resumeAlert.selected === "two") {
-      navigate("/resume-form", {
-        state: { formstate: "entrylevelambition", loginprofile: loginprofile, selectedTemplate: templateKey }
-      });
-    }
-    else if (resumeAlert.selected === "three") {
-      navigate("/resume-form", {
-        state: { formstate: "entrylevelpro", loginprofile: loginprofile, selectedTemplate: templateKey }
-      });
-    }
-    else if (resumeAlert.selected === "five") {
-      navigate("/resume-form", {
-        state: { formstate: "testing", loginprofile: loginprofile, selectedTemplate: templateKey }
-      });
-    }
-    else if (resumeAlert.selected === "six") {
+   
+     if (resumeAlert.selected === "six") {
       navigate("/resume-form", {
         state: { formstate: "nontech", loginprofile: loginprofile, selectedTemplate: templateKey }
       });
@@ -131,16 +112,6 @@ const ResumePreview = () => {
     else if (resumeAlert.selected === "seven") {
       navigate("/resume-form", {
         state: { formstate: "nontech", loginprofile: loginprofile, selectedTemplate: templateKey }
-      });
-    }
-    else if (resumeAlert.selected === "eight") {
-      navigate("/resume-form", {
-        state: { formstate: "nontech", loginprofile: loginprofile, selectedTemplate: templateKey }
-      });
-    }
-    else if (resumeAlert.selected === "four") {
-      navigate("/resume-form", {
-        state: { formstate: "fullstack", loginprofile: loginprofile, selectedTemplate: templateKey }
       });
     }
     else {
@@ -264,25 +235,6 @@ const ResumePreview = () => {
                         }
                       />
 
-                      {/* <input
-                        type="text"
-                        placeholder="Enter Phone Number"
-                        className={styles.input}
-                        maxLength={10}
-                        value={jobseekerForm.phone}
-                        onChange={(e) => {
-                          const value = e.target.value;
-
-                          // Allow only numbers and limit to 10 digits
-                          if (/^\d{0,10}$/.test(value)) {
-                            setJobseekerForm({
-                              ...jobseekerForm,
-                              phone: value
-                            });
-                          }
-                        }}
-                      /> */}
-
                       <div className={styles.btnGroup}>
                         {!isEditEnable ?
                           <button
@@ -312,28 +264,8 @@ const ResumePreview = () => {
                       <div className={styles.btnGroup}>
                         <button
                           className={styles.successBtn}
-                          onClick={() => {
-                            if (resumeAlert.selected === "one") {
-                              navigate("/resume-form", {
-                                state: { formstate: "experience", loginprofile: loginprofile, selectedTemplate: templateKey }
-                              });
-                            }
-                            else if (resumeAlert.selected === "two") {
-                              navigate("/resume-form", {
-                                state: { formstate: "entrylevelambition", loginprofile: loginprofile, selectedTemplate: templateKey }
-                              });
-                            }
-                            else if (resumeAlert.selected === "three") {
-                              navigate("/resume-form", {
-                                state: { formstate: "entrylevelpro", loginprofile: loginprofile, selectedTemplate: templateKey }
-                              });
-                            }
-                            else if (resumeAlert.selected === "five") {
-                              navigate("/resume-form", {
-                                state: { formstate: "testing", loginprofile: loginprofile, selectedTemplate: templateKey }
-                              });
-                            }
-                            else if (resumeAlert.selected === "six") {
+                          onClick={() => {                            
+                             if (resumeAlert.selected === "six") {
                               navigate("/resume-form", {
                                 state: { formstate: "nontech", loginprofile: loginprofile, selectedTemplate: templateKey }
                               });
@@ -341,16 +273,6 @@ const ResumePreview = () => {
                             else if (resumeAlert.selected === "seven") {
                               navigate("/resume-form", {
                                 state: { formstate: "nontech", loginprofile: loginprofile, selectedTemplate: templateKey }
-                              });
-                            }
-                            else if (resumeAlert.selected === "eight") {
-                              navigate("/resume-form", {
-                                state: { formstate: "nontech", loginprofile: loginprofile, selectedTemplate: templateKey }
-                              });
-                            }
-                            else if (resumeAlert.selected === "four") {
-                              navigate("/resume-form", {
-                                state: { formstate: "fullstack", loginprofile: loginprofile, selectedTemplate: templateKey }
                               });
                             }
                             else {

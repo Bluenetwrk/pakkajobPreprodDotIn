@@ -8,7 +8,7 @@
 /* GRID SYSTEM */
 .template-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr); /* Desktop: 3 per row */
+  grid-template-columns: repeat(2, 1fr); /* Desktop: 3 per row */
   gap: 40px;
   max-width: 1300px;
   margin: 0 auto;

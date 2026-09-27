@@ -4,7 +4,6 @@ import styles from "./ResumeForm.module.css";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import useScreenSize from '../SizeHook';
 import { SKILL_LIBRARY } from "./SkillLibrary";
-import TemplateFive from './TemplateFive';
 
 const ResumeForm = () => {
 
@@ -41,7 +40,6 @@ const ResumeForm = () => {
     interests: [""],
     projects: [""],
   };
-
 
   let location = useLocation()
   const { formstate, loginprofile, selectedTemplate } = location.state || {};
@@ -91,7 +89,6 @@ const ResumeForm = () => {
   const [successMessage, setSuccessMessage] = useState("");
   const [phoneNumber, setphoneNumber] = useState()
 
-
   let studId = JSON.parse(localStorage.getItem("StudId"))
   let CSCId = JSON.parse(localStorage.getItem("CSCId"));
 
@@ -137,12 +134,14 @@ const ResumeForm = () => {
             }))
             : [{ company: "", role: "", startDate: "", endDate: "", descriptions: [""] }],
           certifications: result.certifications?.length ? result.certifications : [""],
-          skills: result.skills?.length
-            ? result.skills.map(skill => ({
-              heading: skill.heading || "",
-              items: skill.items?.length ? skill.items : [],
-            }))
-            : [{ heading: "", items: [] }],
+          skills: result.skills || "",
+
+          // skills: result.skills?.length
+          //   ? result.skills.map(skill => ({
+          //     heading: skill.heading || "",
+          //     items: skill.items?.length ? skill.items : [],
+          //   }))
+          //   : [{ heading: "", items: [] }],
 
           languages: result.languages?.length ? result.languages : [""],
           personalDetails: [{
@@ -240,10 +239,6 @@ const ResumeForm = () => {
 
   //   sethasValidSkillSections(isSkills);
   // }, [formData.skills]);
-  let hasValidSkillSections = formData.skills.some
-    ((section) => section.heading?.trim().length > 0 ||
-      section.items.some((item) => typeof item === "string" && item.trim().length > 0)
-    )
 
   useEffect(() => {
   }, [formData])
@@ -651,10 +646,6 @@ const ResumeForm = () => {
     const { name, email, phoneNumber, linkedin, totalExperience, profileSummary, address,
       experiences, certifications, skills, languages, qualificationDetails,
       personalDetails, achievements, interests, projects } = formData
-    console.log(name, email, linkedin, totalExperience, profileSummary, address, phoneNumber,
-      experiences, certifications, skills, languages, qualificationDetails,
-      personalDetails, achievements, interests, projects)
-
     // if (
     //   !profileSummary.trim() ||
     //   !address.trim() ||
@@ -1055,7 +1046,6 @@ const ResumeForm = () => {
   };
 
   return (
-
     <div className={styles.container}>
 
       {/* ================= ALERT ================= */}
@@ -1100,6 +1090,10 @@ const ResumeForm = () => {
           Back
         </button>
 
+        <p className={styles.pageTitle}>
+          Resume Builder Form
+        </p>
+
         <button
           className={styles.tvbackbtn}
           onClick={() => {
@@ -1117,30 +1111,13 @@ const ResumeForm = () => {
 
 
       {/* ================= XML ================= */}
-      <div className={styles.xmlActions}>
-
-        <input
-          type="file"
-          accept=".xml"
-          id="xmlImport"
-          className={styles.hiddenFileInput}
-          onChange={handleImportXML}
-        />
-
-      </div>
-
-
-      {/* ================= TITLE ================= */}
-      <div className={styles.pageTitle}>
-        <h1>Resume Builder Form</h1>
-      </div>
 
 
       {/* ================= MAIN FORM ================= */}
       <div className={styles.formContainer}>
 
         {/* =====================================================
-          LEFT COLUMN
+          LEFT SIDE - 50%
       ====================================================== */}
         <div className={styles.formColumn}>
 
@@ -1152,61 +1129,13 @@ const ResumeForm = () => {
           )}
 
 
-          {/* ================= PROFILE ================= */}
+          {/* =====================================================
+            PROFILE
+        ====================================================== */}
           <div className={styles.section}>
 
-            {/* {profileData ? (
-            imageConsent === true ? (
-              <div className={styles.profileImageWrapper}>
-                <img
-                  src={profileData[0]?.Gpicture}
-                  alt="Candidate"
-                  className={styles.profileImage}
-                />
-              </div>
-            ) : null
-          ) : (
-            <p>Loading...</p>
-          )} */}
+            <h2>Profile</h2>
 
-
-            {/* {!(loginprofile === "cs_center") && (
-            <div className={styles.consentBox}>
-
-              <p className={styles.consentText}>
-                Your Google profile picture will be used on your resume.
-                Make sure you have latest profile picture updated in
-                Google account. Please confirm, do you want to add your
-                Google profile picture in resume?
-              </p>
-
-              <label className={styles.consentOption}>
-                <input
-                  type="radio"
-                  name="imageConsent"
-                  value="true"
-                  checked={imageConsent === true}
-                  onChange={() => handleConscentChange(true)}
-                />
-                {" "}Yes, I give my consent
-              </label>
-
-              <label className={styles.consentOption}>
-                <input
-                  type="radio"
-                  name="imageConsent"
-                  value="false"
-                  checked={imageConsent === false}
-                  onChange={() => handleConscentChange(false)}
-                />
-                {" "}No, I do not wish
-              </label>
-
-            </div>
-          )} */}
-
-
-            {/* NAME */}
             <input
               className={styles.input}
               placeholder="Name"
@@ -1250,11 +1179,13 @@ const ResumeForm = () => {
                 handleChange("email", e.target.value)
               }
             />
+
+
+            {/* PHONE */}
             <input
               className={styles.input}
               placeholder="phone number"
               value={formData.phoneNumber}
-              // onChange={(e)=>{setphoneNumber(e.target.value)}}
               onChange={(e) =>
                 handleChange("phoneNumber", e.target.value)
               }
@@ -1262,447 +1193,481 @@ const ResumeForm = () => {
 
 
             {/* LINKEDIN */}
-            {/* {formstate === "fullstack" && (
-              <input
-                className={styles.input}
-                placeholder="Linkedin"
-                value={formData.linkedin || ""}
-                onChange={(e) =>
-                  handleChange("linkedin", e.target.value)
-                }
-              />
-            )} */}
-
-
-            {/* EXPERIENCE */}
-            {/* <h2>Experience</h2>
-
+            {/* 
+          {formstate === "fullstack" && (
             <input
               className={styles.input}
-              placeholder="Total Experience"
-              value={formData.totalExperience}
+              placeholder="Linkedin"
+              value={formData.linkedin || ""}
               onChange={(e) =>
-                handleChange("totalExperience", e.target.value)
+                handleChange("linkedin", e.target.value)
               }
-            /> */}
+            />
+          )}
+          */}
 
-            {/* =====================================================
-              EDUCATION - DESKTOP
-          ====================================================== */}
-            {screenSize.width > 850 ? (
-              <div className={styles.section}>
 
+            {/* TOTAL EXPERIENCE */}
+            {/*
+          <input
+            className={styles.input}
+            placeholder="Total Experience"
+            value={formData.totalExperience}
+            onChange={(e) =>
+              handleChange("totalExperience", e.target.value)
+            }
+          />
+          */}
+
+          </div>
+
+
+          {/* =====================================================
+            EDUCATION
+        ====================================================== */}
+          {screenSize.width > 850 ? (
+            <>
+
+            <div className={styles.section}>
+
+              <div className={styles.sectionHeader}>
                 <h2>Education</h2>
 
-                <button
-                  className={styles.button}
-                  type="button"
-                  onClick={addQualificationRow}
-                >
-                  + Add New Education
-                </button>
 
-                <div className={styles.educationTableWrapper}>
+              </div>
 
-                  <table className={styles.educationTable}>
 
-                    <thead>
-                      <tr>
+              <div className={styles.educationTableWrapper}>
 
+                <table className={styles.educationTable}>
+
+                  <thead>
+                    <tr>
+
+                      <th>
+                        School/College/
+                        <br />
+                        University Name
+                      </th>
+
+                      <th>
+                        Degree
+                      </th>
+
+                      {!(loginprofile === "cs_center") && (
                         <th>
-                          School/College/
-                          <br />
-                          University Name
+                          Field of study
                         </th>
+                      )}
 
-                        <th>
-                          Degree
-                        </th>
+                      <th>
+                        Grade (%)
+                      </th>
 
-                        {!(loginprofile === "cs_center") && (
+                      <th>
+                        Year of Passing
+                      </th>
+
+                      {!(loginprofile === "cs_center") && (
+                        <>
                           <th>
-                            Field of study
-                            <br />
-                            (Degree/Masters/School)
+                            Country
+
                           </th>
-                        )}
 
-                        <th>
-                          Grade
-                          <br />
-                          (% or CGPA)
-                        </th>
+                          <th>
+                            City
+                          </th>
+                        </>
+                      )}
 
-                        <th>
-                          Year of Passing
-                        </th>
-
-                        {!(loginprofile === "cs_center") && (
-                          <>
-                            <th>
-                              Location
-                              <br />
-                              (Country/Region)
-                            </th>
-
-                            <th>
-                              City
-                            </th>
-                          </>
-                        )}
-
-                      </tr>
-                    </thead>
+                    </tr>
+                  </thead>
 
 
-                    <tbody>
+                  <tbody>
 
-                      {formData.qualificationDetails.map((q, i) => (
-                        <React.Fragment key={i}>
+                    {formData.qualificationDetails.map((q, i) => (
 
-                          <tr>
+                      <React.Fragment key={i}>
 
+                        <tr>
+
+                          {/* COLLEGE */}
+                          <td>
+                            <input
+                              maxLength={40}
+                              className={styles.tableInput}
+                              placeholder="College Name"
+                              value={q.collegeName}
+                              onChange={(e) =>
+                                handleQualificationChange(
+                                  i,
+                                  "collegeName",
+                                  e.target.value
+                                )
+                              }
+                            />
+                          </td>
+
+
+                          {/* DEGREE */}
+                          <td>
+                            <input
+                              className={styles.tableInput}
+                              placeholder="Degree"
+                              value={q.degree}
+                              onChange={(e) =>
+                                handleQualificationChange(
+                                  i,
+                                  "degree",
+                                  e.target.value
+                                )
+                              }
+                            />
+                          </td>
+
+
+                          {/* STUDY FIELD */}
+                          {!(loginprofile === "cs_center") && (
                             <td>
                               <input
-                                maxLength={40}
                                 className={styles.tableInput}
-                                placeholder="College Name"
-                                value={q.collegeName}
+                                placeholder="Study field"
+                                value={q.studyField}
                                 onChange={(e) =>
                                   handleQualificationChange(
                                     i,
-                                    "collegeName",
+                                    "studyField",
                                     e.target.value
                                   )
                                 }
                               />
                             </td>
+                          )}
 
 
-                            <td>
-                              <input
-                                className={styles.tableInput}
-                                placeholder="Degree"
-                                value={q.degree}
-                                onChange={(e) =>
-                                  handleQualificationChange(
-                                    i,
-                                    "degree",
-                                    e.target.value
-                                  )
-                                }
-                              />
-                            </td>
+                          {/* SCORE */}
+                          <td>
+                            <input
+                              className={styles.tableInput}
+                              placeholder="% or CGPA"
+                              value={q.score}
+                              onChange={(e) =>
+                                handleQualificationChange(
+                                  i,
+                                  "score",
+                                  e.target.value
+                                )
+                              }
+                            />
+                          </td>
 
 
-                            {!(loginprofile === "cs_center") && (
+                          {/* YOP */}
+                          <td>
+                            <input
+                              className={styles.tableInput}
+                              placeholder="YOP"
+                              value={q.yop}
+                              onChange={(e) =>
+                                handleQualificationChange(
+                                  i,
+                                  "yop",
+                                  e.target.value
+                                )
+                              }
+                            />
+                          </td>
+
+
+                          {/* COUNTRY + CITY */}
+                          {!(loginprofile === "cs_center") && (
+                            <>
                               <td>
                                 <input
                                   className={styles.tableInput}
-                                  placeholder="Study field"
-                                  value={q.studyField}
+                                  placeholder="Country"
+                                  value={q.country}
                                   onChange={(e) =>
                                     handleQualificationChange(
                                       i,
-                                      "studyField",
+                                      "country",
                                       e.target.value
                                     )
                                   }
                                 />
                               </td>
-                            )}
+
+                              <td>
+                                <input
+                                  className={styles.tableInput}
+                                  placeholder="City"
+                                  value={q.city}
+                                  onChange={(e) =>
+                                    handleQualificationChange(
+                                      i,
+                                      "city",
+                                      e.target.value
+                                    )
+                                  }
+                                />
+                              </td>
+                            </>
+                          )}
+
+                        </tr>
 
 
-                            <td>
-                              <input
-                                className={styles.tableInput}
-                                placeholder="% or CGPA"
-                                value={q.score}
-                                onChange={(e) =>
-                                  handleQualificationChange(
-                                    i,
-                                    "score",
-                                    e.target.value
-                                  )
-                                }
-                              />
-                            </td>
+                        {/* EDUCATION ACTIONS */}
+                        <tr>
 
+                          <td
+                            colSpan={
+                              loginprofile === "cs_center"
+                                ? 5
+                                : 7
+                            }
+                            className={styles.tableActions}
+                          >
 
-                            <td>
-                              <input
-                                className={styles.tableInput}
-                                placeholder="YOP"
-                                value={q.yop}
-                                onChange={(e) =>
-                                  handleQualificationChange(
-                                    i,
-                                    "yop",
-                                    e.target.value
-                                  )
-                                }
-                              />
-                            </td>
-
-
-                            {!(loginprofile === "cs_center") && (
-                              <>
-                                <td>
-                                  <input
-                                    className={styles.tableInput}
-                                    placeholder="Country"
-                                    value={q.country}
-                                    onChange={(e) =>
-                                      handleQualificationChange(
-                                        i,
-                                        "country",
-                                        e.target.value
-                                      )
-                                    }
-                                  />
-                                </td>
-
-                                <td>
-                                  <input
-                                    className={styles.tableInput}
-                                    placeholder="City"
-                                    value={q.city}
-                                    onChange={(e) =>
-                                      handleQualificationChange(
-                                        i,
-                                        "city",
-                                        e.target.value
-                                      )
-                                    }
-                                  />
-                                </td>
-                              </>
-                            )}
-
-                          </tr>
-
-
-                          <tr>
-
-                            <td
-                              colSpan={
-                                loginprofile === "cs_center"
-                                  ? 5
-                                  : 7
+                            <button
+                              className={`${styles.button} ${styles.buttonSecondary}`}
+                              type="button"
+                              onClick={() =>
+                                clearQualificationRow(i)
                               }
-                              className={styles.tableActions}
                             >
+                              Cancel
+                            </button>
 
-                              <button
-                                className={`${styles.button} ${styles.buttonSecondary}`}
-                                type="button"
-                                onClick={() =>
-                                  clearQualificationRow(i)
-                                }
-                              >
-                                Cancel
-                              </button>
+                            <button
+                              className={`${styles.button} ${styles.buttonDanger}`}
+                              type="button"
+                              onClick={() =>
+                                removeQualificationRow(i)
+                              }
+                            >
+                              Delete
+                            </button>
 
-                              <button
-                                className={`${styles.button} ${styles.buttonDanger}`}
-                                type="button"
-                                onClick={() =>
-                                  removeQualificationRow(i)
-                                }
-                              >
-                                Delete
-                              </button>
+                          </td>
 
-                            </td>
+                        </tr>
 
-                          </tr>
+                      </React.Fragment>
 
-                        </React.Fragment>
-                      ))}
+                    ))}
 
-                    </tbody>
+                  </tbody>
 
-                  </table>
-
-                </div>
-
+                </table>
               </div>
-            ) : (
 
-              /* =====================================================
-                 EDUCATION - MOBILE
-              ====================================================== */
+              <button style={{marginLeft:"50%",marginTop:"20px"}}
+                className={styles.button}
+                type="button"
+                onClick={addQualificationRow}
+              >
+                + Add New Education
+              </button>
 
-              <>
 
+            </div>
+</>
+          ) : (
+
+            /* =====================================================
+               EDUCATION - MOBILE
+            ====================================================== */
+
+            <div className={styles.section}>
+
+              <div className={styles.sectionHeader}>
                 <h2>Education</h2>
+              </div>
 
-                {formData.qualificationDetails.map((q, i) => (
 
-                  <div
-                    key={i}
-                    className={styles.educationCard}
-                  >
+              {formData.qualificationDetails.map((q, i) => (
 
+                <div
+                  key={i}
+                  className={styles.educationCard}
+                >
+
+                  <input
+                    className={styles.input}
+                    placeholder="College Name"
+                    maxLength={20}
+                    value={q.collegeName}
+                    onChange={(e) =>
+                      handleQualificationChange(
+                        i,
+                        "collegeName",
+                        e.target.value
+                      )
+                    }
+                  />
+
+
+                  <input
+                    className={styles.input}
+                    placeholder="Degree/Masters/School"
+                    value={q.degree}
+                    onChange={(e) =>
+                      handleQualificationChange(
+                        i,
+                        "degree",
+                        e.target.value
+                      )
+                    }
+                  />
+
+
+                  {!(loginprofile === "cs_center") && (
                     <input
                       className={styles.input}
-                      placeholder="College Name"
-                      maxLength={20}
-                      value={q.collegeName}
+                      placeholder="Study Field"
+                      value={q.studyField}
                       onChange={(e) =>
                         handleQualificationChange(
                           i,
-                          "collegeName",
+                          "studyField",
                           e.target.value
                         )
                       }
                     />
-
-                    <input
-                      className={styles.input}
-                      placeholder="Degree/Masters/School"
-                      value={q.degree}
-                      onChange={(e) =>
-                        handleQualificationChange(
-                          i,
-                          "degree",
-                          e.target.value
-                        )
-                      }
-                    />
+                  )}
 
 
-                    {!(loginprofile === "cs_center") && (
+                  <input
+                    className={styles.input}
+                    placeholder="% or CGPA"
+                    value={q.score}
+                    onChange={(e) =>
+                      handleQualificationChange(
+                        i,
+                        "score",
+                        e.target.value
+                      )
+                    }
+                  />
+
+
+                  <input
+                    className={styles.input}
+                    placeholder="YOP"
+                    value={q.yop}
+                    onChange={(e) =>
+                      handleQualificationChange(
+                        i,
+                        "yop",
+                        e.target.value
+                      )
+                    }
+                  />
+
+
+                  {!(loginprofile === "cs_center") && (
+                    <>
                       <input
                         className={styles.input}
-                        placeholder="Study Field"
-                        value={q.studyField}
+                        placeholder="Country"
+                        value={q.country}
                         onChange={(e) =>
                           handleQualificationChange(
                             i,
-                            "studyField",
+                            "country",
                             e.target.value
                           )
                         }
                       />
-                    )}
+
+                      <input
+                        className={styles.input}
+                        placeholder="City"
+                        value={q.city}
+                        onChange={(e) =>
+                          handleQualificationChange(
+                            i,
+                            "city",
+                            e.target.value
+                          )
+                        }
+                      />
+                    </>
+                  )}
 
 
-                    <input
-                      className={styles.input}
-                      placeholder="% or CGPA"
-                      value={q.score}
-                      onChange={(e) =>
-                        handleQualificationChange(
-                          i,
-                          "score",
-                          e.target.value
-                        )
+                  <div className={styles.educationActions}>
+
+                    <button
+                      className={styles.button}
+                      type="button"
+                      onClick={() =>
+                        handleQualificationSave(i)
                       }
-                    />
+                    >
+                      Save
+                    </button>
 
-
-                    <input
-                      className={styles.input}
-                      placeholder="YOP"
-                      value={q.yop}
-                      onChange={(e) =>
-                        handleQualificationChange(
-                          i,
-                          "yop",
-                          e.target.value
-                        )
+                    <button
+                      className={`${styles.button} ${styles.buttonSecondary}`}
+                      type="button"
+                      onClick={() =>
+                        clearQualificationRow(i)
                       }
-                    />
+                    >
+                      Cancel
+                    </button>
 
-
-                    {!(loginprofile === "cs_center") && (
-                      <>
-                        <input
-                          className={styles.input}
-                          placeholder="Country"
-                          value={q.country}
-                          onChange={(e) =>
-                            handleQualificationChange(
-                              i,
-                              "country",
-                              e.target.value
-                            )
-                          }
-                        />
-
-                        <input
-                          className={styles.input}
-                          placeholder="City"
-                          value={q.city}
-                          onChange={(e) =>
-                            handleQualificationChange(
-                              i,
-                              "city",
-                              e.target.value
-                            )
-                          }
-                        />
-                      </>
-                    )}
-
-
-                    <div className={styles.educationActions}>
-
-                      <button
-                        className={styles.button}
-                        type="button"
-                        onClick={() =>
-                          handleQualificationSave(i)
-                        }
-                      >
-                        Save
-                      </button>
-
-                      <button
-                        className={`${styles.button} ${styles.buttonSecondary}`}
-                        type="button"
-                        onClick={() =>
-                          clearQualificationRow(i)
-                        }
-                      >
-                        Cancel
-                      </button>
-
-                      <button
-                        className={`${styles.button} ${styles.buttonDanger}`}
-                        type="button"
-                        onClick={() =>
-                          removeQualificationRow(i)
-                        }
-                      >
-                        Delete
-                      </button>
-
-                    </div>
+                    <button
+                      className={`${styles.button} ${styles.buttonDanger}`}
+                      type="button"
+                      onClick={() =>
+                        removeQualificationRow(i)
+                      }
+                    >
+                      Delete
+                    </button>
 
                   </div>
 
-                ))}
+                </div>
+
+              ))}
 
 
-                <button
-                  className={styles.button}
-                  type="button"
-                  onClick={addQualificationRow}
-                >
-                  + Add Education
-                </button>
+              <button
+                className={styles.button}
+                type="button"
+                onClick={addQualificationRow}
+              >
+                + Add Education
+              </button>
 
-              </>
-            )}
+            </div>
+
+          )}
 
 
-            {/* =====================================================
-              EXPERIENCES
-          ====================================================== */}
+          {/* =====================================================
+            EXPERIENCE
+        ====================================================== */}
+          <div className={styles.section}>
 
-            <h2>Experience</h2>
+            <div className={styles.sectionHeader}>
+              <h2>Experience</h2>
+
+              {/* <button
+                className={styles.button}
+                type="button"
+                onClick={addExperience}
+              >
+                + Add Experience
+              </button> */}
+            </div>
+
 
             {formData.experiences.map((exp, i) => (
 
@@ -1723,6 +1688,7 @@ const ResumeForm = () => {
                     )
                   }
                 />
+
 
                 <input
                   className={styles.input}
@@ -1773,28 +1739,22 @@ const ResumeForm = () => {
 
                   <div key={j}>
 
-                    {/* <textarea
-                      className={styles.input}
-                      placeholder={`Role Description ${j + 1}`}
-                      value={desc}
-                      onChange={(e) =>
-                        handleRoleDescriptionChange(
-                          i,
-                          j,
-                          e.target.value
-                        )
-                      }
-                    /> */}
-
-                    {/* <button
-                    className={`${styles.button} ${styles.buttonDanger}`}
-                    type="button"
-                    onClick={() =>
-                      removeRoleDescription(i, j)
+                    {/* ROLE DESCRIPTION */}
+                    {/*
+                  <textarea
+                    className={styles.input}
+                    placeholder={`Role Description ${j + 1}`}
+                    value={desc}
+                    onChange={(e) =>
+                      handleRoleDescriptionChange(
+                        i,
+                        j,
+                        e.target.value
+                      )
                     }
-                  >
-                    Remove Row
-                  </button> */}
+                  />
+                  */}
+
                     <button
                       className={`${styles.button} ${styles.buttonDanger}`}
                       type="button"
@@ -1809,24 +1769,24 @@ const ResumeForm = () => {
 
                 ))}
 
-
               </div>
 
             ))}
 
+
             <div className={styles.buttonGroup}>
-              {/* 
 
-                <button
-                  className={styles.button}
-                  type="button"
-                  onClick={() =>
-                    addRoleDescription(i)
-                  }
-                >
-                  + Add Row
-                </button> */}
-
+              {/*
+            <button
+              className={styles.button}
+              type="button"
+              onClick={() =>
+                addRoleDescription(i)
+              }
+            >
+              + Add Row
+            </button>
+            */}
 
               <button
                 className={styles.button}
@@ -1838,326 +1798,298 @@ const ResumeForm = () => {
 
             </div>
 
+          </div>
 
+        </div>
+
+
+        {/* =====================================================
+          RIGHT SIDE - 50%
+      ====================================================== */}
+        <div className={styles.formColumn}>
+
+          {/* =====================================================
+            SKILLS
+        ====================================================== */}
+          <div className={styles.section}>
+
+            <div className={styles.sectionHeader}>
+              <h2>Skills</h2>
+            </div>
+
+            <textarea
+              className={styles.input}
+              placeholder="Enter skills, one per line"
+              value={formData.skills}
+              onChange={(e) =>
+                handleChange("skills", e.target.value)
+
+              }
+            />
 
           </div>
 
 
           {/* =====================================================
-            RIGHT COLUMN
+            PERSONAL DETAILS
         ====================================================== */}
+          {(formstate === "freshers" ||
+            formstate === "nontech") && (
 
-          <div className={styles.formColumn}>
+              <div className={styles.personalSection}>
 
-            {/* =====================================================
-              CERTIFICATIONS
-          ====================================================== */}
+                <h2>Personal Details</h2>
 
-            {/* <div className={styles.section}>
 
-              <h2>Certifications</h2>
+                {/* FATHER NAME */}
+                <h3>Father Name:</h3>
 
-              {formData.certifications.map((cert, i) => (
+                <input
+                  type="text"
+                  name="fatherName"
+                  value={
+                    formData?.personalDetails[0]?.fatherName
+                  }
+                  placeholder="Enter father name"
+                  onChange={handlePersonalChange}
+                  className={styles.input}
+                />
 
-                <div
-                  key={i}
-                  className={styles.dynamicField}
-                >
 
-                  <input
-                    className={styles.input}
-                    placeholder="Enter Certification"
-                    value={cert}
-                    onChange={(e) =>
-                      handleCertificationChange(
-                        i,
-                        e.target.value
-                      )
-                    }
-                  />
+                {/* MOTHER NAME */}
+                <h3>Mother Name:</h3>
 
-                  <button
-                    className={`${styles.button} ${styles.buttonDanger}`}
-                    type="button"
-                    onClick={() =>
-                      removeCertification(i)
-                    }
+                <input
+                  type="text"
+                  name="motherName"
+                  value={
+                    formData?.personalDetails[0]?.motherName
+                  }
+                  placeholder="Enter mother name"
+                  onChange={handlePersonalChange}
+                  className={styles.input}
+                />
+
+
+                {/* NATIONALITY */}
+                <h3>Nationality:</h3>
+
+                <input
+                  type="text"
+                  name="Nationality"
+                  value={
+                    formData?.personalDetails[0]?.Nationality
+                  }
+                  placeholder="Enter nationality"
+                  onChange={handlePersonalChange}
+                  className={styles.input}
+                />
+
+
+                {/* =================================================
+                LANGUAGES
+            ================================================== */}
+                <h2>Languages</h2>
+
+                {formData.languages.map((lang, i) => (
+
+                  <div
+                    key={i}
+                    className={styles.dynamicField}
                   >
-                    Remove
-                  </button>
+
+                    <input
+                      className={styles.input}
+                      placeholder="Language"
+                      value={lang}
+                      onChange={(e) =>
+                        handleLanguageChange(
+                          i,
+                          e.target.value
+                        )
+                      }
+                    />
+
+                  </div>
+
+                ))}
+
+
+                {/* =================================================
+                GENDER
+            ================================================== */}
+                <h3>Gender:</h3>
+
+                <div className={styles.radioGroup}>
+
+                  <label className={styles.radioOption}>
+                    <input
+                      type="radio"
+                      name="gender"
+                      value="Male"
+                      checked={
+                        formData.personalDetails[0]?.gender ===
+                        "Male"
+                      }
+                      onChange={handlePersonalChange}
+                    />
+                    Male
+                  </label>
+
+
+                  <label className={styles.radioOption}>
+                    <input
+                      type="radio"
+                      name="gender"
+                      value="Female"
+                      checked={
+                        formData.personalDetails[0]?.gender ===
+                        "Female"
+                      }
+                      onChange={handlePersonalChange}
+                    />
+                    Female
+                  </label>
+
+
+                  <label className={styles.radioOption}>
+                    <input
+                      type="radio"
+                      name="gender"
+                      value="Other"
+                      checked={
+                        formData.personalDetails[0]?.gender ===
+                        "Other"
+                      }
+                      onChange={handlePersonalChange}
+                    />
+                    Other
+                  </label>
 
                 </div>
 
-              ))}
+
+                {/* =================================================
+                MARITAL STATUS
+            ================================================== */}
+                <h3>Marital Status:</h3>
+
+                <div className={styles.radioGroup}>
+
+                  <label className={styles.radioOption}>
+                    <input
+                      type="radio"
+                      name="maritalStatus"
+                      value="Single"
+                      checked={
+                        formData?.personalDetails[0]
+                          ?.maritalStatus === "Single"
+                      }
+                      onChange={handlePersonalChange}
+                    />
+                    Single
+                  </label>
 
 
-              <button
-                className={styles.button}
-                type="button"
-                onClick={addCertification}
-              >
-                + Add Certification
-              </button>
+                  <label className={styles.radioOption}>
+                    <input
+                      type="radio"
+                      name="maritalStatus"
+                      value="Married"
+                      checked={
+                        formData?.personalDetails[0]
+                          ?.maritalStatus === "Married"
+                      }
+                      onChange={handlePersonalChange}
+                    />
+                    Married
+                  </label>
 
-            </div> */}
-
-
-            {/* =====================================================
-              SKILLS
-          ====================================================== */}
-            <div>
-              <h2>Skills</h2>
-              <input placeholder='enter skills' />
-            </div>
-            {/* =====================================================
-              PERSONAL DETAILS
-          ====================================================== */}
-
-            {(formstate === "freshers" ||
-              formstate === "nontech") && (
-
-                <div className={styles.personalSection}>
-
-                  <h2>Personal Details</h2>
+                </div>
 
 
-                  <h3>Father Name:</h3>
+                {/* =================================================
+                DATE OF BIRTH
+            ================================================== */}
+                <h3>Date of Birth:</h3>
 
-                  <input
-                    type="text"
-                    name="fatherName"
-                    value={
-                      formData?.personalDetails[0]?.fatherName
-                    }
-                    placeholder="Enter father name"
-                    onChange={handlePersonalChange}
-                    className={styles.input}
-                  />
+                <input
+                  type="date"
+                  name="dob"
+                  value={
+                    formData?.personalDetails[0]?.dob
+                  }
+                  onChange={handlePersonalChange}
+                  className={styles.dobInput}
+                />
 
+              </div>
 
-                  <h3>Mother Name:</h3>
-
-                  <input
-                    type="text"
-                    name="motherName"
-                    value={
-                      formData?.personalDetails[0]?.motherName
-                    }
-                    placeholder="Enter mother name"
-                    onChange={handlePersonalChange}
-                    className={styles.input}
-                  />
+            )}
 
 
-                  <h3>Nationality:</h3>
+          {/* =====================================================
+            HOBBIES
+        ====================================================== */}
+          {(formstate === "freshers" ||
+            formstate === "nontech" ||
+            formstate === "entrylevelpro") && (
 
-                  <input
-                    type="text"
-                    name="Nationality"
-                    value={
-                      formData?.personalDetails[0]?.Nationality
-                    }
-                    placeholder="Enter nationality"
-                    onChange={handlePersonalChange}
-                    className={styles.input}
-                  />
+              <div className={styles.section}>
+
+                <div className={styles.sectionHeader}>
+                  <h2>Hobbies</h2>
+                </div>
 
 
-                  {/* LANGUAGES */}
-
-                  <h2>Languages</h2>
-
-                  {formData.languages.map((lang, i) => (
+                {formData?.interests?.map(
+                  (item, index) => (
 
                     <div
-                      key={i}
+                      key={index}
                       className={styles.dynamicField}
                     >
 
                       <input
-                        className={styles.input}
-                        placeholder="Language"
-                        value={lang}
+                        type="text"
+                        value={item}
+                        placeholder="Enter interest"
                         onChange={(e) =>
-                          handleLanguageChange(
-                            i,
+                          handleDynamicChange(
+                            index,
+                            "interests",
                             e.target.value
                           )
                         }
+                        className={styles.input}
                       />
-
 
                     </div>
 
-                  ))}
+                  )
+                )}
 
-                  {/* GENDER */}
+              </div>
 
-                  <h3>Gender:</h3>
-
-                  <div className={styles.radioGroup}>
-
-                    <label className={styles.radioOption}>
-                      <input
-                        type="radio"
-                        name="gender"
-                        value="Male"
-                        checked={
-                          formData.personalDetails[0]?.gender ===
-                          "Male"
-                        }
-                        onChange={handlePersonalChange}
-                      />
-                      Male
-                    </label>
-
-
-                    <label className={styles.radioOption}>
-                      <input
-                        type="radio"
-                        name="gender"
-                        value="Female"
-                        checked={
-                          formData.personalDetails[0]?.gender ===
-                          "Female"
-                        }
-                        onChange={handlePersonalChange}
-                      />
-                      Female
-                    </label>
-
-
-                    <label className={styles.radioOption}>
-                      <input
-                        type="radio"
-                        name="gender"
-                        value="Other"
-                        checked={
-                          formData.personalDetails[0]?.gender ===
-                          "Other"
-                        }
-                        onChange={handlePersonalChange}
-                      />
-                      Other
-                    </label>
-
-                  </div>
-
-
-                  {/* MARITAL STATUS */}
-
-                  <h3>Marital Status:</h3>
-
-                  <div className={styles.radioGroup}>
-
-                    <label className={styles.radioOption}>
-                      <input
-                        type="radio"
-                        name="maritalStatus"
-                        value="Single"
-                        checked={
-                          formData?.personalDetails[0]
-                            ?.maritalStatus === "Single"
-                        }
-                        onChange={handlePersonalChange}
-                      />
-                      Single
-                    </label>
-
-
-                    <label className={styles.radioOption}>
-                      <input
-                        type="radio"
-                        name="maritalStatus"
-                        value="Married"
-                        checked={
-                          formData?.personalDetails[0]
-                            ?.maritalStatus === "Married"
-                        }
-                        onChange={handlePersonalChange}
-                      />
-                      Married
-                    </label>
-
-                  </div>
-
-
-                  {/* DOB */}
-
-                  <h3>Date of Birth:</h3>
-
-                  <input
-                    type="date"
-                    name="dob"
-                    value={
-                      formData?.personalDetails[0]?.dob
-                    }
-                    onChange={handlePersonalChange}
-                    className={styles.dobInput}
-                  />
-
-                </div>
-
-              )}
-
-            {(formstate === "freshers" ||
-              formstate === "nontech" ||
-              formstate === "entrylevelpro") && (
-
-                <div className={styles.section}>
-
-                  <h2>Hobbies</h2>
-
-                  {formData?.interests?.map(
-                    (item, index) => (
-
-                      <div
-                        key={index}
-                        className={styles.dynamicField}
-                      >
-
-                        <input
-                          type="text"
-                          value={item}
-                          placeholder="Enter interest"
-                          onChange={(e) =>
-                            handleDynamicChange(
-                              index,
-                              "interests",
-                              e.target.value
-                            )
-                          }
-                          className={styles.input}
-                        />
-
-
-                      </div>
-
-                    )
-                  )}
-                </div>
-
-              )}
-
-          </div>
-
-        </div>
-
-
-        {/* ================= SAVE ================= */}
-
-        <div className={styles.saveArea}>
-
-          <button
-            className={styles.saveButton}
-            onClick={handleSubmit}
-          >
-            Save Resume
-          </button>
+            )}
 
         </div>
 
       </div>
+
+
+      {/* ================= SAVE ================= */}
+      <div className={styles.saveArea}>
+
+        <button
+          className={styles.saveButton}
+          onClick={handleSubmit}
+        >
+          Save Resume
+        </button>
+
+      </div>
+
     </div>
   );
 };

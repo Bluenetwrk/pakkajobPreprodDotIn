@@ -4,15 +4,15 @@ import axios from 'axios';
 import styles from "../Jobs/Allobs.module.css"
 import Style from "./AllResumes.module.css"
 import { Navigate, useLocation, useNavigate } from 'react-router-dom';
-import TemplateOne from './TemplateOne';
-import TemplateTwo from './TemplateTwo';
-import TemplateThree from './TemplateThree';
-import TemplateFour from './TemplateFour';
-import TemplateFive from './TemplateFive';
+// import TemplateOne from './TemplateOne';
+// import TemplateTwo from './TemplateTwo';
+// import TemplateThree from './TemplateThree';
+// import TemplateFour from './TemplateFour';
+// import TemplateFive from './TemplateFive';
 import TemplateSix from './TemplateSix';
 import TemplateSeven from './TemplateSeven';
 import ColorThemeSelector from './ColorThemeSelector';
-import TemplateEight from './TemplateEight';
+// import TemplateEight from './TemplateEight';
 
 
 function AllResumes() {
@@ -68,7 +68,9 @@ function AllResumes() {
           <h1 style={{ textAlign: 'center', marginTop: '20px' }}>Choose resume template<br></br> </h1>
           :
           <h1 style={{ textAlign: 'center', marginTop: '20px' }}>Preview Your Resume </h1>}
+       
         {!selectedTemplate && (
+          // all resumes from images
           <TemplateGallery logoutresume={logoutresume} loginprofile={loginprofile} />
         )}
 
@@ -105,18 +107,16 @@ function AllResumes() {
                   onChange={setThemeColor}
                 />
               </div>
-              <div></div>
-
             </div>
-            {/* {console.log("selected template",themeColor)} */}
-            {selectedTemplate === 'one' && <TemplateOne data={profileData} themeColor={themeColor} />}
+            {/* ..... Preview images............ */}
+            {/* {selectedTemplate === 'one' && <TemplateOne data={profileData} themeColor={themeColor} />}
             {selectedTemplate === 'two' && <TemplateTwo data={profileData} themeColor={themeColor} />}
             {selectedTemplate === 'three' && <TemplateThree data={profileData} themeColor={themeColor} />}
             {selectedTemplate === 'four' && <TemplateFour data={profileData} themeColor={themeColor} />}
-            {selectedTemplate === 'five' && <TemplateFive data={profileData} themeColor={themeColor} />} 
+            {selectedTemplate === 'five' && <TemplateFive data={profileData} themeColor={themeColor} />}  */}
             {selectedTemplate === 'six' && <TemplateSix data={profileData} themeColor={themeColor} />}
             {selectedTemplate === 'seven' && <TemplateSeven data={profileData} themeColor={themeColor} />}
-            {selectedTemplate === 'eight' && <TemplateEight data={profileData} themeColor={themeColor} />}
+          
           </div>
 
         )}
