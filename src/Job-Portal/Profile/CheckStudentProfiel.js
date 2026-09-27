@@ -210,8 +210,13 @@ let navigate = useNavigate()
 
 </div>
 <div>
-       <strong>Expected CTC : </strong> 
-       {profileData[0].currentCTC? `${profileData[0].currentCTC} LPA`:"####"} 
+       <strong>Current CTC : </strong>
+       {profileData[0].currentCTC? `${profileData[0].currentCTC} LPA`:"####"}
+           </div>
+
+           <div>
+       <strong>Expected Salary : </strong>
+       {profileData[0].ExpectedSalary? `${profileData[0].ExpectedSalary} LPA`:"####"}
            </div>
 
            <div>

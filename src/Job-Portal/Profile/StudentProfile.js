@@ -388,8 +388,13 @@ function StudentProfile() {
 
               </div>
               <div>
-                <strong>Expected CTC : </strong>
+                <strong>Current CTC : </strong>
                 {profileData[0].currentCTC ? `${profileData[0].currentCTC} LPA` : ""}
+              </div>
+
+              <div>
+                <strong>Expected Salary : </strong>
+                {profileData[0].ExpectedSalary ? `${profileData[0].ExpectedSalary} LPA` : ""}
               </div>
 
               <div>
@@ -655,4 +660,3 @@ function StudentProfile() {
 }
 
 export default StudentProfile;
-
