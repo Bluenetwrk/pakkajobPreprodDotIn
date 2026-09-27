@@ -379,59 +379,62 @@ function EmployeeUpdateProfile(props) {
   }
 
 
-  const inputRef = useRef(null);
+  const companyNameInputRef = useRef(null);
+  const mobileCompanyNameInputRef = useRef(null);
 
   useEffect(() => {
-    const loadScript = (url, callback) => {
-      const existingScript = document.getElementById("googleMaps");
-      if (!existingScript) {
-        const script = document.createElement("script");
-        script.src = url;
-        script.id = "googleMaps";
-        script.async = true;
-        script.defer = true;
-        script.onload = callback;
-        document.body.appendChild(script);
-      } else {
-        callback();
+    const attachAutocomplete = () => {
+      if (!window.google?.maps?.places?.Autocomplete) return false;
+
+      [companyNameInputRef.current, mobileCompanyNameInputRef.current].forEach((input) => {
+        if (!input || input.autocomplete) return;
+
+        const autocomplete = new window.google.maps.places.Autocomplete(input, {
+          types: ["establishment"],
+          fields: ["formatted_address", "name", "place_id"],
+        });
+
+        autocomplete.addListener("place_changed", () => {
+          const place = autocomplete.getPlace();
+          const companyName = place?.name || place?.formatted_address;
+          if (companyName) setCompanyName(companyName);
+        });
+
+        input.autocomplete = autocomplete;
+      });
+
+      return true;
+    };
+
+    if (attachAutocomplete()) return;
+
+    const mapsScript = document.querySelector('script[src*="maps.googleapis.com/maps/api/js"]');
+    if (!mapsScript) {
+      console.error("Google Maps script is missing; Company Name autocomplete cannot start.");
+      return;
+    }
+
+    const handleLoad = () => {
+      if (!attachAutocomplete()) {
+        console.error("Google Places did not load; Company Name autocomplete cannot start.");
       }
     };
-
-    const initAutocomplete = () => {
-      if (!window.google) return;
-
-      const autocomplete = new window.google.maps.places.Autocomplete(
-        inputRef.current,
-        {
-          // Allows all place types: address, establishment, cities, regions
-          types: [], // Empty array means no restriction
-          fields: ["formatted_address", "geometry", "name", "place_id"],
-        }
-      );
-
-      autocomplete.addListener("place_changed", () => {
-        const place = autocomplete.getPlace();
-        console.log("Selected Place:", place);
-
-        const address = place.formatted_address;
-        setCompanyAddress(address);
-
-        console.log("Company :", address, CompanyAddress); // ✅ shows correct value
-
-        if (!place.geometry) {
-          alert("No details available for: " + place.name);
-          return;
-        }
-
-
-        // You can access: place.name, place.formatted_address, place.geometry.location, etc.
-      });
+    const handleError = () => {
+      console.error("Google Maps script failed to load; Company Name autocomplete cannot start.");
     };
 
-    loadScript(
-      `https://maps.googleapis.com/maps/api/js?key=AIzaSyCYSlZWgij1UdbIygPumO2QQ3k6uRJT71g&libraries=places`,
-      initAutocomplete
-    );
+    mapsScript.addEventListener("load", handleLoad, { once: true });
+    mapsScript.addEventListener("error", handleError, { once: true });
+
+    if (attachAutocomplete()) {
+      mapsScript.removeEventListener("load", handleLoad);
+      mapsScript.removeEventListener("error", handleError);
+    }
+
+    return () => {
+      mapsScript.removeEventListener("load", handleLoad);
+      mapsScript.removeEventListener("error", handleError);
+    };
   }, []);
 
   const [showTooltip, setShowTooltip] = useState(false);
@@ -735,7 +738,7 @@ function EmployeeUpdateProfile(props) {
 
                 <label className={styles.inputName}>
                   <h4>Company Name: </h4>
-                  <input maxLength="40" className={styles.input} value={CompanyName} onChange={(e) => { handleCompanyname(e) }} type="text" />
+                  <input ref={companyNameInputRef} maxLength="40" className={styles.input} value={CompanyName} onChange={(e) => { handleCompanyname(e) }} type="text" />
                 </label>
 
                 <div className={styles.inputName}>
@@ -937,7 +940,7 @@ function EmployeeUpdateProfile(props) {
 
               <label className={styles.MobileinputName}>
                 <h4 className={styles.MobileName}>Company Name: </h4>
-                <input maxLength="25" className={styles.Mobileinput} value={CompanyName} onChange={(e) => { handleCompanyname(e) }} type="text" />
+                <input ref={mobileCompanyNameInputRef} maxLength="25" className={styles.Mobileinput} value={CompanyName} onChange={(e) => { handleCompanyname(e) }} type="text" />
               </label>
 
               <label className={styles.MobileinputName}>
