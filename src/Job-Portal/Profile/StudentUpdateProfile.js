@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styles from "./SudentUpdateProfile.module.css"
 import Style from "../Jobs/Allobs.module.css"
+import tablestyle from "../Resumes/ResumeForm.module.css"
 import imageCompression from 'browser-image-compression';
 import axios from 'axios';
 import logo from "../img/Blue.jpg"
@@ -118,6 +119,75 @@ function StudentUpdateProfile(props) {
     { value: 'Sagi Ramakrishnam Raju Engineering College-Bhimavaram', label: 'Sagi Ramakrishnam Raju Engineering College-Bhimavaram' },
   ]
 
+  const [qualificationDetails, setQualificationDetails] = useState([
+    {
+      collegeName: "",
+      degree: "",
+      studyField: "",
+      score: "",
+      yop: "",
+      country: "",
+      city: "",
+      countryCode: "",
+      stateCode: "",
+      id: ""
+    }
+  ]);
+
+  const handleQualificationChange = (index, field, value) => {
+    const updatedQualifications = [...qualificationDetails];
+
+    updatedQualifications[index][field] = value;
+
+    setQualificationDetails(updatedQualifications);
+  };
+
+  const addQualificationRow = () => {
+    if (qualificationDetails.length >= 3) return;
+
+    setQualificationDetails([
+      ...qualificationDetails,
+      {
+        collegeName: "",
+        degree: "",
+        studyField: "",
+        score: "",
+        yop: "",
+        country: "",
+        city: "",
+        countryCode: "",
+        stateCode: "",
+        id: ""
+      }
+    ]);
+  };
+
+  const deleteQualification = (index) => {
+    const updatedQualifications = qualificationDetails.filter(
+      (_, i) => i !== index
+    );
+
+    setQualificationDetails(updatedQualifications);
+  };
+  const clearQualificationRow = (index) => {
+    const updatedQualifications = [...qualificationDetails];
+
+    updatedQualifications[index] = {
+      degree: '',
+      score: '',
+      collegeName: '',
+      studyField: '',
+      yop: '',
+      countryCode: '',
+      city: '',
+      stateCode: ''
+    };
+
+    setQualificationDetails(
+      updatedQualifications
+    );
+  };
+
   const [file, setFile] = useState()
   const [uploaded, setUploaded] = useState()
   const screenSize = useScreenSize();
@@ -149,7 +219,7 @@ function StudentUpdateProfile(props) {
   const [Skills, setSkills] = useState([])
 
 
-  const[currentEmp, setCurrentEmp]=useState("");
+  const [currentEmp, setCurrentEmp] = useState("");
   const currentEmpInputRef = useRef(null);
   const currentEmpMobileInputRef = useRef(null);
 
@@ -315,6 +385,7 @@ function StudentUpdateProfile(props) {
     await axios.get(`/StudentProfile/viewProfile/${studId}`)
       .then((res) => {
         let result = res.data.result
+        // console.log(result)
         if (result) {
           setResulttagTag(result.Tags)
           setname(result.name)
@@ -340,6 +411,7 @@ function StudentUpdateProfile(props) {
           setstuId(result._id)
           setCurrentEmp(result.currentEmp)
           setEmployers(result.employers)
+          setQualificationDetails(result.qualificationDetails)
         }
       }).catch((err) => {
         alert("server issue occured", err)
@@ -367,7 +439,7 @@ function StudentUpdateProfile(props) {
     // e.preventDefault()
     console.log("tenth", currentEmp)
     await axios.put(`/StudentProfile/updatProfile/${studId}`, {
-      name, email, phoneNumber, Aadhar, panCard, city, NoticePeriod,
+      name, email, phoneNumber, Aadhar, panCard, city, NoticePeriod, qualificationDetails,
       ExpectedSalary, currentCTC, age, Qualification, Skills, Experiance, Tags, tenth, twelfth, degree, college, currentEmp, employers
     }, { headers })
       .then(async (res) => {
@@ -963,15 +1035,15 @@ function StudentUpdateProfile(props) {
 
                 <label className={styles.inputName}>
                   <h4>Current Employer:</h4>
-                    <input
-                   type="text"
-                   ref={currentEmpInputRef}
-                   value={currentEmp}
-                   onChange={(e) => setCurrentEmp(e.target.value)}
-                   className={styles.input}
-                   style={{ width: "80%",}}
-                   placeholder="Search your Current Employer"
-                 /> 
+                  <input
+                    type="text"
+                    ref={currentEmpInputRef}
+                    value={currentEmp}
+                    onChange={(e) => setCurrentEmp(e.target.value)}
+                    className={styles.input}
+                    style={{ width: "80%", }}
+                    placeholder="Search your Current Employer"
+                  />
                 </label>
                 <label className={styles.inputName}>
                   {/* <h4>Experience: &nbsp;<span className={styles.hint}>(e.g 3Y or 10Y)</span></h4> */}
@@ -1220,7 +1292,7 @@ function StudentUpdateProfile(props) {
 
 
 
-                <label className={styles.inputName}>
+                <label className={styles.tagInputName}>
                   <h4>Skill Tags: </h4>
                   {/* <div style={{marginTop:"-7px", width:"81%", marginLeft:"18px"}}>
                    <CreatableSelect  
@@ -1258,17 +1330,7 @@ function StudentUpdateProfile(props) {
 
                 </label>
 
-                {/* <label className={styles.inputName}>
-                <h4>College:</h4>
-                <div style={{marginTop:"-7px", width:"81%", marginLeft:"18px"}}>
-                <CreatableSelect  
-                  options={colleges}
-                  value={college}
-                  onChange={handleCollege}   
-                />
-                </div>
-              </label> */}
-                <div style={{ width: "50%" }}>
+                {/* <div style={{ width: "50%" }}>
                   <h4>School/College:</h4>
                   <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
                     <h4>10th:</h4>
@@ -1334,7 +1396,232 @@ function StudentUpdateProfile(props) {
 
                     </label>
                   </div>
-                </div>
+                </div> */}
+                {screenSize.width > 850 ? (
+                  <>
+                    <h4>Education</h4>
+                    <div className={tablestyle.section} style={{ marginLeft: "-10px" }}>
+                      <div className={tablestyle.educationTableWrapper}>
+                        <table className={tablestyle.educationTable}>
+                          <thead>
+                            <tr>
+                              <th>
+                                School/College/
+                                <br />
+                                University Name
+                              </th>
+
+                              <th>
+                                Degree
+                              </th>
+
+                              <th>
+                                Field of study
+                              </th>
+
+                              <th>
+                                Grade (%)
+                              </th>
+
+                              <th>
+                                Year of Passing
+                              </th>
+
+                              <>
+                                <th>
+                                  Country
+
+                                </th>
+
+                                <th>
+                                  City
+                                </th>
+                              </>
+
+                            </tr>
+                          </thead>
+                          {qualificationDetails.map((qualification, index) => (
+
+                            <tbody>
+                              <React.Fragment >
+                                <tr>
+
+                                  {/* COLLEGE */}
+                                  <td>
+                                    <input
+                                      maxLength={40}
+                                      className={tablestyle.tableInput}
+                                      placeholder="College Name"
+                                      value={qualification.collegeName}
+                                      onChange={(e) =>
+                                        handleQualificationChange(
+                                          index,
+                                          "collegeName",
+                                          e.target.value
+                                        )
+                                      }
+
+                                    />
+                                  </td>
+
+                                  {/* DEGREE */}
+                                  <td>
+                                    <input
+                                      className={tablestyle.tableInput}
+                                      placeholder="Degree"
+                                      value={qualification.degree}
+                                      onChange={(e) =>
+                                        handleQualificationChange(
+                                          index,
+                                          "degree",
+                                          e.target.value
+                                        )
+                                      }
+                                    />
+                                  </td>
+
+
+                                  {/* STUDY FIELD */}
+                                  <td>
+                                    <input
+                                      className={tablestyle.tableInput}
+                                      placeholder="Study field"
+                                      value={qualification.studyField}
+                                      onChange={(e) =>
+                                        handleQualificationChange(
+                                          index,
+                                          "studyField",
+                                          e.target.value
+                                        )
+                                      }
+
+                                    />
+                                  </td>
+
+                                  {/* SCORE */}
+                                  <td>
+                                    <input
+                                      className={tablestyle.tableInput}
+                                      placeholder="% or CGPA"
+                                      value={qualification.score}
+                                      onChange={(e) =>
+                                        handleQualificationChange(
+                                          index,
+                                          "score",
+                                          e.target.value
+                                        )
+                                      }
+
+                                    />
+                                  </td>
+
+
+                                  {/* YOP */}
+                                  <td>
+                                    <input
+                                      className={tablestyle.tableInput}
+                                      placeholder="YOP"
+                                      value={qualification.yop}
+                                      onChange={(e) =>
+                                        handleQualificationChange(
+                                          index,
+                                          "yop",
+                                          e.target.value
+                                        )
+                                      }
+
+                                    />
+                                  </td>
+
+
+                                  {/* COUNTRY + CITY */}
+                                  <>
+                                    <td>
+                                      <input
+                                        className={tablestyle.tableInput}
+                                        placeholder="Country"
+                                        value={qualification.country}
+                                        onChange={(e) =>
+                                          handleQualificationChange(
+                                            index,
+                                            "country",
+                                            e.target.value
+                                          )
+                                        }
+
+                                      />
+                                    </td>
+
+                                    <td>
+                                      <input
+                                        className={tablestyle.tableInput}
+                                        placeholder="City"
+                                        value={qualification.city}
+                                        onChange={(e) =>
+                                          handleQualificationChange(
+                                            index,
+                                            "city",
+                                            e.target.value
+                                          )
+                                        }
+
+                                      />
+                                    </td>
+                                  </>
+
+                                </tr>
+
+                                <tr>
+
+                                  <td className={tablestyle.tableActions} style={{ display: "flex" }}>
+
+
+                                    <button
+                                      className={`${tablestyle.button} ${tablestyle.buttonDanger}`}
+                                      type="button"
+                                      onClick={() =>
+                                        deleteQualification(index)
+                                      }
+                                    >
+                                      Delete
+                                    </button>
+                                    <button
+                                      className={`${tablestyle.button} ${tablestyle.buttonSecondary}`}
+                                      type="button"
+                                      onClick={() =>
+                                        clearQualificationRow(index)
+                                      }
+                                    >
+                                      Cancel
+                                    </button>
+
+                                  </td>
+
+                                </tr>
+
+                              </React.Fragment>
+
+
+                            </tbody>
+
+                          ))}
+                        </table>
+                      </div>
+
+
+
+                    </div>
+
+                    <button style={{ marginLeft: "50%", marginTop: "20px" }}
+                      className={tablestyle.button}
+                      type="button"
+                      onClick={addQualificationRow}
+                    >
+                      + Add New Education
+                    </button>
+                  </>
+                ) : ""}
+
                 <div style={{ display: "flex", marginLeft: "80%" }}>
                   <button className={styles.Save} onClick={(e) => { saveUpdate(e) }}>Save</button>
                   <button className={styles.cancel} onClick={() => { navigate(-1) }} >Cancel</button>
@@ -1672,6 +1959,7 @@ function StudentUpdateProfile(props) {
                     placeholder="Search  your Masters college"
                   />
 
+
                 </label>
               </div>
               {/* <label className={styles.MobileinputName}>
@@ -1714,17 +2002,168 @@ function StudentUpdateProfile(props) {
                   })
                 }
               </div>
+              {/* ..........Education.......... */}
 
-              {/* <label className={styles.inputName}>
-                <h4 className={styles.MobileName}>College:</h4>
-                <div style={{ width:"88%", marginLeft:"10px"}}>
-                <CreatableSelect  
-                  options={colleges}
-                  value={college}
-                  onChange={handleCollege}   
-                />
-                         </div>
-              </label> */}
+              <div className={tablestyle.section}>
+
+                <div className={tablestyle.sectionHeader}>
+                  <h2>Education</h2>
+                </div>
+
+
+                {qualificationDetails.map((qualification, index) => (
+
+                  <div
+                    key={index}
+                    className={tablestyle.educationCard}
+                  >
+
+                    <input
+                      className={tablestyle.input}
+                      placeholder="College Name"
+                      maxLength={20}
+                      value={qualification.collegeName}
+                      onChange={(e) =>
+                        handleQualificationChange(
+                          index,
+                          "collegeName",
+                          e.target.value
+                        )
+                      }
+
+                    />
+
+
+                    <input
+                      className={tablestyle.input}
+                      placeholder="Degree/Masters/School"
+                      value={qualification.degree}
+                      onChange={(e) =>
+                        handleQualificationChange(
+                          index,
+                          "degree",
+                          e.target.value
+                        )
+                      }
+
+                    />
+
+
+                    <input
+                      className={tablestyle.input}
+                      placeholder="Study Field"
+                      value={qualification.studyField}
+                      onChange={(e) =>
+                        handleQualificationChange(
+                          index,
+                          "studyField",
+                          e.target.value
+                        )
+                      }
+
+                    />
+
+
+                    <input
+                      className={tablestyle.input}
+                      placeholder="% or CGPA"
+                      value={qualification.score}
+                      onChange={(e) =>
+                        handleQualificationChange(
+                          index,
+                          "score",
+                          e.target.value
+                        )
+                      }
+
+                    />
+
+
+                    <input
+                      className={tablestyle.input}
+                      placeholder="YOP"
+                      value={qualification.yop}
+                      onChange={(e) =>
+                        handleQualificationChange(
+                          index,
+                          "yop",
+                          e.target.value
+                        )
+                      }
+
+                    />
+
+
+                    <>
+                      <input
+                        className={tablestyle.input}
+                        placeholder="Country"
+                        value={qualification.country}
+                        onChange={(e) =>
+                          handleQualificationChange(
+                            index,
+                            "country",
+                            e.target.value
+                          )
+                        }
+
+                      />
+
+                      <input
+                        className={tablestyle.input}
+                        placeholder="City"
+                        value={qualification.city}
+                        onChange={(e) =>
+                          handleQualificationChange(
+                            index,
+                            "city",
+                            e.target.value
+                          )
+                        }
+
+                      />
+                    </>
+
+
+                    <div className={tablestyle.educationActions}>
+
+                      <button
+                        className={`${tablestyle.button} ${tablestyle.buttonDanger}`}
+                        type="button"
+                        onClick={() =>
+                          deleteQualification(index)
+                        }
+                      >
+                        Delete
+                      </button>
+                      <button
+                        className={`${tablestyle.button} ${tablestyle.buttonSecondary}`}
+                        type="button"
+                        onClick={() =>
+                          clearQualificationRow(index)
+                        }
+                      >
+                        Cancel
+                      </button>
+
+                    </div>
+
+                  </div>
+
+                ))}
+
+
+                <button
+                  className={tablestyle.button}
+                  type="button"
+                  onClick={addQualificationRow}
+                >
+                  + Add Education
+                </button>
+
+              </div>
+
+
 
               <div style={{ marginTop: "10px" }}>
                 <button className={styles.MobileSave} onClick={(e) => { saveUpdate(e) }}>Save</button>

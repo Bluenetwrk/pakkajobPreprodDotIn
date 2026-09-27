@@ -349,7 +349,7 @@ const ResumeForm = () => {
 
 
   const addQualificationRow = () => {
-    if (formData.qualificationDetails.length >= 5) return;
+    if (formData.qualificationDetails.length >= 3) return;
     setFormData({
       ...formData,
       qualificationDetails: [
@@ -1775,18 +1775,6 @@ const ResumeForm = () => {
 
 
             <div className={styles.buttonGroup}>
-
-              {/*
-            <button
-              className={styles.button}
-              type="button"
-              onClick={() =>
-                addRoleDescription(i)
-              }
-            >
-              + Add Row
-            </button>
-            */}
 
               <button
                 className={styles.button}
