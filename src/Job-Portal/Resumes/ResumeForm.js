@@ -507,6 +507,99 @@ const ResumeForm = () => {
     setFormData({ ...formData, experiences: updated });
   };
 
+  const experienceCompanyRefs = useRef([]);
+  useEffect(() => {
+    const attachExperienceAutocomplete = () => {
+      if (!window.google?.maps?.places?.Autocomplete) return false;
+
+      experienceCompanyRefs.current.forEach((input) => {
+        if (!input || input.autocomplete) return;
+
+        const autocomplete = new window.google.maps.places.Autocomplete(input, {
+          types: ["establishment"],
+          fields: ["formatted_address", "name", "place_id"],
+        });
+
+        autocomplete.addListener("place_changed", () => {
+          const place = autocomplete.getPlace();
+          const company = place?.name || place?.formatted_address;
+          if (!company) return;
+          const experienceIndex = experienceCompanyRefs.current.indexOf(input);
+          if (experienceIndex < 0) return;
+
+          setFormData((prev) => ({
+            ...prev,
+            experiences: prev.experiences.map((experience, index) =>
+              index === experienceIndex
+                ? { ...experience, company }
+                : experience
+            ),
+          }));
+        });
+
+        input.autocomplete = autocomplete;
+      });
+
+      return experienceCompanyRefs.current
+        .filter(Boolean)
+        .every((input) => input.autocomplete);
+    };
+
+    if (attachExperienceAutocomplete()) return;
+
+    const interval = setInterval(() => {
+      if (attachExperienceAutocomplete()) clearInterval(interval);
+    }, 300);
+
+    return () => clearInterval(interval);
+  }, [formData.experiences.length]);
+
+  const educationCollegeRefs = useRef([]);
+  useEffect(() => {
+    const attachCollegeAutocomplete = () => {
+      if (!window.google?.maps?.places?.Autocomplete) return false;
+
+      educationCollegeRefs.current.forEach((input) => {
+        if (!input || input.autocomplete) return;
+
+        const autocomplete = new window.google.maps.places.Autocomplete(input, {
+          types: ["establishment"],
+          fields: ["formatted_address", "name", "place_id"],
+        });
+
+        autocomplete.addListener("place_changed", () => {
+          const place = autocomplete.getPlace();
+          const collegeName = place?.name || place?.formatted_address;
+          const educationIndex = educationCollegeRefs.current.indexOf(input);
+          if (!collegeName || educationIndex < 0) return;
+
+          setFormData((prev) => ({
+            ...prev,
+            qualificationDetails: prev.qualificationDetails.map((qualification, index) =>
+              index === educationIndex
+                ? { ...qualification, collegeName }
+                : qualification
+            ),
+          }));
+        });
+
+        input.autocomplete = autocomplete;
+      });
+
+      return educationCollegeRefs.current
+        .filter(Boolean)
+        .every((input) => input.autocomplete);
+    };
+
+    if (attachCollegeAutocomplete()) return;
+
+    const interval = setInterval(() => {
+      if (attachCollegeAutocomplete()) clearInterval(interval);
+    }, 300);
+
+    return () => clearInterval(interval);
+  }, [formData.qualificationDetails.length]);
+
   // ---------- CERTIFICATIONS ----------
   const handleCertificationChange = (index, value) => {
     const updated = [...formData.certifications];
@@ -1296,6 +1389,9 @@ const ResumeForm = () => {
                           {/* COLLEGE */}
                           <td>
                             <input
+                              ref={(input) => {
+                                educationCollegeRefs.current[i] = input;
+                              }}
                               maxLength={40}
                               className={styles.tableInput}
                               placeholder="College Name"
@@ -1496,6 +1592,9 @@ const ResumeForm = () => {
                 >
 
                   <input
+                    ref={(input) => {
+                      educationCollegeRefs.current[i] = input;
+                    }}
                     className={styles.input}
                     placeholder="College Name"
                     maxLength={20}
@@ -1677,6 +1776,9 @@ const ResumeForm = () => {
               >
 
                 <input
+                  ref={(input) => {
+                    experienceCompanyRefs.current[i] = input;
+                  }}
                   className={styles.input}
                   placeholder="Company"
                   value={exp.company}
@@ -2083,5 +2185,3 @@ const ResumeForm = () => {
 };
 
 export default ResumeForm;
-
-

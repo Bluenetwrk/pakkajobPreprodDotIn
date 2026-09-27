@@ -14,6 +14,7 @@ const ResumePreview = () => {
     show: false,
     selected: null
   });
+  const [showPreviewPopup, setShowPreviewPopup] = useState(false);
 
   const [jobseekerForm, setJobseekerForm] = useState({
     email: "",
@@ -130,6 +131,17 @@ const ResumePreview = () => {
   }, []);
 
   useEffect(() => {
+    if (!showPreviewPopup) return;
+
+    const handleKeyDown = (event) => {
+      if (event.key === "Escape") setShowPreviewPopup(false);
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [showPreviewPopup]);
+
+  useEffect(() => {
     const handleClickOutside = (event) => {
       if (alertRef.current && !alertRef.current.contains(event.target)) {
         setResumeAlert({ show: false, selected: null });
@@ -169,15 +181,49 @@ const ResumePreview = () => {
         </div>
         <div className={styles.previewContainer} >
 
-          <img
-            src={img}
-            alt="Resume Preview"
-            className={styles.previewImage}
-            onClick={() =>
-              setResumeAlert({ show: true, selected: templateKey })
-            }
-          />
+          <div className={styles.resumeImageWrapper}>
+            <img
+              src={img}
+              alt="Resume Preview"
+              className={styles.previewImage}
+              onClick={() =>
+                setResumeAlert({ show: true, selected: templateKey })
+              }
+            />
+            <button
+              type="button"
+              className={styles.previewButton}
+              onClick={() => setShowPreviewPopup(true)}
+            >
+              Click here to view resume
+            </button>
+          </div>
         </div>
+
+        {showPreviewPopup && (
+          <div
+            className={styles.previewPopupOverlay}
+            onClick={() => setShowPreviewPopup(false)}
+          >
+            <div
+              className={styles.previewPopup}
+              role="dialog"
+              aria-modal="true"
+              aria-label="Resume preview"
+              onClick={(event) => event.stopPropagation()}
+            >
+              <button
+                type="button"
+                className={styles.previewPopupClose}
+                aria-label="Close resume preview"
+                onClick={() => setShowPreviewPopup(false)}
+              >
+                ×
+              </button>
+              <img src={img} alt="Full resume preview" className={styles.previewPopupImage} />
+            </div>
+          </div>
+        )}
 
         {/* Alert */}
         {resumeAlert.show && (
@@ -311,5 +357,3 @@ const ResumePreview = () => {
 };
 
 export default ResumePreview;
-
-
