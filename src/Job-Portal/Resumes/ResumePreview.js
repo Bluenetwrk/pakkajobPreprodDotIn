@@ -181,21 +181,23 @@ const ResumePreview = () => {
         </div>
         <div className={styles.previewContainer} >
 
-          <img
-            src={img}
-            alt="Resume Preview"
-            className={styles.previewImage}
-            onClick={() =>
-              setResumeAlert({ show: true, selected: templateKey })
-            }
-          />
-          <button
-            type="button"
-            className={styles.previewButton}
-            onClick={() => setShowPreviewPopup(true)}
-          >
-            Click here to view resume
-          </button>
+          <div className={styles.resumeImageWrapper}>
+            <img
+              src={img}
+              alt="Resume Preview"
+              className={styles.previewImage}
+              onClick={() =>
+                setResumeAlert({ show: true, selected: templateKey })
+              }
+            />
+            <button
+              type="button"
+              className={styles.previewButton}
+              onClick={() => setShowPreviewPopup(true)}
+            >
+              Click here to view resume
+            </button>
+          </div>
         </div>
 
         {showPreviewPopup && (
@@ -355,4 +357,3 @@ const ResumePreview = () => {
 };
 
 export default ResumePreview;
-
