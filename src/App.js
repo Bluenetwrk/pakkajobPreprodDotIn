@@ -18,7 +18,6 @@ import StudPrivate from "./Job-Portal/Private/OutletStud";
 import PostedJobsbyEmp from "./Job-Portal/Jobs/mypostedjobs";
 import GMapProfile from "./Job-Portal/Profile/gMapProfile";
 import BlogpostedByEmp from "./Job-Portal/Jobs/mypostedBlogs";
-import PostedCareerJobs from "./Job-Portal/Jobs/myPostedCaereerjobs";
 import EmpPrivate from "./Job-Portal/Private/OuletEmp";
 import PostJobs from "./Job-Portal/PostJobs/postJobs";
 import PostBlogs from "./Job-Portal/PostJobs/postBlogs";
@@ -96,6 +95,7 @@ import MyCreatedResume from "./Job-Portal/Resumes/MyCreatedResume";
 import CSLogin from "./Job-Portal/Login/CSLogin";
 import CSModel from "./Job-Portal/Login/CSModel";
 // admin
+import PostedCareerJobs from "./Job-Portal/Jobs/myPostedCaereerjobs";
 import AdminLogin from "./Job-Portal/Login/AdminLogin"
 import AdminProfile from "./Job-Portal/Admin/AdminProfile"
 import AllJobsForAdmin from "./Job-Portal/Admin/AllJobsForAdmin"
@@ -106,6 +106,12 @@ import CheckStudentProfileForAdmin from "./Job-Portal/Profile/CheckStuForAdmin";
 import AdminUpdate from "./Job-Portal/Admin/AdminUpdate"
 import AdminPostJobs from "./Job-Portal/Admin/AdminJobPosts";
 import AllIds from "./Job-Portal/Admin/Allid'sStudent";
+import AdminPostedJobs from "../src/Job-Portal/Admin/AdminJobPosts"
+import BIAddAdminAccess from "../src/Job-Portal/Admin/AdminAccess"
+import ArchivedUser from "../src/Job-Portal/Admin/ArchiveJobSeekers"
+import ArchiveJobs from "../src/Job-Portal/Admin/ArchiveJobs"
+import DeletedJobs from "../src/Job-Portal/Admin/DeletedJobs"
+import DeletedBlogs from "../src/Job-Portal/Admin/DeletedBlogs"
 // import VerifyEmail from "./Job-Portal/Login/verifyEmail";
 
 // import ConsultationServices from "./Job-Portal/Consultation Services/ConsultationServices";
@@ -1408,6 +1414,13 @@ function App() {
             <Route path="/BIAddmin@AdminUpdate" element={<AdminUpdate />} />
             <Route path="/BIAddmin@PostJob" element={<AdminPostJobs />} />
             <Route path="/BIAddmin@AllIds" element={<AllIds />} />
+            <Route path="/BIAddmin@PostedCareerJobs" element={<PostedCareerJobs />} />
+            <Route path="/BIAddmin@AdminPostedJobs" element={<AdminPostedJobs />} />
+            <Route path="/BIAddAdminAccess" element={<BIAddAdminAccess />} />
+            <Route path="/BIAddmin@ArchivedUser" element={<ArchivedUser />} />
+            <Route path="/BIAddmin@ArchiveJobs" element={<ArchiveJobs />} />
+            <Route path="/BIAddmin@DeletedJobs" element={<DeletedJobs />} />
+            <Route path="/BIAddmin@DeletedBlogs" element={<DeletedBlogs />} />
           </Routes>
 
         </div>
