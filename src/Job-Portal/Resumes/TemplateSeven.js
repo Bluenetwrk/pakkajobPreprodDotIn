@@ -1,241 +1,1189 @@
+
 import React, { useEffect, useState } from "react";
-import styles from "./TemplateEight.module.css";
+import styles from "./TemplateSeven.module.css";
 import axios from "axios";
 import { generatePDF } from "./generatePDF";
 
-const TemplateSeven = ({themeColor}) => {
+/* =========================================================
+   EDITABLE TEXT
+========================================================= */
+
+const EditableText = ({
+  value,
+  placeholder = "",
+  onChange,
+  className = "",
+  multiline = false,
+}) => {
+  return (
+    <span
+      className={`${styles.editableText} ${className}`}
+      contentEditable
+      suppressContentEditableWarning
+      role="textbox"
+      tabIndex={0}
+      data-placeholder={placeholder}
+      onBlur={(e) => {
+        const newValue = e.currentTarget.innerText.trim();
+
+        if (onChange) {
+          onChange(newValue);
+        }
+      }}
+      onKeyDown={(e) => {
+        if (!multiline && e.key === "Enter") {
+          e.preventDefault();
+          e.currentTarget.blur();
+        }
+      }}
+    >
+      {value || ""}
+    </span>
+  );
+};
+
+
+/* =========================================================
+   MAIN COMPONENT
+========================================================= */
+
+const TemplateSeven = () => {
   const [profileData, setProfileData] = useState(null);
+
   const studId = JSON.parse(localStorage.getItem("StudId"));
+
+
+  /* =======================================================
+     FETCH PROFILE
+  ======================================================= */
 
   useEffect(() => {
     window.scrollTo(0, 0);
 
     const fetchProfile = async () => {
       try {
-        const res = await axios.get(`/StudentProfile/viewProfile/${studId}`);
+        const res = await axios.get(
+          `/StudentProfile/viewProfile/${studId}`
+        );
+
         setProfileData(res.data.result);
-        console.log(res.data.result)
-      } catch {
+      } catch (error) {
+        console.error("Profile loading error:", error);
         alert("Failed to load profile");
       }
     };
 
-    fetchProfile();
+    if (studId) {
+      fetchProfile();
+    }
   }, [studId]);
 
+
+  /* =======================================================
+     UPDATE ROOT PROFILE FIELD
+  ======================================================= */
+
+  const updateProfileField = (field, value) => {
+    setProfileData((prev) => ({
+      ...prev,
+      [field]: value,
+    }));
+  };
+
+
+  /* =======================================================
+     UPDATE PERSONAL DETAILS
+  ======================================================= */
+
+  const updatePersonalField = (field, value) => {
+    setProfileData((prev) => {
+      const personalDetails = [
+        ...(prev.personalDetails || []),
+      ];
+
+      personalDetails[0] = {
+        ...(personalDetails[0] || {}),
+        [field]: value,
+      };
+
+      return {
+        ...prev,
+        personalDetails,
+      };
+    });
+  };
+
+
+  /* =======================================================
+     UPDATE QUALIFICATION
+  ======================================================= */
+
+  const updateQualificationField = (
+    index,
+    field,
+    value
+  ) => {
+    setProfileData((prev) => {
+      const qualificationDetails = {
+        ...(prev.qualificationDetails || {}),
+      };
+
+      const keys = Object.keys(qualificationDetails);
+
+      const key = keys[index];
+
+      if (!key) {
+        return prev;
+      }
+
+      qualificationDetails[key] = {
+        ...qualificationDetails[key],
+        [field]: value,
+      };
+
+      return {
+        ...prev,
+        qualificationDetails,
+      };
+    });
+  };
+
+
+  /* =======================================================
+     UPDATE EXPERIENCE
+  ======================================================= */
+
+  const updateExperienceField = (
+    index,
+    field,
+    value
+  ) => {
+    setProfileData((prev) => {
+      const experiencesObject = {
+        ...(prev.experiences || {}),
+      };
+
+      const keys = Object.keys(experiencesObject);
+
+      const key = keys[index];
+
+      if (!key) {
+        return prev;
+      }
+
+      experiencesObject[key] = {
+        ...experiencesObject[key],
+        [field]: value,
+      };
+
+      return {
+        ...prev,
+        experiences: experiencesObject,
+      };
+    });
+  };
+
+
+  /* =======================================================
+     FORMAT DATE
+  ======================================================= */
+
+  const formatDate = (date) => {
+    if (!date) return "N/A";
+
+    const parsed = new Date(date);
+
+    if (isNaN(parsed.getTime())) {
+      return date;
+    }
+
+    return parsed.toLocaleDateString("en-US", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+    });
+  };
+
+
+  /* =======================================================
+     FORMAT EXPERIENCE DATE
+  ======================================================= */
+
+  const formatExperienceDate = (date) => {
+    if (!date) return "Present";
+
+    const parsed = new Date(date);
+
+    if (isNaN(parsed.getTime())) {
+      return date;
+    }
+
+    return parsed.toLocaleDateString("en-US", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+    });
+  };
+
+
+  /* =======================================================
+     DOWNLOAD PDF
+  ======================================================= */
+
   const handleDownloadPDF = () => {
-    const element = document.getElementById("template-six");
+    const element =
+      document.getElementById("template-seven");
+
+    if (!element) {
+      console.error(
+        "template-seven element not found"
+      );
+      return;
+    }
+
     element.classList.add(styles.forceA4);
 
     setTimeout(() => {
-      generatePDF("template-six", `${profileData?.name}_resume.pdf`);
+      generatePDF(
+        "template-seven",
+        `${profileData?.name || "resume"}_resume.pdf`
+      );
+
       element.classList.remove(styles.forceA4);
     }, 300);
   };
 
-  if (!profileData) return null;
+
+  /* =======================================================
+     LOADING
+  ======================================================= */
+
+  if (!profileData) {
+    return (
+      <div className={styles.loading}>
+        Loading Resume...
+      </div>
+    );
+  }
+
+
+  /* =======================================================
+     PERSONAL DATA
+  ======================================================= */
+
+  const personal =
+    profileData.personalDetails?.[0] || {};
+
+
+  /* =======================================================
+     QUALIFICATIONS
+  ======================================================= */
+
+  const qualifications = Object.values(
+    profileData.qualificationDetails || {}
+  ).sort(
+    (a, b) =>
+      Number(a.yop || 0) -
+      Number(b.yop || 0)
+  );
+
+
+  /* =======================================================
+     EXPERIENCES
+  ======================================================= */
+
+  const experiences = Object.values(
+    profileData.experiences || {}
+  ).slice(0, 6);
+
+
+  /* =======================================================
+     INTERESTS
+  ======================================================= */
+
+  const interests = Object.values(
+    profileData.interests || {}
+  ).slice(0, 4);
+
+
+  /* =======================================================
+     RENDER
+  ======================================================= */
 
   return (
-    <div className={styles.wrapper}>
-      <div id="template-six" className={styles.resume}>
-        <div className={styles.innerBorder}>
+    <>
+      <div className={styles.wrapper}>
 
-        {/* HEADER */}
-        <h1 className={styles.title} style={{color:themeColor}}>RESUME</h1>
+        <div
+          id="template-seven"
+          className={styles.resume}
+        >
 
-        <div className={styles.header}>
-          <div>
-            <strong style={{color:themeColor, fontSize:"22px"}}>{profileData.name}</strong>
-            <div style={{ width: "70%" , marginBottom:"-27px", marginTop:"-11px"}}>
-              <p style={{fontSize:"13px"}}>{profileData.address}</p>
-            </div>
-          </div>
+          {/* =================================================
+              TITLE
+          ================================================= */}
 
-          <div  style={{width:"55%", marginTop:"7px"}} className={styles.headerRight}>
-          <p style={{ fontSize: "13px", marginBottom: "4px" }}>
-  <strong>E-mail:</strong> {profileData.email}
-</p>
-            <p style={{fontSize:"13px"}}><strong>Contact No:</strong> {profileData.phoneNumber}</p>
-          </div>
-        </div>
-
-        {/* OBJECTIVE */}
-        <div style={{marginTop:"-16px"}}>
-        <Section title="OBJECTIVE" themeColor={themeColor} >
-          <p style={{color:"black"}}>
-            {profileData.objective
-              ? profileData.objective
-              : "My objective is to succeed in an environment of growth and excellence and earn a job which provides me job satisfaction and self development and helps me achieve personal as well as organisational goals."}
-
+          <p className={styles.title}>
+            RESUME
           </p>
-        </Section>
-</div>
-        {/* EDUCATION */}
-        <Section title="EDUCATIONAL QUALIFACTION" themeColor={themeColor}>
-  <table className={styles.table} style={{ color: "black" }}>
-    <thead>
-      <tr>
-        <th>Course</th>
-        <th>University / Board</th>
-        <th>Passing Year</th>
-        <th>Percentage</th>
-      </tr>
-    </thead>
-    <tbody>
-      {Object.values(profileData.qualificationDetails || {})
-        .sort((a, b) => (b.yop || 0) - (a.yop || 0))
-        .map((q, i) => (
-          <tr key={i}>
-            <td>{q.degree}</td>
-            <td>{q.collegeName}</td>
-            <td>{q.yop || "-"}</td>
-            <td>{q.score || "-"}</td>
-          </tr>
-        ))}
-    </tbody>
-  </table>
-</Section>
 
-        {/* TECHNICAL SKILLS */}
-        <Section title="TECHNICAL SKILLS" themeColor={themeColor}>
-          {["Computer", "Typing"].map((heading) => {
-            const group = profileData.skills?.find(
-              (g) => g.heading === heading
-            );
 
-            return group && group.items?.length > 0 ? (
-              <p style={{color:"black"}} key={heading}>
-                <strong>{heading}:</strong> {group.items.join(", ")}
-              </p>
-            ) : null;
-          })}
-        </Section>
+          {/* =================================================
+              HEADER
+          ================================================= */}
 
-        {/* HOBBIES */}
-        <Section title="HOBBIES" themeColor={themeColor}>
-  <ul>
-    <li style={{ color: "black" }}>
-      {Object.values(profileData.interests || {})
-        .slice(0, 4)
-        .join(", ")}
-    </li>
-  </ul>
-</Section>
+          <div className={styles.header}>
 
-        {/* EXPERIENCE */}
-        <Section title="EXPERIENCE" themeColor={themeColor}>
-  <ul
-    style={{
-  // display: "grid",
-  gridTemplateColumns: "1fr 1fr",   // two columns (left + right)
-  gridTemplateRows: "repeat(3, auto)", // 3 rows
-  gap: "4px 20px",
-  paddingLeft: "18px"
-}}
-  >
-    {Object.values(profileData.experiences || {})
-      .slice(0, 6)
-      .map((e, i) => (
-        <>
-        <li style={{ color: "black" }} key={i}>
-       <span style={{display:"block", fontWeight:"bold"}}>Company {i+1}</span>
-          {e.company}-{e.role} ({new Date(e.startDate).toLocaleDateString("en-US", { dateStyle: "medium" })} - {new Date(e.endDate).toLocaleDateString("en-US",{dateStyle:"medium"})})
-       <span style={{display:"block"}}>{e.descriptions[0]}</span>
-        </li>
+            <div className={styles.name}>
 
-        </>
-      ))}
-  </ul>
-</Section>
+              <EditableText
+                value={profileData.name}
+                placeholder="Your Name"
+                onChange={(value) =>
+                  updateProfileField(
+                    "name",
+                    value
+                  )
+                }
+              />
 
-        {/* PERSONAL DETAILS */}
-        <Section title="PERSONAL DETAILS" themeColor={themeColor}>
-          <div className={styles.personalGrid} style={{color:"black"}}>
-
-            <div className={styles.row}>
-              <span className={styles.label}>Name</span>
-              <span className={styles.colon}>:</span>
-              <span>{profileData.name}</span>
             </div>
 
-            <div className={styles.row}>
-              <span className={styles.label}>Father Name</span>
-              <span className={styles.colon}>:</span>
-              <span>{profileData.personalDetails?.[0]?.fatherName || "N/A"}</span>
+
+            <div className={styles.contactLine}>
+
+              <strong>
+                Mobile No. -
+              </strong>{" "}
+
+              <EditableText
+                value={
+                  profileData.phoneNumber
+                }
+                placeholder="Mobile Number"
+                onChange={(value) =>
+                  updateProfileField(
+                    "phoneNumber",
+                    value
+                  )
+                }
+              />
+
             </div>
 
-            <div className={styles.row} style={{color:"black"}}>
-              <span className={styles.label}>Mother Name</span>
-              <span className={styles.colon}>:</span>
-              <span>{profileData.personalDetails?.[0]?.motherName || "N/A"}</span>
+
+            <div className={styles.contactLine}>
+
+              <strong>
+                Email Id -
+              </strong>{" "}
+
+              <EditableText
+                value={
+                  profileData.email
+                }
+                placeholder="Email Address"
+                onChange={(value) =>
+                  updateProfileField(
+                    "email",
+                    value
+                  )
+                }
+              />
+
             </div>
 
-            <div className={styles.row} style={{color:"black"}}>
-              <span className={styles.label}>Date of Birth</span>
-              <span className={styles.colon}>:</span>
-              <span>
-                {profileData?.personalDetails?.[0]?.dob
-                  ? new Date(profileData.personalDetails[0].dob).toLocaleDateString(
-                      "en-US",
-                      { day: "2-digit", month: "short", year: "numeric" }
+
+            <div className={styles.contactLine}>
+
+              <EditableText
+                value={
+                  profileData.address
+                }
+                placeholder="Address"
+                onChange={(value) =>
+                  updateProfileField(
+                    "address",
+                    value
+                  )
+                }
+              />
+
+            </div>
+
+          </div>
+
+
+          {/* =================================================
+              OBJECTIVE
+          ================================================= */}
+
+          <Section title="OBJECTIVE">
+
+            <EditableText
+              value={
+                profileData.objective ||
+                "My objective is to succeed in an environment of growth and excellence and earn a job which provides me job satisfaction and self development and helps me achieve personal as well as organisational goals."
+              }
+              placeholder="Enter your objective..."
+              multiline={true}
+              onChange={(value) =>
+                updateProfileField(
+                  "objective",
+                  value
+                )
+              }
+            />
+
+          </Section>
+
+
+          {/* =================================================
+              PERSONAL INFORMATION
+          ================================================= */}
+
+          <Section title="PERSONAL INFORMATION">
+
+            <div
+              className={
+                styles.personalInformation
+              }
+            >
+
+              <PersonalRow
+                label="Name"
+                value={
+                  <EditableText
+                    value={
+                      profileData.name
+                    }
+                    placeholder="Name"
+                    onChange={(value) =>
+                      updateProfileField(
+                        "name",
+                        value
+                      )
+                    }
+                  />
+                }
+              />
+
+
+              <PersonalRow
+                label="Father Name"
+                value={
+                  <EditableText
+                    value={
+                      personal.fatherName
+                    }
+                    placeholder="Father Name"
+                    onChange={(value) =>
+                      updatePersonalField(
+                        "fatherName",
+                        value
+                      )
+                    }
+                  />
+                }
+              />
+
+
+              <PersonalRow
+                label="Mother Name"
+                value={
+                  <EditableText
+                    value={
+                      personal.motherName
+                    }
+                    placeholder="Mother Name"
+                    onChange={(value) =>
+                      updatePersonalField(
+                        "motherName",
+                        value
+                      )
+                    }
+                  />
+                }
+              />
+
+
+              <PersonalRow
+                label="Date of Birth"
+                value={
+                  <EditableText
+                    value={
+                      formatDate(
+                        personal.dob
+                      )
+                    }
+                    placeholder="Date of Birth"
+                    onChange={(value) =>
+                      updatePersonalField(
+                        "dob",
+                        value
+                      )
+                    }
+                  />
+                }
+              />
+
+
+              <PersonalRow
+                label="Gender"
+                value={
+                  <EditableText
+                    value={
+                      personal.gender
+                    }
+                    placeholder="Gender"
+                    onChange={(value) =>
+                      updatePersonalField(
+                        "gender",
+                        value
+                      )
+                    }
+                  />
+                }
+              />
+
+
+              <PersonalRow
+                label="Nationality"
+                value={
+                  <EditableText
+                    value={
+                      personal.Nationality
+                    }
+                    placeholder="Nationality"
+                    onChange={(value) =>
+                      updatePersonalField(
+                        "Nationality",
+                        value
+                      )
+                    }
+                  />
+                }
+              />
+
+
+              <PersonalRow
+                label="Languages Known"
+                value={
+                  <EditableText
+                    value={
+                      profileData.languages?.join(
+                        ", "
+                      )
+                    }
+                    placeholder="Languages"
+                    onChange={(value) =>
+                      updateProfileField(
+                        "languages",
+                        value
+                          .split(",")
+                          .map(
+                            (item) =>
+                              item.trim()
+                          )
+                          .filter(Boolean)
+                      )
+                    }
+                  />
+                }
+              />
+
+            </div>
+
+          </Section>
+
+
+          {/* =================================================
+              EDUCATIONAL QUALIFICATION
+          ================================================= */}
+
+          <Section title="EDUCATIONAL QUALIFICATION">
+
+            <table className={styles.table}>
+
+              <thead>
+
+                <tr>
+
+                  <th>
+                    Examination
+                  </th>
+
+                  <th>
+                    Board/University
+                  </th>
+
+                  <th>
+                    Year
+                  </th>
+
+                  <th>
+                    Percentage
+                  </th>
+
+                </tr>
+
+              </thead>
+
+
+              <tbody>
+
+                {qualifications.length >
+                0 ? (
+
+                  qualifications.map(
+                    (q, index) => (
+
+                      <tr
+                        key={index}
+                      >
+
+                        <td>
+
+                          <EditableText
+                            value={
+                              q.degree
+                            }
+                            placeholder="Examination"
+                            onChange={(
+                              value
+                            ) =>
+                              updateQualificationField(
+                                index,
+                                "degree",
+                                value
+                              )
+                            }
+                          />
+
+                        </td>
+
+
+                        <td>
+
+                          <EditableText
+                            value={
+                              q.collegeName
+                            }
+                            placeholder="Board / University"
+                            onChange={(
+                              value
+                            ) =>
+                              updateQualificationField(
+                                index,
+                                "collegeName",
+                                value
+                              )
+                            }
+                          />
+
+                        </td>
+
+
+                        <td>
+
+                          <EditableText
+                            value={
+                              q.yop
+                            }
+                            placeholder="Year"
+                            onChange={(
+                              value
+                            ) =>
+                              updateQualificationField(
+                                index,
+                                "yop",
+                                value
+                              )
+                            }
+                          />
+
+                        </td>
+
+
+                        <td>
+
+                          <EditableText
+                            value={
+                              q.score
+                            }
+                            placeholder="Percentage"
+                            onChange={(
+                              value
+                            ) =>
+                              updateQualificationField(
+                                index,
+                                "score",
+                                value
+                              )
+                            }
+                          />
+
+                        </td>
+
+                      </tr>
+
                     )
-                  : "N/A"}
-              </span>
+                  )
+
+                ) : (
+
+                  <tr>
+
+                    <td>
+                      -
+                    </td>
+
+                    <td>
+                      -
+                    </td>
+
+                    <td>
+                      -
+                    </td>
+
+                    <td>
+                      -
+                    </td>
+
+                  </tr>
+
+                )}
+
+              </tbody>
+
+            </table>
+
+          </Section>
+
+
+          {/* =================================================
+              TECHNICAL SKILLS
+          ================================================= */}
+
+          <Section title="TECHNICAL SKILLS">
+
+            <EditableText
+              value={
+                Array.isArray(
+                  profileData.skills
+                )
+                  ? profileData.skills.join(
+                      ", "
+                    )
+                  : profileData.skills
+              }
+              placeholder="Enter your technical skills..."
+              multiline={true}
+              onChange={(value) =>
+                updateProfileField(
+                  "skills",
+                  value
+                )
+              }
+            />
+
+          </Section>
+
+
+          {/* =================================================
+              EXPERIENCE
+          ================================================= */}
+
+          <Section title="EXPERIENCE">
+
+            {experiences.length > 0 ? (
+
+              <div
+                className={
+                  styles.experienceList
+                }
+              >
+
+                {experiences.map(
+                  (
+                    experience,
+                    index
+                  ) => (
+
+                    <div
+                      className={
+                        styles.experienceItem
+                      }
+                      key={index}
+                    >
+
+                      <strong>
+                        Company{" "}
+                        {index + 1}
+                      </strong>
+
+
+                      <div>
+
+                        <EditableText
+                          value={
+                            experience.company
+                          }
+                          placeholder="Company Name"
+                          onChange={(
+                            value
+                          ) =>
+                            updateExperienceField(
+                              index,
+                              "company",
+                              value
+                            )
+                          }
+                        />
+
+
+                        {" - "}
+
+
+                        <EditableText
+                          value={
+                            experience.role
+                          }
+                          placeholder="Role"
+                          onChange={(
+                            value
+                          ) =>
+                            updateExperienceField(
+                              index,
+                              "role",
+                              value
+                            )
+                          }
+                        />
+
+
+                        {" - ("}
+
+
+                        <EditableText
+                          value={
+                            formatExperienceDate(
+                              experience.startDate
+                            )
+                          }
+                          placeholder="Start Date"
+                          onChange={(
+                            value
+                          ) =>
+                            updateExperienceField(
+                              index,
+                              "startDate",
+                              value
+                            )
+                          }
+                        />
+
+
+                        {" - "}
+
+
+                        <EditableText
+                          value={
+                            formatExperienceDate(
+                              experience.endDate
+                            )
+                          }
+                          placeholder="End Date"
+                          onChange={(
+                            value
+                          ) =>
+                            updateExperienceField(
+                              index,
+                              "endDate",
+                              value
+                            )
+                          }
+                        />
+
+
+                        {")"}
+
+                      </div>
+
+                    </div>
+
+                  )
+                )}
+
+              </div>
+
+            ) : (
+
+              <EditableText
+                value="FRESHER"
+                placeholder="FRESHER"
+              />
+
+            )}
+
+          </Section>
+
+
+          {/* =================================================
+              BEHAVIOURAL CHARACTERISTICS
+          ================================================= */}
+
+          <Section title="BEHAVIOURAL CHARACTERISTICS">
+
+            <ul
+              className={
+                styles.behaviourList
+              }
+            >
+
+              <li>
+
+                <EditableText
+                  value="Commitment to quality results."
+                  multiline={true}
+                />
+
+              </li>
+
+
+              <li>
+
+                <EditableText
+                  value="Ability to take challenges, work under pressure & achieve targets."
+                  multiline={true}
+                />
+
+              </li>
+
+
+              <li>
+
+                <EditableText
+                  value="Self-motivated, confident, and responsible."
+                  multiline={true}
+                />
+
+              </li>
+
+
+              <li>
+
+                <EditableText
+                  value="Sincere and positive attitude."
+                  multiline={true}
+                />
+
+              </li>
+
+            </ul>
+
+          </Section>
+
+
+          {/* =================================================
+              DECLARATION
+          ================================================= */}
+
+          <Section title="DECLARATION">
+
+            <EditableText
+              value="I hereby affirm the information given in this document is correct to the best of my knowledge."
+              multiline={true}
+            />
+
+
+            <div
+              className={
+                styles.declaration
+              }
+            >
+
+              <div>
+
+                <p>
+
+                  <strong>
+                    Place:
+                  </strong>{" "}
+
+                  {/* <EditableText
+                    value={
+                      profileData.place
+                    }
+                    placeholder="Place"
+                    onChange={(value) =>
+                      updateProfileField(
+                        "place",
+                        value
+                      )
+                    }
+                  /> */}
+
+                </p>
+
+
+                <p>
+
+                  <strong>
+                    Date:
+                  </strong>{" "}
+
+                  {/* <EditableText
+                    value={
+                      profileData.declarationDate
+                    }
+                    placeholder="Date"
+                    onChange={(value) =>
+                      updateProfileField(
+                        "declarationDate",
+                        value
+                      )
+                    }
+                  /> */}
+
+                </p>
+
+              </div>
+
+
+              <div
+                className={
+                  styles.signature
+                }
+              >
+
+                (
+
+                <EditableText
+                  value={
+                    profileData.name ||
+                    "name"
+                  }
+                  placeholder="Signature Name"
+                  onChange={(value) =>
+                    updateProfileField(
+                      "name",
+                      value
+                    )
+                  }
+                />
+
+                )
+
+              </div>
+
             </div>
 
-            <div className={styles.row} style={{color:"black"}}>
-              <span className={styles.label}>Gender</span>
-              <span className={styles.colon}>:</span>
-              <span>{profileData.personalDetails?.[0]?.gender || "N/A"}</span>
-            </div>
-
-            <div className={styles.row} style={{color:"black"}}>
-              <span className={styles.label}>Nationality</span>
-              <span className={styles.colon}>:</span>
-              <span>{profileData.personalDetails?.[0]?.Nationality || "N/A"}</span>
-            </div>
-
-            <div className={styles.row} style={{color:"black"}}>
-              <span className={styles.label}>Languages Known</span>
-              <span className={styles.colon}>:</span>
-              <span>{profileData.languages?.join(", ") || "N/A"}</span>
-            </div>
-
-          </div>
-        </Section>
-
-        {/* DECLARATION */}
-        <Section title="DECLARATION" themeColor={themeColor}>
-          <p style={{color:"black"}}>
-            I hereby affirm that all the above information in this document is
-            true to the best of my knowledge.
-          </p>
-          <div style={{display:"flex", justifyContent:"space-between", alignItems:"center"}}>
-            <div >
-                <p className={styles.place} style={{color:"black"}}><strong>Place:</strong></p>
-                <p className={styles.date} style={{color:"black"}}><strong>Date:</strong> __________</p>
-            </div>
-            <div>
-                <p className={styles.thankYou} style={{color:"black",marginRight:"11px"}}>Thank You.</p>
-            </div>
-          </div>
-        </Section>
+          </Section>
 
         </div>
+
+
+        {/* =================================================
+            DOWNLOAD BUTTON
+        ================================================= */}
+
+        <button
+          onClick={handleDownloadPDF}
+          className={
+            styles.downloadBtn
+          }
+        >
+          Download Resume PDF
+        </button>
+
+      </div>
+    </>
+  );
+};
+
+
+/* =========================================================
+   SECTION COMPONENT
+========================================================= */
+
+const Section = ({
+  title,
+  children,
+}) => {
+
+  return (
+    <section
+      className={styles.section}
+    >
+
+      <h2
+        className={
+          styles.sectionTitle
+        }
+      >
+        {title}
+      </h2>
+
+
+      <div
+        className={
+          styles.sectionContent
+        }
+      >
+        {children}
       </div>
 
-      <button onClick={handleDownloadPDF} className={styles.downloadBtn}>
-        Download Template 7 PDF
-      </button>
+    </section>
+  );
+};
+
+
+/* =========================================================
+   PERSONAL ROW COMPONENT
+========================================================= */
+
+const PersonalRow = ({
+  label,
+  value,
+}) => {
+
+  return (
+    <div
+      className={
+        styles.personalRow
+      }
+    >
+
+      <span
+        className={
+          styles.personalLabel
+        }
+      >
+        {label}
+      </span>
+
+
+      <span
+        className={
+          styles.personalColon
+        }
+      >
+        :
+      </span>
+
+
+      <span
+        className={
+          styles.personalValue
+        }
+      >
+        {value || "N/A"}
+      </span>
+
     </div>
   );
 };
 
-const Section = ({ title, children, themeColor }) => (
-  <>
-    <div className={styles.sectionTitle} style={{color:themeColor}}>{title}</div>
-    <div className={styles.sectionContent} style={{color:themeColor}} >{children}</div>
-  </>
-);
 
 export default TemplateSeven;

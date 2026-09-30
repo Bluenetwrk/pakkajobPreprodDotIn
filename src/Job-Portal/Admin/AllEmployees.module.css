@@ -1,235 +1,687 @@
+/* =========================================================
+   MAIN SEARCH AREA
+========================================================= */
 
-.searchBoth{
-    margin-left: 4%;
-    margin-top: 15px;
+.searchBoth {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 10px 20px;
+  flex-wrap: wrap;
+}
 
-    display: flex;
+.p {
+  margin: 0;
+  font-weight: 600;
 }
-.p{
-    font-weight: bold;
-    margin-top: 20px;
-    margin-left: 5%;
-    opacity: 0.8;
+
+.inputboxsearch {
+  width: 380px;
+  max-width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  outline: none;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+.inputboxsearch:focus {
+  border-color: #280463;
+  box-shadow: 0 0 0 2px rgba(40, 4, 99, 0.1);
+}
 
 
+/* =========================================================
+   DESKTOP TABLE
+========================================================= */
+
+.tableWrapper {
+  width: 100%;
+  overflow-x: auto;
+  /* margin-top: 15px; */
+  padding: 0 10px 20px;
+  box-sizing: border-box;
+  margin-left: 0;
 }
-.inputboxsearch{
-    display: inline-flex;
-    height : 35px;
-    margin-top: 13px;
-    margin-left: 2%;
-    width: 55%;
-    border-radius:5px;
-    border : 1.5px solid rgb(9, 247, 247);
+
+.employeeTable {
+  width: 100%;
+  min-width: 1250px;
+  border-collapse: collapse;
+  table-layout: fixed;
+  background: white;
+  font-size: 13px;
 }
-.h3{
-    color: blue;
-    margin-left: 4%;
+
+.employeeTable th {
+  background: rgb(40, 4, 99);
+  color: white;
+  padding: 10px 8px;
+  border: 1px solid #ddd;
+  text-align: center;
+  vertical-align: middle;
+  font-weight: 600;
 }
-.Uiwarpper{
+
+.employeeTable td {
+  padding: 9px 8px;
+  border: 1px solid #ddd;
+  vertical-align: middle;
+  text-align: center;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+  background: white;
 }
-.ul {
-    display: flex;
-    margin: 0px;
-    margin-left: -35px;
+
+.employeeTable tbody tr:hover td {
+  background: #f7f4fb;
 }
-.ul:nth-child(even) {
-    background:rgb(242, 244, 245)
+
+
+/* Column sizing */
+
+.employeeTable th:nth-child(1),
+.employeeTable td:nth-child(1) {
+  width: 10%;
+}
+
+.employeeTable th:nth-child(2),
+.employeeTable td:nth-child(2) {
+  width: 9%;
+}
+
+.employeeTable th:nth-child(3),
+.employeeTable td:nth-child(3) {
+  width: 10%;
+}
+
+.employeeTable th:nth-child(4),
+.employeeTable td:nth-child(4) {
+  width: 12%;
+}
+
+.employeeTable th:nth-child(5),
+.employeeTable td:nth-child(5) {
+  width: 11%;
+}
+
+.employeeTable th:nth-child(6),
+.employeeTable td:nth-child(6) {
+  width: 11%;
+}
+
+.employeeTable th:nth-child(7),
+.employeeTable td:nth-child(7) {
+  width: 10%;
+}
+
+.employeeTable th:nth-child(8),
+.employeeTable td:nth-child(8) {
+  width: 9%;
+}
+
+.employeeTable th:nth-child(9),
+.employeeTable td:nth-child(9) {
+  width: 10%;
+}
+
+.employeeTable th:nth-child(10),
+.employeeTable td:nth-child(10) {
+  width: 6%;
+}
+
+.nameCell {
+  cursor: pointer;
+}
+
+.profileName {
+  color: #0645ad;
+  text-decoration: none;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.profileName:hover {
+  text-decoration: underline;
+}
+
+.addressCell {
+  max-width: 220px;
+  line-height: 1.4;
+}
+
+.websiteCell {
+  color: #0645ad;
+}
+
+.notUpdated {
+  color: #d32f2f;
+  font-size: 12px;
+}
+
+.noMessage {
+  color: #888;
+  font-size: 12px;
+}
+
+
+/* =========================================================
+   ONLINE DOT
+========================================================= */
+
+.dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background-color: #19b719;
+  border-radius: 50%;
+  margin-right: 6px;
+  vertical-align: middle;
+  box-shadow: 0 0 4px rgba(25, 183, 25, 0.5);
+}
+
+
+/* =========================================================
+   SORT BUTTONS
+========================================================= */
+
+.sortButtons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-top: 5px;
+}
+
+.arrow {
+  width: 0;
+  height: 0;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.up {
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-bottom: 8px solid white;
+}
+
+.down {
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 8px solid white;
+}
+
+.arrow:hover {
+  opacity: 0.6;
+}
+
+
+/* =========================================================
+   APPROVAL BUTTONS
+========================================================= */
+
+.approvalCell {
+  min-width: 150px;
+}
+
+.actionButtons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.Approved,
+.Rejected,
+.OnHold,
+.ApproveButton,
+.RejectButton,
+.HoldButton {
+  border: none;
+  border-radius: 5px;
+  padding: 6px 8px;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.Approved {
+  background: #168a3a;
+  color: white;
+}
+
+.Rejected {
+  background: #d32f2f;
+  color: white;
+}
+
+.OnHold {
+  background: #f39c12;
+  color: white;
+}
+
+.ApproveButton {
+  background: #168a3a;
+  color: white;
+}
+
+.RejectButton {
+  background: #d32f2f;
+  color: white;
+}
+
+.HoldButton {
+  background: #f39c12;
+  color: white;
+}
+
+.Approved:hover,
+.ApproveButton:hover {
+  opacity: 0.85;
+}
+
+.Rejected:hover,
+.RejectButton:hover {
+  opacity: 0.85;
+}
+
+.OnHold:hover,
+.HoldButton:hover {
+  opacity: 0.85;
+}
+
+
+/* =========================================================
+   CHECKBOX
+========================================================= */
+
+.checkboxCell {
+  width: 55px;
+  text-align: center !important;
+}
+
+.checkboxCell input {
+  width: 17px;
+  height: 17px;
+  cursor: pointer;
+}
+
+
+/* =========================================================
+   NO RECORD
+========================================================= */
+
+.noRecord {
+  color: red;
+  text-align: center !important;
+  padding: 25px !important;
+  font-weight: 600;
+}
+
+
+/* =========================================================
+   MOBILE CARDS
+========================================================= */
+
+.mobileEmployeeCards {
+  display: none;
+}
+
+.mobileEmployeeCard {
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  margin: 12px;
+  padding: 15px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  box-sizing: border-box;
+}
+
+
+/* =========================================================
+   MOBILE CARD HEADER
+========================================================= */
+
+.mobileCardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #eee;
+}
+
+.mobileEmployeeName {
+  color: #0645ad;
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+  word-break: break-word;
+}
+
+.mobileEmployeeName:hover {
+  text-decoration: underline;
+}
+
+.mobileRegistration {
+  margin-top: 5px;
+  color: #777;
+  font-size: 12px;
+}
+
+.mobileStatus {
+  flex-shrink: 0;
+}
+
+.statusApproved,
+.statusRejected,
+.statusHold,
+.statusPending {
+  display: inline-block;
+  padding: 5px 9px;
+  border-radius: 15px;
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.statusApproved {
+  background: #e5f7eb;
+  color: #168a3a;
+}
+
+.statusRejected {
+  background: #fde8e8;
+  color: #d32f2f;
+}
+
+.statusHold {
+  background: #fff3dc;
+  color: #d68910;
+}
+
+.statusPending {
+  background: #eeeeee;
+  color: #666;
+}
+
+
+/* =========================================================
+   MOBILE INFORMATION GRID
+========================================================= */
+
+.mobileInfoGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.mobileInfoItem {
+  background: #f8f8fa;
+  border-radius: 7px;
+  padding: 9px;
+  min-width: 0;
+}
+
+.mobileInfoItem span {
+  display: block;
+  color: #777;
+  font-size: 11px;
+  margin-bottom: 4px;
+  font-weight: 500;
+}
+
+.mobileInfoItem strong {
+  display: block;
+  color: #222;
+  font-size: 13px;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+
+/* =========================================================
+   MOBILE SECTIONS
+========================================================= */
+
+.mobileSection {
+  margin-top: 12px;
+  padding: 10px;
+  border-radius: 7px;
+  background: #f8f8fa;
+}
+
+.mobileSectionTitle {
+  color: #555;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 5px;
+}
+
+.mobileValue {
+  color: #0645ad;
+  font-size: 13px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.mobileMessage {
+  color: #0645ad;
+  font-size: 13px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+
+/* =========================================================
+   MOBILE ACTION BUTTONS
+========================================================= */
+
+.mobileActions {
+  display: flex;
+  gap: 7px;
+  margin-top: 15px;
+}
+
+.MoApprove,
+.MoReject,
+.MoHold,
+.MoApproved,
+.MoRejected,
+.MoOnHold {
+  flex: 1;
+  border: none;
+  border-radius: 6px;
+  padding: 9px 7px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.MoApprove,
+.MoApproved {
+  background: #168a3a;
+  color: white;
+}
+
+.MoReject,
+.MoRejected {
+  background: #d32f2f;
+  color: white;
+}
+
+.MoHold,
+.MoOnHold {
+  background: #f39c12;
+  color: white;
+}
+
+.MoApprove:hover,
+.MoReject:hover,
+.MoHold:hover,
+.MoApproved:hover,
+.MoRejected:hover,
+.MoOnHold:hover {
+  opacity: 0.85;
+}
+
+
+/* =========================================================
+   MOBILE ARCHIVE
+========================================================= */
+
+.mobileArchive {
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid #eee;
+  font-size: 12px;
+  color: #555;
+}
+
+.mobileArchive input {
+  width: 16px;
+  height: 16px;
+  vertical-align: middle;
+  cursor: pointer;
+}
+
+.mobileNoRecord {
+  color: red;
+  text-align: center;
+  padding: 30px 10px;
+  font-weight: 600;
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (min-width: 851px) and (max-width: 1200px) {
+
+  .employeeTable {
+    min-width: 1100px;
+    font-size: 12px;
   }
 
-    .arrow {
-        border: solid white;
-        border-width: 0 2px 2px 0;
-        display: inline-block;
-        padding: 2.3px;
-        /* margin-left: 0.5%; */
-      }  
-      .up {
-        transform: rotate(-135deg);
-        -webkit-transform: rotate(-135deg);
-        position: absolute;
-        margin-top: 1px;
-      }
-      .down {
-        transform: rotate(90deg);
-        -webkit-transform: rotate(45deg);
-        margin-top: 8px;
-        position: absolute;
+  .employeeTable th,
+  .employeeTable td {
+    padding: 7px 5px;
+  }
 
-        
-      }
-      .up:hover {
-        transform: rotate(-135deg);
-        -webkit-transform: rotate(-135deg);
-        margin-top: 1px;
-        position: absolute;
-      }
-      .down:hover {
-        transform: rotate(90deg);
-        -webkit-transform: rotate(45deg);
-        margin-top: 8px;
-        position: absolute;
-       
-      }
-      .arrow:hover{
-        border: solid grey;
-        border-width: 0 2px 2px 0;
-        display: inline-block;
-        padding: 2.3px;
-      }
-
-  .dot{
-      height: 8px;
-      width: 8px;
-      background-color:rgb(7, 252, 7);
-      
-      border-radius: 50%;
-      display: inline-block;
-    }
-    
-    .li {
-        display: inline-block;
-        padding-top: 0.5%;
-        padding-bottom: 0.5%;
-        width:8%;
-        border : 1px solid rgb(215, 223, 226);
-    /* border: 1px solid rgb(9, 247, 247); */
-    text-align: center;
-}
-.Name{
-    width:12%;
-    overflow-wrap: break-word
-
-}
-.phoneNumber{
-    width: 9%;
-overflow-wrap: break-word
-
-}
-.CompanyName{
-    width:11%;
-overflow-wrap: break-word
+  .Approved,
+  .Rejected,
+  .OnHold,
+  .ApproveButton,
+  .RejectButton,
+  .HoldButton {
+    padding: 5px 6px;
+    font-size: 10px;
+  }
 
 }
 
-.CompanyAddress {
-    width: 15%;
-overflow-wrap: break-word
 
-}
-.Date {
-    width: 6%
-}
-.CompanyWebsite{
-    width: 13%;
-overflow-wrap: break-word
+/* =========================================================
+   MOBILE
+========================================================= */
 
-}
-.DeleteAction{
-    width:10%
-}
-.DeleteButton {
-    /* background-color: rgb(40, 4, 99); */
-    background-color: red;
-    border:1px solid red;
-    color: white;
-    width:62px;
-    height: 22px;
-    font-weight: bold;
+@media (max-width: 850px) {
 
-}
-.Approval{
-    width:10%
-}
-.Message{
-    width: 22%;
-    overflow-wrap: break-word    
-}
-.Approved{
-    background-color: green;
-    color: white;
-    font-weight: bold;
-    width:82px;
-    border: 1px solid green;
-    height: 23px;
-}
-.Rejected{
-    background-color: red;
-    color: white;
-    font-weight: bold;
-    width:82px;
-    border: 1px solid green;
-    height: 23px;
-    margin-top:3px;
-}
-.OnHold{
-    background-color: blue;
-    color: white;
-    font-weight: bold;
-    width:82px;
-    border: 1px solid green;
-    height: 23px;
-    margin-top:3px;
-}
-.Approve{
-    background-color: rgb(40, 4, 99);
-    height: 23px;
-    color: white;
-    font-weight: bold;
-    width:78px;
-    border: 1px solid green;
-}
+  .searchBoth {
+    margin: 12px;
+    display: block;
+  }
 
-/* .....For Mobile....... */
+  .p {
+    margin-bottom: 6px;
+  }
 
-#JobCardWrapper {
-    /* display: flex; */
-    /* flex-wrap: wrap; */
-    padding: 10px;
-    /* background-color: rgb(204, 103, 103); */
-    border-radius: 10px;
-    /* margin-left: 40px;     */
-    width: 90%;
-
-}
-
-.JobCard {
-    /* display: flex; */
-    /* background-color: aqua;    */
-    margin-top: 10px;
-    margin-bottom: 10px;
-    margin-left: 8px;
-    /* height: 250px; */
+  .inputboxsearch {
     width: 100%;
-    border-radius: 10px;
-    border-top-left-radius: 10px;
-    border-bottom-left-radius: 10px;
-    box-shadow: 2px 2px 2px 2px #999999;
-    padding-bottom: 6px;
+  }
+
+  .tableWrapper {
+    display: none;
+  }
+
+  .mobileEmployeeCards {
+    display: block;
+    width: 100%;
+  }
+
 }
 
-.LeftTable{
-    margin-left: 10px;
-    margin-top: 20px;
-    /* background-color: blue; */
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 480px) {
+
+  .mobileEmployeeCard {
+    margin: 10px;
+    padding: 12px;
+    border-radius: 8px;
+  }
+
+  .mobileCardHeader {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .mobileEmployeeName {
+    font-size: 17px;
+  }
+
+  .mobileInfoGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .mobileActions {
+    gap: 5px;
+  }
+
+  .MoApprove,
+  .MoReject,
+  .MoHold,
+  .MoApproved,
+  .MoRejected,
+  .MoOnHold {
+    padding: 8px 4px;
+    font-size: 11px;
+  }
+
 }
-.RightTable{
-    margin-top: 20px;
-    margin-left: 7px;
-width:60%;
-white-space:wrap;
-/* overflow-wrap: break-word; */
-overflow:hidden
-    /* background-color: aqua; */
-}
-.span{
-    font-weight: 500;
-    font-size: small;
-}
-.Down{
-    margin-left: 10px;
-overflow-wrap: break-word
 
 
+/* =========================================================
+   VERY SMALL MOBILE
+========================================================= */
+
+@media (max-width: 360px) {
+
+  .mobileEmployeeCard {
+    margin: 7px;
+    padding: 10px;
+  }
+
+  .mobileActions {
+    flex-direction: column;
+  }
+
+  .MoApprove,
+  .MoReject,
+  .MoHold,
+  .MoApproved,
+  .MoRejected,
+  .MoOnHold {
+    width: 100%;
+  }
 
 }

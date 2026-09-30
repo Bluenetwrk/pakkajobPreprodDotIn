@@ -85,6 +85,7 @@ function StudentProfile() {
 
   async function getProfile() {
     let userid = JSON.parse(localStorage.getItem("StudId"))
+    if(!userid) return
     const headers = { authorization: userid + " " + atob(JSON.parse(localStorage.getItem("StudLog"))) };
     setPageLoader(true)
     await axios.get(`/StudentProfile/viewProfile/${userid}`)
@@ -101,6 +102,8 @@ function StudentProfile() {
         setLoading(false);
       })
   }
+    let studId = JSON.parse(localStorage.getItem("StudId"))
+
 
   useEffect(() => {
     getUrl()

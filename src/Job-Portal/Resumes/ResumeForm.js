@@ -88,6 +88,7 @@ const ResumeForm = () => {
   const [profileData, setProfileData] = useState([]);
   const [successMessage, setSuccessMessage] = useState("");
   const [phoneNumber, setphoneNumber] = useState()
+  // const [address, setAddress] = useState()
 
   let studId = JSON.parse(localStorage.getItem("StudId"))
   let CSCId = JSON.parse(localStorage.getItem("CSCId"));
@@ -229,82 +230,9 @@ const ResumeForm = () => {
       document.removeEventListener("mousedown", handleOutsideClick);
   }, [activeSkillIndex]);
 
-  // const[hasValidSkillSections, sethasValidSkillSections]=useState(false)
-  // useEffect(() => {
-  //   const isSkills = formData.skills.some(
-  //     (section) =>
-  //       section.heading?.trim() !== "" ||
-  //       section.items.some((item) => item.trim() !== "")
-  //   );
-
-  //   sethasValidSkillSections(isSkills);
-  // }, [formData.skills]);
-
   useEffect(() => {
   }, [formData])
 
-
-  const containerStylemobile = {
-    // maxWidth: '900px',
-    margin: '0 auto',
-    padding: '20px',
-    fontFamily: 'Arial, sans-serif',
-  };
-
-  const containerStyle = {
-    // maxWidth: '900px',
-    margin: '0 auto',
-    padding: '20px',
-    fontFamily: 'Arial, sans-serif',
-    display: "flex", flexWrap: "wrap", gap: "10px", justifyContent: "space-between"
-  };
-  const sectionStyle = {
-    background: '#f8f8f8',
-    border: '1px solid #ddd',
-    padding: '15px',
-    marginBottom: '20px',
-    borderRadius: '5px',
-  };
-
-  const inputStyle = {
-    display: 'block',
-    width: '98%',
-    padding: '10px',
-    marginBottom: '10px',
-    border: '1px solid #ccc',
-    borderRadius: '4px',
-    resize: 'vertical',
-  };
-  const inputStyles = {
-    display: 'block',
-    width: '88%',
-    padding: '10px',
-    marginBottom: '10px',
-    border: '1px solid #ccc',
-    borderRadius: '4px',
-    resize: 'vertical',
-
-  };
-
-  const buttonStyle = {
-    marginTop: '5px',
-    padding: '8px 14px',
-    backgroundColor: 'rgb(40, 4, 99)',
-    color: 'white',
-    border: 'none',
-    borderRadius: '4px',
-    cursor: 'pointer',
-
-  };
-  const buttonStyles = {
-    marginTop: '0px',
-    padding: '8px 14px',
-    backgroundColor: 'rgb(40, 4, 99)',
-    color: 'white',
-    border: 'none',
-    borderRadius: '4px',
-    cursor: 'pointer',
-  };
   const [resumeAlert, setresumeAlert] = useState(false)
   const alertRef = useRef(null);
   useEffect(() => {
@@ -359,15 +287,6 @@ const ResumeForm = () => {
     });
   };
 
-  // const removeQualificationRow = (index) => {
-  //   const updated = [...formData.qualificationDetails];
-  //   updated.splice(index, 1);
-  //   if (updated.length === 0) {
-  //     updated.push({ degree: '', score: '', collegeName: '', stateCode: '', countryCode: '' });
-  //   }
-  //   setFormData({ ...formData, qualificationDetails: updated });
-  // };
-
   const removeQualificationRow = (index) => {
     setFormData((prev) => {
       const updated = [...prev.qualificationDetails];
@@ -386,16 +305,6 @@ const ResumeForm = () => {
           studyField: ""
         });
       }
-
-      const nextState = {
-        ...prev,
-        qualificationDetails: updated,
-      };
-
-      // 🔑 Call API with UPDATED data
-      cancelSubmit(nextState);
-
-      return nextState;
     });
   };
 
@@ -420,50 +329,7 @@ const ResumeForm = () => {
   };
 
 
-  const cancelSubmit = async (data = formData) => {
-    const {
-      name,
-      email,
-      linkedin,
-      totalExperience,
-      profileSummary,
-      address,
-      experiences,
-      certifications,
-      skills,
-      languages,
-      qualificationDetails,
-      personalDetails,
-      achievements,
-      interests,
-      projects
-    } = data;
 
-    const Experiance = totalExperience;
-
-    await axios.put(
-      `/StudentProfile/updatProfile/${studId}`,
-      {
-        name,
-        email,
-        linkedin,
-        Experiance,
-        profileSummary,
-        address,
-        experiences,
-        certifications,
-        skills,
-        languages,
-        qualificationDetails,
-        imageConsent,
-        personalDetails,
-        achievements,
-        interests,
-        projects
-      },
-      { headers }
-    );
-  };
 
   // ---------- EXPERIENCE ----------
   const handleExperienceChange = (index, key, value) => {
@@ -766,7 +632,6 @@ const ResumeForm = () => {
     }, { headers })
       .then((res) => {
         let result = (res.data)
-        console.log(result)
         if (result === "success") {
           setSuccessMessage(
             <span style={{ color: "green" }}>resume updated succesffuly</span>
@@ -1284,34 +1149,6 @@ const ResumeForm = () => {
               }
             />
 
-
-            {/* LINKEDIN */}
-            {/* 
-          {formstate === "fullstack" && (
-            <input
-              className={styles.input}
-              placeholder="Linkedin"
-              value={formData.linkedin || ""}
-              onChange={(e) =>
-                handleChange("linkedin", e.target.value)
-              }
-            />
-          )}
-          */}
-
-
-            {/* TOTAL EXPERIENCE */}
-            {/*
-          <input
-            className={styles.input}
-            placeholder="Total Experience"
-            value={formData.totalExperience}
-            onChange={(e) =>
-              handleChange("totalExperience", e.target.value)
-            }
-          />
-          */}
-
           </div>
 
 
@@ -1321,47 +1158,41 @@ const ResumeForm = () => {
           {screenSize.width > 850 ? (
             <>
 
-            <div className={styles.section}>
+              <div className={styles.section}>
 
-              <div className={styles.sectionHeader}>
-                <h2>Education</h2>
+                <div className={styles.sectionHeader}>
+                  <h2>Education</h2>
+                </div>
 
+                <div className={styles.educationTableWrapper}>
 
-              </div>
+                  <table className={styles.educationTable}>
 
+                    <thead>
+                      <tr>
 
-              <div className={styles.educationTableWrapper}>
+                        <th>
+                          School/College/
+                          <br />
+                          University Name
+                        </th>
 
-                <table className={styles.educationTable}>
+                        <th>
+                          Degree
+                        </th>
 
-                  <thead>
-                    <tr>
-
-                      <th>
-                        School/College/
-                        <br />
-                        University Name
-                      </th>
-
-                      <th>
-                        Degree
-                      </th>
-
-                      {!(loginprofile === "cs_center") && (
                         <th>
                           Field of study
                         </th>
-                      )}
 
-                      <th>
-                        Grade (%)
-                      </th>
+                        <th>
+                          Grade (%)
+                        </th>
 
-                      <th>
-                        Year of Passing
-                      </th>
+                        <th>
+                          Year of Passing
+                        </th>
 
-                      {!(loginprofile === "cs_center") && (
                         <>
                           <th>
                             Country
@@ -1372,60 +1203,55 @@ const ResumeForm = () => {
                             City
                           </th>
                         </>
-                      )}
 
-                    </tr>
-                  </thead>
-
-
-                  <tbody>
-
-                    {formData.qualificationDetails.map((q, i) => (
-
-                      <React.Fragment key={i}>
-
-                        <tr>
-
-                          {/* COLLEGE */}
-                          <td>
-                            <input
-                              ref={(input) => {
-                                educationCollegeRefs.current[i] = input;
-                              }}
-                              maxLength={40}
-                              className={styles.tableInput}
-                              placeholder="College Name"
-                              value={q.collegeName}
-                              onChange={(e) =>
-                                handleQualificationChange(
-                                  i,
-                                  "collegeName",
-                                  e.target.value
-                                )
-                              }
-                            />
-                          </td>
+                      </tr>
+                    </thead>
 
 
-                          {/* DEGREE */}
-                          <td>
-                            <input
-                              className={styles.tableInput}
-                              placeholder="Degree"
-                              value={q.degree}
-                              onChange={(e) =>
-                                handleQualificationChange(
-                                  i,
-                                  "degree",
-                                  e.target.value
-                                )
-                              }
-                            />
-                          </td>
+                    <tbody>
 
+                      {formData.qualificationDetails.map((q, i) => (
 
-                          {/* STUDY FIELD */}
-                          {!(loginprofile === "cs_center") && (
+                        <React.Fragment key={i}>
+
+                          <tr>
+
+                            {/* COLLEGE */}
+                            <td>
+                              <input
+                                ref={(input) => {
+                                  educationCollegeRefs.current[i] = input;
+                                }}
+                                maxLength={40}
+                                className={styles.tableInput}
+                                placeholder="College Name"
+                                value={q.collegeName}
+                                onChange={(e) =>
+                                  handleQualificationChange(
+                                    i,
+                                    "collegeName",
+                                    e.target.value
+                                  )
+                                }
+                              />
+                            </td>
+
+                            <td>
+                              <input
+                                className={styles.tableInput}
+                                placeholder="Degree"
+                                value={q.degree}
+                                onChange={(e) =>
+                                  handleQualificationChange(
+                                    i,
+                                    "degree",
+                                    e.target.value
+                                  )
+                                }
+                              />
+                            </td>
+
+                            {/* STUDY FIELD */}
                             <td>
                               <input
                                 className={styles.tableInput}
@@ -1440,45 +1266,42 @@ const ResumeForm = () => {
                                 }
                               />
                             </td>
-                          )}
+
+                            {/* SCORE */}
+                            <td>
+                              <input
+                                className={styles.tableInput}
+                                placeholder="% or CGPA"
+                                value={q.score}
+                                onChange={(e) =>
+                                  handleQualificationChange(
+                                    i,
+                                    "score",
+                                    e.target.value
+                                  )
+                                }
+                              />
+                            </td>
 
 
-                          {/* SCORE */}
-                          <td>
-                            <input
-                              className={styles.tableInput}
-                              placeholder="% or CGPA"
-                              value={q.score}
-                              onChange={(e) =>
-                                handleQualificationChange(
-                                  i,
-                                  "score",
-                                  e.target.value
-                                )
-                              }
-                            />
-                          </td>
+                            {/* YOP */}
+                            <td>
+                              <input
+                                className={styles.tableInput}
+                                placeholder="YOP"
+                                value={q.yop}
+                                onChange={(e) =>
+                                  handleQualificationChange(
+                                    i,
+                                    "yop",
+                                    e.target.value
+                                  )
+                                }
+                              />
+                            </td>
 
 
-                          {/* YOP */}
-                          <td>
-                            <input
-                              className={styles.tableInput}
-                              placeholder="YOP"
-                              value={q.yop}
-                              onChange={(e) =>
-                                handleQualificationChange(
-                                  i,
-                                  "yop",
-                                  e.target.value
-                                )
-                              }
-                            />
-                          </td>
-
-
-                          {/* COUNTRY + CITY */}
-                          {!(loginprofile === "cs_center") && (
+                            {/* COUNTRY + CITY */}
                             <>
                               <td>
                                 <input
@@ -1510,67 +1333,62 @@ const ResumeForm = () => {
                                 />
                               </td>
                             </>
-                          )}
-
-                        </tr>
+                          </tr>
 
 
-                        {/* EDUCATION ACTIONS */}
-                        <tr>
+                          {/* EDUCATION ACTIONS */}
+                          <tr>
 
-                          <td
-                            colSpan={
-                              loginprofile === "cs_center"
-                                ? 5
-                                : 7
-                            }
-                            className={styles.tableActions}
-                          >
-
-                            <button
-                              className={`${styles.button} ${styles.buttonSecondary}`}
-                              type="button"
-                              onClick={() =>
-                                clearQualificationRow(i)
+                            <td
+                              colSpan={
+                                loginprofile === "cs_center"
+                                  ? 5
+                                  : 7
                               }
-                            >
-                              Cancel
-                            </button>
+                              className={styles.tableActions}>
 
-                            <button
-                              className={`${styles.button} ${styles.buttonDanger}`}
-                              type="button"
-                              onClick={() =>
-                                removeQualificationRow(i)
-                              }
-                            >
-                              Delete
-                            </button>
+                              <button
+                                className={`${styles.button} ${styles.buttonSecondary}`}
+                                type="button"
+                                onClick={() =>
+                                  clearQualificationRow(i)
+                                } >
+                                Cancel
+                              </button>
 
-                          </td>
+                              <button
+                                className={`${styles.button} ${styles.buttonDanger}`}
+                                type="button"
+                                onClick={() =>
+                                  removeQualificationRow(i)
+                                }
+                              >
+                                Delete
+                              </button>
 
-                        </tr>
+                            </td>
 
-                      </React.Fragment>
+                          </tr>
 
-                    ))}
+                        </React.Fragment>
 
-                  </tbody>
+                      ))}
 
-                </table>
+                    </tbody>
+
+                  </table>
+                </div>
+
+                <button style={{ marginLeft: "50%", marginTop: "20px" }}
+                  className={styles.button}
+                  type="button"
+                  onClick={addQualificationRow} >
+                  + Add New Education
+                </button>
+
+
               </div>
-
-              <button style={{marginLeft:"50%",marginTop:"20px"}}
-                className={styles.button}
-                type="button"
-                onClick={addQualificationRow}
-              >
-                + Add New Education
-              </button>
-
-
-            </div>
-</>
+            </>
           ) : (
 
             /* =====================================================
@@ -1622,22 +1440,18 @@ const ResumeForm = () => {
                     }
                   />
 
-
-                  {!(loginprofile === "cs_center") && (
-                    <input
-                      className={styles.input}
-                      placeholder="Study Field"
-                      value={q.studyField}
-                      onChange={(e) =>
-                        handleQualificationChange(
-                          i,
-                          "studyField",
-                          e.target.value
-                        )
-                      }
-                    />
-                  )}
-
+                  <input
+                    className={styles.input}
+                    placeholder="Study Field"
+                    value={q.studyField}
+                    onChange={(e) =>
+                      handleQualificationChange(
+                        i,
+                        "studyField",
+                        e.target.value
+                      )
+                    }
+                  />
 
                   <input
                     className={styles.input}
@@ -1667,36 +1481,33 @@ const ResumeForm = () => {
                   />
 
 
-                  {!(loginprofile === "cs_center") && (
-                    <>
-                      <input
-                        className={styles.input}
-                        placeholder="Country"
-                        value={q.country}
-                        onChange={(e) =>
-                          handleQualificationChange(
-                            i,
-                            "country",
-                            e.target.value
-                          )
-                        }
-                      />
+                  <>
+                    <input
+                      className={styles.input}
+                      placeholder="Country"
+                      value={q.country}
+                      onChange={(e) =>
+                        handleQualificationChange(
+                          i,
+                          "country",
+                          e.target.value
+                        )
+                      }
+                    />
 
-                      <input
-                        className={styles.input}
-                        placeholder="City"
-                        value={q.city}
-                        onChange={(e) =>
-                          handleQualificationChange(
-                            i,
-                            "city",
-                            e.target.value
-                          )
-                        }
-                      />
-                    </>
-                  )}
-
+                    <input
+                      className={styles.input}
+                      placeholder="City"
+                      value={q.city}
+                      onChange={(e) =>
+                        handleQualificationChange(
+                          i,
+                          "city",
+                          e.target.value
+                        )
+                      }
+                    />
+                  </>
 
                   <div className={styles.educationActions}>
 
@@ -2004,7 +1815,16 @@ const ResumeForm = () => {
 
                 ))}
 
-
+                {/* Address */}
+                <h2>Address</h2>
+                <input
+                  className={styles.input}
+                  placeholder="Address"
+                  value={formData.address}
+                  onChange={(e) =>
+                    handleChange("address", e.target.value)
+                  }
+                />
                 {/* =================================================
                 GENDER
             ================================================== */}

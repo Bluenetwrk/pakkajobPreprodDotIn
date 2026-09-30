@@ -72,7 +72,7 @@ const ResumePreview = () => {
         } else if (res.data.message == "mail not sent") {
           alert("mail was not sent , please try again")
         } else if (res.data.message == "mail was sent successfully") {
-          setMailsent("mail has been sent to Job seeker email id, ask Job seeker to verify the mail")
+          setMailsent(`mail has been sent to ${jobseekerForm.email}, ask Job seeker to verify the mail`)
           setId(id)
           localStorage.setItem("StudId", JSON.stringify(id));
           localStorage.setItem("JobSLog", JSON.stringify(res.data.token));
@@ -190,13 +190,13 @@ const ResumePreview = () => {
                 setResumeAlert({ show: true, selected: templateKey })
               }
             />
-            <button
+            {/* <button
               type="button"
               className={styles.previewButton}
               onClick={() => setShowPreviewPopup(true)}
             >
               Click here to view resume
-            </button>
+            </button> */}
           </div>
         </div>
 

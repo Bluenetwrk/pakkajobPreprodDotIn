@@ -1,0 +1,679 @@
+
+.uiwrapper {
+  width: 100%;
+}
+
+.profileTable {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  margin-bottom: 20px;
+}
+
+.profileTable th,
+.profileTable td {
+  border: 1px solid #d5dce0;
+  padding: 7px 10px;
+  min-height: 44px;
+  height: 44px;
+  box-sizing: border-box;
+}
+
+.profileTable th {
+  width: 27%;
+  background-color: #f1f3f4;
+  text-align: center;
+  font-weight: bold;
+  vertical-align: middle;
+}
+
+.profileTable td {
+  width: 73%;
+  background-color: white;
+  text-align: center;
+  vertical-align: middle;
+  word-break: break-word;
+}
+
+.Nli {
+  color: red;
+}
+
+.Approval {
+  text-align: center;
+}
+
+.Approval button {
+  margin: 0 4px;
+}
+
+.messageInput {
+  height: 28px;
+  width: 75%;
+  box-sizing: border-box;
+  margin-right: 8px;
+}
+
+.sendButton {
+  height: 28px;
+  padding: 0 12px;
+}
+
+/* =========================================
+   MAIN WRAPPER
+========================================= */
+
+#JobCardWrapper {
+  width: 100%;
+  max-width: 1100px;
+  margin: 20px auto;
+  padding: 0 15px;
+  box-sizing: border-box;
+}
+
+
+/* =========================================
+   CARD
+========================================= */
+
+.JobCard {
+  width: 100%;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  margin-bottom: 25px;
+  overflow: hidden;
+
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.07);
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.JobCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.10);
+}
+
+
+/* =========================================
+   HEADER
+========================================= */
+
+.CardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 20px 25px;
+
+  background: linear-gradient(
+    135deg,
+    #f8fbff,
+    #eef5ff
+  );
+
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.ProfileInfo {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.ProfileAvatar {
+  width: 52px;
+  height: 52px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: #2563eb;
+  color: white;
+
+  font-size: 21px;
+  font-weight: 700;
+
+  box-shadow: 0 4px 10px rgba(37, 99, 235, 0.25);
+}
+
+.ProfileInfo h3 {
+  margin: 0;
+  color: #111827;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.ProfileInfo p {
+  margin: 4px 0 0;
+  color: #6b7280;
+  font-size: 13px;
+}
+
+
+/* =========================================
+   STATUS BADGES
+========================================= */
+
+.StatusBadge {
+  display: inline-flex;
+  align-items: center;
+
+  padding: 7px 13px;
+
+  border-radius: 20px;
+
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.StatusApproved {
+  color: #166534;
+  background: #dcfce7;
+  border: 1px solid #bbf7d0;
+}
+
+.StatusRejected {
+  color: #991b1b;
+  background: #fee2e2;
+  border: 1px solid #fecaca;
+}
+
+.StatusPending {
+  color: #92400e;
+  background: #fef3c7;
+  border: 1px solid #fde68a;
+}
+
+
+/* =========================================
+   SECTION
+========================================= */
+
+.Section {
+  padding: 22px 25px;
+  border-bottom: 1px solid #eeeeee;
+}
+
+.SectionTitle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  margin-bottom: 18px;
+
+  color: #1f2937;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+
+/* =========================================
+   DETAILS GRID
+========================================= */
+
+.DetailsGrid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+
+  gap: 14px 20px;
+}
+
+.DetailItem {
+  display: flex;
+  flex-direction: column;
+
+  gap: 5px;
+
+  padding: 12px 14px;
+
+  background: #f9fafb;
+
+  border: 1px solid #edf0f3;
+
+  border-radius: 9px;
+
+  min-width: 0;
+}
+
+.Label {
+  color: #6b7280;
+
+  font-size: 12px;
+  font-weight: 600;
+
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.Value {
+  color: #2563eb;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  word-break: break-word;
+}
+
+.NotUpdated {
+  color: #dc2626;
+
+  font-size: 14px;
+  font-weight: 500;
+
+  word-break: break-word;
+}
+
+
+/* =========================================
+   SKILLS
+========================================= */
+
+.SkillsBox {
+  margin-top: 16px;
+
+  padding: 14px;
+
+  background: #f9fafb;
+
+  border: 1px solid #edf0f3;
+
+  border-radius: 9px;
+}
+
+.SkillList {
+  display: flex;
+  flex-wrap: wrap;
+
+  gap: 8px;
+
+  margin-top: 9px;
+}
+
+.SkillTag {
+  display: inline-block;
+
+  padding: 6px 11px;
+
+  background: #eff6ff;
+  color: #1d4ed8;
+
+  border: 1px solid #dbeafe;
+
+  border-radius: 20px;
+
+  font-size: 12px;
+  font-weight: 600;
+}
+
+
+/* =========================================
+   ACTION SECTION
+========================================= */
+
+.ActionSection {
+  padding: 20px 25px;
+
+  background: #fafafa;
+
+  border-bottom: 1px solid #eeeeee;
+}
+
+.ActionButtons {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+
+/* =========================================
+   ACTION BUTTONS
+========================================= */
+
+.Approve,
+.Approved,
+.Reject,
+.Rejected {
+  border: none;
+
+  padding: 9px 18px;
+
+  border-radius: 7px;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: all 0.2s ease;
+}
+
+
+/* Green */
+
+.Approve,
+.Approved {
+  background: #16a34a;
+  color: white;
+}
+
+.Approve:hover,
+.Approved:hover {
+  background: #15803d;
+}
+
+
+/* Red */
+
+.Reject,
+.Rejected {
+  background: #dc2626;
+  color: white;
+}
+
+.Reject:hover,
+.Rejected:hover {
+  background: #b91c1c;
+}
+
+
+/* =========================================
+   MESSAGE SECTION
+========================================= */
+
+.MessageSection {
+  padding: 20px 25px;
+
+  background: #ffffff;
+}
+
+.MessageTitle {
+  margin-bottom: 10px;
+
+  color: #374151;
+
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.MessageBox {
+  display: flex;
+
+  width: 100%;
+}
+
+.MessageBox input {
+  flex: 1;
+
+  height: 42px;
+
+  padding: 0 13px;
+
+  border: 1px solid #d1d5db;
+
+  border-radius: 7px 0 0 7px;
+
+  outline: none;
+
+  font-size: 14px;
+
+  box-sizing: border-box;
+}
+
+.MessageBox input:focus {
+  border-color: #2563eb;
+
+  box-shadow:
+    0 0 0 2px rgba(37, 99, 235, 0.1);
+}
+
+.MessageBox button {
+  height: 42px;
+
+  padding: 0 22px;
+
+  border: none;
+
+  border-radius: 0 7px 7px 0;
+
+  background: #2563eb;
+
+  color: white;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: background 0.2s ease;
+}
+
+.MessageBox button:hover {
+  background: #1d4ed8;
+}
+
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 768px) {
+
+  #JobCardWrapper {
+    padding: 0 10px;
+    margin-top: 15px;
+  }
+
+  .CardHeader {
+    padding: 16px;
+  }
+
+  .Section {
+    padding: 18px 16px;
+  }
+
+  .ActionSection {
+    padding: 18px 16px;
+  }
+
+  .MessageSection {
+    padding: 18px 16px;
+  }
+
+  .DetailsGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 480px) {
+
+  #JobCardWrapper {
+    padding: 0 7px;
+  }
+
+  .JobCard {
+    border-radius: 12px;
+    margin-bottom: 18px;
+  }
+
+  .CardHeader {
+    padding: 14px;
+
+    align-items: flex-start;
+
+    gap: 10px;
+  }
+
+  .ProfileInfo {
+    gap: 10px;
+  }
+
+  .ProfileAvatar {
+    width: 42px;
+    height: 42px;
+
+    min-width: 42px;
+
+    font-size: 17px;
+  }
+
+  .ProfileInfo h3 {
+    font-size: 16px;
+  }
+
+  .ProfileInfo p {
+    font-size: 11px;
+  }
+
+  .StatusBadge {
+    padding: 5px 8px;
+
+    font-size: 10px;
+  }
+
+  .Section {
+    padding: 15px 12px;
+  }
+
+  .SectionTitle {
+    font-size: 14px;
+    margin-bottom: 13px;
+  }
+
+  .DetailsGrid {
+    display: flex;
+    flex-direction: column;
+
+    gap: 8px;
+  }
+
+  .DetailItem {
+    padding: 10px 11px;
+  }
+
+  .Label {
+    font-size: 10px;
+  }
+
+  .Value,
+  .NotUpdated {
+    font-size: 13px;
+  }
+
+  .SkillTag {
+    padding: 5px 9px;
+    font-size: 11px;
+  }
+
+  .ActionSection {
+    padding: 15px 12px;
+  }
+
+  .ActionButtons {
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 8px;
+  }
+
+  .Approve,
+  .Approved,
+  .Reject,
+  .Rejected {
+    width: 100%;
+    padding: 9px 8px;
+    font-size: 12px;
+  }
+
+  .MessageSection {
+    padding: 15px 12px;
+  }
+  .inputBox{
+    height: 182px;
+
+  }
+
+  .MessageBox {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .MessageBox input {
+    width: 100%;
+
+    height: 42px;
+
+    border-radius: 7px;
+  }
+
+  .MessageBox button {
+    width: 100%;
+
+    height: 42px;
+
+    border-radius: 7px;
+  }
+}
+/* =========================================
+   WEBSITE LINK
+========================================= */
+
+.WebsiteLink {
+  color: #2563eb;
+  font-size: 14px;
+  font-weight: 600;
+
+  text-decoration: none;
+
+  word-break: break-all;
+}
+
+.WebsiteLink:hover {
+  text-decoration: underline;
+}
+
+
+/* =========================================
+   ADDRESS
+========================================= */
+
+.AddressValue {
+  margin-top: 8px;
+
+  line-height: 1.6;
+
+  word-break: break-word;
+}
+
+
+/* =========================================
+   STATUS CONTAINER
+========================================= */
+
+.StatusContainer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.imageV{
+    height:100px;
+    width:100px;
+    border-radius: 180%;
+    margin-left: 7%;
+    margin-top: 10px;
+    /* background-color: aqua; */
+}

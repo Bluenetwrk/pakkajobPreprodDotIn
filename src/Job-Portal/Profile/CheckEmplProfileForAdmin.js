@@ -1,7 +1,9 @@
 import React from 'react'
 import axios from 'axios'
 import { useEffect, useState } from 'react'
-import styles from "./StudentProfile.module.css"
+// import styles from "./StudentProfile.module.css"
+import styles from "./checkStuProfileAdmin.module.css"
+
 import { Link, useNavigate, useLocation, useParams } from "react-router-dom";
 import profileDp from "../img/user_3177440.png"
 import Swal from "sweetalert2";
@@ -44,7 +46,7 @@ const [message, setmessage] = useState("")
         await axios.get(`/EmpProfile/getProfile/${params.CP}`,{headers})
             .then((res) => {
                 let result = res.data.result
-                console.log(result)
+                // console.log(result)
                 setProfileData([result])
   setPageLoader(false)
 
@@ -208,80 +210,170 @@ profileData.map((item, i) => {
 
            
 <div className={styles.uiwrapper}>
-            <ul className={styles.ul}>
-                <li className={styles.li}><b>Name </b></li>
-                <li className={styles.li}><b>Email  Address</b></li>
-                <li className={styles.li}><b>Phone  Number</b></li>
-                <li className={styles.li}><b>Aadhar</b></li>
-                <li className={styles.li}><b>Pan  Card</b></li>
-                <li className={styles.li}><b>Company Name</b></li>
-                <li className={styles.li}><b>Company Address</b></li>
-                <li className={styles.li}><b>CompanyContact</b></li>
-                <li className={styles.li}><b>Company Email</b></li>
-                <li className={styles.li}><b>Company Website</b></li>
-                <li className={styles.li}><b>Company GSTIN</b></li>
-                <li className={styles.li}><b>Type of Organisation</b></li>
-                <li className={styles.li}><b>Ip Address</b></li>
 
-                <li className={`${styles.li} ${styles.Approval}`}  ><b>Status</b></li>
-                {/* <li className={`${styles.li} ${styles.Approval}`}  ><b>Reject</b></li> */}
-                {/* <li className={`${styles.li} ${styles.Approval}`} ><b>Delete</b></li> */}
-                <li className={`${styles.li}`} style={{height:"30px"}}><b>Message</b></li>
+  {profileData.map((item, i) => (
+    <table className={styles.profileTable} key={i}>
+      <tbody>
 
-                                </ul>
-   
-            {
+        <tr>
+          <th>Name</th>
+          <td>
+            {item.name || <span className={styles.Nli}>Not Updated</span>}
+          </td>
+        </tr>
 
-                profileData.map((item, i) => {
-                    return (
-                        <ul className={styles.ulR} key={i}>
-                            <li className={`${styles.Hli}`}>{item.name?item.name:<li className={styles.Nli}>Not Updated</li>}</li>
-                            <li className={`${styles.Hli}`}>{item.email?item.email:<li className={styles.Nli}>Not Updated</li>}</li>
-                       <li className={` ${styles.Hli}`}>{item.phoneNumber?item.phoneNumber:<li className={styles.Nli}>Not Updated</li>}</li>
-                       <li className={` ${styles.Hli}`}>{item.Aadhar?item.Aadhar:<li className={styles.Nli}>Not Updated</li>}</li>
-                       <li className={` ${styles.Hli}`}>{item.panCard?item.panCard:<li className={styles.Nli}>Not Updated</li>}</li>
-                       <li className={` ${styles.Hli}`}>{item.CompanyName?item.CompanyName:<li className={styles.Nli}>Not Updated</li>}</li>
-                       <li className={` ${styles.Hli}`}>{item.CompanyAddress?item.CompanyAddress:<li className={styles.Nli}>Not Updated</li>}</li>
-                       <li className={` ${styles.Hli}`}>{item.CompanyContact?item.CompanyContact:<li className={styles.Nli}>Not Updated</li>}</li>
-                       <li className={` ${styles.Hli}`}>{item.CompanyEmail?item.CompanyEmail:<li className={styles.Nli}>Not Updated</li>}</li>
-                       <li className={` ${styles.Hli}`}>{item.CompanyWebsite?item.CompanyWebsite:<li className={styles.Nli}>Not Updated</li>}</li>
-                       <li className={` ${styles.Hli}`}>{item.CompanyGSTIN?item.CompanyGSTIN:<li className={styles.Nli}>Not Updated</li>}</li>
-                       <li className={` ${styles.Hli}`}>{item.TypeofOrganisation?item.TypeofOrganisation:<li className={styles.Nli}>Not Updated</li>}</li>
-                       <li className={` ${styles.Hli}`}>{item.ipAddress?item.ipAddress:<li className={styles.Nli}>could not fetch the Ip Address</li>}</li>
-                     
-                       <li className={` ${styles.Hli} ${styles.Approval}`}>
-                        {
-                        item.isApproved?
-                  <button className={styles.Approved} onClick={()=>{DisApprove(item._id, false)}}>Approved&#10004;</button>
-                  :
-                  item.isReject?
-                    <button className={styles.Rejected} onClick={()=>{unReject(item._id, false)}}>Rejected&#10004;</button>
-                    :
-                    <>
-                  <button className={styles.Approve} onClick={()=>{Approve(item._id, true)}}>Approve</button>&nbsp;
-                  <button className={styles.Approve} onClick={()=>{Reject(item._id, true)}}>Reject</button>
-                  </>
-                  
-                  }
-                  </li>
+        <tr>
+          <th>Email Address</th>
+          <td>
+            {item.email || <span className={styles.Nli}>Not Updated</span>}
+          </td>
+        </tr>
 
-{/* // <li className={` ${styles.Hli} ${styles.Approval}`}>:}
-//                   </li> */}
-                   
+        <tr>
+          <th>Phone Number</th>
+          <td>
+            {item.phoneNumber || <span className={styles.Nli}>Not Updated</span>}
+          </td>
+        </tr>
 
+        <tr>
+          <th>Aadhar</th>
+          <td>
+            {item.Aadhar || <span className={styles.Nli}>Not Updated</span>}
+          </td>
+        </tr>
 
-                   {/* <li className={`${styles.Hli}`} >
-                    <button className={styles.DeleteButton} onClick={() => { DeleteEmpProfile(item._id) }} >Delete</button></li>                      
-                    */}
-                                        <li style={{height:"30px"}} className={` ${styles.Hli}`}> <input style={{height:"24px", width:"80%", marginLeft:"11%"}}  value ={message} onChange={(e)=>{setmessage(e.target.value)}} />
-                     <button onClick={()=>{sendMessage(item._id)}}>Send</button> </li>
+        <tr>
+          <th>Pan Card</th>
+          <td>
+            {item.panCard || <span className={styles.Nli}>Not Updated</span>}
+          </td>
+        </tr>
 
-                        </ul>
-                    )
-                })
+        <tr>
+          <th>Company Name</th>
+          <td>
+            {item.CompanyName || <span className={styles.Nli}>Not Updated</span>}
+          </td>
+        </tr>
 
-            }
-            </div>
+        <tr>
+          <th>Company Address</th>
+          <td>
+            {item.CompanyAddress || <span className={styles.Nli}>Not Updated</span>}
+          </td>
+        </tr>
+
+        <tr>
+          <th>Company Contact</th>
+          <td>
+            {item.CompanyContact || <span className={styles.Nli}>Not Updated</span>}
+          </td>
+        </tr>
+
+        <tr>
+          <th>Company Email</th>
+          <td>
+            {item.CompanyEmail || <span className={styles.Nli}>Not Updated</span>}
+          </td>
+        </tr>
+
+        <tr>
+          <th>Company Website</th>
+          <td>
+            {item.CompanyWebsite || <span className={styles.Nli}>Not Updated</span>}
+          </td>
+        </tr>
+
+        <tr>
+          <th>Company GSTIN</th>
+          <td>
+            {item.CompanyGSTIN || <span className={styles.Nli}>Not Updated</span>}
+          </td>
+        </tr>
+
+        <tr>
+          <th>Type of Organisation</th>
+          <td>
+            {item.TypeofOrganisation || (
+              <span className={styles.Nli}>Not Updated</span>
+            )}
+          </td>
+        </tr>
+
+        <tr>
+          <th>Ip Address</th>
+          <td>
+            {item.ipAddress || (
+              <span className={styles.Nli}>
+                could not fetch the Ip Address
+              </span>
+            )}
+          </td>
+        </tr>
+
+        <tr>
+          <th>Status</th>
+          <td className={styles.Approval}>
+
+            {item.isApproved ? (
+              <button
+                className={styles.Approved}
+                onClick={() => DisApprove(item._id, false)}
+              >
+                Approved &#10004;
+              </button>
+            ) : item.isReject ? (
+              <button
+                className={styles.Rejected}
+                onClick={() => unReject(item._id, false)}
+              >
+                Rejected &#10004;
+              </button>
+            ) : (
+              <>
+                <button
+                  className={styles.Approve}
+                  onClick={() => Approve(item._id, true)}
+                >
+                  Approve
+                </button>
+
+                <button
+                  className={styles.Approve}
+                  onClick={() => Reject(item._id, true)}
+                >
+                  Reject
+                </button>
+              </>
+            )}
+
+          </td>
+        </tr>
+
+        <tr>
+          <th>Message</th>
+          <td>
+            <input
+              className={styles.messageInput}
+              value={message}
+              onChange={(e) => setmessage(e.target.value)}
+            />
+
+            <button
+              className={styles.sendButton}
+              onClick={() => sendMessage(item._id)}
+            >
+              Send
+            </button>
+          </td>
+        </tr>
+
+      </tbody>
+    </table>
+  ))}
+
+</div>
             :
             <>
             <div id={styles.JobCardWrapper} >
@@ -289,57 +381,300 @@ profileData.map((item, i) => {
 {profileData.map((job, i) => {
     return (
         <>
-            <div className={styles.JobCard} key={i}>
-                <div style={{ display: "flex" }}>
+<div className={styles.JobCard} key={job._id || i}>
 
-                <div className={styles.LeftTable}>
-                                                <span className={styles.span} >Name  :   </span><br></br>
-                                                <span className={styles.span}>  Email Id :  </span><br></br>
-                                                <span className={styles.span}>  Phone number : </span><br></br>
-                                                <span className={styles.span}>  Aadhar Id : </span><br></br>
-                                                <span className={styles.span} >Pan Card:</span><br></br>
-                                                <span className={styles.span}> Company Name: </span><br></br>
-                                                <span className={styles.span} > Company Contact:</span><br></br>
-                                                <span className={styles.span}> Company Email: </span><br></br>
-                                                <span className={styles.span}> Company GSTIN: </span><br></br>
-                                                <span className={styles.span}> Company Website: </span><br></br>
-                                                <span className={styles.span}> Organisation Type: </span><br></br>
-                                                <span className={styles.span}> Ip Address: </span><br></br>
-                                            
-                                            </div>
+  {/* ================= HEADER ================= */}
+  <div className={styles.CardHeader}>
 
-                                            <div className={styles.RightTable}>
-                                                <span className={styles.span} >  <span style={{ color: "blue" }}  >{job.name}</span> </span><br></br>
-                                                <span className={styles.span}> {job.email ? <span style={{ color: "blue" }}  >{job.email} </span> : <span style={{ color: "red" }}>Not updated</span>}</span><br></br>
-                                                <span className={styles.span}>   {job.phoneNumber ? <span style={{ color: "blue" }}  >{job.phoneNumber} </span> : <span style={{ color: "red" }}>Not updated</span>}</span><br></br>
-                                                <span className={styles.span}>   {job.Aadhar ? <span style={{ color: "blue" }}  >{job.Aadhar} </span> : <span style={{ color: "red" }}>Not updated</span>}</span><br></br>
-                                                <span className={styles.span} > {job.panCard ? <span style={{ color: "blue" }}  >{job.panCard} </span> : <span style={{ color: "red" }}>Not updated</span>}</span><br></br>
-                                                <span className={styles.span}> {job.CompanyName ? <span style={{ color: "blue" }}  >{job.CompanyName} </span> : <span style={{ color: "red" }}>Not updated</span>} </span><br></br>
-                                                <span className={styles.span} >  {job.CompanyContact ? <span style={{ color: "blue" }}  >{job.CompanyContact} </span> : <span style={{ color: "red" }}>Not updated</span>}</span><br></br>
-                                                <span className={styles.span}>  {job.CompanyEmail ? <span style={{ color: "blue" }}  >{job.CompanyEmail}</span> : <span style={{ color: "red" }}>Not updated</span>}</span><br></br>
-                                                <span className={styles.span}>  {job.CompanyGSTIN ? <span style={{ color: "blue" }}  >{job.CompanyGSTIN} </span> : <span style={{ color: "red" }}>Not updated</span>}</span><br></br>
-                                                <span className={styles.span}> {job.CompanyWebsite ? <span style={{ color: "blue" }}  >{job.CompanyWebsite} </span> : <span style={{ color: "red" }}>Not updated</span>} </span><br></br>
-                                                <span className={styles.span}>  {job.TypeofOrganisation ? <span style={{ color: "blue" }}  >{job.TypeofOrganisation} </span> : <span style={{ color: "red" }}>Not updated</span>}</span><br></br>
-                                                <span className={styles.span}>  {job.ipAddress ? <span style={{ color: "blue" }}  >{job.ipAddress} </span> : <span style={{ color: "red" }}>could not fetch the Ip Address</span>}</span><br></br>
-                                            
-                                            </div>                                           
-                                        </div>
+    <div className={styles.ProfileInfo}>
 
-                                        <div className={styles.Down}>
-                                        <span className={`${styles.span} ${styles.LastDown}`}> Company Address:  {job.CompanyAddress ? <span className={styles.span} style={{ color: "blue", marginLeft:"5px" }}  >{job.CompanyAddress} </span> : <span style={{ color: "red", marginLeft:"5px" }} >Not updated</span>}</span><br></br>
-                                      
-                                        <span className={styles.span}> Account Status:  {job.isApproved?
-                  <button  className={styles.Approved} onClick={()=>{DisApprove(job._id, false)}}>Approved</button>
-                  :<button className={styles.Approve} onClick={()=>{Approve(job._id, true)}}>Approve</button>}</span>
-                      
-                      <span className={styles.span} > {job.isReject?
-                  <button className={styles.Approved} onClick={()=>{unReject(job._id, false)}}>Rejected&#10004;</button>
-                  :<button  className={styles.Approve} onClick={()=>{Reject(job._id, true)}}>Reject</button>}</span><br></br>
+      {/* <div className={styles.ProfileAvatar}>
+        {job.name ? job.name.charAt(0).toUpperCase() : "C"}
+      </div> */}
 
-                  <p className={styles.span}> Message: <input style={{height:"24px", width:"60%", marginLeft:"1%"}}  value ={message} onChange={(e)=>{setmessage(e.target.value)}} />
-                     <button onClick={()=>{sendMessage(job._id)}}>Send</button></p> 
-                                        </div>                                    
-            </div>
+      <div>
+        <h3>{job.name || "Unknown User"}</h3>
+        <p>Company / Employer Profile</p>
+      </div>
+
+    </div>
+
+    <div className={styles.StatusContainer}>
+
+      {job.isApproved ? (
+        <span className={`${styles.StatusBadge} ${styles.StatusApproved}`}>
+          ● Approved
+        </span>
+      ) : job.isReject ? (
+        <span className={`${styles.StatusBadge} ${styles.StatusRejected}`}>
+          ● Rejected
+        </span>
+      ) : (
+        <span className={`${styles.StatusBadge} ${styles.StatusPending}`}>
+          ● Pending
+        </span>
+      )}
+
+    </div>
+
+  </div>
+
+
+  {/* ================= PERSONAL INFORMATION ================= */}
+  <div className={styles.Section}>
+
+    <div className={styles.SectionTitle}>
+      <span>👤</span>
+      Personal Information
+    </div>
+
+    <div className={styles.DetailsGrid}>
+
+      <div className={styles.DetailItem}>
+        <span className={styles.Label}>Name</span>
+        <span className={job.name ? styles.Value : styles.NotUpdated}>
+          {job.name || "Not updated"}
+        </span>
+      </div>
+
+
+      <div className={styles.DetailItem}>
+        <span className={styles.Label}>Email ID</span>
+        <span className={job.email ? styles.Value : styles.NotUpdated}>
+          {job.email || "Not updated"}
+        </span>
+      </div>
+
+
+      <div className={styles.DetailItem}>
+        <span className={styles.Label}>Phone Number</span>
+        <span className={job.phoneNumber ? styles.Value : styles.NotUpdated}>
+          {job.phoneNumber || "Not updated"}
+        </span>
+      </div>
+
+
+      <div className={styles.DetailItem}>
+        <span className={styles.Label}>Aadhar ID</span>
+        <span className={job.Aadhar ? styles.Value : styles.NotUpdated}>
+          {job.Aadhar || "Not updated"}
+        </span>
+      </div>
+
+
+      <div className={styles.DetailItem}>
+        <span className={styles.Label}>PAN Card</span>
+        <span className={job.panCard ? styles.Value : styles.NotUpdated}>
+          {job.panCard || "Not updated"}
+        </span>
+      </div>
+
+
+      <div className={styles.DetailItem}>
+        <span className={styles.Label}>IP Address</span>
+        <span className={job.ipAddress ? styles.Value : styles.NotUpdated}>
+          {job.ipAddress || "Could not fetch IP Address"}
+        </span>
+      </div>
+
+    </div>
+
+  </div>
+
+
+  {/* ================= COMPANY INFORMATION ================= */}
+  <div className={styles.Section}>
+
+    <div className={styles.SectionTitle}>
+      <span>🏢</span>
+      Company Information
+    </div>
+
+
+    <div className={styles.DetailsGrid}>
+
+      <div className={styles.DetailItem}>
+        <span className={styles.Label}>Company Name</span>
+        <span className={job.CompanyName ? styles.Value : styles.NotUpdated}>
+          {job.CompanyName || "Not updated"}
+        </span>
+      </div>
+
+
+      <div className={styles.DetailItem}>
+        <span className={styles.Label}>Company Contact</span>
+        <span className={job.CompanyContact ? styles.Value : styles.NotUpdated}>
+          {job.CompanyContact || "Not updated"}
+        </span>
+      </div>
+
+
+      <div className={styles.DetailItem}>
+        <span className={styles.Label}>Company Email</span>
+        <span className={job.CompanyEmail ? styles.Value : styles.NotUpdated}>
+          {job.CompanyEmail || "Not updated"}
+        </span>
+      </div>
+
+
+      <div className={styles.DetailItem}>
+        <span className={styles.Label}>Company GSTIN</span>
+        <span className={job.CompanyGSTIN ? styles.Value : styles.NotUpdated}>
+          {job.CompanyGSTIN || "Not updated"}
+        </span>
+      </div>
+
+
+      <div className={styles.DetailItem}>
+        <span className={styles.Label}>Organisation Type</span>
+        <span
+          className={
+            job.TypeofOrganisation
+              ? styles.Value
+              : styles.NotUpdated
+          }
+        >
+          {job.TypeofOrganisation || "Not updated"}
+        </span>
+      </div>
+
+
+      <div className={styles.DetailItem}>
+        <span className={styles.Label}>Company Website</span>
+
+        {job.CompanyWebsite ? (
+          <a
+            href={
+              job.CompanyWebsite.startsWith("http")
+                ? job.CompanyWebsite
+                : `https://${job.CompanyWebsite}`
+            }
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles.WebsiteLink}
+          >
+            {job.CompanyWebsite}
+          </a>
+        ) : (
+          <span className={styles.NotUpdated}>
+            Not updated
+          </span>
+        )}
+
+      </div>
+
+    </div>
+
+
+    {/* ================= COMPANY ADDRESS ================= */}
+
+    <div className={styles.SkillsBox}>
+
+      <span className={styles.Label}>
+        Company Address
+      </span>
+
+      <div className={styles.AddressValue}>
+        {job.CompanyAddress ? (
+          <span className={styles.Value}>
+            {job.CompanyAddress}
+          </span>
+        ) : (
+          <span className={styles.NotUpdated}>
+            Not updated
+          </span>
+        )}
+      </div>
+
+    </div>
+
+  </div>
+
+
+  {/* ================= ACCOUNT ACTIONS ================= */}
+  <div className={styles.ActionSection}>
+
+    <div className={styles.SectionTitle}>
+      <span>⚙️</span>
+      Account Actions
+    </div>
+
+
+    <div className={styles.ActionButtons}>
+
+      {job.isApproved ? (
+
+        <button
+          className={styles.Approved}
+          onClick={() => DisApprove(job._id, false)}
+        >
+          ✓ Approved
+        </button>
+
+      ) : (
+
+        <button
+          className={styles.Approve}
+          onClick={() => Approve(job._id, true)}
+        >
+          ✓ Approve
+        </button>
+
+      )}
+
+
+      {job.isReject ? (
+
+        <button
+          className={styles.Rejected}
+          onClick={() => unReject(job._id, false)}
+        >
+          ✕ Rejected
+        </button>
+
+      ) : (
+
+        <button
+          className={styles.Reject}
+          onClick={() => Reject(job._id, true)}
+        >
+          ✕ Reject
+        </button>
+
+      )}
+
+    </div>
+
+  </div>
+
+
+  {/* ================= MESSAGE ================= */}
+  {/* <div className={styles.MessageSection}>
+
+    <div className={styles.MessageTitle}>
+      Send Message
+    </div>
+
+    <div className={styles.MessageBox}>
+
+      <input
+        type="text"
+        placeholder="Enter message for company..."
+        value={message}
+        onChange={(e) => setmessage(e.target.value)}
+      />
+
+      <button
+        onClick={() => sendMessage(job._id)}
+      >
+        Send
+      </button>
+
+    </div>
+
+  </div> */}
+
+</div>
         </>
     )
 })}

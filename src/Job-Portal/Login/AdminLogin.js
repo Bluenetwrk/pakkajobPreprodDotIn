@@ -86,7 +86,7 @@ function Admin() {
 
 <label> <input  type="checkbox" value={showPassword} onClick={()=>{setshowPassword((prev)=>!prev)}}/><span>show password</span></label>
         <button className={`${styles.button} ${styles.inputs}`} onClick={Adminlogin}>Login</button>
-          <button className={`${styles.button} ${styles.inputs}`} onClick={AdminRegister}>Register</button>
+          {/* <button className={`${styles.button} ${styles.inputs}`} onClick={AdminRegister}>Register</button> */}
         </div>
       </div>
     </>

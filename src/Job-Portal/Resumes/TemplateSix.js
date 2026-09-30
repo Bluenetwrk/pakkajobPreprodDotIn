@@ -466,7 +466,7 @@ const TemplateSix = ({ themeColor }) => {
 
             <ul
               style={{
-                display: "grid",
+                // display: "grid",
                 gridTemplateColumns: "1fr 1fr",
                 gridTemplateRows:
                   "repeat(3, auto)",
@@ -507,10 +507,19 @@ const TemplateSix = ({ themeColor }) => {
                         )
                       }
                     />
+                  {" - "}  (
+                    {
+                      new Date(e.startDate).toLocaleDateString("en-US",{dateStyle:"medium"})
+                    }
+                    {" - "}
+                    {
+                      new Date(e.endDate).toLocaleDateString()
 
-                  </li>
-
+                    }
+                    )
+                  </li>           
                 ))}
+                
 
             </ul>
 
@@ -848,7 +857,7 @@ const EditableText = ({
         cursor: "text",
         outline: "none",
         display: multiline
-          ? "block"
+          ? "inline"
           : "inline",
       }}
       onBlur={(e) => {

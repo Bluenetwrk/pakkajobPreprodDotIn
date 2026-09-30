@@ -1,250 +1,1476 @@
-.searchBoth{
-    margin-left: 4%;
-    margin-top: 15px;
 
-    display: flex;
+/* =========================================================
+   MAIN WRAPPER
+========================================================= */
+
+.uiwrapper {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  color: #333;
 }
-.p{
-    font-weight: bold;
-    margin-top: 20px;
-    margin-left: 5%;
-    opacity: 0.8;
 
 
-}
-.inputboxsearch{
-    display: inline-flex;
-    height : 35px;
-    margin-top: 13px;
-    margin-left: 2%;
-    width: 55%;
-    border-radius:5px;
-    border : 1.5px solid rgb(9, 247, 247);
-}
-.ul{
-    display: flex;
-    margin: 0;
-    margin-left: -42px;
+/* =========================================================
+   PAGE TITLE
+========================================================= */
 
+.uiwrapper h3 {
+  color: #333;
+  font-size: 20px;
+  font-weight: 600;
 }
-.ul:nth-child(even) {
-    background:rgb(242, 244, 245)
-  }
-  .dot{
-      height: 8px;
-      width: 8px;
-  /* background-color:rgb(0, 255, 255); */
-  background-color:rgb(7, 252, 7);
+
+
+/* =========================================================
+   SEARCH + FILTER AREA
+========================================================= */
+
+.searchFilterWrapper {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px 15px;
+  margin-bottom: 5px;
+}
+
+
+/* =========================================================
+   SEARCH BOX
+========================================================= */
+
+.searchBoth {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  max-width: 800px;
+}
+
+.searchLabel {
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+  min-width: 50px;
+  white-space: nowrap;
+}
+
+.inputboxsearch {
+  width: 100%;
+  max-width: 700px;
+  height: 40px;
+  padding: 0 14px;
+  box-sizing: border-box;
+
+  border: 1px solid #cfd6df;
+  border-radius: 7px;
+
+  background: #fff;
+  color: #333;
+
+  font-size: 14px;
+
+  outline: none;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.inputboxsearch::placeholder {
+  color: #999;
+}
+
+.inputboxsearch:focus {
+  border-color: #1261d6;
+
+  box-shadow:
+    0 0 0 3px rgba(18, 97, 214, 0.08);
+}
+
+
+/* =========================================================
+   FILTER RADIO BUTTON AREA
+========================================================= */
+
+.filterWrapper {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+
+  gap: 10px 20px;
+
+  margin-top: 12px;
+
+  padding: 11px 13px;
+
+  background: #f7f9fc;
+
+  border: 1px solid #e1e5ea;
+
+  border-radius: 8px;
+
+  box-sizing: border-box;
+}
+
+
+/* EACH RADIO OPTION */
+
+.filterOption {
+  display: flex;
+  align-items: center;
+
+  gap: 6px;
+
+  color: #333;
+
+  font-size: 13px;
+
+  cursor: pointer;
+
+  user-select: none;
+
+  white-space: nowrap;
+}
+
+
+/* RADIO */
+
+.filterOption input {
+  width: 16px;
+  height: 16px;
+
+  margin: 0;
+
+  cursor: pointer;
+
+  accent-color: #1261d6;
+}
+
+
+/* RADIO TEXT */
+
+.filterOption span {
+  cursor: pointer;
+}
+
+
+/* =========================================================
+   RESULT COUNT
+========================================================= */
+
+.resultCount {
+  margin: 8px 0 12px 15px;
+
+  color: #444;
+
+  font-size: 14px;
+  font-weight: 600;
+}
+
+
+/* =========================================================
+   DESKTOP TABLE WRAPPER
+========================================================= */
+
+.tableWrapper {
+  width: calc(100% - 14px);
+
+  margin-left: 7px;
+  margin-top: 10px;
+
+  overflow-x: auto;
+  overflow-y: visible;
+
+  background: #fff;
+
+  border: 1px solid #dfe3e8;
+
+  border-radius: 8px;
+
+  box-sizing: border-box;
+}
+
+
+/* =========================================================
+   DESKTOP TABLE
+========================================================= */
+
+.jobSeekerTable {
+  width: 100%;
+
+  border-collapse: collapse;
+
+  table-layout: auto;
+
+  background: #fff;
+
+  font-size: 13px;
+}
+
+
+/* =========================================================
+   TABLE HEADER
+========================================================= */
+
+.jobSeekerTable thead th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+
+  padding: 12px 10px;
+
+  background: #f1f4f8;
+
+  color: #333;
+
+  border: 1px solid #d9dee5;
+
+  font-size: 12px;
+
+  font-weight: 700;
+
+  text-align: left;
+
+  white-space: nowrap;
+}
+
+
+/* =========================================================
+   TABLE BODY
+========================================================= */
+
+.jobSeekerTable tbody td {
+  padding: 10px;
+
+  border: 1px solid #e2e5e9;
+
+  color: #333;
+
+  vertical-align: middle;
+
+  line-height: 1.4;
+}
+
+
+/* =========================================================
+   TABLE ROW
+========================================================= */
+
+.jobSeekerTable tbody tr {
+  transition: background 0.15s ease;
+}
+
+.jobSeekerTable tbody tr:hover {
+  background: #f8fbff;
+}
+
+
+/* =========================================================
+   NAME COLUMN
+========================================================= */
+
+.nameCell {
+  min-width: 140px;
+
+  color: #1261d6;
+
+  cursor: pointer;
+
+  white-space: nowrap;
+}
+
+.nameCell a {
+  color: #1261d6 !important;
+
+  text-decoration: none;
+}
+
+.nameCell a:hover {
+  text-decoration: underline;
+}
+
+
+/* =========================================================
+   SKILLS
+========================================================= */
+
+.skillsCell {
+  min-width: 130px;
+
+  max-width: 230px;
+
+  word-break: break-word;
+
+  white-space: normal;
+
+  line-height: 1.4;
+}
+
+
+/* =========================================================
+   MESSAGE
+========================================================= */
+
+.messageCell {
+  min-width: 140px;
+
+  max-width: 250px;
+
+  word-break: break-word;
+
+  white-space: normal;
+
+  line-height: 1.4;
+}
+
+
+/* =========================================================
+   APPROVAL COLUMN
+========================================================= */
+
+.approvalCell {
+  min-width: 190px;
+
+  text-align: center;
+}
+
+
+/* =========================================================
+   ONLINE DOT
+========================================================= */
+
+.dot {
+  display: inline-block;
+
+  width: 8px;
+  height: 8px;
+
+  margin-right: 6px;
+
+  background: #22c55e;
 
   border-radius: 50%;
-  display: inline-block;
+
+  vertical-align: middle;
+
+  box-shadow:
+    0 0 0 2px rgba(34, 197, 94, 0.15);
 }
-.arrow {
-    border: solid white;
-    border-width: 0 2px 2px 0;
-    display: inline-block;
-    padding: 2.3px;
-    /* margin-left: 0.5%; */
-  }  
-  .up {
-    transform: rotate(-135deg);
-    -webkit-transform: rotate(-135deg);
-    position: absolute;
-    margin-top: 1px;
+
+
+/* =========================================================
+   DESKTOP STATUS BUTTONS
+========================================================= */
+
+/* APPROVED */
+
+.Approved {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  min-width: 85px;
+
+  padding: 7px 12px;
+
+  border: none;
+
+  border-radius: 5px;
+
+  background: #198754 !important;
+
+  color: #fff !important;
+
+  font-size: 12px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: 0.2s;
+}
+
+.Approved:hover {
+  background: #157347 !important;
+}
+
+
+/* REJECTED */
+
+.Rejected {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  min-width: 85px;
+
+  padding: 7px 12px;
+
+  border: none;
+
+  border-radius: 5px;
+
+  background: #dc3545 !important;
+
+  color: #fff !important;
+
+  font-size: 12px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: 0.2s;
+}
+
+.Rejected:hover {
+  background: #bb2d3b !important;
+}
+
+
+/* ON HOLD */
+
+.OnHold {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  min-width: 85px;
+
+  padding: 7px 12px;
+
+  border: none;
+
+  border-radius: 5px;
+
+  background: #f59e0b !important;
+
+  color: #fff !important;
+
+  font-size: 12px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: 0.2s;
+}
+
+.OnHold:hover {
+  background: #d97706 !important;
+}
+
+
+/* =========================================================
+   PENDING ACTION BUTTONS
+========================================================= */
+
+.actionButtons {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  flex-wrap: wrap;
+
+  gap: 5px;
+}
+
+
+/* REJECT */
+
+.RejectButton {
+  padding: 6px 9px;
+
+  border: none;
+
+  border-radius: 5px;
+
+  background: #dc3545;
+
+  color: white;
+
+  font-size: 11px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: 0.2s;
+}
+
+.RejectButton:hover {
+  background: #bb2d3b;
+}
+
+
+/* APPROVE */
+
+.ApproveButton {
+  padding: 6px 9px;
+
+  border: none;
+
+  border-radius: 5px;
+
+  background: #198754;
+
+  color: white;
+
+  font-size: 11px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: 0.2s;
+}
+
+.ApproveButton:hover {
+  background: #157347;
+}
+
+
+/* HOLD */
+
+.HoldButton {
+  padding: 6px 9px;
+
+  border: none;
+
+  border-radius: 5px;
+
+  background: #f59e0b;
+
+  color: white;
+
+  font-size: 11px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: 0.2s;
+}
+
+.HoldButton:hover {
+  background: #d97706;
+}
+
+
+/* =========================================================
+   NO RECORD DESKTOP
+========================================================= */
+
+.noRecord {
+  padding: 30px 15px !important;
+
+  text-align: center !important;
+
+  color: #dc3545 !important;
+
+  font-size: 14px;
+
+  font-weight: 600;
+}
+
+
+/* =========================================================
+   MOBILE CARDS
+========================================================= */
+
+.mobileJobCards {
+  width: 100%;
+
+  padding: 8px;
+
+  box-sizing: border-box;
+}
+
+
+/* =========================================================
+   MOBILE CARD
+========================================================= */
+
+.mobileJobCard {
+  width: 100%;
+
+  margin-bottom: 15px;
+
+  background: #fff;
+
+  border: 1px solid #e0e5eb;
+
+  border-radius: 12px;
+
+  overflow: hidden;
+
+  box-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.06);
+
+  box-sizing: border-box;
+}
+
+
+/* =========================================================
+   MOBILE CARD HEADER
+========================================================= */
+
+.mobileCardHeader {
+  display: flex;
+
+  align-items: flex-start;
+  justify-content: space-between;
+
+  gap: 10px;
+
+  padding: 14px;
+
+  background: #f7f9fc;
+
+  border-bottom: 1px solid #e5e8ec;
+
+  box-sizing: border-box;
+}
+
+
+/* =========================================================
+   MOBILE NAME
+========================================================= */
+
+.mobileName {
+  color: #1261d6;
+
+  font-size: 16px;
+
+  font-weight: 600;
+
+  line-height: 1.3;
+
+  cursor: pointer;
+
+  word-break: break-word;
+}
+
+
+/* =========================================================
+   MOBILE REGISTER DATE
+========================================================= */
+
+.mobileRegistration {
+  margin-top: 5px;
+
+  color: #777;
+
+  font-size: 11px;
+
+  line-height: 1.3;
+}
+
+
+/* =========================================================
+   MOBILE STATUS
+========================================================= */
+
+.mobileStatus {
+  flex-shrink: 0;
+
+  display: flex;
+
+  align-items: center;
+}
+
+
+/* =========================================================
+   MOBILE STATUS BADGES
+========================================================= */
+
+.statusApproved,
+.statusRejected,
+.statusHold,
+.statusPending {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  min-width: 65px;
+
+  padding: 5px 9px;
+
+  border-radius: 20px;
+
+  font-size: 10px;
+
+  font-weight: 700;
+
+  white-space: nowrap;
+}
+
+
+/* GREEN */
+
+.statusApproved {
+  background: #dcfce7;
+
+  color: #15803d;
+
+  border: 1px solid #86efac;
+}
+
+
+/* RED */
+
+.statusRejected {
+  background: #fee2e2;
+
+  color: #b91c1c;
+
+  border: 1px solid #fca5a5;
+}
+
+
+/* ORANGE */
+
+.statusHold {
+  background: #fff7ed;
+
+  color: #c2410c;
+
+  border: 1px solid #fdba74;
+}
+
+
+/* BLUE/PURPLE */
+
+.statusPending {
+  background: #e0e7ff;
+
+  color: #3730a3;
+
+  border: 1px solid #a5b4fc;
+}
+
+
+/* =========================================================
+   MOBILE INFORMATION GRID
+========================================================= */
+
+.mobileInfoGrid {
+  display: grid;
+
+  grid-template-columns: 1fr 1fr;
+
+  width: 100%;
+
+  padding: 4px 10px;
+
+  box-sizing: border-box;
+}
+
+
+/* =========================================================
+   MOBILE INFORMATION ITEM
+========================================================= */
+
+.mobileInfoItem {
+  min-width: 0;
+
+  padding: 10px 6px;
+
+  border-bottom: 1px solid #eeeeee;
+
+  box-sizing: border-box;
+}
+
+
+/* LABEL */
+
+.mobileInfoItem span {
+  display: block;
+
+  margin-bottom: 4px;
+
+  color: #777;
+
+  font-size: 10px;
+
+  font-weight: 600;
+
+  text-transform: uppercase;
+}
+
+
+/* VALUE */
+
+.mobileInfoItem strong {
+  display: block;
+
+  color: #1261d6;
+
+  font-size: 12px;
+
+  font-weight: 500;
+
+  line-height: 1.4;
+
+  word-break: break-word;
+
+  overflow-wrap: anywhere;
+}
+
+
+/* =========================================================
+   MOBILE SECTION
+========================================================= */
+
+.mobileSection {
+  padding: 11px 14px;
+
+  border-top: 1px solid #eeeeee;
+
+  box-sizing: border-box;
+}
+
+
+/* SECTION TITLE */
+
+.mobileSectionTitle {
+  margin-bottom: 5px;
+
+  color: #666;
+
+  font-size: 10px;
+
+  font-weight: 700;
+
+  text-transform: uppercase;
+}
+
+
+/* SECTION VALUE */
+
+.mobileValue,
+.mobileSkills {
+  color: #1261d6;
+
+  font-size: 13px;
+
+  line-height: 1.5;
+
+  word-break: break-word;
+
+  overflow-wrap: anywhere;
+}
+
+
+/* =========================================================
+   MOBILE MESSAGE
+========================================================= */
+
+.mobileMessage {
+  color: #444;
+
+  font-size: 13px;
+
+  line-height: 1.5;
+
+  word-break: break-word;
+
+  overflow-wrap: anywhere;
+}
+
+
+/* =========================================================
+   MOBILE ACTION AREA
+========================================================= */
+
+.mobileActions {
+  display: flex;
+
+  align-items: center;
+
+  gap: 7px;
+
+  width: 100%;
+
+  padding: 12px 14px;
+
+  background: #f7f9fc;
+
+  border-top: 1px solid #e5e8ec;
+
+  box-sizing: border-box;
+}
+
+
+/* ALL MOBILE BUTTONS */
+
+.mobileActions button {
+  flex: 1;
+
+  min-width: 0;
+
+  min-height: 36px;
+
+  padding: 7px 8px;
+
+  border: none;
+
+  border-radius: 6px;
+
+  font-size: 11px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: 0.2s;
+}
+
+
+/* =========================================================
+   MOBILE REJECT
+========================================================= */
+
+.MoReject {
+  background: #dc3545 !important;
+
+  color: white !important;
+}
+
+.MoReject:hover {
+  background: #bb2d3b !important;
+}
+
+
+/* =========================================================
+   MOBILE APPROVE
+========================================================= */
+
+.MoApprove {
+  background: #198754 !important;
+
+  color: white !important;
+}
+
+.MoApprove:hover {
+  background: #157347 !important;
+}
+
+
+/* =========================================================
+   MOBILE HOLD
+========================================================= */
+
+.MoHold {
+  background: #f59e0b !important;
+
+  color: white !important;
+}
+
+.MoHold:hover {
+  background: #d97706 !important;
+}
+
+
+/* =========================================================
+   CURRENT APPROVED
+========================================================= */
+
+.MoApproved {
+  width: 100%;
+
+  padding: 9px;
+
+  background: #198754 !important;
+
+  color: white !important;
+
+  border: none;
+
+  border-radius: 6px;
+
+  font-size: 12px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+.MoApproved:hover {
+  background: #157347 !important;
+}
+
+
+/* =========================================================
+   CURRENT REJECTED
+========================================================= */
+
+.MoRejected {
+  width: 100%;
+
+  padding: 9px;
+
+  background: #dc3545 !important;
+
+  color: white !important;
+
+  border: none;
+
+  border-radius: 6px;
+
+  font-size: 12px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+.MoRejected:hover {
+  background: #bb2d3b !important;
+}
+
+
+/* =========================================================
+   CURRENT ON HOLD
+========================================================= */
+
+.MoOnHold {
+  width: 100%;
+
+  padding: 9px;
+
+  background: #f59e0b !important;
+
+  color: white !important;
+
+  border: none;
+
+  border-radius: 6px;
+
+  font-size: 12px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+.MoOnHold:hover {
+  background: #d97706 !important;
+}
+
+
+/* =========================================================
+   MOBILE NO RECORD
+========================================================= */
+
+.mobileNoRecord {
+  padding: 35px 10px;
+
+  text-align: center;
+
+  color: #dc3545;
+
+  font-size: 14px;
+
+  font-weight: 600;
+}
+
+
+/* =========================================================
+   TABLET
+   851px is desktop according to your JSX.
+========================================================= */
+
+@media (min-width: 851px) and (max-width: 1200px) {
+
+  .jobSeekerTable {
+    font-size: 12px;
   }
-  .down {
-    transform: rotate(90deg);
-    -webkit-transform: rotate(45deg);
-    margin-top: 8px;
-    position: absolute;
 
-    
+  .jobSeekerTable thead th {
+    padding: 10px 7px;
+
+    font-size: 11px;
   }
-  .up:hover {
-    transform: rotate(-135deg);
-    -webkit-transform: rotate(-135deg);
-    margin-top: 1px;
-    position: absolute;
+
+  .jobSeekerTable tbody td {
+    padding: 8px 7px;
   }
-  .down:hover {
-    transform: rotate(90deg);
-    -webkit-transform: rotate(45deg);
-    margin-top: 8px;
-    position: absolute;
-   
+
+  .approvalCell {
+    min-width: 160px;
   }
-  .arrow:hover{
-    border: solid grey;
-    border-width: 0 2px 2px 0;
-    display: inline-block;
-    padding: 2.3px;
+
+  .actionButtons {
+    gap: 3px;
   }
-.li{
-    display: inline-block;
-    /* border: 1px solid aqua; */
-    border : 1px solid rgb(215, 223, 226);
 
-    width:8%;
-    overflow-wrap: break-word;
+  .RejectButton,
+  .ApproveButton,
+  .HoldButton {
+    padding: 5px 7px;
 
-    text-align: center;
-    padding-top: 0.5%;
-    padding-bottom: 0.5%;
-}
-.name{
-    width:12%;
-    overflow-wrap: break-word
-
-}
-.phoneNumber{
-    width:10%;
-    overflow-wrap: break-word
-
-    }
-
-.age{
-    width:5%
-}
-.Pdate{
-    width:5%
-}
-.Aadhar{
-    width:11%;
-    overflow-wrap: break-word
-
-}
-.Qualification{
-    width:7%   
-}
-.Skills{
-    width:14%
-}
-
-.Action{
-    width:8%
-}
-.DeleteButton{
-    border : 1px solid red;
-    background-color: red;
-    color: white;
-    width:58px;
-    font-weight: bold;
-    height: 24px;
+    font-size: 10px;
+  }
 
 }
 
-.Message{
-    width: 22%;
-    overflow-wrap: break-word    
-}
 
-.Approval{
-    width:9%
-}
+/* =========================================================
+   MOBILE
+========================================================= */
 
-.Approved{
-    background-color: green;
-    color: white;
-    font-weight: bold;
-    width:80%;
-    border: 1px solid green;
-    height: 23px;
-}
+@media (max-width: 850px) {
 
-.Rejected{
-    background-color: red;
-    color: white;
-    font-weight: bold;
-    width:82px;
-    border: 1px solid green;
-    height: 23px;
-    margin-top:3px;
-}
-.OnHold{
-    background-color: blue;
-    color: white;
-    font-weight: bold;
-    width:82px;
-    border: 1px solid green;
-    height: 23px;
-    margin-top:3px;
-}
+  /* PAGE TITLE */
 
-.Approve{
-    background-color: rgb(40, 4, 99);
-    height: 23px;
-    color: white;
-    font-weight: bold;
-    width:80%;
+  .uiwrapper h3 {
+    margin-left: 10px !important;
 
-    border: 1px solid green;
-}
+    font-size: 17px;
+  }
 
-/* .....For Mobile....... */
 
-#JobCardWrapper {
-    /* display: flex; */
-    /* flex-wrap: wrap; */
-    padding: 10px;
-    /* background-color: rgb(204, 103, 103); */
-    border-radius: 10px;
-    /* margin-left: 40px;     */
-    width: 90%;
+  /* SEARCH */
 
-}
+  .searchFilterWrapper {
+    padding: 8px 10px;
+  }
 
-.JobCard {
-    /* display: flex; */
-    /* background-color: aqua;    */
-    margin-top: 10px;
-    margin-bottom: 10px;
-    margin-left: 8px;
-    /* height: 250px; */
+  .searchBoth {
+    display: block;
+
     width: 100%;
-    border-radius: 10px;
-    border-top-left-radius: 10px;
-    border-bottom-left-radius: 10px;
-    box-shadow: 2px 2px 2px 2px #999999;
-    padding-bottom: 6px;
-}
-.LeftTable{
-    margin-left: 7px;
-    margin-top: 20px;
-    /* background-color: blue; */
-    /* width:200%; */
-}
-.RightTable{
-    margin-top: 20px;
-    margin-left: 5px;
-    width:60%;
+  }
 
-overflow:hidden;
+  .searchLabel {
+    display: block;
 
-    /* background-color: aqua; */
-}
-.span{
-    font-weight: 500;
-    font-size: small;
-}
-.Down{
+    margin-bottom: 6px;
+
+    font-size: 13px;
+  }
+
+  .inputboxsearch {
+    width: 100%;
+
+    max-width: none;
+
+    height: 42px;
+
+    font-size: 13px;
+  }
+
+
+  /* FILTER */
+
+  .filterWrapper {
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 7px;
+
+    margin-top: 10px;
+
+    padding: 10px;
+  }
+
+  .filterOption {
+    min-width: 0;
+
+    white-space: normal;
+
+    font-size: 11px;
+
+    line-height: 1.3;
+  }
+
+  .filterOption input {
+    width: 15px;
+
+    height: 15px;
+
+    flex-shrink: 0;
+  }
+
+
+  /* RESULT */
+
+  .resultCount {
     margin-left: 10px;
-    overflow-wrap: break-word;
 
+    font-size: 12px;
+  }
+
+
+  /* CARDS */
+
+  .mobileJobCards {
+    padding: 6px;
+  }
+
+  .mobileJobCard {
+    margin-bottom: 12px;
+
+    border-radius: 10px;
+  }
+
+
+  /* HEADER */
+
+  .mobileCardHeader {
+    padding: 12px;
+  }
+
+  .mobileName {
+    font-size: 15px;
+  }
+
+  .mobileRegistration {
+    font-size: 10px;
+  }
+
+
+  /* INFORMATION */
+
+  .mobileInfoGrid {
+    grid-template-columns: 1fr 1fr;
+
+    padding: 3px 8px;
+  }
+
+  .mobileInfoItem {
+    padding: 9px 5px;
+  }
+
+  .mobileInfoItem span {
+    font-size: 9px;
+  }
+
+  .mobileInfoItem strong {
+    font-size: 12px;
+  }
+
+
+  /* SECTION */
+
+  .mobileSection {
+    padding: 10px 12px;
+  }
+
+
+  /* ACTION */
+
+  .mobileActions {
+    padding: 10px 12px;
+
+    gap: 5px;
+  }
+
+  .mobileActions button {
+    min-height: 35px;
+
+    font-size: 11px;
+  }
 
 }
 
-.MoApproved{
-    background-color: green;
-    color: white;
-    font-weight: bold;
-    border: 1px solid green;
-    height: 23px;
-}
-.MoApprove{
-    background-color: rgb(40, 4, 99);
-    height: 23px;
-    color: white;
-    font-weight: bold;
 
-    border: 1px solid green;
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 480px) {
+
+  .uiwrapper {
+    overflow-x: hidden;
+  }
+
+
+  /* TITLE */
+
+  .uiwrapper h3 {
+    font-size: 16px;
+
+    margin-top: 8px !important;
+  }
+
+
+  /* SEARCH */
+
+  .searchFilterWrapper {
+    padding: 7px 8px;
+  }
+
+  .inputboxsearch {
+    height: 40px;
+
+    padding: 0 11px;
+
+    font-size: 12px;
+  }
+
+
+  /* FILTERS */
+
+  .filterWrapper {
+    grid-template-columns: 1fr;
+
+    gap: 3px;
+
+    padding: 9px;
+  }
+
+  .filterOption {
+    min-height: 27px;
+
+    font-size: 11px;
+  }
+
+
+  /* RESULT */
+
+  .resultCount {
+    margin: 7px 8px;
+
+    font-size: 11px;
+  }
+
+
+  /* CARD */
+
+  .mobileJobCards {
+    padding: 5px;
+  }
+
+  .mobileJobCard {
+    border-radius: 9px;
+  }
+
+
+  /* HEADER */
+
+  .mobileCardHeader {
+    padding: 11px;
+
+    gap: 7px;
+  }
+
+  .mobileName {
+    font-size: 14px;
+  }
+
+
+  /* STATUS */
+
+  .statusApproved,
+  .statusRejected,
+  .statusHold,
+  .statusPending {
+    min-width: 58px;
+
+    padding: 4px 7px;
+
+    font-size: 9px;
+  }
+
+
+  /* INFO */
+
+  .mobileInfoGrid {
+    grid-template-columns: 1fr 1fr;
+
+    padding: 2px 7px;
+  }
+
+  .mobileInfoItem {
+    padding: 8px 4px;
+  }
+
+  .mobileInfoItem span {
+    font-size: 8px;
+  }
+
+  .mobileInfoItem strong {
+    font-size: 11px;
+  }
+
+
+  /* SECTIONS */
+
+  .mobileSection {
+    padding: 9px 11px;
+  }
+
+  .mobileSectionTitle {
+    font-size: 9px;
+  }
+
+  .mobileValue,
+  .mobileSkills,
+  .mobileMessage {
+    font-size: 12px;
+  }
+
+
+  /* ACTIONS */
+
+  .mobileActions {
+    padding: 9px 10px;
+
+    gap: 4px;
+  }
+
+  .mobileActions button {
+    min-height: 34px;
+
+    padding: 6px 4px;
+
+    font-size: 10px;
+  }
+
+}
+
+
+/* =========================================================
+   VERY SMALL DEVICES
+========================================================= */
+
+@media (max-width: 360px) {
+
+  .mobileCardHeader {
+    align-items: flex-start;
+  }
+
+  .mobileName {
+    font-size: 13px;
+  }
+
+  .statusApproved,
+  .statusRejected,
+  .statusHold,
+  .statusPending {
+    min-width: 52px;
+
+    font-size: 8px;
+
+    padding: 4px 5px;
+  }
+
+  .mobileInfoItem strong {
+    font-size: 10px;
+  }
+
+  .mobileActions button {
+    font-size: 9px;
+  }
+
 }

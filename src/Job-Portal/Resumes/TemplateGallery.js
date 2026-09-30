@@ -6,7 +6,9 @@ import "./gallery.css";
 // import template4 from "../img/template4.png";
 // import template5 from "../img/template5.jpg";
 import template6 from "../img/template6.png";
-import template7 from "../img/template7.jpg";
+// import template7 from "../img/template7.jpg";
+import template7 from "../img/template-7.png";
+
 
 import { useNavigate } from "react-router-dom";
 

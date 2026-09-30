@@ -108,7 +108,7 @@ function AdminAccess() {
           showCancelButton: true,
           confirmButtonColor: '#3085d6',
           cancelButtonColor: '#d33',
-          confirmButtonText: 'to give SuperAdmin Access!'
+        //   confirmButtonText: 'to give SuperAdmin Access!'
         }).then((result) => {
           if (result.isConfirmed) {
             axios.put(`/admin/giveAccess/${id}`,{isSuperAdmin},{headers})
@@ -192,7 +192,7 @@ function AdminAccess() {
                                        <td style={{textAlign:"center"}} >{user.email}</td>
                                        <td style={{textAlign:"center"}}>{user.isSuperAdmin===true?"Super Admin":"Admin"}</td>
                                        <td style={{textAlign:"center"}}>
-                                        <button onClick={()=>{giveAccess(user._id, !user.isSuperAdmin)}}>Give Access</button>
+                                        <button onClick={()=>{giveAccess(user._id, !user.isSuperAdmin)}}>{user.isSuperAdmin===true?"Remove Admin Access":"Give Admin access "}</button>
                                        </td>
                                        <td style={{textAlign:"center"}}>
                                         <button onClick={()=>{deletejob(user._id)}}>Delete</button>
