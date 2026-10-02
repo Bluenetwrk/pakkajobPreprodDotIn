@@ -278,8 +278,7 @@ return(
   return (
     <>
 
-    {screenSize.width>850?
-<>
+
                 <div className={Styles.JobtitleFilterWrapper}>
                        <buton className={Active.length===0?Styles.active:Styles.JobtitleFilter} onClick={() => 
                     { getAllJobSeekers() }}>All</buton>
@@ -345,182 +344,437 @@ return(
                                 <option selected = {lastIndex === 100} value={100}>100</option>
                               </select>  jobs per page
                               </div>
-
-    <div style={{marginLeft:"7px"}} className={styles.Uiwarpper}>
-              <ul className={styles.ul}>
-                <li style={{ backgroundColor: " rgb(40, 4, 99)", color:"white" }} className={`${styles.li} ${styles.name}`}><b>Name</b></li>
-                <li style={{ backgroundColor: " rgb(40, 4, 99)", color:"white" }} className={`${styles.li} ${styles.phoneNumber}`}><b>Phone Number</b></li>
-                <li style={{ backgroundColor: " rgb(40, 4, 99)", color:"white" }} className={`${styles.li} ${styles.age}`}><b>Age</b></li>
-
-                <li style={{ backgroundColor: " rgb(40, 4, 99)", color:"white" }} className={`${styles.li} ${styles.Aadhar}`}><b>Aadhar</b></li>
-                <li style={{ backgroundColor: " rgb(40, 4, 99)", color:"white" }} className={`${styles.li} ${styles.Pdate}`}><b>Reg. Date</b>
-                <p style={{ marginTop:"-0px", marginLeft:"-35px"}}>
-                              <i onClick={RegAscendingOrder} className={`${styles.arrow} ${styles.up}`}> </i>
-                              <i onClick={RegDescendingOrder} className={`${styles.arrow} ${styles.down}`}></i>
-                          </p> 
-                </li>
-                <li style={{ backgroundColor: " rgb(40, 4, 99)", color:"white" }} className={`${styles.li} ${styles.Pdate}`}><b>Last Log</b>
-                 <p style={{ marginTop:"-0px", marginLeft:"-35px"}}>
-                              <i onClick={LastActAscendingOrder} className={`${styles.arrow} ${styles.up}`}> </i>
-                              <i onClick={LastActDescendingOrder} className={`${styles.arrow} ${styles.down}`}></i>
-                          </p> 
-                                                            </li>
-                <li style={{ backgroundColor: " rgb(40, 4, 99)", color:"white" }} className={`${styles.li} ${styles.Qualification}`}><b>Qualif.</b></li>
-                <li style={{ backgroundColor: " rgb(40, 4, 99)", color:"white" }} className={`${styles.li} ${styles.Skills}`}><b>Skills </b></li>
-                <li style={{ backgroundColor: " rgb(40, 4, 99)", color:"white" }} className={`${styles.li} ${styles.Approval}`}><b>Approval </b></li>
-                <li style={{ backgroundColor: " rgb(40, 4, 99)", color:"white" }} className={`${styles.li} ${styles.Message}`}>Message</li>
-
-
-              </ul>
-              {
-     jobSeekers.length > 0 ?
-
-     jobSeekers.map((items, i) => {
-                  return (
+                                  {screenSize.width>850?
 <>
-                    <ul className={styles.ul}>
 
-                      <li className={`${styles.li} ${styles.name}`} 
-    onClick={()=>{navigate(`/BIAddmin@CheckStudentArchived/${items._id}`)}}><Link style={{color:"blue"}}>
-     {items.name?items.name:"nnn"}
-      </Link></li>
-                <li className={`${styles.li} ${styles.phoneNumber}`}>{items.phoneNumber?items.phoneNumber:"not available"}</li>
-                <li className={`${styles.li} ${styles.age}`}>{items.age?items.age:"not availabel"}</li>
+<div className={styles.tableWrapper}>
+  <table className={styles.studentTable}>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Phone Number</th>
+        <th>Age</th>
+        <th>Aadhar</th>
 
-                      <li className={`${styles.li} ${styles.Aadhar}`}> {items.Aadhar?items.Aadhar:"No aadhar available"}</li>
-                      <li className={`${styles.li} ${styles.Pdate}`}>
-                        {new Date(items.createdAt).toLocaleString(
-                          "en-US",
-                          {
-                            month: "short",
-                            day: "2-digit",
-                            year: "numeric",
-                          }
-                        )}
-                      </li>
-
-                      <li className={`${styles.li} ${styles.Pdate}`}>
-      {      items.LogedInTime?    new Date(items.LogedInTime).toLocaleString('en-US', {
-        year: 'numeric',
-        month: 'short',
-        day: '2-digit',
-        hour: '2-digit',
-    minute: '2-digit',
-    second: '2-digit'
-    })
-    :"Only Reg. Yet"
-  }
-                  </li>
-
-                      <li className={`${styles.li} ${styles.Qualification}`}>{items.Qualification?items.Qualification:"no quali. available"}</li>
-                      <li className={`${styles.li} ${styles.Skills}`}>{items.Skills?items.Skills:"no kills available"}</li>
-                      <li className={`${styles.li} ${styles.Approval}`}>
-                        {
-                        items.isApproved?
-                  <button className={styles.Approved}>Approved</button>
-                    :
-                  
-                 items.isReject?
-                  <button className={styles.Rejected}>Rejected&#10004;</button>
-                  :
-          items.isOnhold ?
-                  <button className={styles.OnHold} >OnHold&#10004;</button>
-                  :
-                  <>
-                  <button className={styles.Approve}>Reject</button>
-                  <button className={styles.Approve} >Approve</button>
-
-                  <button className={styles.Approve}>Hold</button>
-                  </>
-                        }
-                  </li>
-                  
-                  <li className={`${styles.li} ${styles.Message}`} >{items.message?items.message:"no message was sent"}
-                  {/* <textarea style={{height:"50px", width:"80%", marginLeft:"-11px"}} value ={currentBox == items._id ?message:""} onChange={(e)=>{
-                     handleChange(e, items._id )}}> </textarea><br></br>
-                     <button onClick={()=>{sendMessage(items._id)}}>Send</button> */}
-
-                  </li>
-
-                     
-                          </ul>
-                          </>
-                  )
-                })
-                : <p style={{ color: "red", marginLeft: "42%" }}>No Record Found</p>
-                
-                
-              }
-
-
+        <th>
+          <div className={styles.thContent}>
+            <span>Reg. Date</span>
+            <div className={styles.sortButtons}>
+              <button
+                type="button"
+                onClick={RegAscendingOrder}
+                className={styles.sortButton}
+              >
+                ↑
+              </button>
+              <button
+                type="button"
+                onClick={RegDescendingOrder}
+                className={styles.sortButton}
+              >
+                ↓
+              </button>
             </div>
+          </div>
+        </th>
+
+        <th>
+          <div className={styles.thContent}>
+            <span>Last Log</span>
+            <div className={styles.sortButtons}>
+              <button
+                type="button"
+                onClick={LastActAscendingOrder}
+                className={styles.sortButton}
+              >
+                ↑
+              </button>
+              <button
+                type="button"
+                onClick={LastActDescendingOrder}
+                className={styles.sortButton}
+              >
+                ↓
+              </button>
+            </div>
+          </div>
+        </th>
+
+        <th>Qualif.</th>
+        <th>Skills</th>
+        <th>Approval</th>
+        <th>Message</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {jobSeekers.length > 0 ? (
+        jobSeekers.map((items) => (
+          <tr key={items._id}>
+            {/* Name */}
+            <td
+              className={styles.nameCell}
+              onClick={() =>
+                navigate(
+                  `/BIAddmin@CheckStudentArchived/${items._id}`
+                )
+              }
+            >
+              <span className={styles.profileLink}>
+                {items.name ? items.name : "nnn"}
+              </span>
+            </td>
+
+            {/* Phone */}
+            <td>
+              {items.phoneNumber ? (
+                items.phoneNumber
+              ) : (
+                <span className={styles.notAvailable}>
+                  Not available
+                </span>
+              )}
+            </td>
+
+            {/* Age */}
+            <td>
+              {items.age ? (
+                items.age
+              ) : (
+                <span className={styles.notAvailable}>
+                  Not available
+                </span>
+              )}
+            </td>
+
+            {/* Aadhar */}
+            <td>
+              {items.Aadhar ? (
+                items.Aadhar
+              ) : (
+                <span className={styles.notAvailable}>
+                  No Aadhar available
+                </span>
+              )}
+            </td>
+
+            {/* Registration Date */}
+            <td>
+              {items.createdAt
+                ? new Date(items.createdAt).toLocaleString("en-US", {
+                    month: "short",
+                    day: "2-digit",
+                    year: "numeric",
+                  })
+                : "N/A"}
+            </td>
+
+            {/* Last Login */}
+            <td>
+              {items.LogedInTime ? (
+                new Date(items.LogedInTime).toLocaleString("en-US", {
+                  year: "numeric",
+                  month: "short",
+                  day: "2-digit",
+                  hour: "2-digit",
+                  minute: "2-digit",
+                  second: "2-digit",
+                })
+              ) : (
+                <span className={styles.notAvailable}>
+                  Only Reg. Yet
+                </span>
+              )}
+            </td>
+
+            {/* Qualification */}
+            <td>
+              {items.Qualification ? (
+                items.Qualification
+              ) : (
+                <span className={styles.notAvailable}>
+                  No qualification
+                </span>
+              )}
+            </td>
+
+            {/* Skills */}
+            <td className={styles.skillsCell}>
+              {items.Skills ? (
+                items.Skills
+              ) : (
+                <span className={styles.notAvailable}>
+                  No skills available
+                </span>
+              )}
+            </td>
+
+            {/* Approval */}
+            <td className={styles.approvalCell}>
+              {items.isApproved ? (
+                <button className={styles.Approved}>
+                  Approved
+                </button>
+              ) : items.isReject ? (
+                <button className={styles.Rejected}>
+                  Rejected &#10004;
+                </button>
+              ) : items.isOnhold ? (
+                <button className={styles.OnHold}>
+                  OnHold &#10004;
+                </button>
+              ) : (
+                <div className={styles.actionButtons}>
+                  <button className={styles.RejectButton}>
+                    Reject
+                  </button>
+
+                  <button className={styles.ApproveButton}>
+                    Approve
+                  </button>
+
+                  <button className={styles.HoldButton}>
+                    Hold
+                  </button>
+                </div>
+              )}
+            </td>
+
+            {/* Message */}
+            <td className={styles.messageCell}>
+              {items.message ? (
+                items.message
+              ) : (
+                <span className={styles.noMessage}>
+                  No message was sent
+                </span>
+              )}
+            </td>
+          </tr>
+        ))
+      ) : (
+        <tr>
+          <td colSpan="10" className={styles.noRecord}>
+            No Record Found
+          </td>
+        </tr>
+      )}
+    </tbody>
+  </table>
+</div>
               </>
             :
             
-            <div id={styles.JobCardWrapper} >
+<div id={styles.JobCardWrapper}>
+  {jobSeekers.length > 0 ? (
+    jobSeekers.map((job) => (
+      <div className={styles.JobCard} key={job._id}>
 
-            {
-     jobSeekers.length > 0 ?
-
-            jobSeekers.map((job, i) => {
-              return (
-                <>
-                  <div className={styles.JobCard} key={i}>
-                  <div style={{display:"flex"}}>
-        <div className={styles.LeftTable}>
-                        <span className={styles.span}>Name :  </span> <br></br>
-                        <span className={styles.span}>Age :</span><br></br>
-                        <span className={styles.span}> Email Id :</span><br></br>
-                        <span className={styles.span}> Phone number :</span><br></br>
-                        <span className={styles.span}> Notice Period :</span><br></br>
-                        <span className={styles.span}>Qualification :</span><br></br>
-                        <span className={styles.span}>Experience : </span><br></br>
-                        <span className={styles.span}> Current CTC :</span><br></br>
-                        <span className={styles.span}>Expected CTC : </span><br></br>
-                        <span className={styles.span}>Registered On : </span><br></br>
-                    </div>
-            
-                    <div className={styles.RightTable}>
-                    <span className={styles.span} onClick={()=>{navigate(`/BIAddmin@CheckStudentProfile/${job._id}`)}}><span style={{color:"blue", textDecoration:"underline"}}  >{job.name}</span></span><br></br>      
-                    <span className={styles.span}>{job.age? <span style={{ color: "blue" }}>{job.age} </span>:<span style={{color:"red"}}>Not updated</span> }</span><br></br>
-                    <span className={styles.span}> {job.email?<span style={{ color: "blue" }}>{job.email} </span>: <span style={{color:"red"}}>Not updated</span>}</span><br></br>
-                    <span className={styles.span}> {job.phoneNumber?<span style={{ color: "blue" }}>{job.phoneNumber} </span>: <span style={{color:"red"}}>Not updated</span>}</span><br></br>
-                    <span className={styles.span}> {job.NoticePeriod?<span style={{ color: "blue" }}>{job.NoticePeriod} </span>: <span style={{color:"red"}}>Not updated</span>}</span><br></br>
-                    <span className={styles.span}> {job.Qualification?<span style={{ color: "blue" }}>{job.Qualification} </span>:<span style={{color:"red"}}>Not updated</span>}</span><br></br>
-                    <span className={styles.span}> {job.Experiance?<span style={{ color: "blue" }}>{job.Experiance} </span>:<span style={{color:"red"}}>Not updated</span>}   </span><br></br>
-                    <span className={styles.span}>{job.currentCTC?<span style={{ color: "blue" }}>{job.currentCTC} </span>:<span style={{color:"red"}}>Not updated</span>} </span><br></br>
-                    <span className={styles.span}> {job.ExpectedSalary?<span style={{ color: "blue" }}>{job.ExpectedSalary} </span>:<span style={{color:"red"}}>Not updated</span>}</span><br></br>          
-                    <span className={styles.span} style={{ color: "blue" }}>{new Date(job.createdAt).toLocaleString(
-                      "en-US",
-                      {
-                        month: "short",
-                        day: "2-digit",
-                        year: "numeric",
-                      }
-                    )} </span>
-                    </div>
-            
-                  </div>
-
-                  <div className={styles.Down}>
-                  <span className={styles.span}> Skills : {job.Skills?<span style={{ color: "blue" }}>{job.Skills} </span>:<span style={{color:"red"}}>Not updated</span>}</span><br></br>
-                  <span className={styles.span}> Account Status:  {job.isApproved?
-  <button style={{  marginLeft:"20px" }} className={styles.MoApproved} >Approved</button>
-  :<button  style={{  marginLeft:"20px" }} className={styles.MoApprove}>Approve</button>}</span><br></br>
-  <span className={`${styles.span} ${styles.LastDown}`}> Message:  {job.message ? <span className={styles.span} style={{ color: "blue", marginLeft:"5px" }}  >{job.message} </span> : <span style={{ color: "red", marginLeft:"5px" }} >No message Sent yet</span>}</span><br></br>
-                    
-                  </div>
-
-      
-                  </div>
-                </>
-              )
-            })
-            : <p style={{ color: "red", marginLeft: "32%" }}>No Record Found</p>
-
-          }
-            
+        {/* Card Header */}
+        <div className={styles.cardHeader}>
+          <div
+            className={styles.profileInfo}
+            onClick={() =>
+              navigate(`/BIAddmin@CheckStudentProfile/${job._id}`)
+            }
+          >
+            <div className={styles.avatar}>
+              {job.name ? job.name.charAt(0).toUpperCase() : "?"}
             </div>
+
+            <div className={styles.profileText}>
+              <div className={styles.studentName}>
+                {job.name || "Name not updated"}
+              </div>
+
+              <div className={styles.registeredDate}>
+                Registered{" "}
+                {job.createdAt
+                  ? new Date(job.createdAt).toLocaleDateString("en-US", {
+                      month: "short",
+                      day: "2-digit",
+                      year: "numeric",
+                    })
+                  : "N/A"}
+              </div>
+            </div>
+          </div>
+
+          {/* Status */}
+          {job.isApproved ? (
+            <span className={styles.statusApproved}>
+              ✓ Approved
+            </span>
+          ) : (
+            <span className={styles.statusPending}>
+              Pending
+            </span>
+          )}
+        </div>
+
+        {/* Personal / Professional Details */}
+        <div className={styles.detailsSection}>
+
+          <div className={styles.detailRow}>
+            <span className={styles.detailLabel}>Age</span>
+            <span className={styles.detailValue}>
+              {job.age ? (
+                job.age
+              ) : (
+                <span className={styles.notUpdated}>Not updated</span>
+              )}
+            </span>
+          </div>
+
+          <div className={styles.detailRow}>
+            <span className={styles.detailLabel}>Email</span>
+            <span className={styles.detailValue}>
+              {job.email ? (
+                job.email
+              ) : (
+                <span className={styles.notUpdated}>Not updated</span>
+              )}
+            </span>
+          </div>
+
+          <div className={styles.detailRow}>
+            <span className={styles.detailLabel}>Phone</span>
+            <span className={styles.detailValue}>
+              {job.phoneNumber ? (
+                job.phoneNumber
+              ) : (
+                <span className={styles.notUpdated}>Not updated</span>
+              )}
+            </span>
+          </div>
+
+          <div className={styles.detailRow}>
+            <span className={styles.detailLabel}>Notice Period</span>
+            <span className={styles.detailValue}>
+              {job.NoticePeriod ? (
+                job.NoticePeriod
+              ) : (
+                <span className={styles.notUpdated}>Not updated</span>
+              )}
+            </span>
+          </div>
+
+          <div className={styles.detailRow}>
+            <span className={styles.detailLabel}>Qualification</span>
+            <span className={styles.detailValue}>
+              {job.Qualification ? (
+                job.Qualification
+              ) : (
+                <span className={styles.notUpdated}>Not updated</span>
+              )}
+            </span>
+          </div>
+
+          <div className={styles.detailRow}>
+            <span className={styles.detailLabel}>Experience</span>
+            <span className={styles.detailValue}>
+              {job.Experiance ? (
+                job.Experiance
+              ) : (
+                <span className={styles.notUpdated}>Not updated</span>
+              )}
+            </span>
+          </div>
+
+          <div className={styles.detailRow}>
+            <span className={styles.detailLabel}>Current CTC</span>
+            <span className={styles.detailValue}>
+              {job.currentCTC ? (
+                job.currentCTC
+              ) : (
+                <span className={styles.notUpdated}>Not updated</span>
+              )}
+            </span>
+          </div>
+
+          <div className={styles.detailRow}>
+            <span className={styles.detailLabel}>Expected CTC</span>
+            <span className={styles.detailValue}>
+              {job.ExpectedSalary ? (
+                job.ExpectedSalary
+              ) : (
+                <span className={styles.notUpdated}>Not updated</span>
+              )}
+            </span>
+          </div>
+
+        </div>
+
+        {/* Skills */}
+        <div className={styles.infoBox}>
+          <div className={styles.infoTitle}>
+            Skills
+          </div>
+
+          {job.Skills ? (
+            <div className={styles.infoValue}>
+              {job.Skills}
+            </div>
+          ) : (
+            <div className={styles.notUpdated}>
+              Not updated
+            </div>
+          )}
+        </div>
+
+        {/* Account Status */}
+        <div className={styles.accountSection}>
+          <div className={styles.accountTitle}>
+            Account Status
+          </div>
+
+          {job.isApproved ? (
+            <button className={styles.MoApproved}>
+              ✓ Approved
+            </button>
+          ) : (
+            <button className={styles.MoApprove}>
+              Approve
+            </button>
+          )}
+        </div>
+
+        {/* Message */}
+        <div className={styles.infoBox}>
+          <div className={styles.infoTitle}>
+            Message
+          </div>
+
+          {job.message ? (
+            <div className={styles.messageValue}>
+              {job.message}
+            </div>
+          ) : (
+            <div className={styles.noMessage}>
+              No message sent yet
+            </div>
+          )}
+        </div>
+
+        {/* View Profile */}
+        <button
+          className={styles.viewProfile}
+          onClick={() =>
+            navigate(`/BIAddmin@CheckStudentProfile/${job._id}`)
+          }
+        >
+          View Full Profile
+          <span>→</span>
+        </button>
+
+      </div>
+    ))
+  ) : (
+    <div className={styles.noRecord}>
+      No Record Found
+    </div>
+  )}
+</div>
             
 }
     </>

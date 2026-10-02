@@ -59,7 +59,7 @@ async function sendMessage(id){
         let sortedate = result.sort(function (a, b) {
           return new Date(a.updatedAt) - new Date(b.updatedAt);
         });
-        setjobSeekers(sortedate)  
+        setjobSeekers(result)  
       })
   }
 
@@ -360,169 +360,441 @@ async function RecentLogin(e){
 
     {screenSize.width>850?
 
-    <div style={{marginLeft:"7px"}} className={styles.Uiwarpper}>
-      {/* <div> */}
-              <ul className={styles.ul}>
-                <li className={`${styles.li} ${styles.name}`}><b>Name</b></li>
-                <li className={`${styles.li} ${styles.phoneNumber}`}><b>Phone Number</b></li>
-                <li className={`${styles.li} ${styles.age}`}><b>Age</b></li>
+<div className={styles.tableWrapper}>
+  <div className={styles.tableContainer}>
+    <table className={styles.studentTable}>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Phone Number</th>
+          <th>Age</th>
+          <th>Aadhar</th>
+          <th>Reg. Date</th>
+          <th>Last Log</th>
+          <th>Qualif.</th>
+          <th>Skills</th>
+          <th>Approval</th>
+          <th>Message</th>
+        </tr>
+      </thead>
 
-                <li className={`${styles.li} ${styles.Aadhar}`}><b>Aadhar</b></li>
-                <li className={`${styles.li} ${styles.Pdate}`}><b>Reg. Date</b></li>
-                <li className={`${styles.li} ${styles.Pdate}`}><b>Last Log</b></li>
-                <li className={`${styles.li} ${styles.Qualification}`}><b>Qualif.</b></li>
-                <li className={`${styles.li} ${styles.Skills}`}><b>Skills </b></li>
-                <li className={`${styles.li} ${styles.Approval}`}><b>Approval </b></li>
-                <li className={`${styles.li} ${styles.Message}`}>Message</li>
+      <tbody>
+        {jobSeekers.length > 0 ? (
+          jobSeekers.map((items, i) => (
+            <tr key={items._id || i}>
 
+              {/* Name */}
+              <td className={styles.nameCell}>
+                <button
+                  type="button"
+                  className={styles.nameButton}
+                  onClick={() =>
+                    navigate(
+                      `/BIAddmin@CheckStudentProfile/${items._id}`
+                    )
+                  }
+                >
+                  {items.online && (
+                    <span className={styles.onlineDot}></span>
+                  )}
 
-              </ul>
-              
-              {
-     jobSeekers.length > 0 ?
+                  <span>{items.name || "N/A"}</span>
+                </button>
+              </td>
 
-     jobSeekers.map((items, i) => {
-                  return (
-<>
-                    <ul className={styles.ul}>
+              {/* Phone */}
+              <td>
+                {items.phoneNumber || "N/A"}
+              </td>
 
-                      <li className={`${styles.li} ${styles.name}`} 
-    onClick={()=>{navigate(`/BIAddmin@CheckStudentProfile/${items._id}`)}}><Link style={{color:"blue"}}>
-     {items.online ? <span className={styles.dot}></span> :""} {items.name}
-      </Link></li>
-                <li className={`${styles.li} ${styles.phoneNumber}`}>{items.phoneNumber}</li>
-                <li className={`${styles.li} ${styles.age}`}>{items.age}</li>
+              {/* Age */}
+              <td>
+                {items.age || "N/A"}
+              </td>
 
-                      <li className={`${styles.li} ${styles.Aadhar}`}> {items.Aadhar}</li>
-                      <li className={`${styles.li} ${styles.Pdate}`}>
-                        {new Date(items.createdAt).toLocaleString(
-                          "en-US",
-                          {
-                            month: "short",
-                            day: "2-digit",
-                            year: "numeric",
-                          }
-                        )}
-                      </li>
+              {/* Aadhar */}
+              <td>
+                {items.Aadhar || "N/A"}
+              </td>
 
-                      <li className={`${styles.li} ${styles.Pdate}`}>
-      {      items.LogedInTime?    new Date(items.LogedInTime).toLocaleString('en-US', {
-        year: 'numeric',
-        month: 'short',
-        day: '2-digit',
-        hour: '2-digit',
-    minute: '2-digit',
-    second: '2-digit'
-    })
-    :"Only Reg. Yet"
-  }
-                  </li>
+              {/* Registration Date */}
+              <td className={styles.dateCell}>
+                {items.createdAt
+                  ? new Date(items.createdAt).toLocaleString("en-US", {
+                      month: "short",
+                      day: "2-digit",
+                      year: "numeric",
+                    })
+                  : "N/A"}
+              </td>
 
-                      <li className={`${styles.li} ${styles.Qualification}`}>{items.Qualification}</li>
-                      <li className={`${styles.li} ${styles.Skills}`}>{items.Skills}</li>
-                      <li className={`${styles.li} ${styles.Approval}`}>
-                        {
-                        items.isApproved?
-                  <button className={styles.Approved} onClick={()=>{DisApprove(items._id, false)}}>Approved</button>
-                    :
-                  
-                 items.isReject?
-                  <button className={styles.Rejected} onClick={()=>{unReject(items._id, false)}}>Rejected&#10004;</button>
-                  :
-          items.isOnhold ?
-                  <button className={styles.OnHold} onClick={()=>{unHold(items._id, false)}}>OnHold&#10004;</button>
-                  :
-                  <>
-                  <button className={styles.Approve} onClick={()=>{Reject(items._id, true)}}>Reject</button>
-                  <button className={styles.Approve} onClick={()=>{Approve(items._id, true)}}>Approve</button>
+              {/* Last Login */}
+              <td className={styles.dateCell}>
+                {items.LogedInTime
+                  ? new Date(items.LogedInTime).toLocaleString("en-US", {
+                      year: "numeric",
+                      month: "short",
+                      day: "2-digit",
+                      hour: "2-digit",
+                      minute: "2-digit",
+                      second: "2-digit",
+                    })
+                  : "Only Reg. Yet"}
+              </td>
 
-                  <button className={styles.Approve} onClick={()=>{Hold(items._id, true)}}>Hold</button>
-                  </>
-                        }
-                  </li>
-                  
-                  <li className={`${styles.li} ${styles.Message}`} >{items.message}
-              
-                  </li>
+              {/* Qualification */}
+              <td>
+                <span className={styles.qualification}>
+                  {items.Qualification || "N/A"}
+                </span>
+              </td>
 
-                     
-                          </ul>
-                          </>
-                  )
-                })
-            : <p style={{ color: "red", marginLeft: "42%" }}>No Record Found</p>
+              {/* Skills */}
+              <td>
+                <div className={styles.skillsCell}>
+                  {items.Skills || "N/A"}
+                </div>
+              </td>
 
+              {/* Approval */}
+              <td className={styles.approvalCell}>
+                {items.isApproved ? (
+                  <button
+                    className={`${styles.statusButton} ${styles.approved}`}
+                    onClick={() => DisApprove(items._id, false)}
+                  >
+                    Approved
+                  </button>
+                ) : items.isReject ? (
+                  <button
+                    className={`${styles.statusButton} ${styles.rejected}`}
+                    onClick={() => unReject(items._id, false)}
+                  >
+                    Rejected &#10004;
+                  </button>
+                ) : items.isOnhold ? (
+                  <button
+                    className={`${styles.statusButton} ${styles.onHold}`}
+                    onClick={() => unHold(items._id, false)}
+                  >
+                    On Hold &#10004;
+                  </button>
+                ) : (
+                  <div className={styles.actionButtons}>
+                    <button
+                      className={`${styles.actionButton} ${styles.rejectButton}`}
+                      onClick={() => Reject(items._id, true)}
+                    >
+                      Reject
+                    </button>
 
-              }
+                    <button
+                      className={`${styles.actionButton} ${styles.approveButton}`}
+                      onClick={() => Approve(items._id, true)}
+                    >
+                      Approve
+                    </button>
 
+                    <button
+                      className={`${styles.actionButton} ${styles.holdButton}`}
+                      onClick={() => Hold(items._id, true)}
+                    >
+                      Hold
+                    </button>
+                  </div>
+                )}
+              </td>
 
-            </div>
+              {/* Message */}
+              <td className={styles.messageCell}>
+                {items.message || "-"}
+              </td>
+
+            </tr>
+          ))
+        ) : (
+          <tr>
+            <td colSpan="10" className={styles.noRecord}>
+              No Record Found
+            </td>
+          </tr>
+        )}
+      </tbody>
+    </table>
+  </div>
+</div>
             :
             
-            <div id={styles.JobCardWrapper} >
+<div id={styles.JobCardWrapper}>
+  {jobSeekers.length > 0 ? (
+    jobSeekers.map((job) => (
+      <div className={styles.JobCard} key={job._id}>
 
-            {
-     jobSeekers.length > 0 ?
+        {/* Card Header */}
+        <div className={styles.cardHeader}>
+          <div
+            className={styles.profileName}
+            onClick={() =>
+              navigate(
+                `/BIAddmin@CheckStudentProfile/${job._id}`
+              )
+            }
+          >
+            <div className={styles.avatar}>
+              {job.name
+                ? job.name.charAt(0).toUpperCase()
+                : "?"}
+            </div>
 
-            jobSeekers.map((job, i) => {
-              return (
-                <>
-                  <div className={styles.JobCard} key={i}>
-                  <div style={{display:"flex"}}>
-        <div className={styles.LeftTable}>
-                        <span className={styles.span}>Name :  </span> <br></br>
-                        <span className={styles.span}>Age :</span><br></br>
-                        <span className={styles.span}> Email Id :</span><br></br>
-                        <span className={styles.span}> Phone number :</span><br></br>
-                        <span className={styles.span}> Notice Period :</span><br></br>
-                        <span className={styles.span}>Qualification :</span><br></br>
-                        <span className={styles.span}>Experience : </span><br></br>
-                        <span className={styles.span}> Current CTC :</span><br></br>
-                        <span className={styles.span}>Expected CTC : </span><br></br>
-                        <span className={styles.span}>Registered On : </span><br></br>
-                    </div>
-            
-                    <div className={styles.RightTable}>
-                    <span className={styles.span} onClick={()=>{navigate(`/BIAddmin@CheckStudentProfile/${job._id}`)}}><span style={{color:"blue", textDecoration:"underline"}}  >{job.name}</span></span><br></br>      
-                    <span className={styles.span}>{job.age? <span style={{ color: "blue" }}>{job.age} </span>:<span style={{color:"red"}}>Not updated</span> }</span><br></br>
-                    <span className={styles.span}> {job.email?<span style={{ color: "blue" }}>{job.email} </span>: <span style={{color:"red"}}>Not updated</span>}</span><br></br>
-                    <span className={styles.span}> {job.phoneNumber?<span style={{ color: "blue" }}>{job.phoneNumber} </span>: <span style={{color:"red"}}>Not updated</span>}</span><br></br>
-                    <span className={styles.span}> {job.NoticePeriod?<span style={{ color: "blue" }}>{job.NoticePeriod} </span>: <span style={{color:"red"}}>Not updated</span>}</span><br></br>
-                    <span className={styles.span}> {job.Qualification?<span style={{ color: "blue" }}>{job.Qualification} </span>:<span style={{color:"red"}}>Not updated</span>}</span><br></br>
-                    <span className={styles.span}> {job.Experiance?<span style={{ color: "blue" }}>{job.Experiance} </span>:<span style={{color:"red"}}>Not updated</span>}   </span><br></br>
-                    <span className={styles.span}>{job.currentCTC?<span style={{ color: "blue" }}>{job.currentCTC} </span>:<span style={{color:"red"}}>Not updated</span>} </span><br></br>
-                    <span className={styles.span}> {job.ExpectedSalary?<span style={{ color: "blue" }}>{job.ExpectedSalary} </span>:<span style={{color:"red"}}>Not updated</span>}</span><br></br>          
-                    <span className={styles.span} style={{ color: "blue" }}>{new Date(job.createdAt).toLocaleString(
+            <div>
+              <div className={styles.name}>
+                {job.name || "Name not updated"}
+              </div>
+
+              <div className={styles.registeredDate}>
+                Registered{" "}
+                {job.createdAt
+                  ? new Date(job.createdAt).toLocaleDateString(
                       "en-US",
                       {
                         month: "short",
                         day: "2-digit",
                         year: "numeric",
                       }
-                    )} </span>
-                    </div>
-            
-                  </div>
-
-                  <div className={styles.Down}>
-                  <span className={styles.span}> Skills : {job.Skills?<span style={{ color: "blue" }}>{job.Skills} </span>:<span style={{color:"red"}}>Not updated</span>}</span><br></br>
-                  <span className={styles.span}> Account Status:  {job.isApproved?
-  <button style={{  marginLeft:"20px" }} className={styles.MoApproved} onClick={()=>{DisApprove(job._id, false)}}>Approved</button>
-  :<button  style={{  marginLeft:"20px" }} className={styles.MoApprove} onClick={()=>{Approve(job._id, true)}}>Approve</button>}</span><br></br>
-  <span className={`${styles.span} ${styles.LastDown}`}> Message:  {job.message ? <span className={styles.span} style={{ color: "blue", marginLeft:"5px" }}  >{job.message} </span> : <span style={{ color: "red", marginLeft:"5px" }} >No message Sent yet</span>}</span><br></br>
-                    
-                  </div>
-
-      
-                  </div>
-                </>
-              )
-            })
-            : <p style={{ color: "red", marginLeft: "32%" }}>No Record Found</p>
-
-          }
-            
+                    )
+                  : "N/A"}
+              </div>
             </div>
+          </div>
+
+          {/* Account status */}
+          <div>
+            {job.isApproved ? (
+              <span className={styles.statusApproved}>
+                Approved
+              </span>
+            ) : (
+              <span className={styles.statusPending}>
+                Pending
+              </span>
+            )}
+          </div>
+        </div>
+
+
+        {/* Basic Details */}
+        <div className={styles.detailsSection}>
+
+          <div className={styles.detailRow}>
+            <span className={styles.detailLabel}>
+              Age
+            </span>
+
+            <span className={styles.detailValue}>
+              {job.age || (
+                <span className={styles.notUpdated}>
+                  Not updated
+                </span>
+              )}
+            </span>
+          </div>
+
+
+          <div className={styles.detailRow}>
+            <span className={styles.detailLabel}>
+              Email
+            </span>
+
+            <span className={styles.detailValue}>
+              {job.email || (
+                <span className={styles.notUpdated}>
+                  Not updated
+                </span>
+              )}
+            </span>
+          </div>
+
+
+          <div className={styles.detailRow}>
+            <span className={styles.detailLabel}>
+              Phone
+            </span>
+
+            <span className={styles.detailValue}>
+              {job.phoneNumber || (
+                <span className={styles.notUpdated}>
+                  Not updated
+                </span>
+              )}
+            </span>
+          </div>
+
+
+          <div className={styles.detailRow}>
+            <span className={styles.detailLabel}>
+              Notice Period
+            </span>
+
+            <span className={styles.detailValue}>
+              {job.NoticePeriod || (
+                <span className={styles.notUpdated}>
+                  Not updated
+                </span>
+              )}
+            </span>
+          </div>
+
+
+          <div className={styles.detailRow}>
+            <span className={styles.detailLabel}>
+              Qualification
+            </span>
+
+            <span className={styles.detailValue}>
+              {job.Qualification || (
+                <span className={styles.notUpdated}>
+                  Not updated
+                </span>
+              )}
+            </span>
+          </div>
+
+
+          <div className={styles.detailRow}>
+            <span className={styles.detailLabel}>
+              Experience
+            </span>
+
+            <span className={styles.detailValue}>
+              {job.Experiance || (
+                <span className={styles.notUpdated}>
+                  Not updated
+                </span>
+              )}
+            </span>
+          </div>
+
+
+          <div className={styles.detailRow}>
+            <span className={styles.detailLabel}>
+              Current CTC
+            </span>
+
+            <span className={styles.detailValue}>
+              {job.currentCTC || (
+                <span className={styles.notUpdated}>
+                  Not updated
+                </span>
+              )}
+            </span>
+          </div>
+
+
+          <div className={styles.detailRow}>
+            <span className={styles.detailLabel}>
+              Expected CTC
+            </span>
+
+            <span className={styles.detailValue}>
+              {job.ExpectedSalary || (
+                <span className={styles.notUpdated}>
+                  Not updated
+                </span>
+              )}
+            </span>
+          </div>
+
+        </div>
+
+
+        {/* Skills */}
+        <div className={styles.skillsSection}>
+          <div className={styles.sectionTitle}>
+            Skills
+          </div>
+
+          {job.Skills ? (
+            <div className={styles.skillsText}>
+              {job.Skills}
+            </div>
+          ) : (
+            <div className={styles.notUpdated}>
+              Not updated
+            </div>
+          )}
+        </div>
+
+
+        {/* Account Action */}
+        <div className={styles.actionSection}>
+
+          <div className={styles.accountLabel}>
+            Account Status
+          </div>
+
+          {job.isApproved ? (
+            <button
+              className={styles.MoApproved}
+              onClick={() =>
+                DisApprove(job._id, false)
+              }
+            >
+              ✓ Approved
+            </button>
+          ) : (
+            <button
+              className={styles.MoApprove}
+              onClick={() =>
+                Approve(job._id, true)
+              }
+            >
+              Approve
+            </button>
+          )}
+
+        </div>
+
+
+        {/* Message */}
+        <div className={styles.messageSection}>
+
+          <div className={styles.sectionTitle}>
+            Message
+          </div>
+
+          {job.message ? (
+            <div className={styles.messageText}>
+              {job.message}
+            </div>
+          ) : (
+            <div className={styles.noMessage}>
+              No message sent yet
+            </div>
+          )}
+
+        </div>
+
+
+        {/* View Profile */}
+        <button
+          className={styles.viewProfileButton}
+          onClick={() =>
+            navigate(
+              `/BIAddmin@CheckStudentProfile/${job._id}`
+            )
+          }
+        >
+          View Full Profile →
+        </button>
+
+      </div>
+    ))
+  ) : (
+    <div className={styles.noRecord}>
+      No Record Found
+    </div>
+  )}
+</div>
             
 }
     </>

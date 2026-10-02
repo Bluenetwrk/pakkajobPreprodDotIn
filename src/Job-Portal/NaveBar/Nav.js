@@ -771,6 +771,7 @@ function Nav(props) {
                       <NavLink to="/BIAddmin@PostJob" className={Styles.link} style={navLinkStyles}> Post Job</NavLink>
                       <NavLink to="/BIAddmin@AdminCareerPostJobs" className={Styles.link} style={navLinkStyles}>Career Job Post</NavLink>
                       <NavLink to="/Blogs" className={Styles.link} style={navLinkStyles}>Blogs</NavLink>
+                      <NavLink to="/BIAddmin@Last24Hours" className={Styles.link} style={navLinkStyles}>Recent Job</NavLink>
                       {/* <p onClick={()=>{navigate("/Blogs")}} className={`${Styles.textinMobileSodeBar} `}>Blogs </p> */}
 
                       <div className={`${Styles.link} ${Styles.IconeWrapper}`}>
@@ -782,7 +783,7 @@ function Nav(props) {
                   {showprofile ?
                     <div className={Styles.Alldownwrapper} >
 
-                      <div style={{ marginLeft: "-11%" }} className={Styles.Admindropdownwrapper} ref={menuRef} >
+                      <div style={{ marginLeft: "-3%" }} className={Styles.Admindropdownwrapper} ref={menuRef} >
                         {/* <p className={Styles.text} ref={menuRef} >My profile</p>
 
                       <p className={Styles.text} ref={menuRef} >Update BIAdd@PostedCareerJobs</p> */}

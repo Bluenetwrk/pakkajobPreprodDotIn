@@ -750,200 +750,693 @@ async function search(e) {
 
       
 
-      <div className={styles.Uiwarpper}>
-        <ul className={styles.ul}>
-          <li style={{ backgroundColor: " rgb(40, 4, 99)" , color:"white"}} className={`${styles.li} ${styles.Name}`}><b>Emp. Name</b></li>
-          <li style={{ backgroundColor: " rgb(40, 4, 99)" , color:"white"}} className={`${styles.li} ${styles.phoneNumber}`}><b>Emp. Phone Number</b></li>
+<div className={styles.tableWrapper}>
+  <div className={styles.tableContainer}>
+    <table className={styles.employeeTable}>
 
-          <li style={{ backgroundColor: " rgb(40, 4, 99)" , color:"white"}} className={`${styles.li} ${styles.CompanyName}`}><b>Company Name</b></li>
-          <li style={{ backgroundColor: " rgb(40, 4, 99)" , color:"white"}} className={`${styles.li} ${styles.CompanyAddress}`}><b>Company Address</b></li>
-          <li style={{ backgroundColor: " rgb(40, 4, 99)" , color:"white"}} className={`${styles.li} ${styles.Date}`}><b>RegDate</b>
-          <p style={{ marginTop:"-0px", marginLeft:"-35px"}}>
-              <i onClick={RegAscendingOrder} className={`${styles.arrow} ${styles.up}`}> </i>
-              <i onClick={RegDescendingOrder} className={`${styles.arrow} ${styles.down}`}></i>
-          </p> 
-          </li>
-          <li style={{ backgroundColor: " rgb(40, 4, 99)" , color:"white"}} className={`${styles.li} ${styles.Date}`} ><b >Last Log</b>
-          <p style={{ marginTop:"-0px", marginLeft:"-35px"}}>
-              <i onClick={LastActAscendingOrder} className={`${styles.arrow} ${styles.up}`}> </i>
-              <i onClick={LastActDescendingOrder} className={`${styles.arrow} ${styles.down}`}></i>
-          </p> 
-            </li>
-          <li style={{ backgroundColor: " rgb(40, 4, 99)", color:"white" }} className={`${styles.li} ${styles.CompanyWebsite}`}><b>Company Website </b></li>
-          <li style={{ backgroundColor: " rgb(40, 4, 99)", color:"white" }} className={`${styles.li} ${styles.Approval}`} ><b>Approval</b></li>
-          <li style={{ backgroundColor: " rgb(40, 4, 99)", color:"white" }} className={`${styles.li} ${styles.Message}`} ><b>Message</b></li>
-          <li  style={{ backgroundColor: " rgb(40, 4, 99)", color:"white" }}className={`${styles.li} ${styles.DeletdeAction}`} ><b>Action</b></li>
-      
-        </ul>
-        {
-          AllEmployees.length > 0 ?
-            AllEmployees.map((items, i) => {
-              return (
-                <ul className={styles.ul}>
-                  <li className={`${styles.li} ${styles.Name}`} title='Click to Check the Full Profile' onClick={() => navigate(`/BIAddmin@CheckEmpProfile/${items._id}`)}>
-                    <Link style={{ color: "blue" }}>
-                    {items.online ? <span className={styles.dot}></span> :""} {items.name}</Link></li>
-                  <li className={`${styles.li} ${styles.phoneNumber}`}>{items.phoneNumber}</li>
+      <thead>
+        <tr>
 
-                  <li className={`${styles.li} ${styles.CompanyName}`}>{items.CompanyName}</li>
-                  <li className={`${styles.li} ${styles.CompanyAddress}`}>{items.CompanyAddress}</li>
-                  <li className={`${styles.li} ${styles.Date}`}>
-                    {new Date(items.createdAt).toLocaleString(
-                      "en-US",
-                      {
-                        month: "short",
-                        day: "2-digit",
-                        year: "numeric",
-                        
-        hour: '2-digit',
-    minute: '2-digit',
-    second: '2-digit'
-                      }
-                    )}
-                  </li>
-                  <li className={`${styles.li} ${styles.Date}`}>
-      {      items.LogedInTime?    new Date(items.LogedInTime).toLocaleString('en-US', {
-        year: 'numeric',
-        month: 'short',
-        day: '2-digit',
-        hour: '2-digit',
-    minute: '2-digit',
-    second: '2-digit'
-    })
-    :"Only Reg. Yet"
-  }
-                  </li>
+          {/* Employee Name */}
+          <th>
+            <div className={styles.thContent}>
+              <span>Emp. Name</span>
+            </div>
+          </th>
 
-                  <li className={`${styles.li} ${styles.CompanyWebsite}`}>{items.CompanyWebsite}</li>
-                  <li className={`${styles.li} ${styles.Approval}`}>
-                    {
-                  items.isApproved?
-                  <button className={styles.Approved} onClick={()=>{DisApprove(items._id, false)}}>Approved&#10004;</button>
-                 :
-                 items.isReject?
-                  <button className={styles.Rejected} onClick={()=>{unReject(items._id, false)}}>Rejected&#10004;</button>
-:
-items.isOnhold ?
-                  <button className={styles.OnHold} onClick={()=>{unHold(items._id, false)}}>OnHold&#10004;</button>
-                  :
-                  <>
-                  <button className={styles.Approve} onClick={()=>{Approve(items._id, true)}}>Approve</button>
-                  <button className={styles.Approve} onClick={()=>{Reject(items._id, true)}}>Reject</button>
+          {/* Phone */}
+          <th>
+            <div className={styles.thContent}>
+              <span>Emp. Phone Number</span>
+            </div>
+          </th>
 
-                  <button className={styles.Approve} onClick={()=>{Hold(items._id, true)}}>Hold</button>
-                  </>
+          {/* Company */}
+          <th>
+            <div className={styles.thContent}>
+              <span>Company Name</span>
+            </div>
+          </th>
+
+          {/* Address */}
+          <th>
+            <div className={styles.thContent}>
+              <span>Company Address</span>
+            </div>
+          </th>
+
+          {/* Registration Date */}
+          <th>
+            <div className={styles.thContent}>
+              <span>Reg. Date</span>
+
+              <div className={styles.sortButtons}>
+                <button
+                  type="button"
+                  onClick={RegAscendingOrder}
+                  className={styles.sortButton}
+                  title="Oldest first"
+                >
+                  ↑
+                </button>
+
+                <button
+                  type="button"
+                  onClick={RegDescendingOrder}
+                  className={styles.sortButton}
+                  title="Newest first"
+                >
+                  ↓
+                </button>
+              </div>
+            </div>
+          </th>
+
+          {/* Last Login */}
+          <th>
+            <div className={styles.thContent}>
+              <span>Last Log</span>
+
+              <div className={styles.sortButtons}>
+                <button
+                  type="button"
+                  onClick={LastActAscendingOrder}
+                  className={styles.sortButton}
+                  title="Oldest first"
+                >
+                  ↑
+                </button>
+
+                <button
+                  type="button"
+                  onClick={LastActDescendingOrder}
+                  className={styles.sortButton}
+                  title="Newest first"
+                >
+                  ↓
+                </button>
+              </div>
+            </div>
+          </th>
+
+          {/* Website */}
+          <th>
+            <div className={styles.thContent}>
+              <span>Company Website</span>
+            </div>
+          </th>
+
+          {/* Approval */}
+          <th>
+            <div className={styles.thContent}>
+              <span>Approval</span>
+            </div>
+          </th>
+
+          {/* Message */}
+          <th>
+            <div className={styles.thContent}>
+              <span>Message</span>
+            </div>
+          </th>
+
+          {/* Action */}
+          <th>
+            <div className={styles.thContent}>
+              <span>Action</span>
+            </div>
+          </th>
+
+        </tr>
+      </thead>
+
+
+      <tbody>
+
+        {AllEmployees.length > 0 ? (
+
+          AllEmployees.map((items, i) => (
+
+            <tr key={items._id || i}>
+
+              {/* Employee Name */}
+              <td className={styles.nameCell}>
+
+                <button
+                  type="button"
+                  className={styles.nameButton}
+                  title="Click to Check the Full Profile"
+                  onClick={() =>
+                    navigate(
+                      `/BIAddmin@CheckEmpProfile/${items._id}`
+                    )
                   }
+                >
 
-                  </li>
+                  {items.online && (
+                    <span className={styles.onlineDot}></span>
+                  )}
 
-                  <li className={`${styles.li} ${styles.Message}`} >{items.message}
-                  {/* <textarea style={{height:"50px", width:"80%", marginLeft:"-11px"}} value ={currentBox == items._id ?message:""} onChange={(e)=>{
-                     handleChange(e, items._id )}}> </textarea><br></br>
-                     <button onClick={()=>{sendMessage(items._id)}}>Send</button> */}
+                  <span>
+                    {items.name || "N/A"}
+                  </span>
 
-                  </li>
-          <li  style={{}}className={`${styles.li} ${styles.DeletdeAction}`} >
-          <input type="checkbox" onClick={() => { checkBoxforDelete(items._id) }} />
+                </button>
 
-          </li>
-
-
-
-                </ul>
-              )
-            })
-            : <p style={{ color: "red", marginLeft: "42%" }}>No Record Found</p>
-
-        }
+              </td>
 
 
-      </div>
+              {/* Phone */}
+              <td>
+                {items.phoneNumber || "N/A"}
+              </td>
+
+
+              {/* Company Name */}
+              <td className={styles.companyNameCell}>
+                {items.CompanyName || "N/A"}
+              </td>
+
+
+              {/* Company Address */}
+              <td className={styles.addressCell}>
+                {items.CompanyAddress || "N/A"}
+              </td>
+
+
+              {/* Registration Date */}
+              <td className={styles.dateCell}>
+
+                {items.createdAt
+                  ? new Date(
+                      items.createdAt
+                    ).toLocaleString("en-US", {
+                      month: "short",
+                      day: "2-digit",
+                      year: "numeric",
+                      hour: "2-digit",
+                      minute: "2-digit",
+                      second: "2-digit",
+                    })
+                  : "N/A"}
+
+              </td>
+
+
+              {/* Last Login */}
+              <td className={styles.dateCell}>
+
+                {items.LogedInTime
+                  ? new Date(
+                      items.LogedInTime
+                    ).toLocaleString("en-US", {
+                      year: "numeric",
+                      month: "short",
+                      day: "2-digit",
+                      hour: "2-digit",
+                      minute: "2-digit",
+                      second: "2-digit",
+                    })
+                  : "Only Reg. Yet"}
+
+              </td>
+
+
+              {/* Company Website */}
+              <td className={styles.websiteCell}>
+
+                {items.CompanyWebsite ? (
+                  <a
+                    href={
+                      items.CompanyWebsite.startsWith("http")
+                        ? items.CompanyWebsite
+                        : `https://${items.CompanyWebsite}`
+                    }
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={styles.websiteLink}
+                  >
+                    {items.CompanyWebsite}
+                  </a>
+                ) : (
+                  <span className={styles.notUpdated}>
+                    Not Updated
+                  </span>
+                )}
+
+              </td>
+
+
+              {/* Approval */}
+              <td className={styles.approvalCell}>
+
+                {items.isApproved ? (
+
+                  <button
+                    className={`${styles.statusButton} ${styles.Approved}`}
+                    onClick={() =>
+                      DisApprove(items._id, false)
+                    }
+                  >
+                    Approved &#10004;
+                  </button>
+
+                ) : items.isReject ? (
+
+                  <button
+                    className={`${styles.statusButton} ${styles.Rejected}`}
+                    onClick={() =>
+                      unReject(items._id, false)
+                    }
+                  >
+                    Rejected &#10004;
+                  </button>
+
+                ) : items.isOnhold ? (
+
+                  <button
+                    className={`${styles.statusButton} ${styles.OnHold}`}
+                    onClick={() =>
+                      unHold(items._id, false)
+                    }
+                  >
+                    On Hold &#10004;
+                  </button>
+
+                ) : (
+
+                  <div className={styles.actionButtons}>
+
+                    <button
+                      className={`${styles.actionButton} ${styles.approveAction}`}
+                      onClick={() =>
+                        Approve(items._id, true)
+                      }
+                    >
+                      Approve
+                    </button>
+
+                    <button
+                      className={`${styles.actionButton} ${styles.rejectAction}`}
+                      onClick={() =>
+                        Reject(items._id, true)
+                      }
+                    >
+                      Reject
+                    </button>
+
+                    <button
+                      className={`${styles.actionButton} ${styles.holdAction}`}
+                      onClick={() =>
+                        Hold(items._id, true)
+                      }
+                    >
+                      Hold
+                    </button>
+
+                  </div>
+
+                )}
+
+              </td>
+
+
+              {/* Message */}
+              <td className={styles.messageCell}>
+
+                {items.message ? (
+                  items.message
+                ) : (
+                  <span className={styles.noMessage}>
+                    No message
+                  </span>
+                )}
+
+              </td>
+
+
+              {/* Delete Checkbox */}
+              <td className={styles.deleteCell}>
+
+                <label className={styles.checkboxWrapper}>
+                  <input
+                    type="checkbox"
+                    onChange={() =>
+                      checkBoxforDelete(items._id)
+                    }
+                  />
+
+                  <span className={styles.checkmark}></span>
+                </label>
+
+              </td>
+
+            </tr>
+
+          ))
+
+        ) : (
+
+          <tr>
+            <td
+              colSpan="10"
+              className={styles.noRecord}
+            >
+              No Record Found
+            </td>
+          </tr>
+
+        )}
+
+      </tbody>
+
+    </table>
+  </div>
+</div>
       :
       <>
        
-<div id={styles.JobCardWrapper} >
+<div id={styles.JobCardWrapper}>
 
-{
-          AllEmployees.length > 0 ?
+  {AllEmployees.length > 0 ? (
+    AllEmployees.map((job) => (
+      <div className={styles.JobCard} key={job._id}>
 
-AllEmployees.map((job, i) => {
-  return (
-    <>
-      <div className={styles.JobCard} key={i}>
+        {/* ================= HEADER ================= */}
+        <div className={styles.cardHeader}>
 
-     
-          {/* <h4 className={styles.Mobname}>Name : <span style={{color:"blue", textDecoration:"underline"}} onClick={() => navigate(`/BIAddmin@CheckEmpProfile/${job._id}`)} >{job.name}</span></h4>
-         
+          <div
+            className={styles.profileInfo}
+            onClick={() =>
+              navigate(
+                `/BIAddmin@CheckEmpProfile/${job._id}`
+              )
+            }
+          >
 
-<h4 > Contact Number : {job.phoneNumber?<span style={{ color: "blue" }}  >{job.phoneNumber} </span>:<span style={{color:"red"}}>Not updated</span> } </h4> 
-<h4>Company Name : {job.CompanyName?<span style={{ color: "blue" }}  >{job.CompanyName} </span>: <span style={{color:"red"}}>Not updated</span>}</h4>
-        <h4 >Company Address: {job.CompanyAddress?<span style={{ color: "blue" }}  >{job.CompanyAddress}</span>:<span style={{color:"red"}}>Not updated</span>}</h4>
-        <h4> Company Website: {job.CompanyWebsite?<span style={{ color: "blue" }}  >{job.CompanyWebsite} </span>:<span style={{color:"red"}}>Not updated</span>}   </h4>
-         <h4>  Registered On: <span style={{ color: "blue" }}>{new Date(job.createdAt).toLocaleString(
-                      "en-US",
-                      {
-                        month: "short",
-                        day: "2-digit",
-                        year: "numeric",
-                      }
-                    )} </span> </h4>
-                    {job.isApproved?
-                  <button style={{marginLeft:"30%"}} className={styles.Approved} onClick={()=>{DisApprove(job._id, false)}}>Approved&#10004;</button>
-                 :<button style={{marginLeft:"30%"}} className={styles.Approve} onClick={()=>{Approve(job._id, true)}}>Approve</button>}
-        </div> */}
+            <div className={styles.avatar}>
+              {job.name
+                ? job.name.charAt(0).toUpperCase()
+                : "?"}
+            </div>
 
-<div style={{ display: "flex" }}>
+            <div className={styles.profileText}>
 
-<div className={styles.LeftTable}>
-                                <span className={styles.span} >Name  :   </span><br></br>
-                                <span className={styles.span}>  Email Id :  </span><br></br>
-                                <span className={styles.span}>  Phone number : </span><br></br>
-                                <span className={styles.span}> Company Name: </span><br></br>
-                                <span className={styles.span} > Company Contact:</span><br></br>
-                                <span className={styles.span}> Company Email: </span><br></br>
-                                <span className={styles.span}> Company Website: </span><br></br>
-                                <span className={styles.span}> Organisation Type: </span><br></br>
-                                <span className={styles.span}> Registered On: </span><br></br>
-                            
-                            </div>
+              <div className={styles.employeeName}>
+                {job.name || "Name not updated"}
+              </div>
 
-                            <div className={styles.RightTable}>
-                                <span className={styles.span} >  <span style={{ color: "blue", textDecoration:"underline" }} onClick={() => navigate(`/BIAddmin@CheckEmpProfile/${job._id}`)} >{job.name}</span> </span><br></br>
-                                <span className={styles.span}> {job.email ? <span style={{ color: "blue" }}  >{job.email} </span> : <span style={{ color: "red" }}>Not updated</span>}</span><br></br>
-                                <span className={styles.span}>   {job.phoneNumber ? <span style={{ color: "blue" }}  >{job.phoneNumber} </span> : <span style={{ color: "red" }}>Not updated</span>}</span><br></br>
-                                <span className={styles.span}> {job.CompanyName ? <span style={{ color: "blue" }}  >{job.CompanyName} </span> : <span style={{ color: "red" }}>Not updated</span>} </span><br></br>
-                                <span className={styles.span} >  {job.CompanyContact ? <span style={{ color: "blue" }}  >{job.CompanyContact} </span> : <span style={{ color: "red" }}>Not updated</span>}</span><br></br>
-                                <span className={styles.span}>  {job.CompanyEmail ? <span style={{ color: "blue" }}  >{job.CompanyEmail}</span> : <span style={{ color: "red" }}>Not updated</span>}</span><br></br>
-                                <span className={styles.span}> {job.CompanyWebsite ? <span style={{ color: "blue" }}  >{job.CompanyWebsite} </span> : <span style={{ color: "red" }}>Not updated</span>} </span><br></br>
-                                <span className={styles.span}>  {job.TypeofOrganisation ? <span style={{ color: "blue" }}  >{job.TypeofOrganisation} </span> : <span style={{ color: "red" }}>Not updated</span>}</span><br></br>
-                                <span className={styles.span} style={{ color: "blue" }}>{new Date(job.createdAt).toLocaleString(
-                      "en-US",
-                      {
-                        month: "short",
-                        day: "2-digit",
-                        year: "numeric",
-                      }
-                    )} </span>
-                            </div>                                           
-                        </div>
-                        
-                        <div className={styles.Down}>
-                        <span className={`${styles.span} ${styles.LastDown}`}> Company Address:  {job.CompanyAddress ? <span className={styles.span} style={{ color: "blue", marginLeft:"5px" }}  >{job.CompanyAddress} </span> : <span style={{ color: "red", marginLeft:"5px" }} >Not updated</span>}</span><br></br>
-                      
-                        <span className={styles.span}> Account Status:  {job.isApproved?
-  <button style={{  marginLeft:"20px" }} className={styles.Approved} onClick={()=>{DisApprove(job._id, false)}}>Approved</button>
-  :<button  style={{  marginLeft:"20px" }} className={styles.Approve} onClick={()=>{Approve(job._id, true)}}>Approve</button>}</span><br></br>
-  <span className={`${styles.span} ${styles.LastDown}`}> Message:  {job.message ? <span className={styles.span} style={{ color: "blue", marginLeft:"5px" }}  >{job.message} </span> : <span style={{ color: "red", marginLeft:"5px" }} >No message Sent yet</span>}</span><br></br>
-                        </div> 
+              <div className={styles.registeredDate}>
+                Registered{" "}
+                {job.createdAt
+                  ? new Date(
+                      job.createdAt
+                    ).toLocaleDateString("en-US", {
+                      month: "short",
+                      day: "2-digit",
+                      year: "numeric",
+                    })
+                  : "N/A"}
+              </div>
 
+            </div>
+
+          </div>
+
+
+          {/* Account Status */}
+          {job.isApproved ? (
+            <span className={styles.statusApproved}>
+              ✓ Approved
+            </span>
+          ) : (
+            <span className={styles.statusPending}>
+              Pending
+            </span>
+          )}
 
         </div>
-    </>
-  )
-})
-: <p style={{ color: "red", marginLeft: "32%" }}>No Record Found</p>
 
-}
+
+        {/* ================= EMPLOYEE DETAILS ================= */}
+
+        <div className={styles.detailsSection}>
+
+          {/* Email */}
+          <div className={styles.detailRow}>
+
+            <span className={styles.detailLabel}>
+              Email
+            </span>
+
+            <span className={styles.detailValue}>
+              {job.email ? (
+                job.email
+              ) : (
+                <span className={styles.notUpdated}>
+                  Not updated
+                </span>
+              )}
+            </span>
+
+          </div>
+
+
+          {/* Phone */}
+          <div className={styles.detailRow}>
+
+            <span className={styles.detailLabel}>
+              Phone
+            </span>
+
+            <span className={styles.detailValue}>
+              {job.phoneNumber ? (
+                job.phoneNumber
+              ) : (
+                <span className={styles.notUpdated}>
+                  Not updated
+                </span>
+              )}
+            </span>
+
+          </div>
+
+
+          {/* Company Name */}
+          <div className={styles.detailRow}>
+
+            <span className={styles.detailLabel}>
+              Company
+            </span>
+
+            <span className={styles.detailValue}>
+              {job.CompanyName ? (
+                job.CompanyName
+              ) : (
+                <span className={styles.notUpdated}>
+                  Not updated
+                </span>
+              )}
+            </span>
+
+          </div>
+
+
+          {/* Company Contact */}
+          <div className={styles.detailRow}>
+
+            <span className={styles.detailLabel}>
+              Company Contact
+            </span>
+
+            <span className={styles.detailValue}>
+              {job.CompanyContact ? (
+                job.CompanyContact
+              ) : (
+                <span className={styles.notUpdated}>
+                  Not updated
+                </span>
+              )}
+            </span>
+
+          </div>
+
+
+          {/* Company Email */}
+          <div className={styles.detailRow}>
+
+            <span className={styles.detailLabel}>
+              Company Email
+            </span>
+
+            <span className={styles.detailValue}>
+              {job.CompanyEmail ? (
+                job.CompanyEmail
+              ) : (
+                <span className={styles.notUpdated}>
+                  Not updated
+                </span>
+              )}
+            </span>
+
+          </div>
+
+
+          {/* Organisation Type */}
+          <div className={styles.detailRow}>
+
+            <span className={styles.detailLabel}>
+              Organisation
+            </span>
+
+            <span className={styles.detailValue}>
+              {job.TypeofOrganisation ? (
+                job.TypeofOrganisation
+              ) : (
+                <span className={styles.notUpdated}>
+                  Not updated
+                </span>
+              )}
+            </span>
+
+          </div>
+
+
+          {/* Website */}
+          <div className={styles.detailRow}>
+
+            <span className={styles.detailLabel}>
+              Website
+            </span>
+
+            <span className={styles.detailValue}>
+
+              {job.CompanyWebsite ? (
+                <a
+                  href={
+                    job.CompanyWebsite.startsWith("http")
+                      ? job.CompanyWebsite
+                      : `https://${job.CompanyWebsite}`
+                  }
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={styles.websiteLink}
+                >
+                  {job.CompanyWebsite}
+                </a>
+              ) : (
+                <span className={styles.notUpdated}>
+                  Not updated
+                </span>
+              )}
+
+            </span>
+
+          </div>
+
+        </div>
+
+
+        {/* ================= COMPANY ADDRESS ================= */}
+
+        <div className={styles.infoBox}>
+
+          <div className={styles.infoTitle}>
+            Company Address
+          </div>
+
+          {job.CompanyAddress ? (
+            <div className={styles.infoValue}>
+              {job.CompanyAddress}
+            </div>
+          ) : (
+            <div className={styles.notUpdated}>
+              Not updated
+            </div>
+          )}
+
+        </div>
+
+
+        {/* ================= ACCOUNT STATUS ================= */}
+
+        <div className={styles.accountSection}>
+
+          <div className={styles.accountTitle}>
+            Account Status
+          </div>
+
+          {job.isApproved ? (
+
+            <button
+              className={styles.Approved}
+              onClick={() =>
+                DisApprove(job._id, false)
+              }
+            >
+              ✓ Approved
+            </button>
+
+          ) : (
+
+            <button
+              className={styles.Approve}
+              onClick={() =>
+                Approve(job._id, true)
+              }
+            >
+              Approve
+            </button>
+
+          )}
+
+        </div>
+
+
+        {/* ================= MESSAGE ================= */}
+
+        <div className={styles.infoBox}>
+
+          <div className={styles.infoTitle}>
+            Message
+          </div>
+
+          {job.message ? (
+            <div className={styles.messageValue}>
+              {job.message}
+            </div>
+          ) : (
+            <div className={styles.noMessage}>
+              No message sent yet
+            </div>
+          )}
+
+        </div>
+
+
+        {/* ================= VIEW PROFILE ================= */}
+
+        <button
+          className={styles.viewProfile}
+          onClick={() =>
+            navigate(
+              `/BIAddmin@CheckEmpProfile/${job._id}`
+            )
+          }
+        >
+          View Full Profile
+          <span>→</span>
+        </button>
+
+      </div>
+    ))
+  ) : (
+
+    <div className={styles.noRecord}>
+      No Record Found
+    </div>
+
+  )}
 
 </div>
       </>

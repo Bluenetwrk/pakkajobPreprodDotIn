@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { useEffect, useState } from 'react'
-import styles from "./AllJobSeekers.module.css"
+import styles from "./ArchiveJobs.module.css"
 import Styles from "../AppliedUserProfile/AppliedUserProfile.module.css"
 import Swal from "sweetalert2";
 import axios from "axios";
@@ -291,107 +291,186 @@ return(
                               </select>  jobs per page
                               </div>
 
-    <div style={{marginLeft:"7px"}} className={styles.Uiwarpper}>
-              <ul className={styles.ul}>
-                <li className={`${styles.li} ${styles.name}`}><b>Name</b></li>
-                <li className={`${styles.li} ${styles.phoneNumber}`}><b>Phone Number</b></li>
-                <li className={`${styles.li} ${styles.age}`}><b>Age</b></li>
+<div className={styles.tableWrapper}>
+  <table className={styles.studentTable}>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Phone Number</th>
+        <th>Age</th>
+        <th>Aadhar</th>
+        <th>Reg. Date</th>
+        <th>Last Log</th>
+        <th>Qualif.</th>
+        <th>Skills</th>
+        <th>Approval</th>
+        <th>Message</th>
+      </tr>
+    </thead>
 
-                <li className={`${styles.li} ${styles.Aadhar}`}><b>Aadhar</b></li>
-                <li className={`${styles.li} ${styles.Pdate}`}><b>Reg. Date</b></li>
-                <li className={`${styles.li} ${styles.Pdate}`}><b>Last Log</b>
-                {/* <span style={{display:"block"}}><span onClick={TopToBottonOnline} style={{ fontSize:"20px", cursor:"pointer", marginRight:"20px"}}>&darr;</span>
-                                                            <span style={{ fontSize:"20px", cursor:"pointer"}} onClick={BottonToTopOnline}>&uarr;</span></span> */}
-                                                            </li>
-                <li className={`${styles.li} ${styles.Qualification}`}><b>Qualif.</b></li>
-                <li className={`${styles.li} ${styles.Skills}`}><b>Skills </b></li>
-                <li className={`${styles.li} ${styles.Approval}`}><b>Approval </b></li>
-                <li className={`${styles.li} ${styles.Message}`}>Message</li>
+    <tbody>
+      {jobSeekers.length > 0 ? (
+        jobSeekers.map((items) => (
+          <tr key={items._id}>
 
-
-              </ul>
-              {
-     jobSeekers.length > 0 ?
-
-     jobSeekers.map((items, i) => {
-                  return (
-<>
-                    <ul className={styles.ul}>
-
-                      <li className={`${styles.li} ${styles.name}`} 
-    onClick={()=>{navigate(`/BIAddmin@CheckStudentArchived/${items._id}`)}}><Link style={{color:"blue"}}>
-     {items.name?items.name:"nnn"}
-      </Link></li>
-                <li className={`${styles.li} ${styles.phoneNumber}`}>{items.phoneNumber?items.phoneNumber:"not available"}</li>
-                <li className={`${styles.li} ${styles.age}`}>{items.age?items.age:"not availabel"}</li>
-
-                      <li className={`${styles.li} ${styles.Aadhar}`}> {items.Aadhar?items.Aadhar:"No aadhar available"}</li>
-                      <li className={`${styles.li} ${styles.Pdate}`}>
-                        {new Date(items.createdAt).toLocaleString(
-                          "en-US",
-                          {
-                            month: "short",
-                            day: "2-digit",
-                            year: "numeric",
-                          }
-                        )}
-                      </li>
-
-                      <li className={`${styles.li} ${styles.Pdate}`}>
-      {      items.LogedInTime?    new Date(items.LogedInTime).toLocaleString('en-US', {
-        year: 'numeric',
-        month: 'short',
-        day: '2-digit',
-        hour: '2-digit',
-    minute: '2-digit',
-    second: '2-digit'
-    })
-    :"Only Reg. Yet"
-  }
-                  </li>
-
-                      <li className={`${styles.li} ${styles.Qualification}`}>{items.Qualification?items.Qualification:"no quali. available"}</li>
-                      <li className={`${styles.li} ${styles.Skills}`}>{items.Skills?items.Skills:"no kills available"}</li>
-                      <li className={`${styles.li} ${styles.Approval}`}>
-                        {
-                        items.isApproved?
-                  <button className={styles.Approved}>Approved</button>
-                    :
-                  
-                 items.isReject?
-                  <button className={styles.Rejected}>Rejected&#10004;</button>
-                  :
-          items.isOnhold ?
-                  <button className={styles.OnHold} >OnHold&#10004;</button>
-                  :
-                  <>
-                  <button className={styles.Approve}>Reject</button>
-                  <button className={styles.Approve} >Approve</button>
-
-                  <button className={styles.Approve}>Hold</button>
-                  </>
-                        }
-                  </li>
-                  
-                  <li className={`${styles.li} ${styles.Message}`} >{items.message?items.message:"no message was sent"}
-                  {/* <textarea style={{height:"50px", width:"80%", marginLeft:"-11px"}} value ={currentBox == items._id ?message:""} onChange={(e)=>{
-                     handleChange(e, items._id )}}> </textarea><br></br>
-                     <button onClick={()=>{sendMessage(items._id)}}>Send</button> */}
-
-                  </li>
-
-                     
-                          </ul>
-                          </>
-                  )
-                })
-                : <p style={{ color: "red", marginLeft: "42%" }}>No Record Found</p>
-                
-                
+            {/* Name */}
+            <td
+              className={styles.nameCell}
+              onClick={() =>
+                navigate(
+                  `/BIAddmin@CheckStudentArchived/${items._id}`
+                )
               }
+            >
+              <Link className={styles.profileLink}>
+                {items.name ? items.name : "nnn"}
+              </Link>
+            </td>
 
+            {/* Phone Number */}
+            <td>
+              {items.phoneNumber ? (
+                items.phoneNumber
+              ) : (
+                <span className={styles.notAvailable}>
+                  Not available
+                </span>
+              )}
+            </td>
 
-            </div>
+            {/* Age */}
+            <td>
+              {items.age ? (
+                items.age
+              ) : (
+                <span className={styles.notAvailable}>
+                  Not available
+                </span>
+              )}
+            </td>
+
+            {/* Aadhar */}
+            <td>
+              {items.Aadhar ? (
+                items.Aadhar
+              ) : (
+                <span className={styles.notAvailable}>
+                  No Aadhar available
+                </span>
+              )}
+            </td>
+
+            {/* Registration Date */}
+            <td>
+              {items.createdAt
+                ? new Date(items.createdAt).toLocaleString(
+                    "en-US",
+                    {
+                      month: "short",
+                      day: "2-digit",
+                      year: "numeric",
+                    }
+                  )
+                : "N/A"}
+            </td>
+
+            {/* Last Login */}
+            <td>
+              {items.LogedInTime ? (
+                new Date(items.LogedInTime).toLocaleString(
+                  "en-US",
+                  {
+                    year: "numeric",
+                    month: "short",
+                    day: "2-digit",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                    second: "2-digit",
+                  }
+                )
+              ) : (
+                <span className={styles.notAvailable}>
+                  Only Reg. Yet
+                </span>
+              )}
+            </td>
+
+            {/* Qualification */}
+            <td>
+              {items.Qualification ? (
+                items.Qualification
+              ) : (
+                <span className={styles.notAvailable}>
+                  No quali. available
+                </span>
+              )}
+            </td>
+
+            {/* Skills */}
+            <td className={styles.skillsCell}>
+              {items.Skills ? (
+                items.Skills
+              ) : (
+                <span className={styles.notAvailable}>
+                  No skills available
+                </span>
+              )}
+            </td>
+
+            {/* Approval */}
+            <td className={styles.approvalCell}>
+              {items.isApproved ? (
+                <button className={styles.Approved}>
+                  Approved
+                </button>
+              ) : items.isReject ? (
+                <button className={styles.Rejected}>
+                  Rejected &#10004;
+                </button>
+              ) : items.isOnhold ? (
+                <button className={styles.OnHold}>
+                  OnHold &#10004;
+                </button>
+              ) : (
+                <div className={styles.actionButtons}>
+                  <button className={styles.Approve}>
+                    Reject
+                  </button>
+
+                  <button className={styles.Approve}>
+                    Approve
+                  </button>
+
+                  <button className={styles.Approve}>
+                    Hold
+                  </button>
+                </div>
+              )}
+            </td>
+
+            {/* Message */}
+            <td className={styles.messageCell}>
+              {items.message ? (
+                items.message
+              ) : (
+                <span className={styles.notAvailable}>
+                  No message was sent
+                </span>
+              )}
+            </td>
+
+          </tr>
+        ))
+      ) : (
+        <tr>
+          <td colSpan="10" className={styles.noRecord}>
+            No Record Found
+          </td>
+        </tr>
+      )}
+    </tbody>
+  </table>
+</div>
               </>
             :
             

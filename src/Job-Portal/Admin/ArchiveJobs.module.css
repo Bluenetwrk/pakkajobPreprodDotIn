@@ -1,0 +1,235 @@
+.tableWrapper {
+  width: 100%;
+  margin: 0;
+  padding: 10px;
+  box-sizing: border-box;
+  overflow-x: auto;
+}
+
+.studentTable {
+  margin: 0;
+
+  width: 100%;
+  min-width: 1200px;
+
+  border-collapse: separate;
+  border-spacing: 0;
+
+  background: #ffffff;
+
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+
+  overflow: hidden;
+
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+/* Header */
+
+.studentTable thead th {
+  background: rgb(40, 4, 99);
+  color: white;
+
+  padding: 13px 10px;
+
+  font-size: 13px;
+  font-weight: 700;
+
+  text-align: left;
+  white-space: nowrap;
+
+  border-right: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.studentTable thead th:last-child {
+  border-right: none;
+}
+
+/* Body */
+
+.studentTable tbody td {
+  padding: 12px 10px;
+
+  font-size: 14px;
+  color: #334155;
+
+  vertical-align: middle;
+
+  border-bottom: 1px solid #e5e7eb;
+  border-right: 1px solid #f1f5f9;
+
+  line-height: 1.4;
+}
+
+.studentTable tbody td:last-child {
+  border-right: none;
+}
+
+.studentTable tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.studentTable tbody tr:hover {
+  background: #f8fafc;
+}
+
+/* Name */
+
+.nameCell {
+  min-width: 130px;
+  cursor: pointer;
+}
+
+.profileLink {
+  color: #2563eb !important;
+
+  font-size: 12px;
+  font-weight: 600;
+
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.profileLink:hover {
+  text-decoration: underline;
+  color: #1d4ed8 !important;
+}
+
+/* Skills */
+
+.skillsCell {
+  min-width: 150px;
+  max-width: 220px;
+
+  word-break: break-word;
+}
+
+/* Approval */
+
+.approvalCell {
+  min-width: 190px;
+}
+
+.actionButtons {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+
+/* Approval Buttons */
+
+.Approved,
+.Rejected,
+.OnHold,
+.Approve {
+  border: none;
+
+  border-radius: 6px;
+
+  padding: 6px 9px;
+
+  font-size: 10px;
+  font-weight: 700;
+
+  white-space: nowrap;
+}
+
+/* Approved */
+
+.Approved {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+/* Rejected */
+
+.Rejected {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+/* On Hold */
+
+.OnHold {
+  background: #fef3c7;
+  color: #b45309;
+}
+
+/* Action Buttons */
+
+.Approve {
+  background: rgb(40, 4, 99);
+  color: white;
+
+  cursor: pointer;
+}
+
+.Approve:hover {
+  background: rgb(58, 10, 130);
+}
+
+/* Message */
+
+.messageCell {
+  min-width: 180px;
+  max-width: 280px;
+
+  word-break: break-word;
+}
+
+.notAvailable {
+  color: #ef4444;
+
+  font-size: 11px;
+}
+
+.noRecord {
+  padding: 40px !important;
+
+  text-align: center !important;
+
+  color: #ef4444 !important;
+
+  font-size: 14px !important;
+  font-weight: 600;
+}
+
+/* Horizontal Scrollbar */
+
+.tableWrapper::-webkit-scrollbar {
+  height: 7px;
+}
+
+.tableWrapper::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 10px;
+}
+
+.tableWrapper::-webkit-scrollbar-thumb {
+  background: #94a3b8;
+  border-radius: 10px;
+}
+
+.tableWrapper::-webkit-scrollbar-thumb:hover {
+  background: #64748b;
+}
+
+/* Tablet */
+
+@media (max-width: 1000px) {
+  .studentTable {
+    min-width: 1100px;
+  }
+
+  .studentTable thead th {
+    padding: 11px 8px;
+    font-size: 11px;
+  }
+
+  .studentTable tbody td {
+    padding: 10px 8px;
+    font-size: 11px;
+  }
+}

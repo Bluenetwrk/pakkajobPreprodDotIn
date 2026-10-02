@@ -9,7 +9,7 @@ import Styles from "./Job-Portal/NaveBar/nav.module.css"
 
 import Cancel from "./Job-Portal/img/icons8-cross-50.png"
 import NavIcon from "./Job-Portal/img/icons8-menu-50.png"
-
+import Last24Hours from "./Job-Portal/Jobs/Last24HoursJobs"
 import StudentLogin from "./Job-Portal/Login/StudLogin";
 import EmployeeLogin from "./Job-Portal/Login/EmpLogin"
 import NewRegistered from "./Job-Portal/Profile/NewRegistration";
@@ -117,10 +117,13 @@ import DeletedBlogs from "../src/Job-Portal/Admin/DeletedBlogs"
 // import ConsultationServices from "./Job-Portal/Consultation Services/ConsultationServices";
 // import PostFraud from "./Job-Portal/Jobs/PostFraud";
 
-//axios.defaults.baseURL = " https://itwalkin-backend-testrelease-2-0-1-0824-ns0g.onrender.com" // Render Test
+// axios.defaults.baseURL = " https://itwalkin-backend-testrelease-2-0-1-0824-ns0g.onrender.com" // Render Test
 //axios.defaults.baseURL = " https://nontech-backend.onrender.com"
+
 axios.defaults.baseURL = "https://pakkajobpreproddotinbackend.onrender.com"
 // axios.defaults.baseURL = "http://localhost:8080"
+
+
 
 function App() {
 
@@ -1421,6 +1424,7 @@ function App() {
             <Route path="/BIAddmin@ArchiveJobs" element={<ArchiveJobs />} />
             <Route path="/BIAddmin@DeletedJobs" element={<DeletedJobs />} />
             <Route path="/BIAddmin@DeletedBlogs" element={<DeletedBlogs />} />
+            <Route path="/BIAddmin@Last24Hours" element={<Last24Hours />} />
           </Routes>
 
         </div>

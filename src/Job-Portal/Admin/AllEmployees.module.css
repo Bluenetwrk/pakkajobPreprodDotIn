@@ -1,6 +1,4 @@
-/* =========================================================
-   MAIN SEARCH AREA
-========================================================= */
+
 
 .searchBoth {
   display: flex;
@@ -31,657 +29,1197 @@
   box-shadow: 0 0 0 2px rgba(40, 4, 99, 0.1);
 }
 
+.navigationWrapper{
+  margin-top: 20px;
+}
 
-/* =========================================================
-   DESKTOP TABLE
-========================================================= */
 
 .tableWrapper {
   width: 100%;
-  overflow-x: auto;
-  /* margin-top: 15px; */
-  padding: 0 10px 20px;
+  margin-top: 15px;
+  padding: 0 10px;
   box-sizing: border-box;
-  margin-left: 0;
 }
+
+.tableContainer {
+  width: 100%;
+  overflow-x: auto;
+
+  background: #ffffff;
+
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+
+/* =========================
+   TABLE
+========================= */
 
 .employeeTable {
   width: 100%;
-  min-width: 1250px;
-  border-collapse: collapse;
-  table-layout: fixed;
-  background: white;
+  margin: 0;
+
+  min-width: 1550px;
+
+  border-collapse: separate;
+  border-spacing: 0;
+
   font-size: 13px;
+
+  color: #334155;
 }
 
-.employeeTable th {
+
+/* =========================
+   HEADER
+========================= */
+
+.employeeTable thead th {
   background: rgb(40, 4, 99);
   color: white;
-  padding: 10px 8px;
-  border: 1px solid #ddd;
-  text-align: center;
-  vertical-align: middle;
-  font-weight: 600;
-}
 
-.employeeTable td {
-  padding: 9px 8px;
-  border: 1px solid #ddd;
-  vertical-align: middle;
-  text-align: center;
-  word-break: break-word;
-  overflow-wrap: anywhere;
-  background: white;
-}
+  padding: 13px 12px;
 
-.employeeTable tbody tr:hover td {
-  background: #f7f4fb;
+  text-align: left;
+
+  font-weight: 700;
+
+  white-space: nowrap;
+
+  border-bottom: 2px solid #ddd;
+
+  position: sticky;
+  top: 0;
+
+  z-index: 5;
 }
 
 
-/* Column sizing */
+/* Header corners */
 
-.employeeTable th:nth-child(1),
-.employeeTable td:nth-child(1) {
-  width: 10%;
+.employeeTable thead th:first-child {
+  border-top-left-radius: 10px;
 }
 
-.employeeTable th:nth-child(2),
-.employeeTable td:nth-child(2) {
-  width: 9%;
-}
-
-.employeeTable th:nth-child(3),
-.employeeTable td:nth-child(3) {
-  width: 10%;
-}
-
-.employeeTable th:nth-child(4),
-.employeeTable td:nth-child(4) {
-  width: 12%;
-}
-
-.employeeTable th:nth-child(5),
-.employeeTable td:nth-child(5) {
-  width: 11%;
-}
-
-.employeeTable th:nth-child(6),
-.employeeTable td:nth-child(6) {
-  width: 11%;
-}
-
-.employeeTable th:nth-child(7),
-.employeeTable td:nth-child(7) {
-  width: 10%;
-}
-
-.employeeTable th:nth-child(8),
-.employeeTable td:nth-child(8) {
-  width: 9%;
-}
-
-.employeeTable th:nth-child(9),
-.employeeTable td:nth-child(9) {
-  width: 10%;
-}
-
-.employeeTable th:nth-child(10),
-.employeeTable td:nth-child(10) {
-  width: 6%;
-}
-
-.nameCell {
-  cursor: pointer;
-}
-
-.profileName {
-  color: #0645ad;
-  text-decoration: none;
-  cursor: pointer;
-  font-weight: 600;
-}
-
-.profileName:hover {
-  text-decoration: underline;
-}
-
-.addressCell {
-  max-width: 220px;
-  line-height: 1.4;
-}
-
-.websiteCell {
-  color: #0645ad;
-}
-
-.notUpdated {
-  color: #d32f2f;
-  font-size: 12px;
-}
-
-.noMessage {
-  color: #888;
-  font-size: 12px;
+.employeeTable thead th:last-child {
+  border-top-right-radius: 10px;
 }
 
 
-/* =========================================================
-   ONLINE DOT
-========================================================= */
+/* =========================
+   HEADER CONTENT
+========================= */
 
-.dot {
-  display: inline-block;
-  width: 8px;
-  height: 8px;
-  background-color: #19b719;
-  border-radius: 50%;
-  margin-right: 6px;
-  vertical-align: middle;
-  box-shadow: 0 0 4px rgba(25, 183, 25, 0.5);
-}
-
-
-/* =========================================================
-   SORT BUTTONS
-========================================================= */
-
-.sortButtons {
+.thContent {
   display: flex;
-  justify-content: center;
+
   align-items: center;
-  gap: 10px;
-  margin-top: 5px;
-}
 
-.arrow {
-  width: 0;
-  height: 0;
-  display: inline-block;
-  cursor: pointer;
-}
+  justify-content: space-between;
 
-.up {
-  border-left: 6px solid transparent;
-  border-right: 6px solid transparent;
-  border-bottom: 8px solid white;
-}
+  gap: 8px;
 
-.down {
-  border-left: 6px solid transparent;
-  border-right: 6px solid transparent;
-  border-top: 8px solid white;
-}
-
-.arrow:hover {
-  opacity: 0.6;
-}
-
-
-/* =========================================================
-   APPROVAL BUTTONS
-========================================================= */
-
-.approvalCell {
-  min-width: 150px;
-}
-
-.actionButtons {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 4px;
-  flex-wrap: wrap;
-}
-
-.Approved,
-.Rejected,
-.OnHold,
-.ApproveButton,
-.RejectButton,
-.HoldButton {
-  border: none;
-  border-radius: 5px;
-  padding: 6px 8px;
-  font-size: 11px;
-  font-weight: 600;
-  cursor: pointer;
   white-space: nowrap;
 }
 
-.Approved {
-  background: #168a3a;
-  color: white;
+
+/* =========================
+   SORT BUTTONS
+========================= */
+
+.sortButtons {
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 0;
+
+  margin-left: 3px;
 }
+
+
+.sortButton {
+  width: 18px;
+  height: 13px;
+
+  padding: 0;
+
+  border: none;
+
+  background: transparent;
+
+  color: #cbd5e1;
+
+  font-size: 12px;
+
+  line-height: 10px;
+
+  font-weight: 900;
+
+  cursor: pointer;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  transition: 0.2s;
+}
+
+
+.sortButton:hover {
+  color: #ffffff;
+
+  transform: scale(1.15);
+}
+
+
+/* =========================
+   ROW
+========================= */
+
+.employeeTable tbody tr {
+  background: white;
+
+  transition:
+    background-color 0.2s ease;
+}
+
+
+.employeeTable tbody tr:hover {
+  background: #f8fafc;
+}
+
+
+/* =========================
+   CELLS
+========================= */
+
+.employeeTable tbody td {
+  padding: 11px 12px;
+
+  border-bottom: 1px solid #e5e7eb;
+
+  vertical-align: middle;
+}
+
+
+.employeeTable tbody tr:last-child td {
+  border-bottom: none;
+}
+
+
+/* =========================
+   NAME
+========================= */
+
+.nameCell {
+  min-width: 170px;
+}
+
+
+.nameButton {
+  display: flex;
+
+  align-items: center;
+
+  gap: 7px;
+
+  padding: 0;
+
+  border: none;
+
+  background: transparent;
+
+  color: #2563eb;
+
+  font-size: 13px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  text-align: left;
+}
+
+
+.nameButton:hover {
+  color: #1d4ed8;
+
+  text-decoration: underline;
+}
+
+
+/* =========================
+   ONLINE DOT
+========================= */
+
+.onlineDot {
+  width: 9px;
+  height: 9px;
+
+  min-width: 9px;
+
+  display: inline-block;
+
+  background: #22c55e;
+
+  border-radius: 50%;
+
+  box-shadow:
+    0 0 0 3px rgba(34, 197, 94, 0.15);
+}
+
+
+/* =========================
+   COMPANY
+========================= */
+
+.companyNameCell {
+  min-width: 160px;
+
+  font-weight: 600;
+
+  color: #334155;
+}
+
+
+.addressCell {
+  min-width: 220px;
+
+  max-width: 280px;
+
+  white-space: normal;
+
+  word-break: break-word;
+
+  line-height: 1.4;
+}
+
+
+/* =========================
+   DATE
+========================= */
+
+.dateCell {
+  min-width: 155px;
+
+  font-size: 12px;
+
+  color: #475569;
+
+  white-space: nowrap;
+}
+
+
+/* =========================
+   WEBSITE
+========================= */
+
+.websiteCell {
+  min-width: 180px;
+
+  max-width: 220px;
+
+  word-break: break-word;
+}
+
+
+.websiteLink {
+  color: #2563eb;
+
+  text-decoration: none;
+
+  font-size: 12px;
+}
+
+
+.websiteLink:hover {
+  text-decoration: underline;
+
+  color: #1d4ed8;
+}
+
+
+.notUpdated {
+  color: #ef4444;
+
+  font-size: 11px;
+}
+
+
+/* =========================
+   APPROVAL
+========================= */
+
+.approvalCell {
+  min-width: 250px;
+}
+
+
+.statusButton {
+  border: none;
+
+  border-radius: 6px;
+
+  padding: 7px 12px;
+
+  font-size: 11px;
+
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition: 0.2s;
+}
+
+
+.Approved {
+  background: #dcfce7;
+
+  color: #15803d;
+}
+
+
+.Approved:hover {
+  background: #bbf7d0;
+}
+
 
 .Rejected {
-  background: #d32f2f;
-  color: white;
+  background: #fee2e2;
+
+  color: #dc2626;
 }
+
+
+.Rejected:hover {
+  background: #fecaca;
+}
+
 
 .OnHold {
-  background: #f39c12;
-  color: white;
-}
+  background: #fef3c7;
 
-.ApproveButton {
-  background: #168a3a;
-  color: white;
-}
-
-.RejectButton {
-  background: #d32f2f;
-  color: white;
-}
-
-.HoldButton {
-  background: #f39c12;
-  color: white;
-}
-
-.Approved:hover,
-.ApproveButton:hover {
-  opacity: 0.85;
-}
-
-.Rejected:hover,
-.RejectButton:hover {
-  opacity: 0.85;
-}
-
-.OnHold:hover,
-.HoldButton:hover {
-  opacity: 0.85;
+  color: #b45309;
 }
 
 
-/* =========================================================
-   CHECKBOX
-========================================================= */
-
-.checkboxCell {
-  width: 55px;
-  text-align: center !important;
+.OnHold:hover {
+  background: #fde68a;
 }
 
-.checkboxCell input {
-  width: 17px;
-  height: 17px;
+
+/* =========================
+   ACTION BUTTONS
+========================= */
+
+.actionButtons {
+  display: flex;
+
+  align-items: center;
+
+  gap: 5px;
+
+  flex-wrap: wrap;
+}
+
+
+.actionButton {
+  border: none;
+
+  border-radius: 5px;
+
+  padding: 6px 9px;
+
+  font-size: 10px;
+
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition: 0.2s;
+}
+
+
+.actionButton:hover {
+  transform: translateY(-1px);
+}
+
+
+.approveAction {
+  background: #dcfce7;
+
+  color: #15803d;
+}
+
+
+.approveAction:hover {
+  background: #bbf7d0;
+}
+
+
+.rejectAction {
+  background: #fee2e2;
+
+  color: #dc2626;
+}
+
+
+.rejectAction:hover {
+  background: #fecaca;
+}
+
+
+.holdAction {
+  background: #fef3c7;
+
+  color: #b45309;
+}
+
+
+.holdAction:hover {
+  background: #fde68a;
+}
+
+
+/* =========================
+   MESSAGE
+========================= */
+
+.messageCell {
+  min-width: 180px;
+
+  max-width: 280px;
+
+  white-space: normal;
+
+  word-break: break-word;
+
+  line-height: 1.4;
+
+  color: #475569;
+}
+
+
+.noMessage {
+  color: #94a3b8;
+
+  font-size: 11px;
+
+  font-style: italic;
+}
+
+
+/* =========================
+   DELETE
+========================= */
+
+.deleteCell {
+  width: 70px;
+
+  min-width: 70px;
+
+  text-align: center;
+}
+
+
+.checkboxWrapper {
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
   cursor: pointer;
 }
 
 
-/* =========================================================
+.checkboxWrapper input {
+  width: 17px;
+  height: 17px;
+
+  cursor: pointer;
+
+  accent-color: rgb(40, 4, 99);
+}
+
+
+/* =========================
    NO RECORD
-========================================================= */
+========================= */
 
 .noRecord {
-  color: red;
   text-align: center !important;
-  padding: 25px !important;
+
+  padding: 40px !important;
+
+  color: #ef4444;
+
+  font-size: 14px;
+
   font-weight: 600;
 }
 
 
-/* =========================================================
-   MOBILE CARDS
-========================================================= */
+/* =========================
+   SCROLLBAR
+========================= */
 
-.mobileEmployeeCards {
-  display: none;
+.tableContainer::-webkit-scrollbar {
+  height: 8px;
 }
 
-.mobileEmployeeCard {
-  background: white;
-  border: 1px solid #ddd;
+
+.tableContainer::-webkit-scrollbar-track {
+  background: #f1f5f9;
+
   border-radius: 10px;
-  margin: 12px;
-  padding: 15px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+
+.tableContainer::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+
+  border-radius: 10px;
+}
+
+
+.tableContainer::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 768px) {
+
+  .tableWrapper {
+    padding: 0 6px;
+  }
+
+  .employeeTable {
+    min-width: 1450px;
+  }
+
+  .employeeTable thead th {
+    padding: 11px 9px;
+  }
+
+  .employeeTable tbody td {
+    padding: 10px 9px;
+  }
+
+}
+
+/* ...........Mobile.......... */
+
+#JobCardWrapper {
+  width: 100%;
+  padding: 10px;
   box-sizing: border-box;
 }
 
 
-/* =========================================================
-   MOBILE CARD HEADER
-========================================================= */
+/* =====================================
+   MAIN CARD
+===================================== */
 
-.mobileCardHeader {
+.JobCard {
+  width: 100%;
+  box-sizing: border-box;
+
+  background: #ffffff;
+
+  border: 1px solid #e2e8f0;
+
+  border-radius: 16px;
+
+  margin-bottom: 16px;
+
+  overflow: hidden;
+
+  box-shadow:
+    0 2px 6px rgba(0, 0, 0, 0.05),
+    0 8px 20px rgba(0, 0, 0, 0.04);
+}
+
+
+/* =====================================
+   HEADER
+===================================== */
+
+.cardHeader {
   display: flex;
+
+  align-items: center;
+
   justify-content: space-between;
-  align-items: flex-start;
+
   gap: 10px;
-  padding-bottom: 12px;
-  border-bottom: 1px solid #eee;
+
+  padding: 16px;
+
+  background: #f8fafc;
+
+  border-bottom: 1px solid #e5e7eb;
 }
 
-.mobileEmployeeName {
-  color: #0645ad;
-  font-size: 18px;
-  font-weight: 700;
+
+/* =====================================
+   PROFILE
+===================================== */
+
+.profileInfo {
+  display: flex;
+
+  align-items: center;
+
+  gap: 11px;
+
+  min-width: 0;
+
   cursor: pointer;
-  word-break: break-word;
 }
 
-.mobileEmployeeName:hover {
-  text-decoration: underline;
-}
 
-.mobileRegistration {
-  margin-top: 5px;
-  color: #777;
-  font-size: 12px;
-}
+.avatar {
+  width: 44px;
+  height: 44px;
 
-.mobileStatus {
-  flex-shrink: 0;
-}
+  min-width: 44px;
 
-.statusApproved,
-.statusRejected,
-.statusHold,
-.statusPending {
-  display: inline-block;
-  padding: 5px 9px;
-  border-radius: 15px;
-  font-size: 11px;
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: rgb(40, 4, 99);
+
+  color: #ffffff;
+
+  font-size: 17px;
+
   font-weight: 700;
-  white-space: nowrap;
-}
-
-.statusApproved {
-  background: #e5f7eb;
-  color: #168a3a;
-}
-
-.statusRejected {
-  background: #fde8e8;
-  color: #d32f2f;
-}
-
-.statusHold {
-  background: #fff3dc;
-  color: #d68910;
-}
-
-.statusPending {
-  background: #eeeeee;
-  color: #666;
 }
 
 
-/* =========================================================
-   MOBILE INFORMATION GRID
-========================================================= */
-
-.mobileInfoGrid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 10px;
-  margin-top: 15px;
-}
-
-.mobileInfoItem {
-  background: #f8f8fa;
-  border-radius: 7px;
-  padding: 9px;
+.profileText {
   min-width: 0;
 }
 
-.mobileInfoItem span {
-  display: block;
-  color: #777;
+
+.employeeName {
+  color: #2563eb;
+
+  font-size: 16px;
+
+  font-weight: 700;
+
+  white-space: nowrap;
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+
+  max-width: 190px;
+}
+
+
+.registeredDate {
+  margin-top: 3px;
+
+  color: #64748b;
+
   font-size: 11px;
-  margin-bottom: 4px;
-  font-weight: 500;
-}
-
-.mobileInfoItem strong {
-  display: block;
-  color: #222;
-  font-size: 13px;
-  line-height: 1.4;
-  overflow-wrap: anywhere;
 }
 
 
-/* =========================================================
-   MOBILE SECTIONS
-========================================================= */
+/* =====================================
+   STATUS
+===================================== */
 
-.mobileSection {
-  margin-top: 12px;
-  padding: 10px;
-  border-radius: 7px;
-  background: #f8f8fa;
-}
+.statusApproved,
+.statusPending {
+  display: inline-flex;
 
-.mobileSectionTitle {
-  color: #555;
-  font-size: 12px;
+  align-items: center;
+
+  padding: 5px 9px;
+
+  border-radius: 20px;
+
+  font-size: 10px;
+
   font-weight: 700;
-  margin-bottom: 5px;
-}
 
-.mobileValue {
-  color: #0645ad;
-  font-size: 13px;
-  line-height: 1.5;
-  overflow-wrap: anywhere;
-}
-
-.mobileMessage {
-  color: #0645ad;
-  font-size: 13px;
-  line-height: 1.5;
-  overflow-wrap: anywhere;
+  white-space: nowrap;
 }
 
 
-/* =========================================================
-   MOBILE ACTION BUTTONS
-========================================================= */
+.statusApproved {
+  background: #dcfce7;
 
-.mobileActions {
+  color: #15803d;
+}
+
+
+.statusPending {
+  background: #fef3c7;
+
+  color: #b45309;
+}
+
+
+/* =====================================
+   DETAILS
+===================================== */
+
+.detailsSection {
+  padding: 5px 16px;
+}
+
+
+.detailRow {
   display: flex;
-  gap: 7px;
-  margin-top: 15px;
+
+  align-items: flex-start;
+
+  gap: 12px;
+
+  padding: 10px 0;
+
+  border-bottom: 1px solid #f1f5f9;
 }
 
-.MoApprove,
-.MoReject,
-.MoHold,
-.MoApproved,
-.MoRejected,
-.MoOnHold {
-  flex: 1;
-  border: none;
-  border-radius: 6px;
-  padding: 9px 7px;
+
+.detailRow:last-child {
+  border-bottom: none;
+}
+
+
+.detailLabel {
+  width: 110px;
+
+  min-width: 110px;
+
+  color: #64748b;
+
   font-size: 12px;
-  font-weight: 700;
-  cursor: pointer;
-}
 
-.MoApprove,
-.MoApproved {
-  background: #168a3a;
-  color: white;
-}
-
-.MoReject,
-.MoRejected {
-  background: #d32f2f;
-  color: white;
-}
-
-.MoHold,
-.MoOnHold {
-  background: #f39c12;
-  color: white;
-}
-
-.MoApprove:hover,
-.MoReject:hover,
-.MoHold:hover,
-.MoApproved:hover,
-.MoRejected:hover,
-.MoOnHold:hover {
-  opacity: 0.85;
-}
-
-
-/* =========================================================
-   MOBILE ARCHIVE
-========================================================= */
-
-.mobileArchive {
-  margin-top: 12px;
-  padding-top: 10px;
-  border-top: 1px solid #eee;
-  font-size: 12px;
-  color: #555;
-}
-
-.mobileArchive input {
-  width: 16px;
-  height: 16px;
-  vertical-align: middle;
-  cursor: pointer;
-}
-
-.mobileNoRecord {
-  color: red;
-  text-align: center;
-  padding: 30px 10px;
   font-weight: 600;
 }
 
 
-/* =========================================================
-   TABLET
-========================================================= */
+.detailValue {
+  flex: 1;
 
-@media (min-width: 851px) and (max-width: 1200px) {
+  min-width: 0;
 
-  .employeeTable {
-    min-width: 1100px;
-    font-size: 12px;
+  color: #2563eb;
+
+  font-size: 13px;
+
+  font-weight: 500;
+
+  word-break: break-word;
+
+  line-height: 1.4;
+}
+
+
+/* =====================================
+   WEBSITE
+===================================== */
+
+.websiteLink {
+  color: #2563eb;
+
+  text-decoration: none;
+
+  word-break: break-all;
+}
+
+
+.websiteLink:hover {
+  text-decoration: underline;
+
+  color: #1d4ed8;
+}
+
+
+/* =====================================
+   NOT UPDATED
+===================================== */
+
+.notUpdated {
+  color: #ef4444 !important;
+
+  font-size: 11px;
+}
+
+
+/* =====================================
+   INFORMATION BOX
+===================================== */
+
+.infoBox {
+  margin: 10px 16px 0;
+
+  padding: 12px;
+
+  border-radius: 10px;
+
+  background: #f8fafc;
+
+  border: 1px solid #eef2f7;
+}
+
+
+.infoTitle {
+  margin-bottom: 6px;
+
+  color: #475569;
+
+  font-size: 12px;
+
+  font-weight: 700;
+}
+
+
+.infoValue {
+  color: #2563eb;
+
+  font-size: 13px;
+
+  line-height: 1.5;
+
+  word-break: break-word;
+}
+
+
+/* =====================================
+   ACCOUNT STATUS
+===================================== */
+
+.accountSection {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 10px;
+
+  margin: 12px 16px 0;
+
+  padding: 12px;
+
+  border-radius: 10px;
+
+  background: #f8fafc;
+
+  border: 1px solid #eef2f7;
+}
+
+
+.accountTitle {
+  color: #475569;
+
+  font-size: 12px;
+
+  font-weight: 700;
+}
+
+
+/* =====================================
+   APPROVE BUTTON
+===================================== */
+
+.Approve,
+.Approved {
+  border: none;
+
+  border-radius: 7px;
+
+  padding: 7px 14px;
+
+  font-size: 11px;
+
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition: 0.2s;
+}
+
+
+.Approve {
+  background: rgb(40, 4, 99);
+
+  color: white;
+}
+
+
+.Approve:hover {
+  background: rgb(55, 10, 125);
+}
+
+
+.Approved {
+  background: #dcfce7;
+
+  color: #15803d;
+}
+
+
+.Approved:hover {
+  background: #bbf7d0;
+}
+
+
+/* =====================================
+   MESSAGE
+===================================== */
+
+.messageValue {
+  color: #2563eb;
+
+  font-size: 13px;
+
+  line-height: 1.5;
+
+  word-break: break-word;
+}
+
+
+.noMessage {
+  color: #ef4444;
+
+  font-size: 11px;
+
+  font-style: italic;
+}
+
+
+/* =====================================
+   VIEW PROFILE
+===================================== */
+
+.viewProfile {
+  width: calc(100% - 32px);
+
+  margin: 14px 16px 16px;
+
+  padding: 11px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 8px;
+
+  border: none;
+
+  border-radius: 9px;
+
+  background: #eff6ff;
+
+  color: #2563eb;
+
+  font-size: 13px;
+
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition: 0.2s;
+}
+
+
+.viewProfile:hover {
+  background: #dbeafe;
+}
+
+
+.viewProfile span {
+  font-size: 17px;
+}
+
+
+/* =====================================
+   NO RECORD
+===================================== */
+
+.noRecord {
+  padding: 40px 20px;
+
+  text-align: center;
+
+  color: #ef4444;
+
+  font-size: 14px;
+
+  font-weight: 600;
+}
+
+
+/* =====================================
+   MOBILE
+===================================== */
+
+@media (max-width: 600px) {
+
+  #JobCardWrapper {
+    padding: 7px;
   }
 
-  .employeeTable th,
-  .employeeTable td {
-    padding: 7px 5px;
+
+  .JobCard {
+    border-radius: 14px;
+
+    margin-bottom: 14px;
   }
 
-  .Approved,
-  .Rejected,
-  .OnHold,
-  .ApproveButton,
-  .RejectButton,
-  .HoldButton {
-    padding: 5px 6px;
+
+  .cardHeader {
+    padding: 14px;
+  }
+
+
+  .avatar {
+    width: 40px;
+    height: 40px;
+
+    min-width: 40px;
+
+    font-size: 15px;
+  }
+
+
+  .employeeName {
+    font-size: 14px;
+
+    max-width: 150px;
+  }
+
+
+  .registeredDate {
     font-size: 10px;
   }
 
-}
 
-
-/* =========================================================
-   MOBILE
-========================================================= */
-
-@media (max-width: 850px) {
-
-  .searchBoth {
-    margin: 12px;
-    display: block;
+  .detailsSection {
+    padding: 4px 14px;
   }
 
-  .p {
-    margin-bottom: 6px;
-  }
 
-  .inputboxsearch {
-    width: 100%;
-  }
+  .detailRow {
+    padding: 9px 0;
 
-  .tableWrapper {
-    display: none;
-  }
-
-  .mobileEmployeeCards {
-    display: block;
-    width: 100%;
-  }
-
-}
-
-
-/* =========================================================
-   SMALL MOBILE
-========================================================= */
-
-@media (max-width: 480px) {
-
-  .mobileEmployeeCard {
-    margin: 10px;
-    padding: 12px;
-    border-radius: 8px;
-  }
-
-  .mobileCardHeader {
-    flex-direction: column;
     gap: 8px;
   }
 
-  .mobileEmployeeName {
-    font-size: 17px;
-  }
 
-  .mobileInfoGrid {
-    grid-template-columns: 1fr;
-  }
+  .detailLabel {
+    width: 100px;
 
-  .mobileActions {
-    gap: 5px;
-  }
+    min-width: 100px;
 
-  .MoApprove,
-  .MoReject,
-  .MoHold,
-  .MoApproved,
-  .MoRejected,
-  .MoOnHold {
-    padding: 8px 4px;
     font-size: 11px;
+  }
+
+
+  .detailValue {
+    font-size: 12px;
+  }
+
+
+  .infoBox {
+    margin-left: 14px;
+
+    margin-right: 14px;
+  }
+
+
+  .accountSection {
+    margin-left: 14px;
+
+    margin-right: 14px;
+  }
+
+
+  .viewProfile {
+    width: calc(100% - 28px);
+
+    margin-left: 14px;
+
+    margin-right: 14px;
   }
 
 }
 
 
-/* =========================================================
+/* =====================================
    VERY SMALL MOBILE
-========================================================= */
+===================================== */
 
-@media (max-width: 360px) {
+@media (max-width: 380px) {
 
-  .mobileEmployeeCard {
-    margin: 7px;
-    padding: 10px;
+  .cardHeader {
+    padding: 12px;
   }
 
-  .mobileActions {
-    flex-direction: column;
+
+  .avatar {
+    width: 37px;
+    height: 37px;
+
+    min-width: 37px;
+
+    font-size: 14px;
   }
 
-  .MoApprove,
-  .MoReject,
-  .MoHold,
-  .MoApproved,
-  .MoRejected,
-  .MoOnHold {
-    width: 100%;
+
+  .employeeName {
+    max-width: 125px;
+
+    font-size: 13px;
+  }
+
+
+  .statusApproved,
+  .statusPending {
+    padding: 4px 7px;
+
+    font-size: 9px;
+  }
+
+
+  .detailLabel {
+    width: 90px;
+
+    min-width: 90px;
+  }
+
+
+  .detailValue {
+    font-size: 11px;
   }
 
 }
