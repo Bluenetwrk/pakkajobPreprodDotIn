@@ -333,12 +333,12 @@ function MyCreatedResume({ searchKey, setsearchKey, Filtereredjobs, setFilterere
 
   async function applyforOtherJob(Link) {
     // navigate("/JobSeekerLogin", { state: { Jid: id } })
-    // alert(" ITWALKIN.com never charges fees for job applications. If you encounter misuse or payment requests, report it through our website." )
+    // alert(" Pakka Job never charges fees for job applications. If you encounter misuse or payment requests, report it through our website." )
     window.open(`${Link}`)
   }
 
   async function applyforJob(jobId) {
-    // alert(" ITWALKIN.com never charges fees for job applications. If you encounter misuse or payment requests, report it through our website." )
+    // alert(" Pakka Job never charges fees for job applications. If you encounter misuse or payment requests, report it through our website." )
     let date = new Date()
     let userid = JSON.parse(localStorage.getItem("CSCId"))
     const headers = { authorization: userid + " " + atob(JSON.parse(localStorage.getItem("CSCLog"))) };

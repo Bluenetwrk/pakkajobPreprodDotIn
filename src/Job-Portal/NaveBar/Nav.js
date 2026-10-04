@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate, NavLink, useSearchParams } from "react-router-dom";
 import Styles from "./nav.module.css"
 import logo from "../img/Blue.jpg"
-import Itwalkinlogo from "../img/ItwalkInLogo.jpg"
+import PakkaJobLogo from "../img/PakkaJobLogo.jpg"
 import logIn from "../img/user_3177440.png"
 import NavIcon from "../img/icons8-menu-50.png"
 import Cancel from "../img/icons8-cross-50.png"
@@ -372,8 +372,8 @@ function Nav(props) {
                     <i style={{ color: "white", fontSize: "18px", visibility: props.searchClick ? "hidden" : "visible" }}
                       class=" fa fa-search" onClick={() => { ChangeSideNaveBar(); props.setSearchClick((currentValue) => !currentValue) }} ></i>
                   </div>
-                  <div className={Styles.ITwalkinWrapper}>
-                    <img className={Styles.IwalkinLogologo} src={Itwalkinlogo} />
+                  <div className={Styles.PakkaJobWrapper}>
+                    <img className={Styles.IwalkinLogologo} src={PakkaJobLogo} />
                   </div>
                   <div><NavLink to="/alljobs" className={Styles.AllJobJobSeeker} style={navLinkStyles}>All Jobs </NavLink>
                   </div>
@@ -487,7 +487,7 @@ function Nav(props) {
                         zIndex: 9999,
                         textAlign: 'center',
                       }}>
-                        The background check feature on ITWalkin.com allows jobseekers to conduct background checks on companies to
+                        The background check feature on Pakka Job allows jobseekers to conduct background checks on companies to
                         <br></br>
                         ensure credibility. To access this feature you need to navigate to <span onClick={() => navigate("/My-Applied-Jobs")} style={{ backgroundColor: "green", cursor: "pointer" }}>My Applied Jobs</span> and click on the company Name
                         {/* You must be logged in to our portal to access this feature. */}
@@ -584,8 +584,8 @@ function Nav(props) {
                         <BigSidebarNav jobSeekersearch={props.jobSeekersearch} searchcarrer={props.searchcarrer} searchBlog={props.searchBlog} setSearchClick={props.setSearchClick} searchs={props.searchs} search={props.search} searchKey={props.searchKey} searchIcon={props.searchIcon} ChangeSideNaveBar={ChangeSideNaveBar} />
                       </div>
                     </div>
-                    <div className={Styles.ITwalkinWrapper}>
-                      <img className={Styles.IwalkinLogologo} src={Itwalkinlogo} />
+                    <div className={Styles.PakkaJobWrapper}>
+                      <img className={Styles.IwalkinLogologo} src={PakkaJobLogo} />
                     </div>
                     <div>
                       <NavLink to="/PostJobs" className={Styles.PostJobLink} style={navLinkStyles}>Post a Job</NavLink>
@@ -833,8 +833,8 @@ function Nav(props) {
                         </div>
                       </div>
                       <div>
-                        <div className={Styles.ITwalkinWrapper}>
-                          <img className={Styles.IwalkinLogologo} src={Itwalkinlogo} />
+                        <div className={Styles.PakkaJobWrapper}>
+                          <img className={Styles.IwalkinLogologo} src={PakkaJobLogo} />
                         </div>
                       </div>
                       <div>
@@ -1084,7 +1084,7 @@ function Nav(props) {
                               zIndex: 9999,
                               textAlign: 'center',
                             }}>
-                              The background check feature on ITWalkin.com allows both employers and jobseekers to verify profiles. Employers can assess a jobseeker’s background, while jobseekers can conduct background checks on companies to ensure credibility.<br></br>
+                              The background check feature on Pakka Job allows both employers and jobseekers to verify profiles. Employers can assess a jobseeker’s background, while jobseekers can conduct background checks on companies to ensure credibility.<br></br>
                               You must be logged in to our portal to access this feature.<br></br>
                               Are you a Jobseeker or an Employer?
 
@@ -1372,9 +1372,9 @@ function Nav(props) {
                     </div>
                   </div>
 
-                  <div className={Styles.ITwalkinWrapper} style={{ marginTop: "13px", width: "96px", position: "relative" }}>
+                  <div className={Styles.PakkaJobWrapper} style={{ marginTop: "13px", width: "96px", position: "relative" }}>
 
-                    <img className={Styles.MobIwalkinLogologo} src={Itwalkinlogo} />
+                    <img className={Styles.MobIwalkinLogologo} src={PakkaJobLogo} />
                     {showprofile ?
                       <div className={Styles.Alldownwrapper} >
                         <div className={Styles.MobJobseekerDropdownwrapperlogin} ref={menuRef} >
@@ -1440,9 +1440,9 @@ className={props.ShowSideNave ? "fas fa-times" : "fas fa-bars"} ref={SimgRef} on
 </i>
 </div>
                
-                <div className={Styles.ITwalkinWrapper} style={{marginTop:"10px"}}>
+                <div className={Styles.PakkaJobWrapper} style={{marginTop:"10px"}}>
                 
-                        <img className={Styles.MobIwalkinLogologo} src={Itwalkinlogo} />
+                        <img className={Styles.MobIwalkinLogologo} src={PakkaJobLogo} />
 
                 </div>
               
@@ -1512,7 +1512,7 @@ className={props.ShowSideNave ? "fas fa-times" : "fas fa-bars"} ref={SimgRef} on
                     </div>
 
                     <div>
-                      <img style={{ width: "80%" }} className={Styles.MobIwalkinLogologo} src={Itwalkinlogo} />
+                      <img style={{ width: "80%" }} className={Styles.MobIwalkinLogologo} src={PakkaJobLogo} />
                     </div>
                     <div>
                       <NavLink to="/PostJobs" style={{ marginLeft: "-24%" }} className={`${Styles.Moblink} ${Styles.PostJob}`} >Post a Job</NavLink>
@@ -1564,10 +1564,10 @@ className={props.ShowSideNave ? "fas fa-times" : "fas fa-bars"} ref={SimgRef} on
                   <div className={Styles.fullnavewrapper}>
                     {/* <div className={Styles.logoWrapper}> */}
                     {/* <NavLink to="/" > <img className={Styles.Moblogo} src={logo} /> </NavLink> */}
-                    <div className={Styles.ITwalkinWrapper}>
-                      {/* <p className={Styles.ITwalkin}>ITwalkin</p>
+                    <div className={Styles.PakkaJobWrapper}>
+                      {/* <p className={Styles.PakkaJob}>Pakka Job</p>
                       <p className={Styles.onlyforITjobs}>Only for IT jobs</p> */}
-                      <img className={Styles.MobIwalkinLogologo} src={Itwalkinlogo} />
+                      <img className={Styles.MobIwalkinLogologo} src={PakkaJobLogo} />
 
                     </div>
                     {/* </div> */}
@@ -1608,7 +1608,7 @@ className={props.ShowSideNave ? "fas fa-times" : "fas fa-bars"} ref={SimgRef} on
                         </div>
                       </div>
                       <div>
-                        <img className={Styles.MobIwalkinLogologo} src={Itwalkinlogo} />
+                        <img className={Styles.MobIwalkinLogologo} src={PakkaJobLogo} />
                       </div>
 
                       <div style={{ display: "flex", flexDirection: "column" }}>
@@ -1795,9 +1795,9 @@ onClick={() => {
                   </i>
                 </div>
                                      
-                    <div className={Styles.ITwalkinWrapperHomeMobile}>
+                    <div className={Styles.PakkaJobWrapperHomeMobile}>
                       
-                        <img className={Styles.MobIwalkinLogologo} src={Itwalkinlogo} />
+                        <img className={Styles.MobIwalkinLogologo} src={PakkaJobLogo} />
                        
                          {props.flashVisible && (
                        <div className={Styles.blast} style={{cursor:"pointer", marginLeft:"69%" }}>

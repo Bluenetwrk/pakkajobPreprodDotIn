@@ -568,7 +568,7 @@ console.log(records)
                   </a><br />
                 </>
               ) : (
-                <span className={styles.skills}>ItWalkin</span>
+                <span className={styles.skills}>Pakka Job</span>
               )}
 
               <span style={{ marginBottom: "-3px", display: "inline" }}>

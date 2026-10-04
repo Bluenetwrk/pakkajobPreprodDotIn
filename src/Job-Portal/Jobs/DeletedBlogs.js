@@ -671,7 +671,7 @@ return(
                           :
                           <li className={`${styles.li} ${styles.BlogJtitle}`} onClick={() => navigate(`/BIAddmin@CheckDeletedBlog/${(items._id)}`)} style={{ cursor: "pointer", textDecoration: "underline", color: "blue" }}>{items.jobTitle}</li>
                         }                      
-                               <li className={`${styles.li} ${styles.BlogSource}`} >Itwalkin</li>
+                               <li className={`${styles.li} ${styles.BlogSource}`} >Pakka Job</li>
 
                                             <li style={{ cursor: "pointer", textDecoration: "underline" }} className={`${styles.li} ${styles.BlogCompanyName}`}
                             onClick={(e) => { checkEmpHalf(btoa(items.empId)) }}  >
@@ -1404,7 +1404,7 @@ return(
 
                        
                              <span className={styles.jobtypeAndDate}>Source</span> :
-<> <span className={styles.skills}>ItWalkin</span><br></br></>                          
+<> <span className={styles.skills}>Pakka Job</span><br></br></>
 {
                               job.question?
                               ""

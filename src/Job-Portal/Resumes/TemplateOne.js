@@ -68,7 +68,7 @@ const TemplateOne = ({themeColor}) => {
     resumeElement.className = oldClass + ' force-a4';
   
     setTimeout(() => {
-      generatePDF('template-one', `${profileData.name}_ITwalkin_resume.pdf`);
+      generatePDF('template-one', `${profileData.name}_Pakka_Job_resume.pdf`);
       resumeElement.className = oldClass;
   
       // Restore zoom settings

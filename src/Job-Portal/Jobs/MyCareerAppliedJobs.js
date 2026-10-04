@@ -468,7 +468,7 @@ function AppledJobs(props) {
                       {job.Source ?
                         <> <a className={`${styles.skills}`} href={job.SourceLink} target="_blank">{job.Source}</a><br></br> </>
                         :
-                        <> <span className={styles.skills}>ItWalkin </span></>
+                        <> <span className={styles.skills}>Pakka Job </span></>
                       }
                       <span style={{ marginBottom: "-3px", display: "inline" }}><span style={{ marginLeft: "5px", fontWeight: "450" }}>Applied Date: </span>
                         {new Date(

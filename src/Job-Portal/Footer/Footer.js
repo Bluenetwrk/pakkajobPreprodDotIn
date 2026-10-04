@@ -1,7 +1,7 @@
 import React from 'react'
 import Styles from "./footer.module.css"
 import { Link, useNavigate, BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
-import Itwalkinlogo from "../img/ItwalkInLogo.jpg"
+import PakkaJobLogo from "../img/PakkaJobLogo.jpg"
 
 
 
@@ -21,7 +21,7 @@ function Footer() {
 
           <div style={{display:"flex", marginLeft:"20px", flexWrap:"wrap"}}>
           <div style={{}}>
-             <img className={Styles.MobIwalkinLogologo} style={{width:"140px"}} src={Itwalkinlogo} />
+             <img className={Styles.MobIwalkinLogologo} style={{width:"140px"}} src={PakkaJobLogo} />
             </div>
             <div className={Styles.brands}>
               {/* <a> <i className='fa-brands fa-facebook-square'></i> </a>

@@ -536,9 +536,9 @@ function StudentProfile() {
                     onChange={(e) => setdisclaimerConsent(e.target.checked)}
 
                   />
-                  Itwalkin is not responsible for misuse of this video by the employer
+                  Pakka Job is not responsible for misuse of this video by the employer
                 </label>
-                <p><span style={{ fontWeight: "bold" }}>Note:</span>This video will required by ITWalkin Admin. This video will be shared only to fortune 500 employer</p>
+                <p><span style={{ fontWeight: "bold" }}>Note:</span>This video will required by Pakka Job Admin. This video will be shared only to fortune 500 employer</p>
               </div>
 
               {/* {ytUploading && <p className={styles.loadingText}>Uploading… please wait...</p>} */}

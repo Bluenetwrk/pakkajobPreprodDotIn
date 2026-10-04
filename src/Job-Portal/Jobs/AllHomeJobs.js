@@ -183,7 +183,7 @@ function Home({ nopageFilter, setNoPageFilter, searchKey, setsearchKey, Filterer
 
 
   async function applyforJob(id) {
-    // alert(" ITWALKIN.com never charges fees for job applications. If you encounter misuse or payment requests, report it through our website." )
+    // alert(" Pakka Job never charges fees for job applications. If you encounter misuse or payment requests, report it through our website." )
     navigate("/JobSeekerLogin", { state: { Jid: id } })
 
   }
@@ -760,7 +760,7 @@ function Home({ nopageFilter, setNoPageFilter, searchKey, setsearchKey, Filterer
                         {/* <li className={`${styles.li} ${styles.Jtitle}`} onClick={() => navigate(`/Jobdetails/${btoa(items._id)}`)} style={{ cursor: "pointer", textDecoration: "underline", color: "blue" }}>{items.jobTitle.charAt(0).toUpperCase()+items.jobTitle.substring(1)}</li> */}
 
                         <li className={`${styles.li} ${styles.Jtitle}`} onClick={() => navigate(`/Jobdetails/${btoa(items._id)}?index=${i}`, { state: { selectedTag, }, })} style={{ cursor: "pointer", textDecoration: "underline", color: "blue" }}>{items.jobTitle.charAt(0).toUpperCase() + items.jobTitle.substring(1)}</li>
-                        <li className={`${styles.li} ${styles.Source}`} >ITwalkin</li>
+                        <li className={`${styles.li} ${styles.Source}`} >Pakka Job</li>
 
                         {
                           !items.Source ?
@@ -833,7 +833,7 @@ function Home({ nopageFilter, setNoPageFilter, searchKey, setsearchKey, Filterer
 
                                 >
                                   <strong style={{ color: "red", textAlign: "center", fontSize: "14px" }}>NOTICE</strong><br></br>
-                                  ITWALKIN.com never charges fees for job applications. If you encounter misuse or payment requests, report it through our website.<br></br>
+                                  Pakka Job never charges fees for job applications. If you encounter misuse or payment requests, report it through our website.<br></br>
                                   <br></br>
                                   You will be redirected to the career page of        {
                                     !items.Source ?
@@ -849,8 +849,8 @@ function Home({ nopageFilter, setNoPageFilter, searchKey, setsearchKey, Filterer
                                       </span>
 
                                   }.
-                                  ITwalkin is not the authorised partner of this company
-                                  {/* <strong>Notice:</strong> ITWALKIN.com never charges fees for job applications. If you encounter misuse or payment requests, report it through our website. */}
+                                  Pakka Job is not the authorised partner of this company
+                                  {/* <strong>Notice:</strong> Pakka Job never charges fees for job applications. If you encounter misuse or payment requests, report it through our website. */}
 
                                   <div ref={alertRef} style={{ marginTop: '15px', display: "flex", justifyContent: "center", gap: "5px" }}>
                                     <button
@@ -1078,7 +1078,7 @@ function Home({ nopageFilter, setNoPageFilter, searchKey, setsearchKey, Filterer
 
                             <span className={styles.jobtypeAndDate}>Posted By</span> :
 
-                            <> <span className={styles.skills}>ITwalkin</span><br></br></>
+                            <> <span className={styles.skills}>Pakka Job</span><br></br></>
                             {/* } */}
 
                             <div className={styles.skillWrapper}>
@@ -1113,7 +1113,7 @@ function Home({ nopageFilter, setNoPageFilter, searchKey, setsearchKey, Filterer
                                       }}
                                     >
                                       <strong style={{ color: "red", textAlign: "center", fontSize: "14px" }}>NOTICE</strong><br></br>
-                                      ITWALKIN.com never charges fees for job applications. If you encounter misuse or payment requests, report it through our website.<br></br>
+                                      Pakka Job never charges fees for job applications. If you encounter misuse or payment requests, report it through our website.<br></br>
                                       <br></br>
                                       You will be redirected to the career page of {
                                         !job.Source ?
@@ -1129,8 +1129,8 @@ function Home({ nopageFilter, setNoPageFilter, searchKey, setsearchKey, Filterer
                                           </span>
 
                                       }.
-                                      ITWalkin is not the authorised partner of this company
-                                      {/* <strong>Notice:</strong> ITWALKIN.com never charges fees for job applications. If you encounter misuse or payment requests, report it through our website. */}
+                                      Pakka Job is not the authorised partner of this company
+                                      {/* <strong>Notice:</strong> Pakka Job never charges fees for job applications. If you encounter misuse or payment requests, report it through our website. */}
 
                                       <div ref={alertRef} style={{ marginTop: '15px', display: "flex", gap: "4px", justifyContent: "center" }}>
                                         <button

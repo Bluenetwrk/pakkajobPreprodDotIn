@@ -355,7 +355,7 @@ const [Loader, setLoader] = useState(false)
 {jobs.Source ?
   <> <a className={`${styles.skills}`} href={jobs.SourceLink} target="_blank">{jobs.Source}</a><br></br> </>
   :
-  <> <span className={styles.skills}>ItWalkin</span><br></br></>
+  <> <span className={styles.skills}>Pakka Job</span><br></br></>
 }
 
 <div className={styles.skillWrapper}>

@@ -71,7 +71,7 @@ export default function JobseekerEnterCabin() {
            updatedDateTime: new Date()
          }
        ]
-      // applyLink:"itwalkin.com"
+      // applyLink:"Pakka Job"
      }, 
    { headers })
      .then(async (res) => {

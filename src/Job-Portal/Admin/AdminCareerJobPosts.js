@@ -31,7 +31,7 @@ function AdminCareerPostJobs() {
     const [Adminpost, setAdminpost] = useState(true)
 
 
-    const [companyName, setCompanyName] = useState("Itwalkin")
+    const [companyName, setCompanyName] = useState("Pakka Job")
     const [jobDescription, setJobDescription] = useState("")
     const [jobtype, setJobtype] = useState("")
     const [salaryRange, setSalaryRange] = useState("")

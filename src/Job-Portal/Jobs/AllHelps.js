@@ -1,6 +1,5 @@
 import React from "react";
-import axios from "axios";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import HTMLReactParser from "html-react-parser";
 import Footer from "../Footer/Footer";
 import useScreenSize from "../SizeHook";
@@ -11,7 +10,6 @@ import {jobTags} from '../Tags'
 function AllHelps({ Active, getjobs, setJobs, setActive, count, setCount,currentPage,setCurrentPage,
   recordsPerPage, setrecordsPerPage,nopageFilter,setNoPageFilter
 }) {
-  const [Contact, setContact] = useState([]);
   const screenSize = useScreenSize();
   const[jobsPerPageValue,setJobsPerPageValue]=useState(10);
 
@@ -51,24 +49,13 @@ function AllHelps({ Active, getjobs, setJobs, setActive, count, setCount,current
   }
 
 
-  async function getContact() {
-    await axios.get("/admin/getWebsiteDetails").then((res) => {
-      let result = res.data.result;
-      setContact(result[0].Contact);
-    });
-  }
-
-  useEffect(() => {
-    getContact();
-  }, []);
-
   const helpData = [
     { 
       id: 1, 
       question: "How to Register as an Employer?", 
-      source: "ITWalkin", 
-      companyName: "ITWalkin", 
-      postedby: "ITWalkin", 
+      source: "Pakka Job",
+      companyName: "Pakka Job",
+      postedby: "Pakka Job",
       postedDate: "20-03-2025", 
       view: "View",
       details: "1. To register as an employer, follow these steps:\n2. Click on the 'Open an Account' menu in the navigation bar.\n3. A submenu will appear—select 'Employer Registration' from the list.\n4. The Employer Registration Form will open in a new window.\n5. Fill in all the required details in the given fields.\n6. Choose to register using either Microsoft or Google.\n7. Once completed, your registration will be successful."
@@ -76,9 +63,9 @@ function AllHelps({ Active, getjobs, setJobs, setActive, count, setCount,current
   { 
     id: 2, 
     question: "How to Register as a Job Seeker?", 
-    source: "ITWalkin", 
-    companyName: "ITWalkin", 
-    postedby: "ITWalkin", 
+    source: "Pakka Job",
+    companyName: "Pakka Job",
+    postedby: "Pakka Job",
     postedDate: "20-03-2025", 
     view: "View",
     details: "1. To register as a Job Seeker, follow these steps:\n2. Click on the 'Open an Account' menu in the navigation bar.\n3. A submenu will appear—select 'Jobseeker Registration' from the list.\n4. The jobseeker Registration Form will open in a new window.\n5. Fill in all the required details in the given fields.\n6. Choose to register using either Microsoft or Google.\n7. Once completed, your registration will be successful."
@@ -86,9 +73,9 @@ function AllHelps({ Active, getjobs, setJobs, setActive, count, setCount,current
 {
   id: 2,
   question: "How to Fill Form in Resume Builder?",
-  source: "ITWalkin",
-  companyName: "ITWalkin",
-  postedby: "ITWalkin",
+  source: "Pakka Job",
+  companyName: "Pakka Job",
+  postedby: "Pakka Job",
   postedDate: "13-11-2025",
   view: "View",
   details: `Steps to Fill the Resume Builder Form:
@@ -451,4 +438,3 @@ Click Save to store your resume information.`
 }
 
 export default AllHelps;
-

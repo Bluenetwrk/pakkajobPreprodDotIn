@@ -806,7 +806,7 @@ const [EndTime, setEndTime] = useState("");
                                        <div>
 <p><input type="checkbox" checked={concent} onChange={()=>{setconcent((prev)=>!prev)}}/>
 I acknowledge that I have read and agreed to the
-     <span style={{color:"blue", cursor:"pointer"}} onClick={()=>(window.open("/TermsAndCondition"))}> Terms and Conditions</span> of ITwalkin.com prior to posting any walk-in drives</p>
+     <span style={{color:"blue", cursor:"pointer"}} onClick={()=>(window.open("/TermsAndCondition"))}> Terms and Conditions</span> of Pakka Job prior to posting any walk-in drives</p>
 
      </div>
      {Logo ? <p ><span style={{ color: "blue" }}>Note** :</span> Logo will also be posted with the Job</p> : ""}

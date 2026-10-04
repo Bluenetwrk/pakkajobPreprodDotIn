@@ -286,7 +286,7 @@ const [fraudAlert, setfraudAlert]=useState(false)
         <p onClick={()=>{navigate("/Blogs"); props.setShowSideNaveProps(false);props.setShowMobileSearchIcon(true)}} className={`${Styles.textinMobileSodeBar} `}>Blogs </p>
         {!EmployeeAuth&&
         <>
-        <p onClick={()=>{navigate("/AllCareerJobs"); props.setShowSideNaveProps(false);props.setShowMobileSearchIcon(true)}} className={`${Styles.textinMobileSodeBar} `}>ITwalkin Career</p>
+        <p onClick={()=>{navigate("/AllCareerJobs"); props.setShowSideNaveProps(false);props.setShowMobileSearchIcon(true)}} className={`${Styles.textinMobileSodeBar} `}>Pakka Job Career</p>
         <p onClick={()=>{resumeRedirect(); props.setShowSideNaveProps(false);props.setShowMobileSearchIcon(true)}} className={`${Styles.textinMobileSodeBar} `}> Resume Builder</p>
         {/* <p onClick={()=>{navigate("/consultation-services"); props.setShowSideNaveProps(false);props.setShowMobileSearchIcon(true)}} className={`${Styles.textinMobileSodeBar} `}>Consultation Services</p> */}
         {/* <p onClick={()=>{navigate("/Walkin-Drives"); props.setShowSideNaveProps(false);props.setShowMobileSearchIcon(true)}} className={`${Styles.textinMobileSodeBar} `}>Walkin Drive</p> */}

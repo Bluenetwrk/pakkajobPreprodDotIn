@@ -156,7 +156,7 @@ function PostHelp(props) {
    </div>
 </div>  
 <p><input type="checkbox" onChange={()=>{setconcent((prev)=>!prev)}}/>
-    I have read the terms and conditions of ITwalkin.com and I agree to all the 
+    I have read the terms and conditions of Pakka Job and I agree to all the
      <span style={{color:"blue", cursor:"pointer"}} onClick={()=>(window.open("/TermsAndCondition"))}> Terms and Conditons</span> before posting the Help Questions </p>
 
 

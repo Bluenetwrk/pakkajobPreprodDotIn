@@ -318,7 +318,7 @@ let question =true
                                         
 
                                         <p><input type="checkbox" checked={concent} onChange={() => { setconcent((prev) => !prev) }} />
-                                            I have read the terms and conditions of ITwalkin.com and I agree to all the
+                                            I have read the terms and conditions of Pakka Job and I agree to all the
                                             <span style={{ color: "blue", cursor: "pointer" }} onClick={() => (window.open("/TermsAndCondition"))}> Terms and Conditions</span> before posting my question </p>
 
 

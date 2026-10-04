@@ -645,7 +645,7 @@ const responsive = {
 
       {screenSize.width > 850 ?
         <>
-    <h2 style={{marginLeft:"10px", fontWeight:"800", marginTop:"55px", marginBottom:"-15px"}}> ITwalkin Career </h2>
+    <h2 style={{marginLeft:"10px", fontWeight:"800", marginTop:"55px", marginBottom:"-15px"}}> Pakka Job Career </h2>
 
           <div className={styles.JobtitleFilterWrapper}>
             <buton className={Active.length===0?styles.active:styles.JobtitleFilter} onClick={() =>
@@ -779,7 +779,7 @@ const responsive = {
                         }
 
                         
-                        <li className={`${styles.li} ${styles.Source}`} >ITwalkin</li>
+                        <li className={`${styles.li} ${styles.Source}`} >Pakka Job</li>
 
                         {/* } */}
 
@@ -865,7 +865,7 @@ const responsive = {
                         }
 
                         
-                        <li className={`${styles.li} ${styles.Source}`} >ITwalkin</li>
+                        <li className={`${styles.li} ${styles.Source}`} >Pakka Job</li>
 
                         <li className={`${styles.li} ${styles.JobType}`}>{items.jobtype}</li>
                         <li className={`${styles.li} ${styles.date}`}>
@@ -962,11 +962,11 @@ const responsive = {
 {/* <input style={{visibility:searchClick?"visible":"hidden"}} className={styles.blogInputboxsearch} type="text" placeholder='Search for a Job / Skills / Location / Experiance' onChange={(e) => { search(e) }} /> */}
 {/* </div> */}
         <>
-    {/* <p style={{marginLeft:"3%", fontWeight:"800", marginTop:"5px", marginBottom:"-15px"}}>ITwalkin Career</p>
+    {/* <p style={{marginLeft:"3%", fontWeight:"800", marginTop:"5px", marginBottom:"-15px"}}>Pakka Job Career</p>
    */}
    
    {/* <div style={{display:"flex"}}> */}
-   <h2 style={{marginLeft:"6%", fontWeight:"800", marginTop:"5px", marginBottom:"-15px"}}>ITwalkin Career</h2>
+   <h2 style={{marginLeft:"6%", fontWeight:"800", marginTop:"5px", marginBottom:"-15px"}}>Pakka Job Career</h2>
    {/* <div className={styles.blogSearchContainer}> */}
 
 {/* <p className={styles.p}>Search </p> */}
@@ -1115,7 +1115,7 @@ const responsive = {
                         <span className={styles.jobtypeAndDate}>Source</span> :
 
                         
-                        <> <span className={styles.skills}>ITwalkin</span><br></br></>
+                        <> <span className={styles.skills}>Pakka Job</span><br></br></>
                         <div className={styles.skillWrapper}>
                           <span className={styles.skillsHeading}>Skills: </span><span className={styles.skills}>{job.skills}</span><br></br>
                         </div>

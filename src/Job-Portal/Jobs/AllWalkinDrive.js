@@ -193,12 +193,12 @@ function AllWalkinDrive({nopageFilter,setNoPageFilter,searchKey, setsearchKey,Fi
 
   async function applyforOtherJob(Link) {
     // navigate("/JobSeekerLogin", { state: { Jid: id } })
-    // alert(" ITWALKIN.com never charges fees for job applications. If you encounter misuse or payment requests, report it through our website." )
+    // alert(" Pakka Job never charges fees for job applications. If you encounter misuse or payment requests, report it through our website." )
     window.open(`${Link}`)
   }
 
   async function applyforJob(jobId) {
-    // alert(" ITWALKIN.com never charges fees for job applications. If you encounter misuse or payment requests, report it through our website." )
+    // alert(" Pakka Job never charges fees for job applications. If you encounter misuse or payment requests, report it through our website." )
     let date = new Date()
     let userid = JSON.parse(localStorage.getItem("StudId"))
     const headers = { authorization: userid + " " + atob(JSON.parse(localStorage.getItem("StudLog"))) };
@@ -832,7 +832,7 @@ setLoader(true)
 
 <li className={`${styles.li} ${styles.Jtitle}`} onClick={() => navigate(`/Drivedetails/${btoa(items._id)}?index=${i}`, {state: {selectedTag, },})} 
 style={{ cursor: "pointer", textDecoration: "underline", color: "blue" }}>{items.jobTitle.charAt(0).toUpperCase()+items.jobTitle.substring(1)}</li>
-                          <li className={`${styles.li} ${styles.Source}`} >ITwalkin</li>
+                          <li className={`${styles.li} ${styles.Source}`} >Pakka Job</li>
                         {
                           !items.Source ?
 
@@ -912,11 +912,11 @@ style={{ cursor: "pointer", textDecoration: "underline", color: "blue" }}>{items
         
         >
           <strong style={{color:"red", textAlign:"center", fontSize:"14px"}}>NOTICE</strong><br></br>
-          ITWALKIN.com never charges fees for Walkin Drives. If you encounter misuse or payment requests, report it through our website.<br></br>
+          Pakka Job never charges fees for Walkin Drives. If you encounter misuse or payment requests, report it through our website.<br></br>
           <br></br>
           You will be redirected to the career page of {items.Source}. 
-          ITWalkin is not responsible for any misconduct that may arise during the Walkin Drives.
-          {/* <strong>Notice:</strong> ITWALKIN.com never charges fees for job applications. If you encounter misuse or payment requests, report it through our website. */}
+          Pakka Job is not responsible for any misconduct that may arise during the Walkin Drives.
+          {/* <strong>Notice:</strong> Pakka Job never charges fees for job applications. If you encounter misuse or payment requests, report it through our website. */}
 
           <div ref={alertRef} style={{ marginTop: '15px', display:"flex", gap:"4px", justifyContent:"center" }}>
             <button
@@ -984,7 +984,7 @@ style={{ cursor: "pointer", textDecoration: "underline", color: "blue" }}>{items
         }}
         
         >
-          <strong>Notice:</strong> ITWALKIN.com never charges fees for Walkin Drives. If you encounter misuse or payment requests, report it through our website.
+          <strong>Notice:</strong> Pakka Job never charges fees for Walkin Drives. If you encounter misuse or payment requests, report it through our website.
 
           <div ref={alertRef} style={{ marginTop: '15px' }}>
             <button
@@ -1025,7 +1025,7 @@ style={{ cursor: "pointer", textDecoration: "underline", color: "blue" }}>{items
             //  style={{ cursor: "pointer", textDecoration: "underline", color: "blue" }}>{items.jobTitle.toUpperCase()}</li>
             style={{ cursor: "pointer", textDecoration: "underline", color: "blue" }}>{items?.jobTitle?.toUpperCase()}</li>
             
-                       <li className={`${styles.li} ${styles.Source}`} >ITwalkin</li>
+                       <li className={`${styles.li} ${styles.Source}`} >Pakka Job</li>
 
 
                         {
@@ -1284,7 +1284,7 @@ style={{ cursor: "pointer", textDecoration: "underline", color: "blue" }}>{items
                         {/* {job.Source ?
                           <> <a className={`${styles.skills}`} href={job.SourceLink} target="_blank">{job.Source}</a><br></br> </>
                           : */}
-                        <> <span className={styles.skills}>ITwalkin</span><br></br></>
+                        <> <span className={styles.skills}>Pakka Job</span><br></br></>
                         {/* } */}
 
                         {/* </div> */}
@@ -1346,11 +1346,11 @@ style={{ cursor: "pointer", textDecoration: "underline", color: "blue" }}>{items
                                 
                                 >
                                   <strong style={{color:"red", textAlign:"center", fontSize:"14px"}}>NOTICE</strong><br></br>
-                                  ITWALKIN.com never charges fees for job applications. If you encounter misuse or payment requests, report it through our website.<br></br>
+                                  Pakka Job never charges fees for job applications. If you encounter misuse or payment requests, report it through our website.<br></br>
                                   <br></br>
                                   You will be redirected to the career page of {job.Source}. 
-                                  ITwalkin is not the authorised partner of this company
-                                  {/* <strong>Notice:</strong> ITWALKIN.com never charges fees for job applications. If you encounter misuse or payment requests, report it through our website. */}
+                                  Pakka Job is not the authorised partner of this company
+                                  {/* <strong>Notice:</strong> Pakka Job never charges fees for job applications. If you encounter misuse or payment requests, report it through our website. */}
 
                                   <div ref={alertRef} style={{ marginTop: '15px', display:"flex", justifyContent:"center", gap:"4px" }}>
                                     <button
@@ -1418,7 +1418,7 @@ style={{ cursor: "pointer", textDecoration: "underline", color: "blue" }}>{items
         }}   
         
         >
-          <strong>Notice:</strong> ITWALKIN.com never charges fees for job applications. If you encounter misuse or payment requests, report it through our website.
+          <strong>Notice:</strong> Pakka Job never charges fees for job applications. If you encounter misuse or payment requests, report it through our website.
 
           <div ref={alertRef} style={{ marginTop: '15px' }}>
             <button

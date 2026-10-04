@@ -645,7 +645,7 @@ function Home() {
                         {/* } */}
 
                         <li className={`${styles.li} ${styles.Jtitle}`} onClick={() => navigate(`/BIAddmin@CheckArchivedJob/${items._id}`)} style={{ cursor: "pointer", textDecoration: "underline", color: "blue" }}>{items.jobTitle.charAt(0).toUpperCase()+items.jobTitle.substring(1)}</li>
-                        <li className={`${styles.li} ${styles.Source}`} >Itwalkin</li>
+                        <li className={`${styles.li} ${styles.Source}`} >Pakka Job</li>
 
                         {
                           !items.Source ?
@@ -1388,7 +1388,7 @@ function Home() {
 
                         <span className={styles.jobtypeAndDate}>Source</span> :
 
-                        <> <span className={styles.skills}>ItWalkin</span><br></br></>
+                        <> <span className={styles.skills}>Pakka Job</span><br></br></>
                         {/* } */}
 
                         <div className={styles.skillWrapper}>

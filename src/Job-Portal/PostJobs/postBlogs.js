@@ -416,7 +416,7 @@ if(key==='Full Time' ||key=== 'Contract' || key==='Internship' || key==='Part Ti
 // onChange={(e)=>{setSkills(e.target.value)}} 
 />*/}
 <p><input type="checkbox" onChange={()=>{setconcent((prev)=>!prev)}}/>
-I have read the terms and conditions of ITwalkin.com and I agree to all the 
+I have read the terms and conditions of Pakka Job and I agree to all the
      <span style={{color:"blue", cursor:"pointer"}} onClick={()=>(window.open("/TermsAndCondition"))}> Terms and Conditions </span> before posting the Blogs </p> 
 
      <p><input type="checkbox" onChange={()=>{setProfileConcent((prev)=>!prev)}}/>

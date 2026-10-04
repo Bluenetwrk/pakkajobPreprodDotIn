@@ -161,7 +161,7 @@ const ConsultationServices = () => {
 
       <ConsultationCard 
         title="Paid Consultation"
-        description="Supercharge your career with ITwalkin Experts.
+        description="Supercharge your career with Pakka Job Experts.
  Get your professional profile reviewed by industry specialists.
  Receive a polished, recruiter-ready resume tailored to your goals.
  Unlock personalized career guidance aligned with your aspirations.
@@ -177,7 +177,7 @@ const ConsultationServices = () => {
         description="Submit your profile for a detailed root cause analysis by our experts.
  Receive a personalized fix review to uncover what’s holding you back.
  Get your resume professionally enhanced for better recruiter visibility.
- Enjoy a dedicated one-on-one phone consultation with ITwalkin Experts.
+ Enjoy a dedicated one-on-one phone consultation with Pakka Job Experts.
  Our specialists dive deep into your career challenges and opportunities.
  Every insight is tailored to your goals, strengths, and job aspirations.
  Benefit from expert guidance that’s focused, actionable, and results-driven.
@@ -216,8 +216,8 @@ const ConsultationServices = () => {
              
             }}
           >
-            Paid Consultation Scheduled for {scheduledDate} ITWALKIN.com offers expert career advice both free and paid.
- ITWALKIN.com is not affiliated with third-party consultants unless clearly stated.
+            Paid Consultation Scheduled for {scheduledDate} Pakka Job offers expert career advice both free and paid.
+ Pakka Job is not affiliated with third-party consultants unless clearly stated.
             <div style={{ marginTop: '15px', display: "flex", justifyContent: "center", gap: "5px" }}>
               <button
                onClick={() => {

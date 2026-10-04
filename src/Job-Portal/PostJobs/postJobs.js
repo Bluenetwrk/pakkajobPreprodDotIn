@@ -541,7 +541,7 @@ const [showTooltip, setShowTooltip] = useState(false);
 // onChange={(e)=>{setSkills(e.target.value)}} 
 />
 <p><input type="checkbox" checked={concent} onChange={()=>{setconcent((prev)=>!prev)}}/>
-    I have read the terms and conditions of ITwalkin.com and I agree to all the 
+    I have read the terms and conditions of Pakka Job and I agree to all the
      <span style={{color:"blue", cursor:"pointer"}} onClick={()=>(window.open("/TermsAndCondition"))}> Terms and Conditions</span> before posting the jobs </p>
 
 
@@ -571,9 +571,9 @@ const [showTooltip, setShowTooltip] = useState(false);
                                                             onChange={(e) => setdisclaimerConsent(e.target.checked)}
                                         
                                                           />
-                                                          Itwalkin is not responsible for misuse of this video by the employer
+                                                          Pakka Job is not responsible for misuse of this video by the employer
                                                         </label>
-                                                        <p><span style={{ fontWeight: "bold" }}>Note:</span>This video will required by ITWalkin Admin. This video will be shared only to fortune 500 employer</p>
+                                                        <p><span style={{ fontWeight: "bold" }}>Note:</span>This video will required by Pakka Job Admin. This video will be shared only to fortune 500 employer</p>
                                                       </div>
                                         
                                                       {/* {ytUploading && <p className={styles.loadingText}>Uploading… please wait...</p>} */}

@@ -481,9 +481,9 @@ const helpData = [
   { 
     id: 1, 
     question: "How to Register as an Employer?", 
-    source: "ITWalkin", 
-    companyName: "ITWalkin", 
-    postedby: "ITWalkin", 
+    source: "Pakka Job",
+    companyName: "Pakka Job",
+    postedby: "Pakka Job",
     postedDate: "20-03-2025", 
     view: "View",
     details: "1. To register as an employer, follow these steps:\n2. Click on the 'Open an Account' menu in the navigation bar.\n3. A submenu will appear—select 'Employer Registration' from the list.\n4. The Employer Registration Form will open in a new window.\n5. Fill in all the required details in the given fields.\n6. Choose to register using either Microsoft or Google.\n7. Once completed, your registration will be successful."
@@ -491,9 +491,9 @@ const helpData = [
 { 
   id: 2, 
   question: "How to Register as Jobseeker?", 
-  source: "ITWalkin", 
-  companyName: "ITWalkin", 
-  postedby: "ITWalkin", 
+  source: "Pakka Job",
+  companyName: "Pakka Job",
+  postedby: "Pakka Job",
   postedDate: "20-03-2025", 
   view: "View",
   details: "1. To register as a Jobseeker, follow these steps:\n2. Click on the 'Open an Account' menu in the navigation bar.\n3. A submenu will appear—select 'Jobseeker Registration' from the list.\n4. The jobseeker Registration Form will open in a new window.\n5. Fill in all the required details in the given fields.\n6. Choose to register using either Microsoft or Google.\n7. Once completed, your registration will be successful."

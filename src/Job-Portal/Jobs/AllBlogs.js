@@ -700,12 +700,12 @@ await axios.delete(`/BlogRoutes/deleteCheckBoxArray/${checkBoxValue}`, {headers}
                           <li className={`${styles.li} ${styles.BlogJtitle}`} onClick={() => navigate(`/Blogdetails/${btoa(items._id)}?index=${i}`, {state: {selectedTag, },})} style={{ cursor: "pointer", textDecoration: "underline", color: "blue" }}>{items.jobTitle.charAt(0).toUpperCase()+items.jobTitle.substring(1)}</li>
                         }                  
                       
-                       <li className={`${styles.li} ${styles.BlogSource}`} >ITwalkin</li>
+                       <li className={`${styles.li} ${styles.BlogSource}`} >Pakka Job</li>
                      
                           <li style={{ cursor: "pointer", textDecoration: "underline" }} className={`${styles.li} ${styles.BlogCompanyName}`}
                             onClick={(e) => { checkEmpHalf(btoa(items.empId)) }}  >
 
-                            {items.companyName===""||items.companyName===undefined ? "ITwalkin":items.companyName}
+                            {items.companyName===""||items.companyName===undefined ? "Pakka Job":items.companyName}
                             </li>
                           <li style={{ cursor: "pointer",  }} className={`${styles.li} ${styles.BlogCompanyName}`} >
 
@@ -762,7 +762,7 @@ await axios.delete(`/BlogRoutes/deleteCheckBoxArray/${checkBoxValue}`, {headers}
                           :
                           <li className={`${styles.li} ${styles.BlogJtitle}`} onClick={() => navigate(`/Blogdetails/${btoa(items._id)}?index=${i}`, {state: {selectedTag, },})} style={{ cursor: "pointer", textDecoration: "underline", color: "blue" }}>{items.jobTitle}</li>
                         }                      
-                               <li className={`${styles.li} ${styles.BlogSource}`} >ITwalkin</li>
+                               <li className={`${styles.li} ${styles.BlogSource}`} >Pakka Job</li>
 
                                             <li style={{ cursor: "pointer", textDecoration: "underline" }} className={`${styles.li} ${styles.BlogCompanyName}`}
                             onClick={(e) => { checkEmpHalf(btoa(items.empId)) }}  >
@@ -1176,14 +1176,14 @@ await axios.delete(`/BlogRoutes/deleteCheckBoxArray/${checkBoxValue}`, {headers}
                      
                           <img style={{height:"40px",width:"40px",marginTop:"10px"}}className={styles.logo} src={ CompanyLogo} />
 
-                             <span className={styles.blogCompanyName} onClick={() => { navigate(`/Blogdetails/${btoa(job._id)}`) }} >{job.companyName===""||job.companyName===undefined?"ITwalkin":job.companyName} </span>
+                             <span className={styles.blogCompanyName} onClick={() => { navigate(`/Blogdetails/${btoa(job._id)}`) }} >{job.companyName===""||job.companyName===undefined?"Pakka Job":job.companyName} </span>
                           </div>
                              <span className={styles.jobtypeAndDate}>Posted by</span> :
                              <> <span className={styles.skills}>{job.name}</span><br></br></>                          
 
                         
                              <span className={styles.jobtypeAndDate}>Source</span> :
-<> <span className={styles.skills}>ITwalkin</span><br></br></>                          
+<> <span className={styles.skills}>Pakka Job</span><br></br></>
 {
                               job.question?
                               ""

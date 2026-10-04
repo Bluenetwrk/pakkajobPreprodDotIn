@@ -518,7 +518,7 @@ function EmployeeUpdateProfile(props) {
             <>
               <div className={styles.profileCompletionAlert}>
 
-                Welcome to ITWalkin!<br></br> Your account has been created. Please complete your profile for a better experience!
+                Welcome to Pakka Job!<br></br> Your account has been created. Please complete your profile for a better experience!
                 <div style={{ marginTop: '15px', display: "flex", justifyContent: "center", gap: "5px" }}>
                   <button
                     onClick={() => { setprofileCompletionAlert(false) }}

@@ -183,7 +183,7 @@ useEffect(() => {
 
 
   async function applyforJob(id) {
-    // alert(" ITWALKIN.com never charges fees for job applications. If you encounter misuse or payment requests, report it through our website." )
+    // alert(" Pakka Job never charges fees for job applications. If you encounter misuse or payment requests, report it through our website." )
     navigate("/JobSeekerLogin", { state: { Jid: id } })
    
   }
@@ -877,7 +877,7 @@ let EmployeeAuth = localStorage.getItem("EmpLog")
                         <li className={`${styles.li} ${styles.Jtitle}`}  style={{ cursor: "pointer", textDecoration: "underline", color: "blue" }}  onClick={() => navigate(`/Drivedetails/${btoa(items._id)}?index=${i}`, {state: {selectedTag, },})}>{items.jobTitle}</li>
                         
                       } 
-                      <li className={`${styles.li} ${styles.Source}`} >ITwalkin</li>
+                      <li className={`${styles.li} ${styles.Source}`} >Pakka Job</li>
 
                         {
                           !items.Source ?
@@ -961,7 +961,7 @@ let EmployeeAuth = localStorage.getItem("EmpLog")
         
         > 
         <strong style={{color:"red", textAlign:"center", fontSize:"14px"}}>NOTICE</strong><br></br>
-          ITWALKIN.com  never charges fees for walkin drives.
+          Pakka Job  never charges fees for walkin drives.
           If you encounter misuse or payment requests, report it through our website.<br></br>
           <br></br>
           You will be redirected to the walkin drive  page of   {
@@ -978,8 +978,8 @@ let EmployeeAuth = localStorage.getItem("EmpLog")
                             </span>
 
                         }. 
-         ITwalkin is not responsible for any misconduct that may arise during the walkin drive
-          {/* <strong>Notice:</strong> ITWALKIN.com never charges fees for job applications. If you encounter misuse or payment requests, report it through our website. */}
+         Pakka Job is not responsible for any misconduct that may arise during the walkin drive
+          {/* <strong>Notice:</strong> Pakka Job never charges fees for job applications. If you encounter misuse or payment requests, report it through our website. */}
 
           <div ref={alertRef} style={{ marginTop: '15px', display:"flex", justifyContent:"center", gap:"5px" }}>
             <button
@@ -1210,7 +1210,7 @@ let EmployeeAuth = localStorage.getItem("EmpLog")
                         </div>
                         <span className={styles.jobtypeAndDate}>Posted By</span> :
 
-                        <> <span className={styles.skills}>ITwalkin</span><br></br></>
+                        <> <span className={styles.skills}>Pakka Job</span><br></br></>
                         {/* } */}
                         <div className={styles.skillWrapper}>
                           <span className={styles.skillsHeading}>Drive Date/Time: </span><span className={styles.skills}>{new Date(job.driveDate).toLocaleString(
@@ -1260,7 +1260,7 @@ let EmployeeAuth = localStorage.getItem("EmpLog")
                               }}                              
                               >
                                 <strong style={{color:"red", textAlign:"center", fontSize:"14px"}}>NOTICE</strong><br></br>
-                                  ITWALKIN.com never charges fees for job applications. If you encounter misuse or payment requests, report it through our website.<br></br>
+                                  Pakka Job never charges fees for job applications. If you encounter misuse or payment requests, report it through our website.<br></br>
                                   <br></br>
                                   You will be redirected to the career page of {
                           !job.Source ?
@@ -1276,8 +1276,8 @@ let EmployeeAuth = localStorage.getItem("EmpLog")
                             </span>
 
                         }.  
-                                  ITWalkin is not the authorised partner of this company
-                                  {/* <strong>Notice:</strong> ITWALKIN.com never charges fees for job applications. If you encounter misuse or payment requests, report it through our website. */}
+                                  Pakka Job is not the authorised partner of this company
+                                  {/* <strong>Notice:</strong> Pakka Job never charges fees for job applications. If you encounter misuse or payment requests, report it through our website. */}
 
                                 <div ref={alertRef} style={{ marginTop: '15px', display:"flex", gap:"4px", justifyContent:"center" }}>
                                   <button

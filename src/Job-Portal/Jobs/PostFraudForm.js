@@ -73,7 +73,7 @@ const PostFraudForm = () => {
 
   return (
     <div className={styles.container}>
-      <h2 className={styles.title}> Report Misuse of ITWalkin</h2>
+      <h2 className={styles.title}> Report Misuse of Pakka Job</h2>
       
       {/* {showSuccessMessage && (
         <div className={styles.successMessage}>
