@@ -84,7 +84,7 @@ async function gettotalcount() {
   setActive([])
   setJobTagsIds([])
   const headers = { authorization: 'BlueItImpulseWalkinIn' };
-  await axios.get(`/EmpProfile/getLimitJobs/${recordsPerPage}`, { params: { currentPage }, headers })
+  await axios.get(`/EmpProfile/getLimitEmployees/${recordsPerPage}`, { params: { currentPage }, headers })
 
     .then((res) => {
       let result = (res.data)
@@ -664,7 +664,7 @@ async function search(e) {
       <label><input id="checkApproved" name="checkApproved" type="radio" onChange={(e)=>{RecentLogin(e)}} /><span> Recent Login</span></label><br></br>
       <label><input id="checkApproved" name="checkApproved" type="radio" onChange={(e)=>{checkOnline(e)}} /><span>check Online</span></label><br></br>
       </div>
-       <div className={Styles.JobtitleFilterWrapper}>
+       {/* <div className={Styles.JobtitleFilterWrapper}>
                          <buton className={Active.length===0?Styles.active:Styles.JobtitleFilter} onClick={() => 
                       { getEmployees() }}>All</buton>
                     {
@@ -687,7 +687,7 @@ async function search(e) {
                         )
                       })
                     }
-                    </div>
+                    </div> */}
                 <div style={{ display: "flex", justifyContent: "space-between" }}>
                   {/* {nopageFilter ?
                     <p style={{ fontWeight: 400, marginLeft: "10px" }}>Displaying Candidates with with following matching tags

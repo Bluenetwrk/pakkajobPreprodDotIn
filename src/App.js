@@ -101,8 +101,10 @@ import AdminProfile from "./Job-Portal/Admin/AdminProfile"
 import AllJobsForAdmin from "./Job-Portal/Admin/AllJobsForAdmin"
 import AllJobSeekers from "./Job-Portal/Admin/AllJobSeekers"
 import AllEmployees from "./Job-Portal/Admin/AllEmployees"
+import AllCSCAdmin from "./Job-Portal/Admin/AllCSCcenters"
 import CheckEmpProfileForAdmin from "./Job-Portal/Profile/CheckEmplProfileForAdmin";
 import CheckStudentProfileForAdmin from "./Job-Portal/Profile/CheckStuForAdmin";
+import CheckCSCProfileForAdmin from "./Job-Portal/Profile/CheckCSCProfileForAdmin";
 import AdminUpdate from "./Job-Portal/Admin/AdminUpdate"
 import AdminPostJobs from "./Job-Portal/Admin/AdminJobPosts";
 import AllIds from "./Job-Portal/Admin/Allid'sStudent";
@@ -1414,6 +1416,7 @@ function App() {
             <Route path="/BIAddmin@AllEmployees" element={<AllEmployees />} />
             <Route path="/BIAddmin@CheckEmpProfile/:CP" element={<CheckEmpProfileForAdmin />} />
             <Route path="/BIAddmin@CheckStudentProfile/:CP" element={<CheckStudentProfileForAdmin />} />
+            <Route path="/BIAddmin@CheckCSCProfileForAdmin/:CP" element={<CheckCSCProfileForAdmin />} />
             <Route path="/BIAddmin@AdminUpdate" element={<AdminUpdate />} />
             <Route path="/BIAddmin@PostJob" element={<AdminPostJobs />} />
             <Route path="/BIAddmin@AllIds" element={<AllIds />} />
@@ -1425,6 +1428,7 @@ function App() {
             <Route path="/BIAddmin@DeletedJobs" element={<DeletedJobs />} />
             <Route path="/BIAddmin@DeletedBlogs" element={<DeletedBlogs />} />
             <Route path="/BIAddmin@Last24Hours" element={<Last24Hours />} />
+            <Route path="/BIAddmin@AllCSCAdmin" element={<AllCSCAdmin />} />
           </Routes>
 
         </div>

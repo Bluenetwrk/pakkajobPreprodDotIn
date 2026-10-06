@@ -9,6 +9,8 @@ const TemplateSix = ({ themeColor }) => {
   const [resumeData, setResumeData] = useState(null);
 
   const studId = JSON.parse(localStorage.getItem("StudId"));
+  const CSCId = JSON.parse(localStorage.getItem("CSCId"));
+
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -182,11 +184,17 @@ const TemplateSix = ({ themeColor }) => {
 
     element.classList.add(styles.forceA4);
 
-    setTimeout(() => {
+    setTimeout(async () => {
       generatePDF(
         "template-six",
         `${resumeData?.name || "resume"}_resume.pdf`
       );
+         await axios.post("/CSRoute/pdfDownloadedCount", { CSCId: CSCId })
+         .then((res) => {
+            console.log(res.data.count)
+          }).catch((err)=>{
+            console.log("some thing went wrong", err)
+          })     
 
       element.classList.remove(styles.forceA4);
     }, 300);
@@ -814,12 +822,12 @@ const TemplateSix = ({ themeColor }) => {
         }}
       >
 
-        <button
+        {/* <button
           onClick={handleSaveResume}
           className={styles.downloadBtn}
         >
           Save Resume
-        </button>
+        </button> */}
 
         <button
           onClick={handleDownloadPDF}

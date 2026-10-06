@@ -51,6 +51,7 @@ const TemplateSeven = () => {
   const [profileData, setProfileData] = useState(null);
 
   const studId = JSON.parse(localStorage.getItem("StudId"));
+  const CSCId = JSON.parse(localStorage.getItem("CSCId"));
 
 
   /* =======================================================
@@ -231,29 +232,34 @@ const TemplateSeven = () => {
   ======================================================= */
 
   const handleDownloadPDF = () => {
-    const element =
-      document.getElementById("template-seven");
+    const element = document.getElementById("template-seven");
 
     if (!element) {
-      console.error(
-        "template-seven element not found"
-      );
+      console.error("template-seven element not found");
       return;
     }
-
     element.classList.add(styles.forceA4);
+    setTimeout(async () => {
+      try {
+        generatePDF(
+          "template-seven",
+          `${profileData?.name || "resume"}_resume.pdf`
+        );
 
-    setTimeout(() => {
-      generatePDF(
-        "template-seven",
-        `${profileData?.name || "resume"}_resume.pdf`
-      );
-
-      element.classList.remove(styles.forceA4);
+        // API call
+        await axios.post("/CSRoute/pdfDownloadedCount", { CSCId: CSCId })
+          .then((res) => {
+            console.log(res.data.count)
+          }).catch((err)=>{
+            console.log("some thing went wrong", err)
+          })
+      } catch (error) {
+        console.error("Error saving PDF download:", error);
+      } finally {
+        element.classList.remove(styles.forceA4);
+      }
     }, 300);
   };
-
-
   /* =======================================================
      LOADING
   ======================================================= */
@@ -393,9 +399,10 @@ const TemplateSeven = () => {
 
             </div>
 
-
             <div className={styles.contactLine}>
-
+              <strong>
+                Address -
+              </strong>{" "}
               <EditableText
                 value={
                   profileData.address
@@ -417,6 +424,8 @@ const TemplateSeven = () => {
           {/* =================================================
               OBJECTIVE
           ================================================= */}
+          <hr style={{ margin: " 20px 0 20px 0" }}></hr>
+
 
           <Section title="OBJECTIVE">
 
@@ -441,6 +450,8 @@ const TemplateSeven = () => {
           {/* =================================================
               PERSONAL INFORMATION
           ================================================= */}
+          <hr style={{ margin: " 20px 0 20px 0" }}></hr>
+
 
           <Section title="PERSONAL INFORMATION">
 
@@ -600,6 +611,8 @@ const TemplateSeven = () => {
           {/* =================================================
               EDUCATIONAL QUALIFICATION
           ================================================= */}
+          <hr style={{ margin: " 20px 0 20px 0" }}></hr>
+
 
           <Section title="EDUCATIONAL QUALIFICATION">
 
@@ -633,7 +646,7 @@ const TemplateSeven = () => {
               <tbody>
 
                 {qualifications.length >
-                0 ? (
+                  0 ? (
 
                   qualifications.map(
                     (q, index) => (
@@ -764,6 +777,8 @@ const TemplateSeven = () => {
           {/* =================================================
               TECHNICAL SKILLS
           ================================================= */}
+          <hr style={{ margin: " 20px 0 20px 0" }}></hr>
+
 
           <Section title="TECHNICAL SKILLS">
 
@@ -773,8 +788,8 @@ const TemplateSeven = () => {
                   profileData.skills
                 )
                   ? profileData.skills.join(
-                      ", "
-                    )
+                    ", "
+                  )
                   : profileData.skills
               }
               placeholder="Enter your technical skills..."
@@ -793,6 +808,8 @@ const TemplateSeven = () => {
           {/* =================================================
               EXPERIENCE
           ================================================= */}
+          <hr style={{ margin: " 20px 0 20px 0" }}></hr>
+
 
           <Section title="EXPERIENCE">
 
@@ -932,6 +949,8 @@ const TemplateSeven = () => {
           {/* =================================================
               BEHAVIOURAL CHARACTERISTICS
           ================================================= */}
+          <hr style={{ margin: " 20px 0 20px 0" }}></hr>
+
 
           <Section title="BEHAVIOURAL CHARACTERISTICS">
 
@@ -969,17 +988,6 @@ const TemplateSeven = () => {
                 />
 
               </li>
-
-
-              <li>
-
-                <EditableText
-                  value="Sincere and positive attitude."
-                  multiline={true}
-                />
-
-              </li>
-
             </ul>
 
           </Section>
@@ -988,6 +996,7 @@ const TemplateSeven = () => {
           {/* =================================================
               DECLARATION
           ================================================= */}
+          <hr style={{ margin: " 20px 0 20px 0" }}></hr>
 
           <Section title="DECLARATION">
 
@@ -1005,13 +1014,13 @@ const TemplateSeven = () => {
 
               <div>
 
-                <p>
+                <p style={{ marginTop: "5px" }}>
 
                   <strong>
                     Place:
                   </strong>{" "}
 
-                  {/* <EditableText
+                  <EditableText
                     value={
                       profileData.place
                     }
@@ -1022,18 +1031,17 @@ const TemplateSeven = () => {
                         value
                       )
                     }
-                  /> */}
+                  />
 
                 </p>
 
+                <p style={{ marginTop: "5px" }}>
 
-                <p>
-
-                  <strong>
+                  <strong >
                     Date:
                   </strong>{" "}
 
-                  {/* <EditableText
+                  <EditableText
                     value={
                       profileData.declarationDate
                     }
@@ -1044,7 +1052,7 @@ const TemplateSeven = () => {
                         value
                       )
                     }
-                  /> */}
+                  />
 
                 </p>
 
@@ -1087,6 +1095,8 @@ const TemplateSeven = () => {
         {/* =================================================
             DOWNLOAD BUTTON
         ================================================= */}
+        <hr style={{ margin: " 20px 0 20px 0" }}></hr>
+
 
         <button
           onClick={handleDownloadPDF}
@@ -1101,6 +1111,8 @@ const TemplateSeven = () => {
     </>
   );
 };
+<hr style={{ margin: " 20px 0 20px 0" }}></hr>
+
 
 
 /* =========================================================
@@ -1137,6 +1149,8 @@ const Section = ({
     </section>
   );
 };
+
+<hr style={{ margin: " 20px 0 20px 0" }}></hr>
 
 
 /* =========================================================

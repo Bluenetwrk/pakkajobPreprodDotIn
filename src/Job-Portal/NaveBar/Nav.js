@@ -764,7 +764,10 @@ function Nav(props) {
                     </div>
                     <div className={Styles.linkWrapper}>
                       {/* <NavLink to="/BIAddmin@Profile" className={Styles.link} style={navLinkStyles}>All </NavLink> */}
-                      <NavLink to="/" className={Styles.HomeJobs} style={navLinkStyles}><i style={{ marginLeft: 0, marginRight: "5px" }} class="fa-solid fa-house"></i>Home</NavLink>
+                      <NavLink to="/" className={Styles.HomeJobs} style={navLinkStyles}>
+                      <i style={{ marginLeft: 0, marginRight: "5px" }} class="fa-solid fa-house"></i>
+                      Home</NavLink>
+
 
                       <NavLink to="/AboutUs" className={`${Styles.Aboutlink}`} style={navLinkStyles} >About Us</NavLink>
                       <NavLink to="/Services" className={Styles.link} style={navLinkStyles}>Services</NavLink>
@@ -772,9 +775,10 @@ function Nav(props) {
                       <NavLink to="/BIAddmin@AdminCareerPostJobs" className={Styles.link} style={navLinkStyles}>Career Job Post</NavLink>
                       <NavLink to="/Blogs" className={Styles.link} style={navLinkStyles}>Blogs</NavLink>
                       <NavLink to="/BIAddmin@Last24Hours" className={Styles.link} style={navLinkStyles}>Recent Job</NavLink>
+                      <NavLink to="/BIAddmin@AllCSCAdmin" className={Styles.link} style={navLinkStyles}>ALL CSC</NavLink>
                       {/* <p onClick={()=>{navigate("/Blogs")}} className={`${Styles.textinMobileSodeBar} `}>Blogs </p> */}
 
-                      <div className={`${Styles.link} ${Styles.IconeWrapper}`}>
+                      <div className={`${Styles.link} ${Styles.AdminIconeWrapper}`}>
                         <img className={`${Styles.Icon} ${Styles.profileIcon}`} src={loginuser} ref={imgRef} onClick={() => setShowprofile((prev) => !prev)} />
                       </div >
                     </div>

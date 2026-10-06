@@ -27,6 +27,83 @@ const ResumePreview = () => {
 
   const intervalRef = useRef(null);
 
+
+  const [email, setEmail] = useState("");
+  const [otp, setOtp] = useState("");
+
+  const [otpSent, setOtpSent] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const sendOTP = async () => {
+    if (!email) {
+      setMailsent("Please enter email");
+      return;
+    }
+
+    try {
+      setLoading(true);
+
+      const res = await axios.post("StudentProfile/send-otp", { email: email });
+      console.log(res.data)
+      if (res.data.message === "user is already verfied") {
+        setMailsent(res.data.message)
+        localStorage.setItem("StudId", JSON.stringify(res.data.userId));
+        localStorage.setItem("JobSLog", JSON.stringify(res.data.token));
+      setLoading(true);
+
+        setTimeout(()=>{
+          navig()
+        },2000)
+      }
+      else if (res.data.success) {
+        // alert("OTP sent successfully");
+        setMailsent("OTP sent successfully")
+        setOtpSent(true);
+      }
+    } catch (error) {
+      console.log(error);
+
+      setMailsent(
+        error.response?.data?.message ||
+        "Failed to send OTP"
+      );
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  const verifyOTP = async () => {
+    if (!otp) {
+      setMailsent("Please enter OTP")
+      return;
+    }
+
+    try {
+      setLoading(true);
+
+      const res = await axios.post("StudentProfile/verify-otp", {
+        email: email,
+        otp: otp
+      });
+      let id = res.data.userId
+      if (res.data.success) {
+        setMailsent("Email verified successfully")
+        localStorage.setItem("StudId", JSON.stringify(id));
+        localStorage.setItem("JobSLog", JSON.stringify(res.data.token));
+        navig()
+      }
+    } catch (error) {
+      console.log(error);
+
+      setMailsent(
+        error.response?.data?.message ||
+        "Invalid OTP"
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     if (!id) return;
 
@@ -61,9 +138,9 @@ const ResumePreview = () => {
     if (!jobseekerForm.email) {
       return
     }
-  let CSCId = JSON.parse(localStorage.getItem("CSCId"))
+    let CSCId = JSON.parse(localStorage.getItem("CSCId"))
 
-    await axios.post("/StudentProfile/regFromResume", { jobseekerForm , CSCId})
+    await axios.post("/StudentProfile/regFromResume", { jobseekerForm, CSCId })
       .then((res) => {
         let id = res.data.id
         // console.log(res.data)
@@ -98,14 +175,17 @@ const ResumePreview = () => {
     setResumeAlert({ show: false, selected: null });
     setMailsent("")
     setIsEditEnable(false)
+    setLoading(false);
+    setOtpSent("")
+    setEmail("")
     setJobseekerForm(prev => ({
       email: ""
     }))
   }
 
   function navig() {
-   
-     if (resumeAlert.selected === "six") {
+
+    if (resumeAlert.selected === "six") {
       navigate("/resume-form", {
         state: { formstate: "nontech", loginprofile: loginprofile, selectedTemplate: templateKey }
       });
@@ -266,8 +346,7 @@ const ResumePreview = () => {
                     <>
                       <p style={{ color: "green", fontStyle: "italic" }}>{mailsent}</p>
                       <h3>Enter Jobseeker Details</h3>
-                      <input
-
+                      {/* <input
                         disabled={mailsent}
                         type="email"
                         placeholder="Enter Email ID"
@@ -279,8 +358,62 @@ const ResumePreview = () => {
                             email: e.target.value
                           })
                         }
-                      />
+                      /> */}
 
+                      <input
+                        type="email"
+                        placeholder="Enter your email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        className={styles.input}
+
+                      />
+                      <div className={styles.btnGroup}>
+
+                        <button
+                          onClick={sendOTP}
+                          disabled={loading}
+                          className={styles.successBtn}
+                        >
+                          {loading ? "Sending..." : "Send OTP"}
+                        </button>
+                        <button
+                          className={styles.dangerBtn}
+                          onClick={() => { handleCancele() }}
+                        >
+                          Cancel
+                        </button>
+                      </div>
+
+                      {/* OTP section */}
+                      {otpSent && (
+                        <div style={{ marginTop: "20px" }}>
+
+                          <input
+                            type="text"
+                            placeholder="Enter 6 digit OTP"
+                            value={otp}
+                            maxLength={6}
+                            onChange={(e) => {
+                              const value = e.target.value.replace(/\D/g, "");
+                              setOtp(value);
+                            }}
+                            className={styles.input}
+                          />
+
+                          <button
+                            onClick={verifyOTP}
+                            disabled={loading}
+                            className={styles.successBtn}
+
+                          >
+                            {loading ? "Verifying..." : "Verify OTP"}
+                          </button>
+
+                        </div>
+                      )}
+
+                      {/* 
                       <div className={styles.btnGroup}>
                         {!isEditEnable ?
                           <button
@@ -300,9 +433,10 @@ const ResumePreview = () => {
                         {isEditEnable ?
                           <button className={styles.successBtn} onClick={() => { navig() }}>
                             Edit
-                          </button> : ""
+                          </button>
+                           : ""
                         }
-                      </div>
+                      </div> */}
                     </>
                     :
                     <>
@@ -310,8 +444,8 @@ const ResumePreview = () => {
                       <div className={styles.btnGroup}>
                         <button
                           className={styles.successBtn}
-                          onClick={() => {                            
-                             if (resumeAlert.selected === "six") {
+                          onClick={() => {
+                            if (resumeAlert.selected === "six") {
                               navigate("/resume-form", {
                                 state: { formstate: "nontech", loginprofile: loginprofile, selectedTemplate: templateKey }
                               });

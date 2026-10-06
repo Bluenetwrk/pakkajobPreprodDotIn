@@ -12,6 +12,49 @@
   font-weight: 600;
 }
 
+.limitWrapper {
+  display: flex;
+  /* flex-direction: column; */
+  align-items: center;
+  gap: 8px;
+}
+
+.limitInput {
+  width: 60px;
+  height: 24px;
+  padding: 0 10px;
+  border: 1px solid #b8b8b8;
+  border-radius: 5px;
+  /* font-size: 15px; */
+  outline: none;
+  /* box-sizing: border-box; */
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.limitInput:focus {
+  border-color: rgb(40, 4, 99);
+  box-shadow: 0 0 0 2px rgba(40, 4, 99, 0.12);
+}
+
+.limitButton {
+  width: 70px;
+  height: 24px;
+  border: none;
+  border-radius: 5px;
+  background: rgb(40, 4, 99);
+  color: white;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+}
+
+.limitButton:hover {
+  background: rgb(55, 10, 125);
+}
+
+
+
 .inputboxsearch {
   width: 380px;
   max-width: 100%;

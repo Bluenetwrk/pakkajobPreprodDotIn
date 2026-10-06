@@ -621,6 +621,8 @@ function Home({ nopageFilter, setNoPageFilter, searchKey, setsearchKey, Filterer
       {/* <h1>Nikita is working on this development</h1> */}
       {checkBoxValue.length > 0 ?
         <>
+        <div style={{margin:"10px"}}>
+
           <button style={{
             backgroundColor: "blue", border: "none", color: "white",
             padding: "5px 10px", fontWeight: "bold", cursor: "pointer"
@@ -630,6 +632,7 @@ function Home({ nopageFilter, setNoPageFilter, searchKey, setsearchKey, Filterer
             backgroundColor: "red", border: "none", color: "white", marginLeft: "5px",
             padding: "5px 10px", fontWeight: "bold", cursor: "pointer"
           }} onClick={() => { deleteCheckedJobs() }}>Delete</button>
+          </div>
         </>
         : ""
       }
@@ -639,7 +642,7 @@ function Home({ nopageFilter, setNoPageFilter, searchKey, setsearchKey, Filterer
 
 
 
-          <div className={styles.JobtitleFilterWrapper} style={{ marginTop: "60px" }}>
+          <div className={styles.JobtitleFilterWrapper} style={{ marginTop: "10px" }}>
             <buton className={Active.length === 0 ? styles.active : styles.JobtitleFilter} onClick={() => { getjobs() }}>All</buton>
             {
               jobTags.map((tags, i) => {
@@ -776,11 +779,7 @@ function Home({ nopageFilter, setNoPageFilter, searchKey, setsearchKey, Filterer
                               {items.Source}
 
                             </a>
-
                         }
-
-
-
                         <li className={`${styles.li} ${styles.JobType}`}>{items.jobtype}</li>
 
 
