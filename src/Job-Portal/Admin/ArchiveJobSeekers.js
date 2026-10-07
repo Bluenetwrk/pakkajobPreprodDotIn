@@ -232,7 +232,7 @@ return(
         sensitivity: 'base'
       });
       const sorted = newjob.sort((a, b) => {
-        return collator.compare(a.updatedAt, b.updatedAt)
+        return collator.compare(a.LogedInTime, b.LogedInTime)
       })
       setjobSeekers(sorted)
     }
@@ -244,7 +244,7 @@ return(
         sensitivity: 'base'
       });
       const sorted = newjob.sort((a, b) => {
-        return collator.compare(b.updatedAt, a.updatedAt)
+        return collator.compare(b.LogedInTime, a.LogedInTime)
       })
       setjobSeekers(sorted)
     }

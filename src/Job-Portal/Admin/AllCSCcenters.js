@@ -121,7 +121,82 @@ function AllCSCAdmin() {
         alert("server issue occured")
       })
   }
+  
+// .......Last Active Sorting.......
+     function LastActDescendingOrder (){
+      let newjob = [...jobSeekers]
+      const collator = new Intl.Collator(undefined, {
+        numeric: true,
+        sensitivity: 'base'
+      });
+      const sorted = newjob.sort((a, b) => {
+        return collator.compare(a.LogedInTime, b.LogedInTime)
+      })
+      setjobSeekers(sorted)
+    }
+  
+    function LastActAscendingOrder (){
+      let newjob = [...jobSeekers]
+      const collator = new Intl.Collator(undefined, {
+        numeric: true,
+        sensitivity: 'base'
+      });
+      const sorted = newjob.sort((a, b) => {
+        return collator.compare(b.LogedInTime, a.LogedInTime)
+      })
+      setjobSeekers(sorted)
+    }
 
+
+// .......total Resume Printed Sorting.......
+     function totalResumePrintedDescendingOrder (){
+      let newjob = [...jobSeekers]
+      const collator = new Intl.Collator(undefined, {
+        numeric: true,
+        sensitivity: 'base'
+      });
+      const sorted = newjob.sort((a, b) => {
+        return collator.compare(a.pdfDownloadCount, b.pdfDownloadCount)
+      })
+      setjobSeekers(sorted)
+    }
+  
+    function totalResumePrintedAscendingOrder (){
+      let newjob = [...jobSeekers]
+      const collator = new Intl.Collator(undefined, {
+        numeric: true,
+        sensitivity: 'base'
+      });
+      const sorted = newjob.sort((a, b) => {
+        return collator.compare(b.pdfDownloadCount, a.pdfDownloadCount)
+      })
+      setjobSeekers(sorted)
+    }
+
+// .......Limit Sorting.......
+     function limitDescendingOrder (){
+      let newjob = [...jobSeekers]
+      const collator = new Intl.Collator(undefined, {
+        numeric: true,
+        sensitivity: 'base'
+      });
+      const sorted = newjob.sort((a, b) => {
+        return collator.compare(a.Limit, b.Limit)
+      })
+      setjobSeekers(sorted)
+    }
+  
+    function limitAscendingOrder (){
+      let newjob = [...jobSeekers]
+      const collator = new Intl.Collator(undefined, {
+        numeric: true,
+        sensitivity: 'base'
+      });
+      const sorted = newjob.sort((a, b) => {
+        return collator.compare(b.Limit, a.Limit)
+      })
+      setjobSeekers(sorted)
+    }
 
   // =========================
   // GET DATA WHEN PAGE
@@ -752,7 +827,7 @@ function AllCSCAdmin() {
       }
 
 
-      <div style={{ marginLeft: "10px" }}>
+      {/* <div style={{ marginLeft: "10px" }}>
 
         <label>
           <input
@@ -847,7 +922,7 @@ function AllCSCAdmin() {
 
         <br></br>
 
-      </div>
+      </div> */}
 
 
 
@@ -1028,11 +1103,72 @@ function AllCSCAdmin() {
 
                   <th>Name</th>
                   <th>Phone Number</th>
-                  <th>Total Resume Printed</th>
-                  <th>Limit</th>
+                  <th>
+                    <div className={styles.thContent}>
+                                <span>Total Resume Printed</span>
+                                <div className={styles.sortButtons}>
+                                  <button
+                                    type="button"
+                                    onClick={totalResumePrintedAscendingOrder}
+                                    className={styles.sortButton}
+                                  >
+                                    ↑
+                                  </button>
+                                  <button
+                                    type="button"
+                                    onClick={totalResumePrintedDescendingOrder}
+                                    className={styles.sortButton}
+                                  >
+                                    ↓
+                                  </button>
+                                </div>
+                              </div>
+                  </th>
+                  <th>
+                      <div className={styles.thContent}>
+                                <span>Limit</span>
+                                <div className={styles.sortButtons}>
+                                  <button
+                                    type="button"
+                                    onClick={limitAscendingOrder}
+                                    className={styles.sortButton}
+                                  >
+                                    ↑
+                                  </button>
+                                  <button
+                                    type="button"
+                                    onClick={limitDescendingOrder}
+                                    className={styles.sortButton}
+                                  >
+                                    ↓
+                                  </button>
+                                </div>
+                              </div>
+                  </th>
                   <th>Set Limit</th>
                   <th>Status</th>
-                  <th>Last Log</th>
+                  <th>
+                     <div className={styles.thContent}>
+                                <span>Last Log</span>
+                                <div className={styles.sortButtons}>
+                                  <button
+                                    type="button"
+                                    onClick={LastActAscendingOrder}
+                                    className={styles.sortButton}
+                                  >
+                                    ↑
+                                  </button>
+                                  <button
+                                    type="button"
+                                    onClick={LastActDescendingOrder}
+                                    className={styles.sortButton}
+                                  >
+                                    ↓
+                                  </button>
+                                </div>
+                              </div>
+
+                  </th>
                 </tr>
 
               </thead>

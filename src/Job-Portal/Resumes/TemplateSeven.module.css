@@ -121,6 +121,35 @@
 
   background: #ffffff !important;
 }
+.tooltipWrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip {
+  visibility: hidden;
+  opacity: 0;
+
+  position: absolute;
+  bottom: 120%;
+  left: 50%;
+  transform: translateX(-50%);
+
+  background: #333;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 5px;
+
+  white-space: nowrap;
+  font-size: 13px;
+
+  transition: opacity 0.2s;
+}
+
+.tooltipWrapper:hover .tooltip {
+  visibility: visible;
+  opacity: 1;
+}
 
 
 /* =========================================================

@@ -18,42 +18,31 @@ import ColorThemeSelector from './ColorThemeSelector';
 function AllResumes() {
   // const [selectedTemplate, setSelectedTemplate] = useState(null);
   const [profileData, setProfileData] = useState(null);
+  const [limit, SetLimit] = useState(null);
+  const [totalResumeLimit, SetTotalResumeLimit] = useState(null);
 
   let location = useLocation()
   const { logoutresume } = location.state || {};
   const { selectedTemplate } = location.state || {};
   const { loginprofile } = location.state || {};
+  // const studId = JSON.parse(localStorage.getItem("StudId"))
   let CSCId = JSON.parse(localStorage.getItem("CSCId"));
-  const studId = JSON.parse(localStorage.getItem("StudId"))
-  console.log(selectedTemplate)
-
   async function getProfile() {
-    try {
-      const res = await axios.get(`/StudentProfile/viewProfile/${studId}`)
-      const result = res.data;
-      // console.log(result)
-      setProfileData(result.result)
-      // setProfileData({
-      //   name: result.name,
-      //   email: result.email,
-
-      //   phone: result.phoneNumber,// Or: result.phone if available
-      //   education: [
-      //     { degree: "MCA", university: "LNCT University", cgpa: "8.30" },
-      //     { degree: "BCA", university: "MCNU", cgpa: "8.58" }
-      //   ],
-      //   skills: ["HTML", "CSS", "JavaScript", "React", "Git"]
-      // });
-
-    } catch (err) {
-      alert("Something went wrong");
-    }
+    if(!CSCId)return
+    await axios.get(`/CSRoute/viewProfile/${CSCId}`)
+      .then((res) => {
+        // console.log(res.data.result)
+        SetLimit(res.data.result.Limit)
+        SetTotalResumeLimit(res.data.result.pdfDownloadCount)
+      }).catch((err) => {
+        console.log("some thing went wrong while fetching profile")
+      })
   }
 
-  // useEffect(() => {
-  //   if (logoutresume !== true)
-  //     getProfile();
-  // }, []);
+  useEffect(() => {
+    if (logoutresume !== true)
+      getProfile();
+  }, []);
 
 
   const [themeColor, setThemeColor] = useState("#2563eb");
@@ -114,8 +103,10 @@ function AllResumes() {
             {selectedTemplate === 'three' && <TemplateThree data={profileData} themeColor={themeColor} />}
             {selectedTemplate === 'four' && <TemplateFour data={profileData} themeColor={themeColor} />}
             {selectedTemplate === 'five' && <TemplateFive data={profileData} themeColor={themeColor} />}  */}
-            {selectedTemplate === 'six' && <TemplateSix data={profileData} themeColor={themeColor} />}
-            {selectedTemplate === 'seven' && <TemplateSeven data={profileData} themeColor={themeColor} />}
+            {selectedTemplate === 'six' && <TemplateSix data={profileData} themeColor={themeColor}
+            limit={limit} totalResumeLimit={totalResumeLimit} SetTotalResumeLimit={SetTotalResumeLimit}/>}
+            {selectedTemplate === 'seven' && <TemplateSeven data={profileData} themeColor={themeColor} 
+            limit={limit} totalResumeLimit={totalResumeLimit} SetTotalResumeLimit={SetTotalResumeLimit} />}
           
           </div>
 

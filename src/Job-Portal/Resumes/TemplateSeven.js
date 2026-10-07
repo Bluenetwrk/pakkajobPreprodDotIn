@@ -46,8 +46,8 @@ const EditableText = ({
 /* =========================================================
    MAIN COMPONENT
 ========================================================= */
-
-const TemplateSeven = () => {
+const TemplateSeven = ({ limit, totalResumeLimit, SetTotalResumeLimit }) => {
+  console.log("coming from props",limit, totalResumeLimit)
   const [profileData, setProfileData] = useState(null);
 
   const studId = JSON.parse(localStorage.getItem("StudId"));
@@ -251,6 +251,7 @@ const TemplateSeven = () => {
 
           await axios.post("/CSRoute/pdfDownloadedCount", { CSCId: CSCId })
             .then((res) => {
+              SetTotalResumeLimit((prev)=>prev+1)
               console.log(res.data.count)
             }).catch((err) => {
               console.log("some thing went wrong", err)
@@ -1100,15 +1101,27 @@ const TemplateSeven = () => {
         ================================================= */}
         <hr style={{ margin: " 20px 0 20px 0" }}></hr>
 
-
-        <button
+        {/* <button
           onClick={handleDownloadPDF}
-          className={
-            styles.downloadBtn
-          }
-        >
+          className={styles.downloadBtn}>
           Download Resume PDF
-        </button>
+        </button> */}
+
+        <div className={styles.tooltipWrapper}>
+          <button
+            disabled={totalResumeLimit>=limit}
+            onClick={handleDownloadPDF}
+            className={styles.downloadBtn}
+          >
+            Download Resume
+          </button>
+
+          {totalResumeLimit>=limit && (
+            <span className={styles.tooltip}>
+              You have reached your download limit
+            </span>
+          )}
+        </div>
 
       </div>
     </>
