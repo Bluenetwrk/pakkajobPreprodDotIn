@@ -189,12 +189,14 @@ const TemplateSix = ({ themeColor }) => {
         "template-six",
         `${resumeData?.name || "resume"}_resume.pdf`
       );
+      if(CSCId){
          await axios.post("/CSRoute/pdfDownloadedCount", { CSCId: CSCId })
          .then((res) => {
             console.log(res.data.count)
           }).catch((err)=>{
             console.log("some thing went wrong", err)
-          })     
+          }) 
+        }    
 
       element.classList.remove(styles.forceA4);
     }, 300);

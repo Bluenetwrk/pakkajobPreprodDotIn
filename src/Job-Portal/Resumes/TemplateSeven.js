@@ -247,12 +247,15 @@ const TemplateSeven = () => {
         );
 
         // API call
-        await axios.post("/CSRoute/pdfDownloadedCount", { CSCId: CSCId })
-          .then((res) => {
-            console.log(res.data.count)
-          }).catch((err)=>{
-            console.log("some thing went wrong", err)
-          })
+        if (CSCId) {
+
+          await axios.post("/CSRoute/pdfDownloadedCount", { CSCId: CSCId })
+            .then((res) => {
+              console.log(res.data.count)
+            }).catch((err) => {
+              console.log("some thing went wrong", err)
+            })
+        }
       } catch (error) {
         console.error("Error saving PDF download:", error);
       } finally {
