@@ -797,7 +797,7 @@ function Home({ nopageFilter, setNoPageFilter, searchKey, setsearchKey, Filterer
               {PageLoader && (
                 <tbody>
                   <tr>
-                    <td colSpan="11" className={styles.LoaderCell}>
+                    <td colSpan="8" className={styles.LoaderCell}>
                       <Puff
                         height="80"
                         width="80"
@@ -914,7 +914,7 @@ function Home({ nopageFilter, setNoPageFilter, searchKey, setsearchKey, Filterer
                   ))
                 ) : (
                   <tr>
-                    <td colSpan="11" className={styles.EmptyCell}>
+                    <td colSpan="8" className={styles.EmptyCell}>
                       Loading......
                     </td>
                   </tr>

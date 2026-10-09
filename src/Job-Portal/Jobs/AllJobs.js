@@ -849,7 +849,7 @@ function AllJobs({ nopageFilter, setNoPageFilter, searchKey, setsearchKey, Filte
     {PageLoader && (
       <tbody>
         <tr>
-          <td colSpan="11" className={styles.LoaderCell}>
+          <td colSpan="8" className={styles.LoaderCell}>
             <div
               style={{
                 display: "flex",
@@ -977,7 +977,7 @@ function AllJobs({ nopageFilter, setNoPageFilter, searchKey, setsearchKey, Filte
           ))
         ) : (
           <tr>
-            <td colSpan="11" className={styles.EmptyCell}>
+            <td colSpan="8" className={styles.EmptyCell}>
               Loading......
             </td>
           </tr>
@@ -1090,11 +1090,12 @@ function AllJobs({ nopageFilter, setNoPageFilter, searchKey, setsearchKey, Filte
           ))
         ) : (
           <tr>
-            <td colSpan="11" className={styles.EmptyCell}>
+            <td colSpan="8" className={styles.EmptyCell} >
               Loading......
             </td>
           </tr>
-        )}
+        )
+        }
       </tbody>
     )}
   </table>
