@@ -7,7 +7,7 @@ import { Puff } from  'react-loader-spinner'
 import { useNavigate, useParams } from 'react-router-dom'
 import useScreenSize from '../SizeHook';
 import Arrowimage from '../img/icons8-arrow-left-48.png'
-import socketIO from 'socket.io-client';
+// import socketIO from 'socket.io-client';
 import Footer from '../Footer/Footer'
 
 function CheckStudentProfile() {

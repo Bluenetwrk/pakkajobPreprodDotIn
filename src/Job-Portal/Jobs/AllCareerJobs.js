@@ -10,7 +10,7 @@ import Footer from '../Footer/Footer';
 import {jobTags} from '../Tags'
 import HTMLReactParser from 'html-react-parser'
 import useScreenSize from '../SizeHook';
-import socketIO from 'socket.io-client';
+// import socketIO from 'socket.io-client';
 
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
@@ -48,13 +48,13 @@ const responsive = {
     searchClick,setSearchClick,ShowSideNave,setShowSideNave,showMobileSearchIcon,setShowMobileSearchIcon
 
   }) {
-  useEffect(() => {
-    const socket = socketIO.connect(url, {
-      auth: {
-        token: JSON.parse(localStorage.getItem("StudId"))
-      }
-    });
-  }, [])
+  // useEffect(() => {
+  //   const socket = socketIO.connect(url, {
+  //     auth: {
+  //       token: JSON.parse(localStorage.getItem("StudId"))
+  //     }
+  //   });
+  // }, [])
 
   
   let JobLocationTags = ["Bangalore"]

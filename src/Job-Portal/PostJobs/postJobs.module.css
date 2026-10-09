@@ -574,7 +574,7 @@
         .successmessage{
             color: rgb(85, 156, 85);
             /* font-style: italic; */
-            margin-left: 68px;
+            /* margin-left: 68px; */
             }
         .errormessage{
             color : red;

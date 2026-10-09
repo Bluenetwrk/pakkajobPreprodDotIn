@@ -8,7 +8,7 @@ import { Puff } from 'react-loader-spinner'
 import useScreenSize from '../SizeHook';
 import location from "../img/icons8-location-20.png" 
 import graduation from "../img/icons8-graduation-cap-40.png"
-import socketIO from 'socket.io-client';
+// import socketIO from 'socket.io-client';
 import Footer from '../Footer/Footer';
 import HTMLReactParser from 'html-react-parser'
 import QRCode from 'react-qr-code';
@@ -16,13 +16,13 @@ import { toPng } from 'html-to-image';
 
 
 function MyPostedDrives(props) {
-  useEffect( ()=>{    
-    const socket = socketIO.connect(props.url,{
-      auth:{
-        token: JSON.parse(localStorage.getItem("EmpIdG"))
-      }
-    });
-  },[])
+  // useEffect( ()=>{    
+  //   const socket = socketIO.connect(props.url,{
+  //     auth:{
+  //       token: JSON.parse(localStorage.getItem("EmpIdG"))
+  //     }
+  //   });
+  // },[])
 
   // let location = useLocation()
   // let empName= location.state.gserid 

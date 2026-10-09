@@ -8,17 +8,17 @@ import location from "../img/icons8-location-20.png"
 import graduation from "../img/icons8-graduation-cap-40.png"
 import axios from "axios";
 import { Link, useNavigate, BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
-import socketIO from 'socket.io-client';
+// import socketIO from 'socket.io-client';
 import Footer from '../Footer/Footer';
 
 function AppledJobs(props) {
-  useEffect(() => {
-    const socket = socketIO.connect(props.url, {
-      auth: {
-        token: JSON.parse(localStorage.getItem("StudId"))
-      }
-    });
-  }, [])
+  // useEffect(() => {
+  //   const socket = socketIO.connect(props.url, {
+  //     auth: {
+  //       token: JSON.parse(localStorage.getItem("StudId"))
+  //     }
+  //   });
+  // }, [])
   let navigate = useNavigate()
 
   const [MyAppliedjob, setMyAppliedjob] = useState([])

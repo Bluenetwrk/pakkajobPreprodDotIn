@@ -13,7 +13,7 @@ import HTMLReactParser from 'html-react-parser'
 
 
 import useScreenSize from '../SizeHook';
-import socketIO from 'socket.io-client';
+// import socketIO from 'socket.io-client';
 
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';

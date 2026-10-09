@@ -58,7 +58,7 @@ import Contact from "./Job-Portal/Contact"
 import Services from "./Job-Portal/Services"
 import TermsAndCondition from "./Job-Portal/TermsAndConditions"
 import Footer from "./Job-Portal/Footer/Footer";
-import socketIO from 'socket.io-client';
+// import socketIO from 'socket.io-client';
 import SidebarNav from "./Job-Portal/BigSideNav";
 import useScreenSize from '../src/Job-Portal/SizeHook';
 import AskQuestion from "./Job-Portal/PostJobs/postQuesion";
@@ -122,8 +122,8 @@ import DeletedBlogs from "../src/Job-Portal/Admin/DeletedBlogs"
 // axios.defaults.baseURL = " https://itwalkin-backend-testrelease-2-0-1-0824-ns0g.onrender.com" // Render Test
 //axios.defaults.baseURL = " https://nontech-backend.onrender.com"
 
-axios.defaults.baseURL = "https://pakkajobpreproddotinbackend.onrender.com"
-// axios.defaults.baseURL = "http://localhost:8080"
+// axios.defaults.baseURL = "https://pakkajobpreproddotinbackend.onrender.com"
+axios.defaults.baseURL = "http://localhost:8080"
 
 
 

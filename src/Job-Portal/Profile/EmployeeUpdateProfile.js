@@ -9,7 +9,7 @@ import delet from "../img/icons8-delete-48.png"
 import { TailSpin } from "react-loader-spinner"
 import Companylogo from "../img/logo.png"
 import useScreenSize from '../SizeHook';
-import socketIO from 'socket.io-client';
+// import socketIO from 'socket.io-client';
 import Arrowimage from '../img/icons8-arrow-left-48.png'
 import validator from "validator";
 import Footer from '../Footer/Footer';

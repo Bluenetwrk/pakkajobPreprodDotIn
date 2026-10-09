@@ -9,7 +9,7 @@ import profileDp from "../img/user_3177440.png"
 import delet from "../img/icons8-delete-48.png"
 import { TailSpin } from "react-loader-spinner"
 import useScreenSize from '../SizeHook';
-import socketIO from 'socket.io-client';
+// import socketIO from 'socket.io-client';
 import CreatableSelect from "react-select/creatable"
 import Arrowimage from '../img/icons8-arrow-left-48.png'
 import Footer from '../Footer/Footer';
@@ -17,14 +17,14 @@ import Footer from '../Footer/Footer';
 import { jobTags } from '../Tags'
 
 function StudentUpdateProfile(props) {
-  useEffect(() => {
-    const socket = socketIO.connect(props.url, {
-      auth: {
-        token: JSON.parse(localStorage.getItem("CSCId"))
+  // useEffect(() => {
+  //   const socket = socketIO.connect(props.url, {
+  //     auth: {
+  //       token: JSON.parse(localStorage.getItem("CSCId"))
         
-      }
-    });
-  }, [])
+  //     }
+  //   });
+  // }, [])
 
   const [file, setFile] = useState()
   const [uploaded, setUploaded] = useState()

@@ -380,7 +380,7 @@ const [showTooltip, setShowTooltip] = useState(false);
                                 <div className={Style.postJobPageWrapper} >
                                     <div className={Style.postJobWrapper}>
                                     <p className={successMessage === "Successfully posted!" ?
-                                            Style.successmessage : Style.errormessage}>{successMessage} </p>
+                                            Style.successmessage : Style.successmessage}>{successMessage} </p>
                                         {/* <p className={Style.errormessage}>{errorMessage} </p> */}
                                         <h4 className={Style.jobHeadline}  >Job Title**</h4>
                                         <input maxLength="100" className={Style.inputbox} type="text" value={jobtitle} onChange={(e) => { handlejobtitle(e) }} />
@@ -402,8 +402,8 @@ const [showTooltip, setShowTooltip] = useState(false);
                                         <p className={Style.jobHeadline}>Company Name** &nbsp;<span className={Style.hint}>(The company name is auto-populated from your profile and cannot be changed.)</span></p>
                                         <input maxLength="30" className={Style.inputbox} type="text" value={companyName} disabled />
 
-                                        <h4 className={Style.jobHeadline}  >Company Home Page Link</h4>
-                                         <input className={Style.inputbox} type="text" value={companyHomeLink} onChange={(e) => { setCompanyHomeLink(e.target.value) }} />
+                                        {/* <h4 className={Style.jobHeadline}  >Company Home Page Link</h4>
+                                         <input className={Style.inputbox} type="text" value={companyHomeLink} onChange={(e) => { setCompanyHomeLink(e.target.value) }} /> */}
 
 
                                          <h4 className={Style.jobHeadline}  >Source Link</h4>

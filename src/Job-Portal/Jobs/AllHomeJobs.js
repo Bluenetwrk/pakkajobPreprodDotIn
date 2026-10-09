@@ -621,17 +621,17 @@ function Home({ nopageFilter, setNoPageFilter, searchKey, setsearchKey, Filterer
       {/* <h1>Nikita is working on this development</h1> */}
       {checkBoxValue.length > 0 ?
         <>
-        <div style={{margin:"10px"}}>
+          <div style={{ margin: "10px" }}>
 
-          <button style={{
-            backgroundColor: "blue", border: "none", color: "white",
-            padding: "5px 10px", fontWeight: "bold", cursor: "pointer"
-          }} onClick={() => { ArchiveCheckBoxArray() }}>Archive</button>
+            <button style={{
+              backgroundColor: "blue", border: "none", color: "white",
+              padding: "5px 10px", fontWeight: "bold", cursor: "pointer"
+            }} onClick={() => { ArchiveCheckBoxArray() }}>Archive</button>
 
-          <button style={{
-            backgroundColor: "red", border: "none", color: "white", marginLeft: "5px",
-            padding: "5px 10px", fontWeight: "bold", cursor: "pointer"
-          }} onClick={() => { deleteCheckedJobs() }}>Delete</button>
+            <button style={{
+              backgroundColor: "red", border: "none", color: "white", marginLeft: "5px",
+              padding: "5px 10px", fontWeight: "bold", cursor: "pointer"
+            }} onClick={() => { deleteCheckedJobs() }}>Delete</button>
           </div>
         </>
         : ""
@@ -706,196 +706,223 @@ function Home({ nopageFilter, setNoPageFilter, searchKey, setsearchKey, Filterer
               <option selected={jobsPerPageValue == 100} value={100}>100</option>
             </select>  jobs per page
           </div>
+
           <div className={styles.Uiwarpper}>
-            <ul className={styles.ul} style={{ color: 'white', fontWeight: "bold" }}>
-              <li style={{ backgroundColor: " rgb(40, 4, 99)" }} className={`${styles.li} ${styles.Jtitle}`}>Job Title</li>
-              <li style={{ backgroundColor: " rgb(40, 4, 99)" }} className={`${styles.li} ${styles.Source}`}>Posted By</li>
-              <li style={{ backgroundColor: " rgb(40, 4, 99)" }} className={`${styles.li} ${styles.CompanyName}`}>Company Name</li>
-              <li style={{ backgroundColor: " rgb(40, 4, 99)" }} className={`${styles.li} ${styles.JobType}`}>JobType</li>
+            <table className={styles.JobTable}>
+              <thead>
+                <tr className={styles.TableHeader}>
+                  <th className={styles.Jtitle}>Job Title</th>
+                  <th className={styles.Source}>Posted By</th>
+                  <th className={styles.CompanyName}>Company Name</th>
+                  <th className={styles.JobType}>JobType</th>
 
-              {/* <li className={`${styles.li} ${styles.HliDescription}`}><b>Job description</b></li> */}
-              <li style={{ backgroundColor: " rgb(40, 4, 99)", }} className={`${styles.li} ${styles.date}`}>Posted Date
-                <p className={styles.arrowWrapper} >
-                  <i onClick={sortbyNewjobs} className={`${styles.arrow} ${styles.up}`} ></i>
-                  <i onClick={sortbyOldjobs} className={`${styles.arrow} ${styles.down}`}></i>
-                </p>
-              </li>
-
-              <li style={{ backgroundColor: " rgb(40, 4, 99)" }} className={`${styles.li} ${styles.Location}`}>Location</li>
-
-              <li style={{ backgroundColor: " rgb(40, 4, 99)", }} className={`${styles.li} ${styles.Package}`}>CTC
-                <p className={styles.arrowWrapper}>
-
-                  <i onClick={SdescendingOrder} className={`${styles.arrow} ${styles.up}`}> </i>
-                  <i onClick={SascendingOrder} className={`${styles.arrow} ${styles.down}`}></i>
-                </p>
-              </li>
-
-              <li style={{ backgroundColor: " rgb(40, 4, 99)", }} className={`${styles.li} ${styles.experiance}`}>Experience
-                <p className={styles.arrowWrapper}>
-
-                  <i onClick={EdescendingOrder} className={`${styles.arrow} ${styles.up}`}> </i>
-                  <i onClick={EascendingOrder} className={`${styles.arrow} ${styles.down}`}></i>
-                </p>
-              </li>
-              <li style={{ backgroundColor: " rgb(40, 4, 99)" }} className={`${styles.li} ${styles.qualification}`}>Qualification</li>
+                  <th className={styles.date}>
+                    Posted Date
 
 
-              <li style={{ backgroundColor: " rgb(40, 4, 99)" }} className={`${styles.li} ${styles.Skills}`}>Skills Required</li>
-              <li style={{ backgroundColor: " rgb(40, 4, 99)" }} className={`${styles.li} ${styles.Apply}`}>Apply</li>
 
-            </ul>
-            {PageLoader ?
-              <div style={{ display: "flex", justifyContent: "center" }}>
-                <Puff height="80" width="80" color="#4fa94d" ariaLabel="bars-loading" wrapperStyle={{ marginTop: "50px" }} />
-              </div> : ""
-            }
-            {
-              jobs.length > 0 ?
-                jobs
-                  .map((items, i) => {
-                    return (
+                    <div className={styles.arrowWrapper}>
+                      <span
+                        onClick={sortbyNewjobs}
+                        className={styles.sortArrow}
+                        title="Sort newest first"
+                      >
+                        ▲
+                      </span>
 
-                      <ul className={styles.ul} key={i}>
-                        {/* } */}
+                      <span
+                        onClick={sortbyOldjobs}
+                        className={styles.sortArrow}
+                        title="Sort oldest first"
+                      >
+                        ▼
+                      </span>
+                    </div>
 
+                  </th>
 
-                        {/* <li className={`${styles.li} ${styles.Jtitle}`} onClick={() => navigate(`/Jobdetails/${btoa(items._id)}`)} style={{ cursor: "pointer", textDecoration: "underline", color: "blue" }}>{items.jobTitle.charAt(0).toUpperCase()+items.jobTitle.substring(1)}</li> */}
+                  <th className={styles.Location}>Location</th>
 
-                        <li className={`${styles.li} ${styles.Jtitle}`} onClick={() => navigate(`/Jobdetails/${btoa(items._id)}?index=${i}`, { state: { selectedTag, }, })} style={{ cursor: "pointer", textDecoration: "underline", color: "blue" }}>{items.jobTitle.charAt(0).toUpperCase() + items.jobTitle.substring(1)}</li>
-                        <li className={`${styles.li} ${styles.Source}`} >Pakka Job</li>
-
-                        {
-                          !items.Source ?
-
-                            <li className={`${styles.li} ${styles.CompanyName}`}>
-                              {/* onClick={(e) => { checkEmpHalf(btoa(items.empId)) }}  > */}
+                  <th className={styles.Package}>
+                    CTC
 
 
-                              {items.companyName}</li>
-                            :
-                            // <a style={{ cursor: "pointer", textDecoration: "underline" }} className={`${styles.li} ${styles.CompanyName}`} href={items.SourceLink} target="_blank" >
-                            <a className={`${styles.li} ${styles.CompanyName}`} target="_blank" >
-                              {items.Source}
+                    <div className={styles.arrowWrapper}>
+                      <span
+                        onClick={SdescendingOrder}
+                        className={styles.sortArrow}
+                        title="Sort newest first"
+                      >
+                        ▲
+                      </span>
 
-                            </a>
+                      <span
+                        onClick={SascendingOrder}
+                        className={styles.sortArrow}
+                        title="Sort oldest first"
+                      >
+                        ▼
+                      </span>
+                    </div>
+                  </th>
+
+                  <th className={styles.experiance}>
+                    Experience
+
+                    <div className={styles.arrowWrapper}>
+                      <span
+                        onClick={EdescendingOrder}
+                        className={styles.sortArrow}
+                        title="Sort newest first"
+                      >
+                        ▲
+                      </span>
+
+                      <span
+                        onClick={EascendingOrder}
+                        className={styles.sortArrow}
+                        title="Sort oldest first"
+                      >
+                        ▼
+                      </span>
+                    </div>
+                  </th>
+
+                  <th className={styles.qualification}>Qualification</th>
+                  <th className={styles.Skills}>Skills Required</th>
+                  <th className={styles.Apply}>Apply</th>
+                </tr>
+              </thead>
+
+              {PageLoader && (
+                <tbody>
+                  <tr>
+                    <td colSpan="11" className={styles.LoaderCell}>
+                      <Puff
+                        height="80"
+                        width="80"
+                        color="#4fa94d"
+                        ariaLabel="bars-loading"
+                        wrapperStyle={{ marginTop: "50px" }}
+                      />
+                    </td>
+                  </tr>
+                </tbody>
+              )}
+
+              <tbody>
+                {jobs.length > 0 ? (
+                  jobs.map((items, i) => (
+                    <tr className={styles.TableRow} key={i}>
+                      <td
+                        className={styles.Jtitle}
+                        onClick={() =>
+                          navigate(`/Jobdetails/${btoa(items._id)}?index=${i}`, {
+                            state: { selectedTag },
+                          })
                         }
-                        <li className={`${styles.li} ${styles.JobType}`}>{items.jobtype}</li>
+                        style={{
+                          cursor: "pointer",
+                          textDecoration: "underline",
+                          color: "blue",
+                        }}
+                      >
+                        {items.jobTitle.charAt(0).toUpperCase() +
+                          items.jobTitle.substring(1)}
+                      </td>
 
+                      <td className={styles.Source}>Pakka Job</td>
 
-                        <li className={`${styles.li} ${styles.date}`}>
-                          {new Date(items.createdAt).toLocaleString(
-                            "en-US",
-                            {
-                              month: "short",
-                              day: "2-digit",
-                              year: "numeric",
-                            }
-                          )}
-                        </li>
-                        {/* <li className={`${styles.li} ${styles.Location}`}>{items.jobLocation[0].toUpperCase() + items.jobLocation.slice(1)}</li> */}
-                        <li className={`${styles.li} ${styles.Location}`}>{items?.jobLocation[0]?.toUpperCase() + items.jobLocation.slice(1)}</li>
-                        <li className={`${styles.li} ${styles.Package}`} style={{ wordBreak: "break-word" }}>{items.salaryRange === "Not disclosed" || items.salaryRange === "" ? "Not Disclosed" : items.salaryRange + "LPA"}</li>
-                        {/* {console.log("Sdsd",items)} */}
-                        <li className={`${styles.li} ${styles.experiance}`}>{items.experiance}Yrs</li>
-                        {/* {console.log("qualifications - ",items)} */}
-                        <li className={`${styles.li} ${styles.qualification}`}>{items.qualification}</li>
-                        <li className={`${styles.li} ${styles.Skills}`}>{items.skills}
-                        </li>
+                      <td className={styles.CompanyName}>
+                        {!items.Source ? (
+                          items.companyName
+                        ) : (
+                          <a
+                            className={styles.CompanyLink}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            {items.Source}
+                          </a>
+                        )}
+                      </td>
 
-                        <li className={`${styles.li} ${styles.Apply}`}>
-                          {adminLogin ? (
-                            <input type="checkbox" onClick={() => checkBoxforDelete(items._id)} />
-                          ) : (
-                            <div ref={alertRef} style={{ position: "relative" }}>
-                              <button className={styles.Applybutton} onClick={() => handleApplyClick(items._id)}>
+                      <td className={styles.JobType}>{items.jobtype}</td>
+
+                      <td className={styles.date}>
+                        {new Date(items.createdAt).toLocaleString("en-US", {
+                          month: "short",
+                          day: "2-digit",
+                          year: "numeric",
+                        })}
+                      </td>
+
+                      <td className={styles.Location}>
+                        {items?.jobLocation?.[0]?.toUpperCase() +
+                          items.jobLocation.slice(1)}
+                      </td>
+
+                      <td
+                        className={styles.Package}
+                        style={{ wordBreak: "break-word" }}
+                      >
+                        {items.salaryRange === "Not disclosed" ||
+                          items.salaryRange === ""
+                          ? "Not Disclosed"
+                          : items.salaryRange + "LPA"}
+                      </td>
+
+                      <td className={styles.experiance}>
+                        {items.experiance}Yrs
+                      </td>
+
+                      <td className={styles.qualification}>
+                        {items.qualification}
+                      </td>
+
+                      <td className={styles.Skills}>{items.skills}</td>
+
+                      <td className={styles.Apply}>
+                        {adminLogin ? (
+                          <input
+                            type="checkbox"
+                            onClick={() => checkBoxforDelete(items._id)}
+                          />
+                        ) : (
+                          <div
+                            ref={alertRef}
+                            style={{ position: "relative" }}
+                          >
+
+                            {items.SourceLink ?
+                              <button title='This will redirect to the source company webpage' className={styles.Applybutton} onClick={() => {
+                                applyforOtherJob(items.SourceLink)
+                              }}>Apply</button>
+                              :
+                              <button
+                                className={styles.Applybutton}
+                                onClick={() => applyforJob(items._id)}
+                              >
                                 Apply
-                              </button>
+                              </button>}
 
-                              {activeAlertId === items._id && (
-                                <div
-                                  style={{
-                                    width: '300px',
-                                    padding: '20px',
-                                    backgroundColor: 'rgb(40,4,99)',
-                                    color: 'white',
-                                    fontSize: '12px',
-                                    borderRadius: '5px',
-                                    position: 'fixed',
-                                    top: '50%',
-                                    left: '50%',
-                                    transform: 'translate(-50%, -50%)',
-                                    zIndex: 9999,
-                                    boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
-                                    textAlign: 'center',
-                                  }}
 
-                                >
-                                  <strong style={{ color: "red", textAlign: "center", fontSize: "14px" }}>NOTICE</strong><br></br>
-                                  Pakka Job never charges fees for job applications. If you encounter misuse or payment requests, report it through our website.<br></br>
-                                  <br></br>
-                                  You will be redirected to the career page of        {
-                                    !items.Source ?
-
-                                      <span>
-
-                                        {items.companyName}</span>
-                                      :
-                                      <span>
-
-                                        {items.Source}
-
-                                      </span>
-
-                                  }.
-                                  Pakka Job is not the authorised partner of this company
-                                  {/* <strong>Notice:</strong> Pakka Job never charges fees for job applications. If you encounter misuse or payment requests, report it through our website. */}
-
-                                  <div ref={alertRef} style={{ marginTop: '15px', display: "flex", justifyContent: "center", gap: "5px" }}>
-                                    <button
-                                      onClick={() => handleOkClick(items._id)}
-                                      style={{
-                                        padding: '8px 16px',
-                                        backgroundColor: '#4CAF50',
-                                        color: 'white',
-                                        border: 'none',
-                                        borderRadius: '5px',
-                                        fontSize: '12px',
-                                        cursor: 'pointer',
-                                      }}
-                                    >
-                                      Ok
-                                    </button>
-                                    <button
-                                      onClick={handlecancelClick}
-                                      style={{
-                                        padding: '8px 16px',
-                                        backgroundColor: '#4CAF50',
-                                        color: 'white',
-                                        border: 'none',
-                                        borderRadius: '5px',
-                                        fontSize: '12px',
-                                        cursor: 'pointer',
-                                      }}
-                                    >
-                                      Cancel
-                                    </button>
-                                  </div>
-                                </div>
-                              )}
-                            </div>
-                          )}
-                        </li>
-
-                      </ul>
-                    )
-                  })
-                :
-                <div style={{ display: "flex", justifyContent: "center" }}>
-                  <p style={{ color: "red" }}>Loading......</p>
-                </div>
-            }
+                          </div>
+                        )}
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan="11" className={styles.EmptyCell}>
+                      Loading......
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
           </div>
+
 
           <div style={{ display: "flex", justifyContent: "space-between" }}>
             <div style={{ marginTop: "14px", marginLeft: "10px" }} >
@@ -1006,196 +1033,191 @@ function Home({ nopageFilter, setNoPageFilter, searchKey, setsearchKey, Filterer
                 <Puff height="80" width="80" color="#4fa94d" ariaLabel="bars-loading" wrapperStyle={{ marginTop: "50px" }} />
               </div> : ""
             }
-            <div id={styles.JobCardWrapper} >
-              {
-                jobs.length > 0 ?
+            <div className={styles.recentJobCardWrapper}>
+              {jobs.length > 0 ? (
+                jobs.map((job, i) => (
+                  <div className={styles.recentJobCard} key={i}>
+                    <div style={{ marginTop: "-12px" }}>
+                      {/* Job title and date */}
+                      <div className={styles.recentJobTitleDate}>
+                        <p
+                          className={styles.recentJobTitle}
+                          onClick={() => {
+                            window.scrollTo({ top: 0 });
+                            navigate(`/Jobdetails/${btoa(job._id)}?index=${i}`, {
+                              state: { selectedTag },
+                            });
+                          }}
+                          style={{ width: "100%", whiteSpace: "normal" }}
+                        >
+                          {job.jobTitle.charAt(0).toUpperCase() +
+                            job.jobTitle.substring(1)}
+                        </p>
 
-                  jobs.map((job, i) => {
-                    return (
-                      <>
-                        <div className={styles.JobCard} key={i}>
-                          {/* <p className={styles.readPageDate}>{new Date(job.createdAt).toLocaleString(
-                            "en-US",
-                            {
-                              day: "2-digit",
-                              month: "short",
-                              year: "numeric",
-                            }
-                          )
-                          } </p> */}
-                          <div style={{ marginTop: "-12px" }}>
-                            <div className={styles.JobTitleDateWrapper} style={{ display: "flex", flexDirection: "row", alignItems: "center", marginTop: "10px" }}>
-                              <p className={styles.jobTitle} onClick={() => {
-                                window.scrollTo({
-                                  top: 0
-                                })
-                                navigate(`/Jobdetails/${btoa(job._id)}?index=${i}`, { state: { selectedTag, }, })
-                              }} style={{ width: "100%", whiteSpace: "normal" }}>{job.jobTitle.charAt(0).toUpperCase() + job.jobTitle.substring(1)} </p>
-                              <p style={{ marginTop: "-11px" }} className={styles.Date}>{new Date(job.createdAt).toLocaleString(
-                                "en-US",
-                                {
-                                  day: "2-digit",
-                                  month: "short",
-                                  year: "numeric",
-                                }
-                              )
-                              } </p>
+                        <p className={styles.recentJobDate}>
+                          {new Date(job.createdAt).toLocaleString("en-US", {
+                            day: "2-digit",
+                            month: "short",
+                            year: "numeric",
+                          })}
+                        </p>
+                      </div>
 
-                            </div>
+                      {/* Company logo and name */}
+                      <div className={styles.recentJobCompany}>
+                        <img
+                          className={styles.recentJobCompanyLogo}
+                          src={CompanyLogo}
+                          alt="Company logo"
+                        />
 
+                        <div className={styles.recentJobCompanyDetails}>
+                          {!job.Source ? (
+                            <span className={styles.recentJobCompanyName}>
+                              {job.companyName}
+                            </span>
+                          ) : (
+                            <a className={styles.recentJobCompanyName}>
+                              {job.Source}
+                            </a>
+                          )}
+                        </div>
+                      </div>
 
-                            <div className={styles.JobPagecompanyNameLocationWrapper}   >
-                              {/* <img className={styles.logo} src={job.Logo} /> */}
-                              {/* {console.log("home obj",job)} */}
-                              <img className={styles.homePageCompanyLogo} src={CompanyLogo} />
+                      {/* Location */}
 
-                              <div class={styles.jobTitleCompanyName}>
-                                {!job.Source ?
+                      <div style={{ display: "flex", justifyContent: "space-between" }}>
+                        <div className={styles.recentJobLocationWrapper}>
+                          <img
+                            className={styles.recentJobLocationImage}
+                            src={location}
+                            alt=""
+                          />
 
-                                  // <> <span className={styles.companyName} onClick={() => { checkEmpHalf(btoa(job.empId)) }} >{job.companyName} </span><br></br></>
-                                  <> <span style={{ textDecoration: "none" }} className={styles.companyName} >{job.companyName} </span><br></br></>
+                          <span className={styles.recentJobLocation}>
+                            {job?.jobLocation?.[0]?.toUpperCase() +
+                              (job?.jobLocation?.slice(1) || "")}{" "}
+                            ,
+                          </span>
+                        </div>
 
-                                  :
-
-                                  // <> <a className={`${styles.companyName}`} href={job.SourceLink} target="_blank">{job.Source}</a><br></br> </>
-                                  <> <a style={{ textDecoration: "none" }} className={`${styles.companyName}`}>{job.Source}</a><br></br> </>
-
-                                }
-                              </div>
-                            </div>
-                            <  img className={styles.jobLocationImage} src={location} />
-                            {/* <span className={styles.jobLocation}>{job.jobLocation[0].toUpperCase() + job.jobLocation.slice(1)} ,</span> */}
-                            <span className={styles.jobLocation}>{job?.jobLocation[0]?.toUpperCase() + job.jobLocation.slice(1)} ,</span>
-
-                            <span className={styles.qualificationAndExperiance}>
-
-                              <  img className={styles.graduationImage} src={graduation} />
-
-                              {job.qualification}, {job.experiance}Y Exp ,   {job.jobtype}
-                              {/* <span className={styles.jobtypeAndDate}> {job.jobtype}</span> */}
-                            </span><br></br>
-
-                            <span className={styles.jobtypeAndDate}>Posted By</span> :
-
-                            <> <span className={styles.skills}>Pakka Job</span><br></br></>
-                            {/* } */}
-
-                            <div className={styles.skillWrapper}>
-                              <span className={styles.skillsHeading}>Skills: </span><span className={styles.skills}>{job.skills}</span><br></br>
-                            </div>
-                            <div className={styles.homeApplyPackage}>
-                              <p className={styles.salaryRange}>{job.salaryRange === "Not disclosed" || job.salaryRange === "" ? "Not Disclosed" : <><span>&#8377;</span>{job.salaryRange} LPA</>}</p>
-                              {
-
-                                // <button className={styles.homeApplyMobileBtn} onClick={() => { applyforJob(job._id) }}><b>Apply</b></button>
-                                <div ref={alertRef} style={{ position: "relative" }}>
-                                  <button className={styles.homeApplyMobileBtn} onClick={() => handleApplyClick(job._id)}>
-                                    Apply
-                                  </button>
-
-                                  {activeAlertId === job._id && (
-                                    <div
-                                      style={{
-                                        width: '74%',
-                                        padding: '20px',
-                                        backgroundColor: 'rgb(40,4,99)',
-                                        color: 'white',
-                                        fontSize: '13px',
-                                        borderRadius: '5px',
-                                        position: 'fixed',
-                                        top: '50%',
-                                        left: '50%',
-                                        transform: 'translate(-50%, -50%)',
-                                        zIndex: 9999,
-                                        boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
-                                        textAlign: 'center',
-                                      }}
-                                    >
-                                      <strong style={{ color: "red", textAlign: "center", fontSize: "14px" }}>NOTICE</strong><br></br>
-                                      Pakka Job never charges fees for job applications. If you encounter misuse or payment requests, report it through our website.<br></br>
-                                      <br></br>
-                                      You will be redirected to the career page of {
-                                        !job.Source ?
-
-                                          <span>
-
-                                            {job.companyName}</span>
-                                          :
-                                          <span>
-
-                                            {job.Source}
-
-                                          </span>
-
-                                      }.
-                                      Pakka Job is not the authorised partner of this company
-                                      {/* <strong>Notice:</strong> Pakka Job never charges fees for job applications. If you encounter misuse or payment requests, report it through our website. */}
-
-                                      <div ref={alertRef} style={{ marginTop: '15px', display: "flex", gap: "4px", justifyContent: "center" }}>
-                                        <button
-                                          onClick={() => handleOkClick(job._id)}
-                                          style={{
-                                            padding: '8px 16px',
-                                            backgroundColor: '#4CAF50',
-                                            color: 'white',
-                                            border: 'none',
-                                            borderRadius: '5px',
-                                            fontSize: '10px',
-                                            cursor: 'pointer',
-                                          }}
-                                        >
-                                          OK
-                                        </button>
-                                        <button
-                                          onClick={handlecancelClick}
-                                          style={{
-                                            padding: '8px 16px',
-                                            backgroundColor: '#4CAF50',
-                                            color: 'white',
-                                            border: 'none',
-                                            borderRadius: '5px',
-                                            fontSize: '10px',
-                                            cursor: 'pointer',
-                                          }}
-                                        >
-                                          Cancel
-                                        </button>
-                                      </div>
-                                    </div>
-                                  )}
-                                </div>
-                              }
-                            </div>
-
-                            <p className={styles.jobDescriptionHeading}>Job Description:</p>
-                            <p className={styles.jobDescription}>
-
-                              {job.jobDescription
-                                ? job.jobDescription.replace(/<[^>]+>/g, '').substring(0, 100) + "..."
-                                : ""}
-
-                              <span onClick={() => {
-                                window.scrollTo({
-                                  top: 0
-                                })
-                                navigate(`/Jobdetails/${btoa(job._id)}`)
-                              }} className={styles.seeMore}>
-                                ...read more
-                              </span>
-                            </p>
-
-
+                        <div>
+                          <div className={styles.recentJobPostedBy}>
+                            <span className={styles.recentJobPostedLabel}>
+                              Posted by
+                            </span>
+                            <span className={styles.recentJobBrand}>
+                              Pakka Job
+                            </span>
                           </div>
                         </div>
-                      </>
-                    )
-                  })
-                  :
-                  <div style={{ display: "flex", justifyContent: "center" }}>
-                    <p style={{ color: "red" }}>Loading......</p>
-                  </div>
-              }
+                      </div>
 
+
+                      {/* Qualification, experience and job type */}
+                      <div className={styles.recentJobExperience}>
+                        <img
+                          className={styles.recentJobGraduationImage}
+                          src={graduation}
+                          alt="Qualification"
+                        />
+
+                        <span>{job.qualification}</span>
+                        <span className={styles.recentJobSeparator}>•</span>
+                        <span>{job.experiance}Y Exp</span>
+                        <span className={styles.recentJobSeparator}>•</span>
+                        <span>{job.jobtype}</span>
+                      </div>
+
+                      {/* Posted by */}
+                      {/* <div className={styles.recentJobPostedBy}>
+            <span className={styles.recentJobPostedLabel}>
+              Posted By
+            </span>
+            <span className={styles.recentJobBrand}>Pakka Job</span>
+          </div> */}
+
+                      {/* Skills */}
+                      <div className={styles.recentJobSkillsWrapper}>
+                        <span className={styles.recentJobSkillsHeading}>
+                          Skills:
+                        </span>
+
+                        <p className={styles.recentJobSkillsList}>
+                          {job.skills}
+                        </p>
+                      </div>
+
+                      {/* Salary and Apply button */}
+                      <div className={styles.recentJobApplySection}>
+                        <div className={styles.recentJobSalaryWrapper}>
+                          <span className={styles.recentJobSalaryLabel}>
+                            Salary
+                          </span>
+
+                          <p className={styles.recentJobSalary}>
+                            {job.salaryRange === "Not disclosed" ||
+                              job.salaryRange === "" ? (
+                              "Not Disclosed"
+                            ) : (
+                              <>
+                                <span className={styles.recentJobRupee}>
+                                  &#8377;
+                                </span>
+                                {job.salaryRange} LPA
+                              </>
+                            )}
+                          </p>
+                        </div>
+
+                        <div ref={alertRef} style={{ position: "relative" }}>
+
+                          {job.SourceLink ?
+                            <button title='This will redirect to the source company webpage' className={styles.recentJobApplyButton} onClick={() => {
+                              applyforOtherJob(job.SourceLink)
+                            }}>Apply</button>
+                            :
+                            <button
+                              className={styles.recentJobApplyButton}
+                              onClick={() => applyforJob(job._id)}
+                            >
+                              Apply
+                            </button>}
+
+                        </div>
+                      </div>
+
+                      {/* Job description */}
+                      <div className={styles.recentJobDescriptionWrapper}>
+                        <p className={styles.recentJobDescriptionHeading}>
+                          Job Description:
+                        </p>
+
+                        <p className={styles.recentJobDescription}>
+                          {job.jobDescription
+                            ? job.jobDescription.replace(/<[^>]+>/g, "").substring(0, 100) +
+                            "..."
+                            : ""}
+
+                          <span
+                            className={styles.recentJobReadMore}
+                            onClick={() => {
+                              window.scrollTo({ top: 0 });
+                              navigate(`/Jobdetails/${btoa(job._id)}`);
+                            }}
+                          >
+                            ...read more
+                          </span>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <div style={{ display: "flex", justifyContent: "center" }}>
+                  <p style={{ color: "red" }}>Loading......</p>
+                </div>
+              )}
             </div>
 
             <div class={styles.homeMobileNextPrevBtn} style={{ diplay: "flex", flexDirection: "column", marginTop: "15px" }}>

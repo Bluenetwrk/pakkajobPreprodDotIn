@@ -7,7 +7,7 @@ import { Puff } from  'react-loader-spinner'
 import useScreenSize from '../SizeHook';
 import image from '../img/icons8-arrow-button-24.png'
 import Arrowimage from '../img/icons8-arrow-left-48.png'
-import socketIO from 'socket.io-client';
+// import socketIO from 'socket.io-client';
 import Footer from '../Footer/Footer'
 import { Link, useNavigate, NavLink } from "react-router-dom";
 import HTMLReactParser from 'html-react-parser/lib/index'

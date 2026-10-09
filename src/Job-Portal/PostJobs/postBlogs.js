@@ -9,7 +9,7 @@ import JoditEditor from 'jodit-react'
 import { Editor } from 'react-draft-wysiwyg';
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import Style from "./postJobs.module.css"
-import socketIO from 'socket.io-client';
+// import socketIO from 'socket.io-client';
 import CreatableSelect from "react-select"
 import useScreenSize from '../SizeHook';
 import {jobTags} from "../Tags"
