@@ -41,12 +41,12 @@ const responsive = {
 
 
 function Home({ nopageFilter, setNoPageFilter, searchKey, setsearchKey, Filtereredjobs, setFiltereredjobs
-  , Result, setResult, Filterjobs, setFilterjobs, jobs, setJobs, count, setCount, Active, setActive,
-  PageLoader, setPageLoader, totalCount, settotalCount, search, getjobs, gettotalcount, searchIcon
+  , Result, setResult, Filterjobs, setFilterjobs, count, setCount, Active, setActive,
+   totalCount, settotalCount, search, getjobs, gettotalcount, searchIcon
   , searchClick, setSearchClick, ShowSideNave, setShowSideNave, showMobileSearchIcon, setShowMobileSearchIcon, selectedlocationOption
 }) {
 
-  // const [jobs, setJobs] = useState([])
+  const [jobs, setJobs] = useState([])
   // const [selectedOption, setSelectedOption] = useState("");
   const [selectedOption, setSelectedOption] = useState(options[0]);
   const [isOpen, setIsOpen] = useState(false);
@@ -60,7 +60,7 @@ function Home({ nopageFilter, setNoPageFilter, searchKey, setsearchKey, Filterer
   const [showJobs, setshowJobs] = useState(false)
   const [showExperiance, setshowExperiance] = useState(false)
   const [showPackage, setshowPackage] = useState(false)
-  // const [PageLoader, setPageLoader] = useState(false)
+  const [PageLoader, setPageLoader] = useState(false)
   // const [Result, setResult] = useState(false)
   const [NotFound, setNotFound] = useState("")
   // const [Active, setActive] = useState([])
@@ -119,7 +119,7 @@ function Home({ nopageFilter, setNoPageFilter, searchKey, setsearchKey, Filterer
 
     setPageLoader(true)
     setNoPageFilter(false)
-    const headers = { authorization: 'BlueItImpulseWalkinIn' };
+    const headers = { authorization: 'BlueItImpulsewalkinIn' };
     // await axios.get("/jobpost/getHomejobs", { headers })
     await axios.get(`/jobpost/getLimitJobs/${recordsPerPage}`, { params: { currentPage }, headers })
       .then((res) => {
@@ -137,6 +137,7 @@ function Home({ nopageFilter, setNoPageFilter, searchKey, setsearchKey, Filterer
         console.log(err)
         alert("some thing went wrong")
       })
+      setPageLoader(false)
   }
 
   useEffect(() => {
@@ -189,7 +190,9 @@ function Home({ nopageFilter, setNoPageFilter, searchKey, setsearchKey, Filterer
   }
   async function applyforOtherJob(Link) {
 
-    window.open(`${Link}`)
+    // window.open(`${Link}`)
+    navigate("/JobSeekerLogin", )
+
   }
 
 
@@ -797,7 +800,13 @@ function Home({ nopageFilter, setNoPageFilter, searchKey, setsearchKey, Filterer
               {PageLoader && (
                 <tbody>
                   <tr>
-                    <td colSpan="8" className={styles.LoaderCell}>
+                    <td colSpan="11" className={styles.LoaderCell}>
+                        <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                padding: "20px",
+              }}>
                       <Puff
                         height="80"
                         width="80"
@@ -805,6 +814,7 @@ function Home({ nopageFilter, setNoPageFilter, searchKey, setsearchKey, Filterer
                         ariaLabel="bars-loading"
                         wrapperStyle={{ marginTop: "50px" }}
                       />
+                      </div>
                     </td>
                   </tr>
                 </tbody>
@@ -913,9 +923,10 @@ function Home({ nopageFilter, setNoPageFilter, searchKey, setsearchKey, Filterer
                     </tr>
                   ))
                 ) : (
+                  
                   <tr>
-                    <td colSpan="8" className={styles.EmptyCell}>
-                      Loading......
+                    <td colSpan="11" className={styles.EmptyCell}>
+                      No data
                     </td>
                   </tr>
                 )}
