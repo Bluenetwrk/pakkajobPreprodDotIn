@@ -509,12 +509,14 @@ function Nav(props) {
                       <div className={Styles.Alldownwrapper} >
                         <div className={Styles.JobSeekerdropdownwrapper} ref={menuRef} >
 
-                          {csprofile?
+                          {csprofile ?
                             <p className={Styles.text} ref={menuRef} onClick={mycscprofile} >My profile</p>
-                         :   <p className={Styles.text} ref={menuRef} onClick={myprofile}>My profile</p>
+                            : <p className={Styles.text} ref={menuRef} onClick={myprofile}>My profile</p>
                           }
 
-                          <p className={Styles.text} ref={menuRef} onClick={MyJobApplied}>Jobs Applied</p>
+                          {/* {!csprofile && */}
+                            <p className={Styles.text} ref={menuRef} onClick={MyJobApplied}>Jobs Applied</p>
+                            {/* } */}
                           {/* <p className={Styles.text} ref={menuRef} onClick={MyDrivesApplied}>Registered <br></br>Walkin Drives</p> */}
 
                           {csprofile &&
@@ -765,8 +767,8 @@ function Nav(props) {
                     <div className={Styles.linkWrapper}>
                       {/* <NavLink to="/BIAddmin@Profile" className={Styles.link} style={navLinkStyles}>All </NavLink> */}
                       <NavLink to="/" className={Styles.HomeJobs} style={navLinkStyles}>
-                      <i style={{ marginLeft: 0, marginRight: "5px" }} class="fa-solid fa-house"></i>
-                      Home</NavLink>
+                        <i style={{ marginLeft: 0, marginRight: "5px" }} class="fa-solid fa-house"></i>
+                        Home</NavLink>
 
 
                       <NavLink to="/AboutUs" className={`${Styles.Aboutlink}`} style={navLinkStyles} >About Us</NavLink>
@@ -1382,9 +1384,9 @@ function Nav(props) {
                     {showprofile ?
                       <div className={Styles.Alldownwrapper} >
                         <div className={Styles.MobJobseekerDropdownwrapperlogin} ref={menuRef} >
-                          {csprofile?
+                          {csprofile ?
                             <p className={Styles.text} ref={menuRef} onClick={mycscprofile} >My profile</p>
-                         :   <p className={Styles.text} ref={menuRef} onClick={myprofile}>My profile</p>
+                            : <p className={Styles.text} ref={menuRef} onClick={myprofile}>My profile</p>
                           }
                           <p className={Styles.text} ref={menuRef} onClick={MyJobApplied}>Jobs Applied</p>
                           {/* <p className={Styles.text} ref={menuRef} onClick={MyDrivesApplied}>Registered <br></br>Walkin Drives</p> */}

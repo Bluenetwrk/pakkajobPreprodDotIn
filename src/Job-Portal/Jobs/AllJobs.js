@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from 'react';
-
 import Footer from '../Footer/Footer';
 import styles from "./Allobs.module.css"
 import axios from "axios";
@@ -19,14 +18,14 @@ import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import CompanyLogo from '../img/company-logo.png'
 
-const options = [
-  { value: "bangalore", label: "Bangalore, India", img: location },
-  { value: "san Francisco", label: "San Francisco, USA", img: location },
-  { value: "new york", label: "New York, USA", img: location },
-  { value: "sydney", label: "Sydney, Australia", img: location },
-  { value: "london", label: "London, UK", img: location },
-  { value: "berlin", label: "Berlin, Germany", img: location },
-];
+// const options = [
+//   { value: "bangalore", label: "Bangalore, India", img: location },
+//   { value: "san Francisco", label: "San Francisco, USA", img: location },
+//   { value: "new york", label: "New York, USA", img: location },
+//   { value: "sydney", label: "Sydney, Australia", img: location },
+//   { value: "london", label: "London, UK", img: location },
+//   { value: "berlin", label: "Berlin, Germany", img: location },
+// ];
 const responsive = {
 
   desktop: {
@@ -45,8 +44,8 @@ const responsive = {
 
 // import { Bars } from  'react-loader-spinner'
 function AllJobs({ nopageFilter, setNoPageFilter, searchKey, setsearchKey, Filtereredjobs, setFiltereredjobs
-  , Result, setResult, Filterjobs, setFilterjobs, jobs, setJobs, count, setCount, Active, setActive,
-  PageLoader, setPageLoader, totalCount, settotalCount, search, getjobs, gettotalcount, searchIcon, url
+  , Result, setResult, Filterjobs, setFilterjobs, count, setCount, Active, setActive,
+  totalCount, settotalCount, search, getjobs, gettotalcount, searchIcon, url
   , searchClick, setSearchClick, ShowSideNave, setShowSideNave, showMobileSearchIcon, setShowMobileSearchIcon
 }) {
 
@@ -60,9 +59,9 @@ function AllJobs({ nopageFilter, setNoPageFilter, searchKey, setsearchKey, Filte
 
   let JobLocationTags = ["Bangalore"]
 
-  // const [jobs, setJobs] = useState([])
+  const [jobs, setJobs] = useState([])
   // const [Filterjobs, setFilterjobs] = useState([])
-  const [selectedOption, setSelectedOption] = useState(options[0]);
+  // const [selectedOption, setSelectedOption] = useState(options[0]);
   const [isOpen, setIsOpen] = useState(false);
   // const [nopageFilter, setNoPageFilter] = useState(false)
   // const [Filtereredjobs, setFiltereredjobs] = useState([])
@@ -73,16 +72,16 @@ function AllJobs({ nopageFilter, setNoPageFilter, searchKey, setsearchKey, Filte
   const [showJobs, setshowJobs] = useState(false)
   const [showExperiance, setshowExperiance] = useState(false)
   const [showPackage, setshowPackage] = useState(false)
-  // const [PageLoader, setPageLoader] = useState(false)
+  const [PageLoader, setPageLoader] = useState(false)
   // const [Result, setResult] = useState(false)
   const [nojob, setnojob] = useState("")
   const screenSize = useScreenSize();
   // const [Active, setActive] = useState([])
 
-  const [Loader, setLoader] = useState(false)
+  const [Loader, setLoader] = useState(false) // for job apply Loader
 
   const [clickedJobId, setclickedJobId] = useState() //for single job loader
-  let jobSeekerId = JSON.parse(localStorage.getItem("StudId"))
+  let jobSeekerId = JSON.parse(localStorage.getItem("StudId")) || JSON.parse(localStorage.getItem("CSCId"))
 
   // const [totalCount, settotalCount] = useState()
 
@@ -121,21 +120,23 @@ function AllJobs({ nopageFilter, setNoPageFilter, searchKey, setsearchKey, Filte
     setPageLoader(true)
     setNoPageFilter(false)
 
-    let userid = JSON.parse(localStorage.getItem("StudId"))
-    const headers = { authorization: userid + " " + atob(JSON.parse(localStorage.getItem("StudLog"))) };
+    let userid = JSON.parse(localStorage.getItem("StudId"))|| JSON.parse(localStorage.getItem("CSCId"))
+    const headers = { authorization: userid + " " + atob(JSON.parse(localStorage.getItem("StudLog"))
+      || JSON.parse(localStorage.getItem("CSCLog"))) };
     await axios.get("/jobpost/getjobs", { headers })
       .then((res) => {
         let result = (res.data)
-        gettotalcount()
+        setPageLoader(false);
 
+        gettotalcount()
         let sortedate = result.sort((a, b) => {
           return new Date(b.createdAt) - new Date(a.createdAt);
         });
         setJobs(sortedate)
         setFilterjobs(sortedate)
-        setPageLoader(false)
       }).catch((err) => {
         alert("server issue occured")
+        setPageLoader(false);
       })
   }
 
@@ -200,8 +201,14 @@ function AllJobs({ nopageFilter, setNoPageFilter, searchKey, setsearchKey, Filte
   async function applyforJob(jobId) {
     // alert(" Pakka Job never charges fees for job applications. If you encounter misuse or payment requests, report it through our website." )
     let date = new Date()
-    let userid = JSON.parse(localStorage.getItem("StudId"))
-    const headers = { authorization: userid + " " + atob(JSON.parse(localStorage.getItem("StudLog"))) };
+    // let userid = JSON.parse(localStorage.getItem("StudId"))
+    // const headers = { authorization: userid + " " + atob(JSON.parse(localStorage.getItem("StudLog"))) };
+
+        let userid = JSON.parse(localStorage.getItem("StudId"))|| JSON.parse(localStorage.getItem("CSCId"))
+    const headers = { authorization: userid + " " + atob(JSON.parse(localStorage.getItem("StudLog"))
+      || JSON.parse(localStorage.getItem("CSCLog"))
+    ) };
+
     setclickedJobId(jobId)
     setLoader(true)
     // setTimeout(async () => {
@@ -572,10 +579,10 @@ function AllJobs({ nopageFilter, setNoPageFilter, searchKey, setsearchKey, Filte
     };
   }, []);
 
-  const handleSelect = (option) => {
-    setSelectedOption(option);
-    setIsOpen(false);
-  };
+  // const handleSelect = (option) => {
+  //   setSelectedOption(option);
+  //   setIsOpen(false);
+  // };
   // useEffect(()=>{
   //   setrecordsPerPage(1)
   // },[])
@@ -769,337 +776,372 @@ function AllJobs({ nopageFilter, setNoPageFilter, searchKey, setsearchKey, Filte
           </div>
 
 
-<div className={styles.Uiwarpper}>
-  <table className={styles.JobTable}>
-    <thead>
-      <tr className={styles.TableHeader}>
-        <th className={styles.Jtitle}>Job Title</th>
-        <th className={styles.Source}>Posted By</th>
-        <th className={styles.CompanyName}>Company Name</th>
-        <th className={styles.JobType}>JobType</th>
+          <div className={styles.Uiwarpper}>
+            <table className={styles.JobTable}>
+              <thead>
+                <tr className={styles.TableHeader}>
+                  <th className={styles.Jtitle}>Job Title</th>
+                  <th className={styles.Source}>Posted By</th>
+                  <th className={styles.CompanyName}>Company Name</th>
+                  <th className={styles.JobType}>JobType</th>
 
-        <th className={styles.date}>
-          Posted Date
-          <div className={styles.arrowWrapper}>
-            <span
-              onClick={sortbyNewjobs}
-              className={styles.sortArrow}
-              title="Sort newest first"
-            >
-              ▲
-            </span>
-            <span
-              onClick={sortbyOldjobs}
-              className={styles.sortArrow}
-              title="Sort oldest first"
-            >
-              ▼
-            </span>
-          </div>
-        </th>
+                  <th className={styles.date}>
+                    Posted Date
+                    <div className={styles.arrowWrapper}>
+                      <span
+                        onClick={sortbyNewjobs}
+                        className={styles.sortArrow}
+                        title="Sort newest first"
+                      >
+                        ▲
+                      </span>
+                      <span
+                        onClick={sortbyOldjobs}
+                        className={styles.sortArrow}
+                        title="Sort oldest first"
+                      >
+                        ▼
+                      </span>
+                    </div>
+                  </th>
 
-        <th className={styles.Location}>Location</th>
+                  <th className={styles.Location}>Location</th>
 
-        <th className={styles.Package}>
-          CTC
-          <div className={styles.arrowWrapper}>
-            <span
-              onClick={SdescendingOrder}
-              className={styles.sortArrow}
-              title="Sort highest first"
-            >
-              ▲
-            </span>
-            <span
-              onClick={SascendingOrder}
-              className={styles.sortArrow}
-              title="Sort lowest first"
-            >
-              ▼
-            </span>
-          </div>
-        </th>
+                  <th className={styles.Package}>
+                    CTC
+                    <div className={styles.arrowWrapper}>
+                      <span
+                        onClick={SdescendingOrder}
+                        className={styles.sortArrow}
+                        title="Sort highest first"
+                      >
+                        ▲
+                      </span>
+                      <span
+                        onClick={SascendingOrder}
+                        className={styles.sortArrow}
+                        title="Sort lowest first"
+                      >
+                        ▼
+                      </span>
+                    </div>
+                  </th>
 
-        <th className={styles.experiance}>
-          Experience
-          <div className={styles.arrowWrapper}>
-            <span
-              onClick={EdescendingOrder}
-              className={styles.sortArrow}
-              title="Sort highest first"
-            >
-              ▲
-            </span>
-            <span
-              onClick={EascendingOrder}
-              className={styles.sortArrow}
-              title="Sort lowest first"
-            >
-              ▼
-            </span>
-          </div>
-        </th>
+                  <th className={styles.experiance}>
+                    Experience
+                    <div className={styles.arrowWrapper}>
+                      <span
+                        onClick={EdescendingOrder}
+                        className={styles.sortArrow}
+                        title="Sort highest first"
+                      >
+                        ▲
+                      </span>
+                      <span
+                        onClick={EascendingOrder}
+                        className={styles.sortArrow}
+                        title="Sort lowest first"
+                      >
+                        ▼
+                      </span>
+                    </div>
+                  </th>
 
-        <th className={styles.qualification}>Qualification</th>
-        <th className={styles.Skills}>Skills Required</th>
-        <th className={styles.Status}>Status</th>
-      </tr>
-    </thead>
+                  <th className={styles.qualification}>Qualification</th>
+                  <th className={styles.Skills}>Skills Required</th>
+                  <th className={styles.Status}>Status</th>
+                </tr>
+              </thead>
 
-    {PageLoader && (
-      <tbody>
-        <tr>
-          <td colSpan="8" className={styles.LoaderCell}>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                padding: "20px",
-              }}
-            >
-              <Puff
-                height="80"
-                width="80"
-                color="#4fa94d"
-                ariaLabel="bars-loading"
-              />
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    )}
+              {PageLoader && (
+                <tbody>
+                  <tr>
+                    <td colSpan="11" className={styles.LoaderCell}>
+                      <div
+                        style={{
+                          display: "flex",
+                          justifyContent: "center",
+                          padding: "20px",
+                        }}
+                      >
+                        <Puff
+                          height="80"
+                          width="80"
+                          color="#4fa94d"
+                          ariaLabel="bars-loading"
+                        />
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              )}
 
-    {!nopageFilter ? (
-      <tbody>
-        {records.length > 0 ? (
-          records.map((items, i) => (
-            <tr className={styles.TableRow} key={i}>
-              <td
-                className={styles.Jtitle}
-                onClick={() =>
-                  navigate(
-                    `/Jobdetails/${btoa(items._id)}?index=${i}`,
-                    { state: { selectedTag } }
-                  )
-                }
-                style={{
-                  cursor: "pointer",
-                  textDecoration: "underline",
-                  color: "blue",
-                }}
-              >
-                {items.jobTitle.charAt(0).toUpperCase() +
-                  items.jobTitle.substring(1)}
-              </td>
+              {!nopageFilter ? (
+                <tbody>
+                  {records.length > 0 ? (
+                    records.map((items, i) => (
+                      <tr className={styles.TableRow} key={i}>
+                        <td
+                          className={styles.Jtitle}
+                          onClick={() =>
+                            navigate(
+                              `/Jobdetails/${btoa(items._id)}?index=${i}`,
+                              { state: { selectedTag } }
+                            )
+                          }
+                          style={{
+                            cursor: "pointer",
+                            textDecoration: "underline",
+                            color: "blue",
+                          }}
+                        >
+                          {items.jobTitle.charAt(0).toUpperCase() +
+                            items.jobTitle.substring(1)}
+                        </td>
 
-              <td className={styles.Source}>Pakka Job</td>
+                        <td className={styles.Source}>Pakka Job</td>
 
-              <td className={styles.CompanyName}>
-                {!items.Source ? (
-                  items.companyName
-                ) : (
-                  <a className={styles.CompanyLink}>
-                    {items.Source}
-                  </a>
-                )}
-              </td>
+                        <td className={styles.CompanyName}>
+                          {!items.Source ? (
+                            items.companyName
+                          ) : (
+                            <a className={styles.CompanyLink}>
+                              {items.Source}
+                            </a>
+                          )}
+                        </td>
 
-              <td className={styles.JobType}>{items.jobtype}</td>
+                        <td className={styles.JobType}>{items.jobtype}</td>
 
-              <td className={styles.date}>
-                {new Date(items.createdAt).toLocaleString("en-US", {
-                  month: "short",
-                  day: "2-digit",
-                  year: "numeric",
-                })}
-              </td>
+                        <td className={styles.date}>
+                          {new Date(items.createdAt).toLocaleString("en-US", {
+                            month: "short",
+                            day: "2-digit",
+                            year: "numeric",
+                          })}
+                        </td>
 
-              <td className={styles.Location}>
-                {items?.jobLocation?.[0]?.toUpperCase() +
-                  items.jobLocation.slice(1)}
-              </td>
+                        <td className={styles.Location}>
+                          {items?.jobLocation?.[0]?.toUpperCase() +
+                            items.jobLocation.slice(1)}
+                        </td>
 
-              <td className={styles.Package}>
-                {items.salaryRange === "Not disclosed"
-                  ? "Not Disclosed"
-                  : items.salaryRange + "LPA"}
-              </td>
+                        <td className={styles.Package}>
+                          {items.salaryRange === "Not disclosed"
+                            ? "Not Disclosed"
+                            : items.salaryRange + "LPA"}
+                        </td>
 
-              <td className={styles.experiance}>
-                {items.experiance}Yrs
-              </td>
+                        <td className={styles.experiance}>
+                          {items.experiance}Yrs
+                        </td>
 
-              <td className={styles.qualification}>
-                {items.qualification}
-              </td>
+                        <td className={styles.qualification}>
+                          {items.qualification}
+                        </td>
 
-              <td className={styles.Skills}>{items.skills}</td>
-
-              <td className={styles.Status}>
-                {items.jobSeekerId.find(
-                  (jobseeker) =>
-                    jobseeker.jobSeekerId == jobSeekerId
-                ) ? (
-                  <button
-                    className={styles.Appliedbutton}
-                    title="HR will reach out to you after reviewing your profile"
-                  >
-                    Applied{" "}
-                    <span style={{ fontSize: "15px" }}>
-                      &#10004;
-                    </span>
-                  </button>
-                ) : items.SourceLink ? (
-                  <button
-                    title="This will redirect to the source company webpage"
-                    className={styles.Applybutton}
-                    onClick={() => applyforOtherJob(items.SourceLink)}
-                  >
-                    Apply
-                  </button>
-                ) : (
-                  <button
-                    className={styles.Applybutton}
-                    onClick={() => applyforJob(items._id)}
-                  >
-                    Apply
-                      {Loader && items._id == clickedJobId ? (
-                    <span className={styles.Loader}>
-                        <TailSpin color="white" height={20} />
-                    </span>
-                      ) : (
-                        ""
-                      )}
-                  </button>
-                )}
-              </td>
-            </tr>
-          ))
-        ) : (
-          <tr>
-            <td colSpan="8" className={styles.EmptyCell}>
-              Loading......
-            </td>
-          </tr>
-        )}
-      </tbody>
-    ) : (
-      <tbody>
-        {jobs.length > 0 ? (
-          jobs.map((items, i) => (
-            <tr className={styles.TableRow} key={i}>
-              <td
-                className={styles.Jtitle}
-                onClick={() =>
-                  navigate(
-                    `/Jobdetails/${btoa(items._id)}?index=${i}`,
-                    { state: { selectedTag } }
-                  )
-                }
-                style={{
-                  cursor: "pointer",
-                  textDecoration: "underline",
-                  color: "blue",
-                }}
-              >
-                {items?.jobTitle?.toUpperCase()}
-              </td>
-
-              <td className={styles.Source}>Pakka Job</td>
-
-              <td className={styles.CompanyName}>
-                {!items.Source ? (
-                  items.companyName
-                ) : (
-                  <a className={styles.CompanyLink}>
-                    {items.Source}
-                  </a>
-                )}
-              </td>
-
-              <td className={styles.JobType}>{items.jobtype}</td>
-
-              <td className={styles.date}>
-                {new Date(items.createdAt).toLocaleString("en-US", {
-                  month: "short",
-                  day: "2-digit",
-                  year: "numeric",
-                })}
-              </td>
-
-              <td className={styles.Location}>
-                {items?.jobLocation?.[0]?.toUpperCase() +
-                  items.jobLocation.slice(1)}
-              </td>
-
-              <td className={styles.Package}>
-                {items.salaryRange === "Not disclosed"
-                  ? "Not Disclosed"
-                  : items.salaryRange + "LPA"}
-              </td>
-
-              <td className={styles.experiance}>
-                {items.experiance}Y
-              </td>
-
-              <td className={styles.qualification}>
-                {items.qualification}
-              </td>
-
-              <td className={styles.Skills}>{items.skills}</td>
-
-              <td className={styles.Status}>
-                {items.jobSeekerId.find(
-                  (jobseeker) =>
-                    jobseeker.jobSeekerId == jobSeekerId
-                ) ? (
-                  <button
-                    className={styles.Appliedbutton}
-                    title="HR will reach out to you after reviewing your profile"
-                  >
-                    Applied{" "}
-                    <span style={{ fontSize: "15px" }}>
-                      &#10004;
-                    </span>
-                  </button>
-                ) : items.SourceLink ? (
-                  <button
-                    title="this will take to Source page"
-                    className={styles.Applybutton}
-                    onClick={() => applyforOtherJob(items.SourceLink)}
-                  >
-                    Apply
-                  </button>
-                ) : (
-                  <button
-                    className={styles.Applybutton}
-                    onClick={() => applyforJob(items._id)}
-                  >
-                    Apply
-                      {Loader && items._id == clickedJobId ? (
-                    <span className={styles.Loader}>
-                        <TailSpin color="white" height={20} />
-                    </span>
-                      ) : (
-                        ""
-                      )}
-                  </button>
-                )}
-              </td>
-            </tr>
-          ))
-        ) : (
-          <tr>
-            <td colSpan="8" className={styles.EmptyCell} >
-              Loading......
-            </td>
-          </tr>
+                              <td className={styles.Skills}>
+  {Array.isArray(items.skills)
+    ? items.skills
+        .map((skill) =>
+          typeof skill === "string"
+            ? skill
+            : skill?.name || skill?.label || ""
         )
-        }
-      </tbody>
-    )}
-  </table>
-</div>
+        .filter(Boolean)
+        .join(", ")
+    : typeof items.skills === "string" ||
+      typeof items.skills === "number"
+      ? items.skills
+      : ""}
+</td>
+
+                        {/* <td className={styles.Skills}>{items.skills}</td> */}
+                        
+
+                        <td className={styles.Status}>
+                          {items.jobSeekerId.find(
+                            (jobseeker) =>
+                              jobseeker.jobSeekerId == jobSeekerId
+                          ) ? (
+                            <button
+                              className={styles.Appliedbutton}
+                              title="HR will reach out to you after reviewing your profile"
+                            >
+                              Applied{" "}
+                              <span style={{ fontSize: "15px" }}>
+                                &#10004;
+                              </span>
+                            </button>
+                          ) : items.SourceLink ? (
+                            <button
+                              title="This will redirect to the source company webpage"
+                              className={styles.Applybutton}
+                              onClick={() => applyforOtherJob(items.SourceLink)}
+                            >
+                              Apply
+                            </button>
+                          ) : (
+                            <button
+                              className={styles.Applybutton}
+                              onClick={() => applyforJob(items._id)}
+                            >
+                              Apply
+                              {Loader && items._id == clickedJobId ? (
+                                <span className={styles.Loader}>
+                                  <TailSpin color="white" height={20} />
+                                </span>
+                              ) : (
+                                ""
+                              )}
+                            </button>
+                          )}
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan="11" className={styles.EmptyCell}>
+                        <p className={styles.EmptyCell}>
+
+                          No data
+                        </p>
+                      </td></tr>
+                  )}
+                </tbody>
+              ) : (
+                <tbody>
+                  {jobs.length > 0 ? (
+                    jobs.map((items, i) => (
+                      <tr className={styles.TableRow} key={i}>
+                        <td
+                          className={styles.Jtitle}
+                          onClick={() =>
+                            navigate(
+                              `/Jobdetails/${btoa(items._id)}?index=${i}`,
+                              { state: { selectedTag } }
+                            )
+                          }
+                          style={{
+                            cursor: "pointer",
+                            textDecoration: "underline",
+                            color: "blue",
+                          }}
+                        >
+                          {items?.jobTitle?.toUpperCase()}
+                        </td>
+
+                        <td className={styles.Source}>Pakka Job</td>
+
+                        <td className={styles.CompanyName}>
+                          {!items.Source ? (
+                            items.companyName
+                          ) : (
+                            <a className={styles.CompanyLink}>
+                              {items.Source}
+                            </a>
+                          )}
+                        </td>
+
+                        <td className={styles.JobType}>{items.jobtype}</td>
+
+                        <td className={styles.date}>
+                          {new Date(items.createdAt).toLocaleString("en-US", {
+                            month: "short",
+                            day: "2-digit",
+                            year: "numeric",
+                          })}
+                        </td>
+
+                        <td className={styles.Location}>
+                          {items?.jobLocation?.[0]?.toUpperCase() +
+                            items.jobLocation.slice(1)}
+                        </td>
+
+                        <td className={styles.Package}>
+                          {items.salaryRange === "Not disclosed"
+                            ? "Not Disclosed"
+                            : items.salaryRange + "LPA"}
+                        </td>
+
+                        <td className={styles.experiance}>
+                          {items.experiance}Y
+                        </td>
+
+                        <td className={styles.qualification}>
+                          {items.qualification}
+                        </td>
+
+<td className={styles.Skills}>
+  {Array.isArray(items.skills)
+    ? items.skills
+        .map((skill) =>
+          typeof skill === "string"
+            ? skill
+            : skill?.name || skill?.label || ""
+        )
+        .filter(Boolean)
+        .join(", ")
+    : typeof items.skills === "string" ||
+      typeof items.skills === "number"
+      ? items.skills
+      : ""}
+</td>
+                        {/* <td className={styles.Skills}>{items.skills}</td> */}
+
+                        <td className={styles.Status}>
+                          {items.jobSeekerId.find(
+                            (jobseeker) =>
+                              jobseeker.jobSeekerId == jobSeekerId
+                          ) ? (
+                            <button
+                              className={styles.Appliedbutton}
+                              title="HR will reach out to you after reviewing your profile"
+                            >
+                              Applied{" "}
+                              <span style={{ fontSize: "15px" }}>
+                                &#10004;
+                              </span>
+                            </button>
+                          ) : items.SourceLink ? (
+                            <button
+                              title="this will take to Source page"
+                              className={styles.Applybutton}
+                              onClick={() => applyforOtherJob(items.SourceLink)}
+                            >
+                              Apply
+                            </button>
+                          ) : (
+                            <button
+                              className={styles.Applybutton}
+                              onClick={() => applyforJob(items._id)}
+                            >
+                              Apply
+                              {Loader && items._id == clickedJobId ? (
+                                <span className={styles.Loader}>
+                                  <TailSpin color="white" height={20} />
+                                </span>
+                              ) : (
+                                ""
+                              )}
+                            </button>
+                          )}
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+
+                    // <tr>
+                    {/* <td colSpan="8" className={styles.EmptyCell} > */ }
+                    //     Loading......
+                    //   </td>
+                    // </tr>
+                  )
+                  }
+                </tbody>
+              )}
+            </table>
+          </div>
 
 
           <div style={{ display: "flex", justifyContent: "space-between" }}>

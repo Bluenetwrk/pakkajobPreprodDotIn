@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 
 import Footer from '../Footer/Footer';
 import styles from "./MyCreatedResume.module.css"
-import style from "./ResumePreview.module.css"
+import Styles from "./ResumePreview.module.css"
 import axios from "axios";
 import { Link, useNavigate, BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { TailSpin, Puff } from "react-loader-spinner"
@@ -120,8 +120,92 @@ function MyCreatedResume({ searchKey, setsearchKey, Filtereredjobs, setFilterere
 
   const [resumeAlert, setResumeAlert] = useState({
     show: false,
-    selected: null
+    selected: null,
+    email: null
   });
+
+
+  
+    // const [email, setEmail] = useState("");
+    const [otp, setOtp] = useState("");
+  
+    const [otpSent, setOtpSent] = useState(false);
+    const [loading, setLoading] = useState(false);
+  
+    const sendOTP = async () => {
+      if(otpSent)return
+      let email = resumeAlert.email
+      if (!email) {
+        setMailsent("Please enter email");
+        return;
+      }
+  
+      try {
+        setLoading(true);
+  
+        const res = await axios.post("StudentProfile/send-otp", { email: email });
+        console.log(res.data)
+        if (res.data.message === "user is already verfied") {
+          setMailsent(res.data.message)
+          localStorage.setItem("StudId", JSON.stringify(res.data.userId));
+          localStorage.setItem("JobSLog", JSON.stringify(res.data.token));
+        setLoading(true);
+  
+          setTimeout(()=>{
+            navig()
+          },2000)
+        }
+        else if (res.data.success) {
+          // alert("OTP sent successfully");
+          setMailsent("OTP sent successfully")
+          setOtpSent(true);
+        }
+      } catch (error) {
+        console.log(error);
+  
+        setMailsent(
+          error.response?.data?.message ||
+          "Failed to send OTP"
+        );
+      } finally {
+        setLoading(false);
+      }
+    }
+  
+    const verifyOTP = async () => {
+      if (!otp) {
+        setMailsent("Please enter OTP")
+        return;
+      }
+  
+      try {
+        setLoading(true);
+  
+        const res = await axios.post("StudentProfile/verify-otp", {
+          email: resumeAlert.email,
+          otp: otp
+        });
+        let id = res.data.userId
+        if (res.data.success) {
+          setMailsent("Email verified successfully")
+          localStorage.setItem("StudId", JSON.stringify(id));
+          localStorage.setItem("JobSLog", JSON.stringify(res.data.token));
+          navig()
+        }
+      } catch (error) {
+        console.log(error);
+  
+        setMailsent(
+          error.response?.data?.message ||
+          "Invalid OTP"
+        );
+      } finally {
+        setLoading(false);
+      }
+    };
+  
+
+
   function navig() {
     if (resumeAlert.selected === "one") {
       navigate("/resume-form", {
@@ -204,7 +288,7 @@ function MyCreatedResume({ searchKey, setsearchKey, Filtereredjobs, setFilterere
   }, [id]);
 
   async function handleOnNavigate() {
-    if (!jobseekerForm.email) {
+    if (!resumeAlert.email) {
       return
     }
     await axios.post("/StudentProfile/regFromResume", { jobseekerForm })
@@ -239,12 +323,14 @@ function MyCreatedResume({ searchKey, setsearchKey, Filtereredjobs, setFilterere
 
   function handleCancele() {
     clearInterval(intervalRef.current);
-    setResumeAlert({ show: false, selected: null });
+    setResumeAlert({ show: false, selected: null, email:null });
     setMailsent("")
     setIsEditEnable(false)
-    setJobseekerForm(prev => ({
-      email: ""
-    }))
+    setLoading(false);
+    setOtpSent("")
+    // setJobseekerForm(prev => ({
+    //   email: ""
+    // }))
   }
 
   async function gettotalcount() {
@@ -725,61 +811,73 @@ function MyCreatedResume({ searchKey, setsearchKey, Filtereredjobs, setFilterere
   return (
     <>
 
-    
-          {resumeAlert.show && (
-            <div className={style.overlay}>
-              <div
-                ref={alertRef}
-                className={style.alertBox}
-                onClick={(e) => e.stopPropagation()}
-              >
-                {csCenter ?
-                  <>
-                    <p style={{ color: "green", fontStyle: "italic" }}>{mailsent}</p>
-                    <h3>Enter Jobseeker Details</h3>
-                    <input
+      {resumeAlert.show && (
+        <div className={Styles.overlay}>
+          <div
+            ref={alertRef}
+            className={Styles.alertBox}
+            onClick={(e) => e.stopPropagation()}
+          >
+              <p style={{ color: "green", fontStyle: "italic" }}>{mailsent}</p>
+              <h3>Enter Jobseeker Details</h3>
 
-                      disabled={mailsent}
-                      type="email"
-                      placeholder="Enter Email ID"
-                      className={style.input}
-                      value={jobseekerForm.email}
-                      onChange={(e) =>
-                        setJobseekerForm({
-                          ...jobseekerForm,
-                          email: e.target.value
-                        })
-                      }
-                    />
-                    <div className={style.btnGroup}>
-                      {!isEditEnable ?
-                        <button
-                          className={style.successBtn}
-                          onClick={() => { handleOnNavigate() }}
-                        >
-                          Verify Email
-                        </button> : ""
-                      }
+              <input
+                type="email"
+                placeholder="Enter your email"
+                value={resumeAlert.email}
+                // onChange={(e) => setEmail(e.target.value)}
+                className={Styles.input}
 
-                      <button
-                        className={style.dangerBtn}
-                        onClick={() => { handleCancele() }}
-                      >
-                        Cancel
-                      </button>
-                      {isEditEnable ?
-                        <button className={style.successBtn} onClick={() => { navig() }}>
-                          Edit
-                        </button> : ""
-                      }
-                    </div>
-                  </>
-                  : ""
-                }
+              />
+              <div className={Styles.btnGroup}>
 
+                <button
+                  onClick={sendOTP}
+                  disabled={loading}
+                  className={Styles.successBtn}
+                >
+                  {loading ? "Sending..." : "Send OTP"}
+                </button>
+                <button
+                  className={Styles.dangerBtn}
+                  onClick={() => { handleCancele() }}
+                >
+                  Cancel
+                </button>
               </div>
-            </div>
-          )}
+
+              {/* OTP section */}
+              {otpSent && (
+                <div style={{ marginTop: "20px" }}>
+
+                  <input
+                    type="text"
+                    placeholder="Enter 6 digit OTP"
+                    value={otp}
+                    maxLength={6}
+                    onChange={(e) => {
+                      const value = e.target.value.replace(/\D/g, "");
+                      setOtp(value);
+                    }}
+                    className={Styles.input}
+                  />
+
+                  <button
+                    onClick={verifyOTP}
+                    disabled={loading}
+                    className={Styles.successBtn}
+
+                  >
+                    {loading ? "Verifying..." : "Verify OTP"}
+                  </button>
+
+                </div>
+              )}
+
+          </div>
+        </div>
+      )}
+
       <h2 style={{ marginLeft: "10px", fontWeight: "800", marginTop: "6px", marginBottom: "-15px" }}> My Created Resume  </h2>
       {screenSize.width > 850 ?
         <>
@@ -1019,7 +1117,7 @@ function MyCreatedResume({ searchKey, setsearchKey, Filtereredjobs, setFilterere
                         <li style={{ cursor: "pointer", textDecoration: "underline" }}
 
                           onClick={() =>
-                            setResumeAlert({ show: true, selected: items?.selectedTemplate })}
+                            setResumeAlert({ show: true, selected: items?.selectedTemplate, email: items?.email })}
                           className={`${styles.li} ${styles.Location}`}>Edit
                         </li>
 

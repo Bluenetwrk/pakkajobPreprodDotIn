@@ -2627,6 +2627,7 @@ tr:nth-child(even) {
 
 .LoaderCell,
 .EmptyCell {
+/* text-align: center; */
   padding: 30px !important;
   text-align: center !important;
 }

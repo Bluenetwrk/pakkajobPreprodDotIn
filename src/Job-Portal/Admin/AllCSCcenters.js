@@ -29,17 +29,17 @@ function AllCSCAdmin() {
   const [currentBox, setcurrentBox] = useState("")
   const [limit, setLimit] = useState()
 
-  let handleSetLimit = async (id)=>{
-    if(!limit)return
+  let handleSetLimit = async (id) => {
+    if (!limit) return
     const response = await axios.put("/CSRoute/setDowloadResumeLimit", {
-       limit, id
-     })
-     .then((res)=>{
-       if(res.data=="updated succesfull"){
-        getAllJobSeekers()
-       }
+      limit, id
+    })
+      .then((res) => {
+        if (res.data == "updated succesfull") {
+          getAllJobSeekers()
+        }
 
-     })
+      })
 
   }
 
@@ -102,7 +102,7 @@ function AllCSCAdmin() {
     const headers = {
       authorization: 'BlueItImpulseWalkinIn'
     };
-  await axios.get(`/CSRoute/getLimitJobs/${recordsPerPage}`, { params: { currentPage }, headers })
+    await axios.get(`/CSRoute/getLimitJobs/${recordsPerPage}`, { params: { currentPage }, headers })
       .then((res) => {
 
         let result = res.data
@@ -121,82 +121,82 @@ function AllCSCAdmin() {
         alert("server issue occured")
       })
   }
-  
-// .......Last Active Sorting.......
-     function LastActDescendingOrder (){
-      let newjob = [...jobSeekers]
-      const collator = new Intl.Collator(undefined, {
-        numeric: true,
-        sensitivity: 'base'
-      });
-      const sorted = newjob.sort((a, b) => {
-        return collator.compare(a.LogedInTime, b.LogedInTime)
-      })
-      setjobSeekers(sorted)
-    }
-  
-    function LastActAscendingOrder (){
-      let newjob = [...jobSeekers]
-      const collator = new Intl.Collator(undefined, {
-        numeric: true,
-        sensitivity: 'base'
-      });
-      const sorted = newjob.sort((a, b) => {
-        return collator.compare(b.LogedInTime, a.LogedInTime)
-      })
-      setjobSeekers(sorted)
-    }
+
+  // .......Last Active Sorting.......
+  function LastActDescendingOrder() {
+    let newjob = [...jobSeekers]
+    const collator = new Intl.Collator(undefined, {
+      numeric: true,
+      sensitivity: 'base'
+    });
+    const sorted = newjob.sort((a, b) => {
+      return collator.compare(a.LogedInTime, b.LogedInTime)
+    })
+    setjobSeekers(sorted)
+  }
+
+  function LastActAscendingOrder() {
+    let newjob = [...jobSeekers]
+    const collator = new Intl.Collator(undefined, {
+      numeric: true,
+      sensitivity: 'base'
+    });
+    const sorted = newjob.sort((a, b) => {
+      return collator.compare(b.LogedInTime, a.LogedInTime)
+    })
+    setjobSeekers(sorted)
+  }
 
 
-// .......total Resume Printed Sorting.......
-     function totalResumePrintedDescendingOrder (){
-      let newjob = [...jobSeekers]
-      const collator = new Intl.Collator(undefined, {
-        numeric: true,
-        sensitivity: 'base'
-      });
-      const sorted = newjob.sort((a, b) => {
-        return collator.compare(a.pdfDownloadCount, b.pdfDownloadCount)
-      })
-      setjobSeekers(sorted)
-    }
-  
-    function totalResumePrintedAscendingOrder (){
-      let newjob = [...jobSeekers]
-      const collator = new Intl.Collator(undefined, {
-        numeric: true,
-        sensitivity: 'base'
-      });
-      const sorted = newjob.sort((a, b) => {
-        return collator.compare(b.pdfDownloadCount, a.pdfDownloadCount)
-      })
-      setjobSeekers(sorted)
-    }
+  // .......total Resume Printed Sorting.......
+  function totalResumePrintedDescendingOrder() {
+    let newjob = [...jobSeekers]
+    const collator = new Intl.Collator(undefined, {
+      numeric: true,
+      sensitivity: 'base'
+    });
+    const sorted = newjob.sort((a, b) => {
+      return collator.compare(a.pdfDownloadCount, b.pdfDownloadCount)
+    })
+    setjobSeekers(sorted)
+  }
 
-// .......Limit Sorting.......
-     function limitDescendingOrder (){
-      let newjob = [...jobSeekers]
-      const collator = new Intl.Collator(undefined, {
-        numeric: true,
-        sensitivity: 'base'
-      });
-      const sorted = newjob.sort((a, b) => {
-        return collator.compare(a.Limit, b.Limit)
-      })
-      setjobSeekers(sorted)
-    }
-  
-    function limitAscendingOrder (){
-      let newjob = [...jobSeekers]
-      const collator = new Intl.Collator(undefined, {
-        numeric: true,
-        sensitivity: 'base'
-      });
-      const sorted = newjob.sort((a, b) => {
-        return collator.compare(b.Limit, a.Limit)
-      })
-      setjobSeekers(sorted)
-    }
+  function totalResumePrintedAscendingOrder() {
+    let newjob = [...jobSeekers]
+    const collator = new Intl.Collator(undefined, {
+      numeric: true,
+      sensitivity: 'base'
+    });
+    const sorted = newjob.sort((a, b) => {
+      return collator.compare(b.pdfDownloadCount, a.pdfDownloadCount)
+    })
+    setjobSeekers(sorted)
+  }
+
+  // .......Limit Sorting.......
+  function limitDescendingOrder() {
+    let newjob = [...jobSeekers]
+    const collator = new Intl.Collator(undefined, {
+      numeric: true,
+      sensitivity: 'base'
+    });
+    const sorted = newjob.sort((a, b) => {
+      return collator.compare(a.Limit, b.Limit)
+    })
+    setjobSeekers(sorted)
+  }
+
+  function limitAscendingOrder() {
+    let newjob = [...jobSeekers]
+    const collator = new Intl.Collator(undefined, {
+      numeric: true,
+      sensitivity: 'base'
+    });
+    const sorted = newjob.sort((a, b) => {
+      return collator.compare(b.Limit, a.Limit)
+    })
+    setjobSeekers(sorted)
+  }
 
   // =========================
   // GET DATA WHEN PAGE
@@ -287,7 +287,7 @@ function AllCSCAdmin() {
       if (res.isConfirmed) {
 
         await axios.put(
-          `/StudentProfile/isOnhold/${Empid}`,
+          `/CSRoute/isOnhold/${Empid}`,
           { isOnhold },
           { headers }
         )
@@ -334,7 +334,7 @@ function AllCSCAdmin() {
       if (res.isConfirmed) {
 
         await axios.put(
-          `/StudentProfile/isOnhold/${Empid}`,
+          `/CSRoute/isOnhold/${Empid}`,
           { isOnhold },
           { headers }
         )
@@ -382,7 +382,7 @@ function AllCSCAdmin() {
       if (res.isConfirmed) {
 
         await axios.put(
-          `/StudentProfile/isReject/${Empid}`,
+          `/CSRoute/isReject/${Empid}`,
           { isReject },
           { headers }
         )
@@ -429,7 +429,7 @@ function AllCSCAdmin() {
       if (res.isConfirmed) {
 
         await axios.put(
-          `/StudentProfile/isReject/${Empid}`,
+          `/CSRoute/isReject/${Empid}`,
           { isReject },
           { headers }
         )
@@ -476,7 +476,7 @@ function AllCSCAdmin() {
       if (res.isConfirmed) {
 
         await axios.put(
-          `/StudentProfile/setApproval/${Empid}`,
+          `/CSRoute/setApproval/${Empid}`,
           { isApproved },
           { headers }
         )
@@ -524,7 +524,7 @@ function AllCSCAdmin() {
       if (res.isConfirmed) {
 
         await axios.put(
-          `/StudentProfile/setApproval/${Empid}`,
+          `/CSRoute/setApproval/${Empid}`,
           { isApproved },
           { headers }
         )
@@ -562,7 +562,7 @@ function AllCSCAdmin() {
 
         if (result.isConfirmed) {
 
-          axios.delete(`/StudentProfile/deleteProfile/${id}`)
+          axios.delete(`/CSRoute/deleteProfile/${id}`)
 
             .then((res) => {
 
@@ -784,6 +784,8 @@ function AllCSCAdmin() {
 
   return (
     <>
+
+    
 
       <h3
         style={{
@@ -1091,212 +1093,311 @@ function AllCSCAdmin() {
 
       {/* {screenSize.width > 850 ? */}
 
-        <div className={styles.tableWrapper}>
+      <div className={styles.tableWrapper}>
 
-          <div className={styles.tableContainer}>
+        <div className={styles.tableContainer}>
 
-            <table className={styles.studentTable}>
+          <table className={styles.studentTable}>
 
-              <thead>
+            <thead>
 
-                <tr>
+              <tr>
 
-                  <th>Name</th>
-                  <th>Phone Number</th>
-                  <th>
-                    <div className={styles.thContent}>
-                                <span>Total Resume Printed</span>
-                                <div className={styles.sortButtons}>
-                                  <button
-                                    type="button"
-                                    onClick={totalResumePrintedAscendingOrder}
-                                    className={styles.sortButton}
-                                  >
-                                    ↑
-                                  </button>
-                                  <button
-                                    type="button"
-                                    onClick={totalResumePrintedDescendingOrder}
-                                    className={styles.sortButton}
-                                  >
-                                    ↓
-                                  </button>
-                                </div>
-                              </div>
-                  </th>
-                  <th>
-                      <div className={styles.thContent}>
-                                <span>Limit</span>
-                                <div className={styles.sortButtons}>
-                                  <button
-                                    type="button"
-                                    onClick={limitAscendingOrder}
-                                    className={styles.sortButton}
-                                  >
-                                    ↑
-                                  </button>
-                                  <button
-                                    type="button"
-                                    onClick={limitDescendingOrder}
-                                    className={styles.sortButton}
-                                  >
-                                    ↓
-                                  </button>
-                                </div>
-                              </div>
-                  </th>
-                  <th>Set Limit</th>
-                  <th>Status</th>
-                  <th>
-                     <div className={styles.thContent}>
-                                <span>Last Log</span>
-                                <div className={styles.sortButtons}>
-                                  <button
-                                    type="button"
-                                    onClick={LastActAscendingOrder}
-                                    className={styles.sortButton}
-                                  >
-                                    ↑
-                                  </button>
-                                  <button
-                                    type="button"
-                                    onClick={LastActDescendingOrder}
-                                    className={styles.sortButton}
-                                  >
-                                    ↓
-                                  </button>
-                                </div>
-                              </div>
+                <th>Name</th>
+                <th>Phone Number</th>
+                <th>
+                  <div className={styles.thContent}>
+                    <span>Total Resume Printed</span>
+                    <div className={styles.sortButtons}>
+                      <button
+                        type="button"
+                        onClick={totalResumePrintedAscendingOrder}
+                        className={styles.sortButton}
+                      >
+                        ↑
+                      </button>
+                      <button
+                        type="button"
+                        onClick={totalResumePrintedDescendingOrder}
+                        className={styles.sortButton}
+                      >
+                        ↓
+                      </button>
+                    </div>
+                  </div>
+                </th>
+                <th>
+                  <div className={styles.thContent}>
+                    <span>Limit</span>
+                    <div className={styles.sortButtons}>
+                      <button
+                        type="button"
+                        onClick={limitAscendingOrder}
+                        className={styles.sortButton}
+                      >
+                        ↑
+                      </button>
+                      <button
+                        type="button"
+                        onClick={limitDescendingOrder}
+                        className={styles.sortButton}
+                      >
+                        ↓
+                      </button>
+                    </div>
+                  </div>
+                </th>
+                <th>Set Limit</th>
+                <th>Status</th>
+                <th>
+                  <div className={styles.thContent}>
+                    <span>Last Log</span>
+                    <div className={styles.sortButtons}>
+                      <button
+                        type="button"
+                        onClick={LastActAscendingOrder}
+                        className={styles.sortButton}
+                      >
+                        ↑
+                      </button>
+                      <button
+                        type="button"
+                        onClick={LastActDescendingOrder}
+                        className={styles.sortButton}
+                      >
+                        ↓
+                      </button>
+                    </div>
+                  </div>
 
-                  </th>
-                </tr>
+                </th>
+                <th>Approval</th>
 
-              </thead>
+              </tr>
+
+            </thead>
 
 
-              <tbody>
+            <tbody>
 
-                {jobSeekers.length > 0 ? (
+              {jobSeekers.length > 0 ? (
 
-                  jobSeekers.map((items, i) => (
+                jobSeekers.map((items, i) => (
 
-                    <tr key={items._id || i}>
+                  <tr key={items._id || i}>
 
-                      <td className={styles.nameCell}>
+                    <td className={styles.nameCell}>
+
+                      <button
+                        type="button"
+                        className={styles.nameButton}
+                        onClick={() =>
+                          navigate(
+                            `/BIAddmin@CheckCSCProfileForAdmin/${items._id}`
+                          )
+                        }
+                      >
+
+                        {items.online && (
+                          <span
+                            className={styles.onlineDot}
+                          ></span>
+                        )}
+
+                        <span>
+                          {items.name || "N/A"}
+                        </span>
+
+                      </button>
+
+                    </td>
+
+
+                    {/* Phone */}
+
+                    <td>
+                      {items.phoneNumber || "N/A"}
+                    </td>
+
+                    <td>
+                      {items.pdfDownloadCount || 0}
+                    </td>
+
+                    <td>
+                      {items.Limit || 0}
+                    </td>
+
+                    <td className={styles.dateCell}>
+                      <div className={styles.limitWrapper}>
+                        <input
+                          type="number"
+                          className={styles.limitInput}
+                          placeholder="Enter limit"
+                          onChange={(e) => setLimit(e.target.value)}
+                        />
 
                         <button
-                          type="button"
-                          className={styles.nameButton}
+                          className={styles.limitButton}
+                          onClick={() => handleSetLimit(items._id)}
+                        >
+                          Set Limit
+                        </button>
+                      </div>
+                    </td>
+
+
+                    <td className={styles.dateCell}>
+                      Status
+                    </td>
+
+                    <td className={styles.dateCell}>
+
+                      {items.LogedInTime
+
+                        ? new Date(
+                          items.LogedInTime
+                        ).toLocaleString(
+                          "en-US",
+                          {
+                            year: "numeric",
+                            month: "short",
+                            day: "2-digit",
+                            hour: "2-digit",
+                            minute: "2-digit",
+                            second: "2-digit",
+                          }
+                        )
+
+                        : "Only Reg. Yet"}
+
+                    </td>
+
+                    <td className={
+                      styles.approvalCell
+                    }>
+                      {items.isApproved ? (
+
+                        <button
+                          className={`${styles.statusButton} ${styles.approved}`}
                           onClick={() =>
-                            navigate(
-                              `/BIAddmin@CheckCSCProfileForAdmin/${items._id}`
+                            DisApprove(
+                              items._id,
+                              false
                             )
                           }
                         >
-
-                          {items.online && (
-                            <span
-                              className={styles.onlineDot}
-                            ></span>
-                          )}
-
-                          <span>
-                            {items.name || "N/A"}
-                          </span>
-
+                          Approved
                         </button>
 
-                      </td>
+                      ) : items.isReject ? (
 
+                        <button
+                          className={`${styles.statusButton} ${styles.rejected}`}
+                          onClick={() =>
+                            unReject(
+                              items._id,
+                              false
+                            )
+                          }
+                        >
+                          Rejected &#10004;
+                        </button>
 
-                      {/* Phone */}
+                      ) : items.isOnhold ? (
 
-                      <td>
-                        {items.phoneNumber || "N/A"}
-                      </td>
+                        <button
+                          className={`${styles.statusButton} ${styles.onHold}`}
+                          onClick={() =>
+                            unHold(
+                              items._id,
+                              false
+                            )
+                          }
+                        >
+                          On Hold &#10004;
+                        </button>
 
-                      <td>
-                      {items.pdfDownloadCount|| 0}
-                      </td>
+                      ) : (
 
-                      <td>
-                         {items.Limit || 0}
-                      </td>
+                        <div
+                          className={
+                            styles.actionButtons
+                          }
+                        >
 
-<td className={styles.dateCell}>
-  <div className={styles.limitWrapper}>
-    <input
-      type="number"
-      className={styles.limitInput}
-      placeholder="Enter limit"
-      onChange={(e) => setLimit(e.target.value)}
-    />
-
-    <button
-      className={styles.limitButton}
-      onClick={() => handleSetLimit(items._id)}
-    >
-      Set Limit
-    </button>
-  </div>
-</td>
-
-
-                      <td className={styles.dateCell}>
-                        Status
-                      </td>
-
-                      <td className={styles.dateCell}>
-
-                        {items.LogedInTime
-
-                          ? new Date(
-                            items.LogedInTime
-                          ).toLocaleString(
-                            "en-US",
-                            {
-                              year: "numeric",
-                              month: "short",
-                              day: "2-digit",
-                              hour: "2-digit",
-                              minute: "2-digit",
-                              second: "2-digit",
+                          <button
+                            className={`${styles.actionButton} ${styles.rejectButton}`}
+                            onClick={() =>
+                              Reject(
+                                items._id,
+                                true
+                              )
                             }
-                          )
+                          >
+                            Reject
+                          </button>
 
-                          : "Only Reg. Yet"}
 
-                      </td>
-                    </tr>
+                          <button
+                            className={`${styles.actionButton} ${styles.approveButton}`}
+                            onClick={() =>
+                              Approve(
+                                items._id,
+                                true
+                              )
+                            }
+                          >
+                            Approve
+                          </button>
 
-                  ))
 
-                ) : (
+                          <button
+                            className={`${styles.actionButton} ${styles.holdButton}`}
+                            onClick={() =>
+                              Hold(
+                                items._id,
+                                true
+                              )
+                            }
+                          >
+                            Hold
+                          </button>
 
-                  <tr>
+                        </div>
 
-                    <td
-                      colSpan="10"
-                      className={
-                        styles.noRecord
-                      }
-                    >
-                      No Record Found
+                      )}
                     </td>
 
                   </tr>
 
-                )}
+                ))
 
-              </tbody>
+              ) : (
 
-            </table>
+                <tr>
 
-          </div>
+                  <td
+                    colSpan="10"
+                    className={
+                      styles.noRecord
+                    }
+                  >
+                    No Record Found
+                  </td>
+
+                </tr>
+
+              )}
+
+            </tbody>
+
+          </table>
 
         </div>
 
-       
+      </div>
+
+
     </>
   )
 }

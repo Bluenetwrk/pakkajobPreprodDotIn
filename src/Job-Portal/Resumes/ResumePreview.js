@@ -33,8 +33,33 @@ const ResumePreview = () => {
 
   const [otpSent, setOtpSent] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [isApproved, setIsApproved] = useState(false);
+
+
+
+  async function getProfile() {
+    let userid = JSON.parse(localStorage.getItem("CSCId"))
+    if (!userid) return
+    const headers = { authorization: userid + " " + atob(JSON.parse(localStorage.getItem("CSCLog"))) };
+    await axios.get(`/CSRoute/viewProfile/${userid}`)
+      .then((res) => {
+        let result = res.data.result.isApproved
+        // console.log(result)
+        setIsApproved(result)
+
+      }).catch((err) => {
+        console.log("errorsome thing went wrong")
+      })
+  }
+
+  useEffect(() => {
+    getProfile()
+  }, [])
+
 
   const sendOTP = async () => {
+    if (otpSent) return
+
     if (!email) {
       setMailsent("Please enter email");
       return;
@@ -44,16 +69,16 @@ const ResumePreview = () => {
       setLoading(true);
 
       const res = await axios.post("StudentProfile/send-otp", { email: email });
-      console.log(res.data)
+      // console.log(res.data)
       if (res.data.message === "user is already verfied") {
         setMailsent(res.data.message)
         localStorage.setItem("StudId", JSON.stringify(res.data.userId));
         localStorage.setItem("JobSLog", JSON.stringify(res.data.token));
-      setLoading(true);
+        setLoading(true);
 
-        setTimeout(()=>{
+        setTimeout(() => {
           navig()
-        },2000)
+        }, 2000)
       }
       else if (res.data.success) {
         // alert("OTP sent successfully");
@@ -344,99 +369,67 @@ const ResumePreview = () => {
                 <>
                   {csCenter ?
                     <>
-                      <p style={{ color: "green", fontStyle: "italic" }}>{mailsent}</p>
-                      <h3>Enter Jobseeker Details</h3>
-                      {/* <input
-                        disabled={mailsent}
-                        type="email"
-                        placeholder="Enter Email ID"
-                        className={styles.input}
-                        value={jobseekerForm.email}
-                        onChange={(e) =>
-                          setJobseekerForm({
-                            ...jobseekerForm,
-                            email: e.target.value
-                          })
-                        }
-                      /> */}
-
-                      <input
-                        type="email"
-                        placeholder="Enter your email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        className={styles.input}
-
-                      />
-                      <div className={styles.btnGroup}>
-
-                        <button
-                          onClick={sendOTP}
-                          disabled={loading}
-                          className={styles.successBtn}
-                        >
-                          {loading ? "Sending..." : "Send OTP"}
-                        </button>
-                        <button
-                          className={styles.dangerBtn}
-                          onClick={() => { handleCancele() }}
-                        >
-                          Cancel
-                        </button>
-                      </div>
-
-                      {/* OTP section */}
-                      {otpSent && (
-                        <div style={{ marginTop: "20px" }}>
-
+                      {isApproved ?
+                        <>
+                          <p style={{ color: "green", fontStyle: "italic" }}>{mailsent}</p>
+                          <h3>Enter Jobseeker Details</h3>
                           <input
-                            type="text"
-                            placeholder="Enter 6 digit OTP"
-                            value={otp}
-                            maxLength={6}
-                            onChange={(e) => {
-                              const value = e.target.value.replace(/\D/g, "");
-                              setOtp(value);
-                            }}
+                            type="email"
+                            placeholder="Enter your email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
                             className={styles.input}
+
                           />
+                          <div className={styles.btnGroup}>
 
-                          <button
-                            onClick={verifyOTP}
-                            disabled={loading}
-                            className={styles.successBtn}
+                            <button
+                              onClick={sendOTP}
+                              disabled={loading}
+                              className={styles.successBtn}
+                            >
+                              {loading ? "Sending..." : "Send OTP"}
+                            </button>
+                            <button
+                              className={styles.dangerBtn}
+                              onClick={() => { handleCancele() }}
+                            >
+                              Cancel
+                            </button>
+                          </div>
 
-                          >
-                            {loading ? "Verifying..." : "Verify OTP"}
-                          </button>
+                          {/* OTP section */}
+                          {otpSent && (
+                            <div style={{ marginTop: "20px" }}>
 
-                        </div>
-                      )}
+                              <input
+                                type="text"
+                                placeholder="Enter 6 digit OTP"
+                                value={otp}
+                                maxLength={6}
+                                onChange={(e) => {
+                                  const value = e.target.value.replace(/\D/g, "");
+                                  setOtp(value);
+                                }}
+                                className={styles.input}
+                              />
 
-                      {/* 
-                      <div className={styles.btnGroup}>
-                        {!isEditEnable ?
-                          <button
-                            className={styles.successBtn}
-                            onClick={() => { handleOnNavigate() }}
-                          >
-                            Verify Email
-                          </button> : ""
+                              <button
+                                onClick={verifyOTP}
+                                disabled={loading}
+                                className={styles.successBtn}
+
+                              >
+                                {loading ? "Verifying..." : "Verify OTP"}
+                              </button>
+
+                            </div>
+                          )}
+                        </>
+                        :
+                         <p style={{color:"red"}}>your account is under approval ! once it gets approved by Admin, then you can start Editing resume"
+                        </p>
                         }
-
-                        <button
-                          className={styles.dangerBtn}
-                          onClick={() => { handleCancele() }}
-                        >
-                          Cancel
-                        </button>
-                        {isEditEnable ?
-                          <button className={styles.successBtn} onClick={() => { navig() }}>
-                            Edit
-                          </button>
-                           : ""
-                        }
-                      </div> */}
                     </>
                     :
                     <>

@@ -11,6 +11,7 @@ const ResumeForm = () => {
     name: '',
     profileSummary: '',
     address: '',
+    city: '',
     email: '',
     phoneNumber: '',
     linkedin: '',
@@ -123,6 +124,7 @@ const ResumeForm = () => {
           profileSummary: result.profileSummary || "",
           totalExperience: result.Experiance || "",
           address: result.address || "",
+          city: result.city || "",
           qualification: result.Qualification || "",
           college: result.college || "",
           experiences: result.experiences?.length
@@ -277,36 +279,70 @@ const ResumeForm = () => {
 
 
   const addQualificationRow = () => {
-    if (formData.qualificationDetails.length >= 3) return;
+    if (formData.qualificationDetails.length >= 2) return;
     setFormData({
       ...formData,
       qualificationDetails: [
         ...formData.qualificationDetails,
-        { degree: '', score: '', collegeName: '', stateCode: '', countryCode: '', isSaved: false, yop: '', city: '', country: '', studyField: '' },
+        { degree: '', score: '', collegeName: '', stateCode: '', countryCode: '',
+           isSaved: false, yop: '', city: '', country: '', studyField: '' },
       ],
     });
   };
 
-  const removeQualificationRow = (index) => {
-    setFormData((prev) => {
-      const updated = [...prev.qualificationDetails];
-      updated.splice(index, 1);
+  // const removeQualificationRow = (index) => {
+  //   setFormData((prev) => {
+  //     const updated = [...prev.qualificationDetails];
+  //     updated.splice(index, 1);
 
-      if (updated.length === 0) {
-        updated.push({
-          degree: "",
-          score: "",
-          collegeName: "",
-          stateCode: "",
-          countryCode: "",
-          yop: "",
-          city: "",
-          country: "",
-          studyField: ""
-        });
-      }
-    });
-  };
+  //     if (updated.length === 0) {
+  //       updated.push({
+  //         degree: "",
+  //         score: "",
+  //         collegeName: "",
+  //         stateCode: "",
+  //         countryCode: "",
+  //         yop: "",
+  //         city: "",
+  //         country: "",
+  //         studyField: ""
+  //       });
+  //     }
+  //   });
+  // };
+
+  
+const removeQualificationRow = (index) => {
+  setFormData((prev) => {
+    // Copy the existing qualification details
+    const updated = [...(prev.qualificationDetails || [])];
+
+    // Remove the selected row
+    updated.splice(index, 1);
+
+    // If no rows remain, add one empty row
+    if (updated.length === 0) {
+      updated.push({
+        degree: "",
+        score: "",
+        collegeName: "",
+        stateCode: "",
+        countryCode: "",
+        yop: "",
+        city: "",
+        country: "",
+        studyField: ""
+      });
+    }
+
+    // Return the complete updated form data
+    return {
+      ...prev,
+      qualificationDetails: updated
+    };
+  });
+};
+
 
   const clearQualificationRow = (index) => {
     const updatedQualifications = [...formData.qualificationDetails];
@@ -602,7 +638,7 @@ const ResumeForm = () => {
 
   // ---------- SUBMIT ----------
   const handleSubmit = async () => {
-    const { name, email, phoneNumber, linkedin, totalExperience, profileSummary, address,
+    const { name, email, phoneNumber, linkedin, totalExperience, profileSummary, city,
       experiences, certifications, skills, languages, qualificationDetails,
       personalDetails, achievements, interests, projects } = formData
     // if (
@@ -627,7 +663,7 @@ const ResumeForm = () => {
     const Experiance = totalExperience;
     await axios.put(`/StudentProfile/updatProfile/${studId}`, {
       name, email, linkedin, Experiance, phoneNumber,
-      profileSummary, address, experiences, certifications, skills, languages, qualificationDetails,
+      profileSummary, city, experiences, certifications, skills, languages, qualificationDetails,
       imageConsent, personalDetails, achievements, interests, projects, CSCId, selectedTemplate
     }, { headers })
       .then((res) => {
@@ -1156,239 +1192,7 @@ const ResumeForm = () => {
             EDUCATION
         ====================================================== */}
           {screenSize.width > 850 ? (
-            <>
-
-              <div className={styles.section}>
-
-                <div className={styles.sectionHeader}>
-                  <h2>Education</h2>
-                </div>
-
-                <div className={styles.educationTableWrapper}>
-
-                  <table className={styles.educationTable}>
-
-                    <thead>
-                      <tr>
-
-                        <th>
-                          School/College/
-                          <br />
-                          University Name
-                        </th>
-
-                        <th>
-                          Degree
-                        </th>
-
-                        <th>
-                          Field of study
-                        </th>
-
-                        <th>
-                          Grade (%)
-                        </th>
-
-                        <th>
-                          Year of Passing
-                        </th>
-
-                        <>
-                          <th>
-                            Country
-
-                          </th>
-
-                          <th>
-                            City
-                          </th>
-                        </>
-
-                      </tr>
-                    </thead>
-
-
-                    <tbody>
-
-                      {formData.qualificationDetails.map((q, i) => (
-
-                        <React.Fragment key={i}>
-
-                          <tr>
-
-                            {/* COLLEGE */}
-                            <td>
-                              <input
-                                ref={(input) => {
-                                  educationCollegeRefs.current[i] = input;
-                                }}
-                                maxLength={40}
-                                className={styles.tableInput}
-                                placeholder="College Name"
-                                value={q.collegeName}
-                                onChange={(e) =>
-                                  handleQualificationChange(
-                                    i,
-                                    "collegeName",
-                                    e.target.value
-                                  )
-                                }
-                              />
-                            </td>
-
-                            <td>
-                              <input
-                                className={styles.tableInput}
-                                placeholder="Degree"
-                                value={q.degree}
-                                onChange={(e) =>
-                                  handleQualificationChange(
-                                    i,
-                                    "degree",
-                                    e.target.value
-                                  )
-                                }
-                              />
-                            </td>
-
-                            {/* STUDY FIELD */}
-                            <td>
-                              <input
-                                className={styles.tableInput}
-                                placeholder="Study field"
-                                value={q.studyField}
-                                onChange={(e) =>
-                                  handleQualificationChange(
-                                    i,
-                                    "studyField",
-                                    e.target.value
-                                  )
-                                }
-                              />
-                            </td>
-
-                            {/* SCORE */}
-                            <td>
-                              <input
-                                className={styles.tableInput}
-                                placeholder="% or CGPA"
-                                value={q.score}
-                                onChange={(e) =>
-                                  handleQualificationChange(
-                                    i,
-                                    "score",
-                                    e.target.value
-                                  )
-                                }
-                              />
-                            </td>
-
-
-                            {/* YOP */}
-                            <td>
-                              <input
-                                className={styles.tableInput}
-                                placeholder="YOP"
-                                value={q.yop}
-                                onChange={(e) =>
-                                  handleQualificationChange(
-                                    i,
-                                    "yop",
-                                    e.target.value
-                                  )
-                                }
-                              />
-                            </td>
-
-
-                            {/* COUNTRY + CITY */}
-                            <>
-                              <td>
-                                <input
-                                  className={styles.tableInput}
-                                  placeholder="Country"
-                                  value={q.country}
-                                  onChange={(e) =>
-                                    handleQualificationChange(
-                                      i,
-                                      "country",
-                                      e.target.value
-                                    )
-                                  }
-                                />
-                              </td>
-
-                              <td>
-                                <input
-                                  className={styles.tableInput}
-                                  placeholder="City"
-                                  value={q.city}
-                                  onChange={(e) =>
-                                    handleQualificationChange(
-                                      i,
-                                      "city",
-                                      e.target.value
-                                    )
-                                  }
-                                />
-                              </td>
-                            </>
-                          </tr>
-
-
-                          {/* EDUCATION ACTIONS */}
-                          <tr>
-
-                            <td
-                              colSpan={
-                                loginprofile === "cs_center"
-                                  ? 5
-                                  : 7
-                              }
-                              className={styles.tableActions}>
-
-                              <button
-                                className={`${styles.button} ${styles.buttonSecondary}`}
-                                type="button"
-                                onClick={() =>
-                                  clearQualificationRow(i)
-                                } >
-                                Cancel
-                              </button>
-
-                              <button
-                                className={`${styles.button} ${styles.buttonDanger}`}
-                                type="button"
-                                onClick={() =>
-                                  removeQualificationRow(i)
-                                }
-                              >
-                                Delete
-                              </button>
-
-                            </td>
-
-                          </tr>
-
-                        </React.Fragment>
-
-                      ))}
-
-                    </tbody>
-
-                  </table>
-                </div>
-
-                <button style={{ marginLeft: "50%", marginTop: "20px" }}
-                  className={styles.button}
-                  type="button"
-                  onClick={addQualificationRow} >
-                  + Add New Education
-                </button>
-
-
-              </div>
-            </>
+            ""
           ) : (
 
             /* =====================================================
@@ -1815,14 +1619,14 @@ const ResumeForm = () => {
 
                 ))}
 
-                {/* Address */}
-                <h2>Address</h2>
+                {/* City */}
+                <h2>City</h2>
                 <input
                   className={styles.input}
-                  placeholder="Address"
-                  value={formData.address}
+                  placeholder="City"
+                  value={formData.city}
                   onChange={(e) =>
-                    handleChange("address", e.target.value)
+                    handleChange("city", e.target.value)
                   }
                 />
                 {/* =================================================
@@ -1986,6 +1790,238 @@ const ResumeForm = () => {
         </div>
 
       </div>
+      {screenSize.width > 850 ? (
+            <>
+
+              <div className={styles.section}>
+
+                <div className={styles.sectionHeader}>
+                  <h2>Education</h2>
+                </div>
+
+                <div className={styles.educationTableWrapper}>
+
+                  <table className={styles.educationTable}>
+
+                    <thead>
+                      <tr>
+
+                        <th className={styles.tableCollege}>
+                          School/College/
+                          <br />
+                          University Name
+                        </th>
+
+                        <th>
+                          Degree
+                        </th>
+
+                        <th>
+                          Field of study
+                        </th>
+
+                        <th>
+                          Grade (%)
+                        </th>
+
+                        <th>
+                          Year of Passing
+                        </th>
+
+                          {/* <th>
+                            Country
+
+                          </th> */}
+
+                          <th>
+                            City
+                          </th>
+
+                      </tr>
+                    </thead>
+
+
+                    <tbody>
+
+                      {formData.qualificationDetails.map((q, i) => (
+
+                        <React.Fragment key={i}>
+
+                          <tr>
+
+                            {/* COLLEGE */}
+                            <td>
+                              <input
+                                ref={(input) => {
+                                  educationCollegeRefs.current[i] = input;
+                                }}
+                                maxLength={40}
+                                className={styles.tableInputCollege}
+                                placeholder="College Name"
+                                value={q.collegeName}
+                                onChange={(e) =>
+                                  handleQualificationChange(
+                                    i,
+                                    "collegeName",
+                                    e.target.value
+                                  )
+                                }
+                              />
+                            </td>
+
+                            <td>
+                              <input
+                                className={styles.tableInput}
+                                placeholder="Degree"
+                                value={q.degree}
+                                onChange={(e) =>
+                                  handleQualificationChange(
+                                    i,
+                                    "degree",
+                                    e.target.value
+                                  )
+                                }
+                              />
+                            </td>
+
+                            {/* STUDY FIELD */}
+                            <td>
+                              <input
+                                className={styles.tableInput}
+                                placeholder="Study field"
+                                value={q.studyField}
+                                onChange={(e) =>
+                                  handleQualificationChange(
+                                    i,
+                                    "studyField",
+                                    e.target.value
+                                  )
+                                }
+                              />
+                            </td>
+
+                            {/* SCORE */}
+                            <td>
+                              <input
+                                className={styles.tableInput}
+                                placeholder="% or CGPA"
+                                value={q.score}
+                                onChange={(e) =>
+                                  handleQualificationChange(
+                                    i,
+                                    "score",
+                                    e.target.value
+                                  )
+                                }
+                              />
+                            </td>
+
+
+                            {/* YOP */}
+                            <td>
+                              <input
+                                className={styles.tableInput}
+                                placeholder="YOP"
+                                value={q.yop}
+                                onChange={(e) =>
+                                  handleQualificationChange(
+                                    i,
+                                    "yop",
+                                    e.target.value
+                                  )
+                                }
+                              />
+                            </td>
+
+
+                            {/* COUNTRY + CITY */}
+                              {/* <td>
+                                <input
+                                  className={styles.tableInput}
+                                  placeholder="Country"
+                                  value={q.country}
+                                  onChange={(e) =>
+                                    handleQualificationChange(
+                                      i,
+                                      "country",
+                                      e.target.value
+                                    )
+                                  }
+                                />
+                              </td> */}
+
+                              <td>
+                                <input
+                                  className={styles.tableInput}
+                                  placeholder="City"
+                                  value={q.city}
+                                  onChange={(e) =>
+                                    handleQualificationChange(
+                                      i,
+                                      "city",
+                                      e.target.value
+                                    )
+                                  }
+                                />
+                              </td>
+                          </tr>
+
+
+                          {/* EDUCATION ACTIONS */}
+                          <tr>
+
+                            <td
+                              colSpan={
+                                loginprofile === "cs_center"
+                                  ? 5
+                                  : 7
+                              }
+                              className={styles.tableActions}>
+
+                              <button
+                                className={`${styles.button} ${styles.buttonSecondary}`}
+                                type="button"
+                                onClick={() =>
+                                  clearQualificationRow(i)
+                                } >
+                                Cancel
+                              </button>
+
+                              <button
+                                className={`${styles.button} ${styles.buttonDanger}`}
+                                type="button"
+                                onClick={() =>
+                                  removeQualificationRow(i)
+                                }
+                              >
+                                Delete
+                              </button>
+
+                            </td>
+
+                          </tr>
+
+                        </React.Fragment>
+
+                      ))}
+
+                    </tbody>
+
+                  </table>
+                </div>
+
+                <button style={{ marginLeft: "50%", marginTop: "20px" }}
+                  className={styles.button}
+                  type="button"
+                  onClick={addQualificationRow} >
+                  + Add New Education
+                </button>
+
+
+              </div>
+            </>
+          ) : 
+          ("")}
 
 
       {/* ================= SAVE ================= */}

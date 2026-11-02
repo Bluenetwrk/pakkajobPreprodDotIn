@@ -237,7 +237,7 @@ function StudentProfile() {
               <strong>Phone</strong><br></br> {profileData[0].phoneNumber ? profileData[0].phoneNumber : ""}
             </div>
             <div>
-              <strong>Address</strong><br></br> {profileData[0].city ? profileData[0].city : ""}
+              <strong>Address</strong><br></br> {profileData[0].address ? profileData[0].address : ""}
             </div>
             <div>
               <strong>City</strong><br></br> {profileData[0].city ? profileData[0].city : ""}

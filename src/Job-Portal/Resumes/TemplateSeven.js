@@ -14,6 +14,7 @@ const EditableText = ({
   onChange,
   className = "",
   multiline = false,
+
 }) => {
   return (
     <span
@@ -46,8 +47,7 @@ const EditableText = ({
 /* =========================================================
    MAIN COMPONENT
 ========================================================= */
-const TemplateSeven = ({ limit, totalResumeLimit, SetTotalResumeLimit }) => {
-  console.log("coming from props",limit, totalResumeLimit)
+const TemplateSeven = ({ themeColor, limit, totalResumeLimit, SetTotalResumeLimit }) => {
   const [profileData, setProfileData] = useState(null);
 
   const studId = JSON.parse(localStorage.getItem("StudId"));
@@ -68,6 +68,7 @@ const TemplateSeven = ({ limit, totalResumeLimit, SetTotalResumeLimit }) => {
         );
 
         setProfileData(res.data.result);
+        // console.log(res.data.result)
       } catch (error) {
         console.error("Profile loading error:", error);
         alert("Failed to load profile");
@@ -155,7 +156,7 @@ const TemplateSeven = ({ limit, totalResumeLimit, SetTotalResumeLimit }) => {
   ======================================================= */
 
   const updateExperienceField = (
-    index,
+    originalKey,
     field,
     value
   ) => {
@@ -164,16 +165,12 @@ const TemplateSeven = ({ limit, totalResumeLimit, SetTotalResumeLimit }) => {
         ...(prev.experiences || {}),
       };
 
-      const keys = Object.keys(experiencesObject);
-
-      const key = keys[index];
-
-      if (!key) {
+      if (!Object.prototype.hasOwnProperty.call(experiencesObject, originalKey)) {
         return prev;
       }
 
-      experiencesObject[key] = {
-        ...experiencesObject[key],
+      experiencesObject[originalKey] = {
+        ...experiencesObject[originalKey],
         [field]: value,
       };
 
@@ -251,7 +248,7 @@ const TemplateSeven = ({ limit, totalResumeLimit, SetTotalResumeLimit }) => {
 
           await axios.post("/CSRoute/pdfDownloadedCount", { CSCId: CSCId })
             .then((res) => {
-              SetTotalResumeLimit((prev)=>prev+1)
+              SetTotalResumeLimit((prev) => prev + 1)
               console.log(res.data.count)
             }).catch((err) => {
               console.log("some thing went wrong", err)
@@ -302,9 +299,26 @@ const TemplateSeven = ({ limit, totalResumeLimit, SetTotalResumeLimit }) => {
      EXPERIENCES
   ======================================================= */
 
-  const experiences = Object.values(
+  const experiences = Object.entries(
     profileData.experiences || {}
-  ).slice(0, 6);
+  )
+    .filter(([key, experience]) => {
+      if (!experience || typeof experience !== "object") {
+        return false;
+      }
+
+      return (
+        String(experience.company || "").trim() ||
+        String(experience.role || "").trim() ||
+        String(experience.startDate || "").trim() ||
+        String(experience.endDate || "").trim()
+      );
+    })
+    .slice(0, 6)
+    .map(([originalKey, experience]) => ({
+      ...experience,
+      originalKey,
+    }));
 
 
   /* =======================================================
@@ -333,10 +347,11 @@ const TemplateSeven = ({ limit, totalResumeLimit, SetTotalResumeLimit }) => {
               TITLE
           ================================================= */}
 
-          <p className={styles.title}>
+          <p className={styles.title}
+            style={{ color: themeColor }}
+          >
             RESUME
           </p>
-
 
           {/* =================================================
               HEADER
@@ -344,9 +359,12 @@ const TemplateSeven = ({ limit, totalResumeLimit, SetTotalResumeLimit }) => {
 
           <div className={styles.header}>
 
-            <div className={styles.name}>
+            <div className={styles.name}
+              style={{ color: themeColor }}
+            >
 
               <EditableText
+
                 value={profileData.name}
                 placeholder="Your Name"
                 onChange={(value) =>
@@ -358,7 +376,6 @@ const TemplateSeven = ({ limit, totalResumeLimit, SetTotalResumeLimit }) => {
               />
 
             </div>
-
 
             <div className={styles.contactLine}>
 
@@ -380,8 +397,6 @@ const TemplateSeven = ({ limit, totalResumeLimit, SetTotalResumeLimit }) => {
               />
 
             </div>
-
-
             <div className={styles.contactLine}>
 
               <strong>
@@ -405,16 +420,16 @@ const TemplateSeven = ({ limit, totalResumeLimit, SetTotalResumeLimit }) => {
 
             <div className={styles.contactLine}>
               <strong>
-                Address -
+                City -
               </strong>{" "}
               <EditableText
                 value={
-                  profileData.address
+                  profileData.city
                 }
                 placeholder="Address"
                 onChange={(value) =>
                   updateProfileField(
-                    "address",
+                    "city",
                     value
                   )
                 }
@@ -428,10 +443,13 @@ const TemplateSeven = ({ limit, totalResumeLimit, SetTotalResumeLimit }) => {
           {/* =================================================
               OBJECTIVE
           ================================================= */}
-          <hr style={{ margin: " 20px 0 20px 0" }}></hr>
+          {/* <hr></hr> */}
+          <hr style={{ margin: " 13px 0 15px 0" }}></hr>
 
 
-          <Section title="OBJECTIVE">
+          <Section title="OBJECTIVE"
+            themeColor={themeColor}
+          >
 
             <EditableText
               value={
@@ -454,10 +472,14 @@ const TemplateSeven = ({ limit, totalResumeLimit, SetTotalResumeLimit }) => {
           {/* =================================================
               PERSONAL INFORMATION
           ================================================= */}
-          <hr style={{ margin: " 20px 0 20px 0" }}></hr>
+          {/* <hr></hr> */}
+          <hr style={{ margin: " 13px 0 15px 0" }}></hr>
 
 
-          <Section title="PERSONAL INFORMATION">
+          <Section title="PERSONAL INFORMATION"
+            themeColor={themeColor}
+
+          >
 
             <div
               className={
@@ -615,10 +637,13 @@ const TemplateSeven = ({ limit, totalResumeLimit, SetTotalResumeLimit }) => {
           {/* =================================================
               EDUCATIONAL QUALIFICATION
           ================================================= */}
-          <hr style={{ margin: " 20px 0 20px 0" }}></hr>
+          {/* <hr></hr> */}
+          <hr style={{ margin: " 13px 0 15px 0" }}></hr>
 
 
-          <Section title="EDUCATIONAL QUALIFICATION">
+          <Section title="EDUCATIONAL QUALIFICATION"
+            themeColor={themeColor}
+          >
 
             <table className={styles.table}>
 
@@ -781,10 +806,13 @@ const TemplateSeven = ({ limit, totalResumeLimit, SetTotalResumeLimit }) => {
           {/* =================================================
               TECHNICAL SKILLS
           ================================================= */}
-          <hr style={{ margin: " 20px 0 20px 0" }}></hr>
+          {/* <hr></hr> */}
+          <hr style={{ margin: " 13px 0 15px 0" }}></hr>
 
 
-          <Section title="TECHNICAL SKILLS">
+          <Section title="TECHNICAL SKILLS"
+            themeColor={themeColor}
+          >
 
             <EditableText
               value={
@@ -812,140 +840,148 @@ const TemplateSeven = ({ limit, totalResumeLimit, SetTotalResumeLimit }) => {
           {/* =================================================
               EXPERIENCE
           ================================================= */}
-          <hr style={{ margin: " 20px 0 20px 0" }}></hr>
+          {/* <hr></hr> */}
+
+          <hr style={{ margin: " 13px 0 15px 0" }}></hr>
 
 
-          <Section title="EXPERIENCE">
+          <Section title="EXPERIENCE"
+            themeColor={themeColor}
+          >
+            {
+              experiences.length > 0 ?
+                (
 
-            {experiences.length > 0 ? (
+                  <div
+                    className={
+                      styles.experienceList
+                    }
+                  >
 
-              <div
-                className={
-                  styles.experienceList
-                }
-              >
+                    {experiences.map(
+                      (
+                        experience,
+                        index
+                      ) => (
 
-                {experiences.map(
-                  (
-                    experience,
-                    index
-                  ) => (
-
-                    <div
-                      className={
-                        styles.experienceItem
-                      }
-                      key={index}
-                    >
-
-                      <strong>
-                        Company{" "}
-                        {index + 1}
-                      </strong>
-
-
-                      <div>
-
-                        <EditableText
-                          value={
-                            experience.company
+                        <div
+                          className={
+                            styles.experienceItem
                           }
-                          placeholder="Company Name"
-                          onChange={(
-                            value
-                          ) =>
-                            updateExperienceField(
-                              index,
-                              "company",
-                              value
-                            )
-                          }
-                        />
+                          key={experience.originalKey}
+                        >
+
+                          <strong>
+                            Company{" "}
+                            {index + 1}
+                          </strong>
 
 
-                        {" - "}
+                          <div>
+
+                            <EditableText
+                              value={
+                                experience.company
+                              }
+                              placeholder="Company Name"
+                              onChange={(
+                                value
+                              ) =>
+                                updateExperienceField(
+                                  experience.originalKey,
+                                  "company",
+                                  value
+                                )
+                              }
+                            />
 
 
-                        <EditableText
-                          value={
-                            experience.role
-                          }
-                          placeholder="Role"
-                          onChange={(
-                            value
-                          ) =>
-                            updateExperienceField(
-                              index,
-                              "role",
-                              value
-                            )
-                          }
-                        />
+                            {" - "}
 
 
-                        {" - ("}
+                            <EditableText
+                              value={
+                                experience.role
+                              }
+                              placeholder="Role"
+                              onChange={(
+                                value
+                              ) =>
+                                updateExperienceField(
+                                  experience.originalKey,
+                                  "role",
+                                  value
+                                )
+                              }
+                            />
 
 
-                        <EditableText
-                          value={
-                            formatExperienceDate(
-                              experience.startDate
-                            )
-                          }
-                          placeholder="Start Date"
-                          onChange={(
-                            value
-                          ) =>
-                            updateExperienceField(
-                              index,
-                              "startDate",
-                              value
-                            )
-                          }
-                        />
+                            {" - ("}
 
 
-                        {" - "}
+                            <EditableText
+                              value={
+                                formatExperienceDate(
+                                  experience.startDate
+                                )
+                              }
+                              placeholder="Start Date"
+                              onChange={(
+                                value
+                              ) =>
+                                updateExperienceField(
+                                  experience.originalKey,
+                                  "startDate",
+                                  value
+                                )
+                              }
+                            />
 
 
-                        <EditableText
-                          value={
-                            formatExperienceDate(
-                              experience.endDate
-                            )
-                          }
-                          placeholder="End Date"
-                          onChange={(
-                            value
-                          ) =>
-                            updateExperienceField(
-                              index,
-                              "endDate",
-                              value
-                            )
-                          }
-                        />
+                            {" - "}
 
 
-                        {")"}
+                            <EditableText
+                              value={
+                                formatExperienceDate(
+                                  experience.endDate
+                                )
+                              }
+                              placeholder="End Date"
+                              onChange={(
+                                value
+                              ) =>
+                                updateExperienceField(
+                                  experience.originalKey,
+                                  "endDate",
+                                  value
+                                )
+                              }
+                            />
 
-                      </div>
 
-                    </div>
+                            {")"}
 
-                  )
-                )}
+                          </div>
 
-              </div>
+                        </div>
 
-            ) : (
+                      )
+                    )}
 
-              <EditableText
-                value="FRESHER"
-                placeholder="FRESHER"
-              />
+                  </div>
 
-            )}
+                ) 
+
+                :
+                (
+                  <EditableText
+                    value="FRESHER"
+                    placeholder="FRESHER"
+                  />
+
+                )
+            }
 
           </Section>
 
@@ -953,10 +989,13 @@ const TemplateSeven = ({ limit, totalResumeLimit, SetTotalResumeLimit }) => {
           {/* =================================================
               BEHAVIOURAL CHARACTERISTICS
           ================================================= */}
-          <hr style={{ margin: " 20px 0 20px 0" }}></hr>
+          {/* <hr></hr> */}
+          <hr style={{ margin: " 13px 0 15px 0" }}></hr>
 
 
-          <Section title="BEHAVIOURAL CHARACTERISTICS">
+          <Section title="BEHAVIOURAL CHARACTERISTICS"
+            themeColor={themeColor}
+          >
 
             <ul
               className={
@@ -1000,68 +1039,16 @@ const TemplateSeven = ({ limit, totalResumeLimit, SetTotalResumeLimit }) => {
           {/* =================================================
               DECLARATION
           ================================================= */}
-          <hr style={{ margin: " 20px 0 20px 0" }}></hr>
+          <hr style={{ margin: " 13px 0 15px 0" }}></hr>
 
-          <Section title="DECLARATION">
+          <Section title="DECLARATION"
+            themeColor={themeColor}
+          >
 
             <EditableText
-              value="I hereby affirm the information given in this document is correct to the best of my knowledge."
+              value="I here by confirm that the information given in this document is correct to the best of my knowledge."
               multiline={true}
             />
-
-
-            <div
-              className={
-                styles.declaration
-              }
-            >
-
-              <div>
-
-                <p style={{ marginTop: "5px" }}>
-
-                  <strong>
-                    Place:
-                  </strong>{" "}
-
-                  <EditableText
-                    value={
-                      profileData.place
-                    }
-                    placeholder="Place"
-                    onChange={(value) =>
-                      updateProfileField(
-                        "place",
-                        value
-                      )
-                    }
-                  />
-
-                </p>
-
-                <p style={{ marginTop: "5px" }}>
-
-                  <strong >
-                    Date:
-                  </strong>{" "}
-
-                  <EditableText
-                    value={
-                      profileData.declarationDate
-                    }
-                    placeholder="Date"
-                    onChange={(value) =>
-                      updateProfileField(
-                        "declarationDate",
-                        value
-                      )
-                    }
-                  />
-
-                </p>
-
-              </div>
-
 
               <div
                 className={
@@ -1089,8 +1076,6 @@ const TemplateSeven = ({ limit, totalResumeLimit, SetTotalResumeLimit }) => {
 
               </div>
 
-            </div>
-
           </Section>
 
         </div>
@@ -1099,7 +1084,7 @@ const TemplateSeven = ({ limit, totalResumeLimit, SetTotalResumeLimit }) => {
         {/* =================================================
             DOWNLOAD BUTTON
         ================================================= */}
-        <hr style={{ margin: " 20px 0 20px 0" }}></hr>
+        <hr></hr>
 
         {/* <button
           onClick={handleDownloadPDF}
@@ -1109,17 +1094,20 @@ const TemplateSeven = ({ limit, totalResumeLimit, SetTotalResumeLimit }) => {
 
         <div className={styles.tooltipWrapper}>
           <button
-            disabled={totalResumeLimit>=limit}
+            disabled={totalResumeLimit >= limit}
             onClick={handleDownloadPDF}
             className={styles.downloadBtn}
           >
             Download Resume
           </button>
 
-          {totalResumeLimit>=limit && (
-            <span className={styles.tooltip}>
-              You have reached your download limit
-            </span>
+          {totalResumeLimit >= limit && (
+            <>
+              <span className={styles.tooltip}>
+                You have reached your download limit
+                <p>get help from admin , call on 8152047809</p>
+              </span>
+            </>
           )}
         </div>
 
@@ -1127,7 +1115,7 @@ const TemplateSeven = ({ limit, totalResumeLimit, SetTotalResumeLimit }) => {
     </>
   );
 };
-<hr style={{ margin: " 20px 0 20px 0" }}></hr>
+<hr></hr>
 
 
 
@@ -1138,6 +1126,8 @@ const TemplateSeven = ({ limit, totalResumeLimit, SetTotalResumeLimit }) => {
 const Section = ({
   title,
   children,
+  themeColor,
+
 }) => {
 
   return (
@@ -1148,7 +1138,11 @@ const Section = ({
       <h2
         className={
           styles.sectionTitle
+
         }
+        style={{
+          color: themeColor,
+        }}
       >
         {title}
       </h2>
@@ -1166,7 +1160,7 @@ const Section = ({
   );
 };
 
-<hr style={{ margin: " 20px 0 20px 0" }}></hr>
+<hr></hr>
 
 
 /* =========================================================

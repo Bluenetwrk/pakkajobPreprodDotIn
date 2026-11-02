@@ -6,7 +6,7 @@
   width: 100%;
   min-height: 100vh;
   background: #f3f3f3;
-  padding: 30px 0;
+  padding: 10px 0;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -24,7 +24,7 @@
   background: #ffffff;
   color: #000000;
   box-sizing: border-box;
-  padding: 14mm 14mm 12mm 14mm;
+  padding: 5mm 10mm 12mm 12mm;
   font-family:Arial,Helvetica,sans-serif;
   line-height: 1.35;
   position: relative;
@@ -44,8 +44,8 @@
   outline: none;
   cursor: text;
   border-radius: 2px;
-  transition: background-color 0.15s ease,
-              outline 0.15s ease;
+  /* transition: background-color 0.15s ease,
+              outline 0.15s ease; */
 
 }
 
@@ -96,6 +96,12 @@
   font-weight: 600;
 }
 
+.hr{
+  /* margin: 10 0 100 0;
+  color: red;
+  background-color: red; */
+}
+
 
 
 /* =========================================================
@@ -113,7 +119,7 @@
 
   margin: 0 !important;
 
-  padding: 14mm 14mm 12mm 14mm !important;
+  padding: 5mm 14mm 12mm 14mm !important;
 
   border: none !important;
 
@@ -127,7 +133,7 @@
 }
 
 .tooltip {
-  visibility: hidden;
+  /* visibility: hidden; */
   opacity: 0;
 
   position: absolute;
@@ -209,7 +215,7 @@
   color: #000000;
   margin-bottom: 3px;
   text-transform: uppercase;
-  font-size: 19px;
+  font-size: 22px;
 }
 
 
@@ -310,65 +316,59 @@
    EDUCATION TABLE
 ========================================================= */
 
-.table {
-  width: 100%;
-
-  border-collapse: collapse;
-
-  table-layout: fixed;
-  margin: 0;
-
-  color: #000000;
-
-  margin-top: 4px;
-
+/* 
+.table tbody tr:nth-child(even) {
+  background-color:none;
 }
 
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 5px;
+  margin-left: 1px;
+}
+
+.table th,
+.table td {
+  border: 1px solid #000;
+  padding: 6px;
+  font-size: 13px;
+  text-align: center;
+} */
+
+/* EDUCATION TABLE */
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 5px;
+  margin-left: 1px;
+  background: #ffffff !important;
+}
+
+.table thead,
+.table tr,
+.table th{
+  background-color:rgb(218, 217, 217);
+}
+.table tbody,
+.table td {
+  background: #ffffff !important;
+  background-color: #ffffff !important;
+}
+
+/* .table tbody tr:nth-child(even),
+.table tbody tr:nth-child(odd) {
+  background: #ffffff !important;
+  background-color: #ffffff !important;
+} */
 
 .table th,
 .table td {
   border: 1px solid #000000;
-
-  padding: 6px 7px;
-
+  padding: 6px;
+  font-size: 13px;
   text-align: center;
-
-  vertical-align: middle;
-
-  color: #000000;
-
-  line-height: 1.25;
-}
-
-
-.table th {
-  font-weight: 700;
-
-  background: #ffffff;
-}
-
-
-.table th:nth-child(1),
-.table td:nth-child(1) {
-  width: 22%;
-}
-
-
-.table th:nth-child(2),
-.table td:nth-child(2) {
-  width: 35%;
-}
-
-
-.table th:nth-child(3),
-.table td:nth-child(3) {
-  width: 18%;
-}
-
-
-.table th:nth-child(4),
-.table td:nth-child(4) {
-  width: 25%;
 }
 
 
@@ -398,7 +398,7 @@
 
 /* =========================================================
    EXPERIENCE
-========================================================= */
+===========================.============================== */
 
 .experienceList {
   width: 100%;
@@ -482,6 +482,7 @@
   text-align: right;
 
   margin-right: 3px;
+  margin-top: 30px;
 
   min-width: 150px;
 }
@@ -555,6 +556,7 @@
   box-sizing: border-box;
   overflow: hidden;
   font-weight: 600;
+  /* margin: 0; */
 }
 
   .downloadBtn {

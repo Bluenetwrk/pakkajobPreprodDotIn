@@ -4,7 +4,7 @@ import styles from "./TemplateEight.module.css";
 import axios from "axios";
 import { generatePDF } from "./generatePDF";
 
-const TemplateSix = ({ themeColor }) => {
+const TemplateSix = ({ themeColor , limit, totalResumeLimit, SetTotalResumeLimit}) => {
   const [profileData, setProfileData] = useState(null);
   const [resumeData, setResumeData] = useState(null);
 
@@ -192,6 +192,8 @@ const TemplateSix = ({ themeColor }) => {
       if(CSCId){
          await axios.post("/CSRoute/pdfDownloadedCount", { CSCId: CSCId })
          .then((res) => {
+              SetTotalResumeLimit((prev)=>prev+1)
+
             console.log(res.data.count)
           }).catch((err)=>{
             console.log("some thing went wrong", err)
@@ -769,7 +771,7 @@ const TemplateSix = ({ themeColor }) => {
                 <p
                   className={styles.place}
                   style={{
-                    color: "black",
+                    color: "black", marginTop:"7px"
                   }}
                 >
                   <strong>Place:</strong>
@@ -787,7 +789,10 @@ const TemplateSix = ({ themeColor }) => {
                   }}
                 >
                   <strong>Date:</strong>{" "}
-                  __________
+                 {/* <EditableText
+                    value=""
+                    onChange={() => {}}
+                  /> __________ */}
                 </p>
 
               </div>
@@ -815,14 +820,14 @@ const TemplateSix = ({ themeColor }) => {
 
       {/* ================= BUTTONS ================= */}
 
-      <div
+      {/* <div
         style={{
           display: "flex",
           gap: "10px",
           justifyContent: "center",
           marginTop: "20px",
         }}
-      >
+      > */}
 
         {/* <button
           onClick={handleSaveResume}
@@ -831,16 +836,34 @@ const TemplateSix = ({ themeColor }) => {
           Save Resume
         </button> */}
 
-        <button
+        {/* <button
           onClick={handleDownloadPDF}
           className={styles.downloadBtn}
         >
           Download Template 6 PDF
-        </button>
+        </button> */}
+                <div className={styles.tooltipWrapper}>
+                  <button
+                    disabled={totalResumeLimit>=limit}
+                    onClick={handleDownloadPDF}
+                    className={styles.downloadBtn}
+                  >
+                    Download Resume
+                  </button>
+        
+                  {totalResumeLimit>=limit && (
+                    <>
+                    <span className={styles.tooltip}>
+                      You have reached your download limit
+                    <p>get help from admin , call on 8152047809</p>
+                    </span>
+                    </>
+                  )}
+                </div>
 
       </div>
 
-    </div>
+    // </div>
   );
 };
 

@@ -31,9 +31,9 @@ function AppledJobs(props) {
   const [nopageFilter, setNoPageFilter] = useState(false)
   const [transferRecords, setTransferRecords] = useState("AppliedJobs")
 
+  // let jobSeekerId = JSON.parse(localStorage.getItem("StudId"))
+  let jobSeekerId = JSON.parse(localStorage.getItem("StudId")) || JSON.parse(localStorage.getItem("CSCId"))
 
-
-  let jobSeekerId = JSON.parse(localStorage.getItem("StudId"))
 
 
   //   async function getAppliedJob(){   
@@ -52,8 +52,12 @@ function AppledJobs(props) {
 
   
   async function getCareerjobs() {
-    let userid = JSON.parse(localStorage.getItem("StudId"))
-    const headers = { authorization: userid + " " + atob(JSON.parse(localStorage.getItem("StudLog"))) };
+     let userid = JSON.parse(localStorage.getItem("StudId"))|| JSON.parse(localStorage.getItem("CSCId"))
+    const headers = { authorization: userid + " " + atob(JSON.parse(localStorage.getItem("StudLog"))
+      || JSON.parse(localStorage.getItem("CSCLog"))
+    ) };
+    // let userid = JSON.parse(localStorage.getItem("StudId"))
+    // const headers = { authorization: userid + " " + atob(JSON.parse(localStorage.getItem("StudLog"))) };
     setPageLoader(true)
     setTimeout(async () => {
 
@@ -80,8 +84,12 @@ function AppledJobs(props) {
 
 
   async function getjobs() {
-    let userid = JSON.parse(localStorage.getItem("StudId"))
-    const headers = { authorization: userid + " " + atob(JSON.parse(localStorage.getItem("StudLog"))) };
+    let userid = JSON.parse(localStorage.getItem("StudId"))|| JSON.parse(localStorage.getItem("CSCId"))
+    const headers = { authorization: userid + " " + atob(JSON.parse(localStorage.getItem("StudLog"))
+      || JSON.parse(localStorage.getItem("CSCLog"))
+    ) };
+    // let userid = JSON.parse(localStorage.getItem("StudId"))
+    // const headers = { authorization: userid + " " + atob(JSON.parse(localStorage.getItem("StudLog"))) };
     setPageLoader(true)
     setTimeout(async () => {
 
@@ -111,8 +119,12 @@ function AppledJobs(props) {
   }, [])
 
   async function UndoApply(id) {
-    let userid = JSON.parse(localStorage.getItem("StudId"))
-    const headers = { authorization: userid + " " + atob(JSON.parse(localStorage.getItem("StudLog"))) };
+    let userid = JSON.parse(localStorage.getItem("StudId"))|| JSON.parse(localStorage.getItem("CSCId"))
+    const headers = { authorization: userid + " " + atob(JSON.parse(localStorage.getItem("StudLog"))
+      || JSON.parse(localStorage.getItem("CSCLog"))
+    ) };
+    // let userid = JSON.parse(localStorage.getItem("StudId"))
+    // const headers = { authorization: userid + " " + atob(JSON.parse(localStorage.getItem("StudLog"))) };
     Swal.fire({
       title: 'Are you sure?',
       // icon: 'warning',      
@@ -268,7 +280,6 @@ function AppledJobs(props) {
     setrecordsPerPage(recordsperpage)
     setCurrentPage(1)
   }
-console.log(records)
 
   return (
     <>
