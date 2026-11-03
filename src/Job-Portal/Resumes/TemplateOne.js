@@ -10,6 +10,8 @@ const TemplateOne = ({themeColor}) => {
   }, []);
 
   
+  const [profileDatas, setProfileDatas] = useState(null);
+  const [profileDatass, setProfileDatass] = useState(null);
   const [profileData, setProfileData] = useState(null);
   const[pageLoader, setPageLoader]= useState(false)
   const studId = JSON.parse(localStorage.getItem("StudId"));
