@@ -122,8 +122,8 @@ import DeletedBlogs from "../src/Job-Portal/Admin/DeletedBlogs"
 // axios.defaults.baseURL = " https://itwalkin-backend-testrelease-2-0-1-0824-ns0g.onrender.com" // Render Test
 //axios.defaults.baseURL = " https://nontech-backend.onrender.com"
 
-axios.defaults.baseURL = "https://pakajobpreproddotinbackend.onrender.com"
-// axios.defaults.baseURL = "http://localhost:8080"
+// axios.defaults.baseURL = "https://pakajobpreproddotinbackend.onrender.com"
+axios.defaults.baseURL = "http://localhost:8080"
 
 
 

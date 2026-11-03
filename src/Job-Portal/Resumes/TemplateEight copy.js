@@ -4,8 +4,6 @@ import axios from "axios";
 import { generatePDF } from "./generatePDF";
 
 const TemplateEight = ({themeColor}) => {
-  const [profileData, setProfileData] = useState(null);
-  const studId = JSON.parse(localStorage.getItem("StudId"));
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -31,8 +29,6 @@ const TemplateEight = ({themeColor}) => {
       element.classList.remove(styles.forceA4);
     }, 300);
   };
-
-  if (!profileData) return null;
 
   return (
     <div className={styles.wrapper}>

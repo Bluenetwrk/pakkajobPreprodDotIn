@@ -48,11 +48,6 @@ const EditableText = ({
    MAIN COMPONENT
 ========================================================= */
 const TemplateSeven = ({ themeColor, limit, totalResumeLimit, SetTotalResumeLimit }) => {
-  const [profileData, setProfileData] = useState(null);
-
-  const studId = JSON.parse(localStorage.getItem("StudId"));
-  const CSCId = JSON.parse(localStorage.getItem("CSCId"));
-
 
   /* =======================================================
      FETCH PROFILE
@@ -79,19 +74,6 @@ const TemplateSeven = ({ themeColor, limit, totalResumeLimit, SetTotalResumeLimi
       fetchProfile();
     }
   }, [studId]);
-
-
-  /* =======================================================
-     UPDATE ROOT PROFILE FIELD
-  ======================================================= */
-
-  const updateProfileField = (field, value) => {
-    setProfileData((prev) => ({
-      ...prev,
-      [field]: value,
-    }));
-  };
-
 
   /* =======================================================
      UPDATE PERSONAL DETAILS

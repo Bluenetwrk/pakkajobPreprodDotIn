@@ -9,6 +9,8 @@ const TemplateFour = ({themeColor}) => {
     window.scrollTo(0, 0);
   }, []);
 
+  const [profileDatas, setProfileDatas] = useState({});
+  const [profileDatass, setProfileDatass] = useState({});
   const [profileData, setProfileData] = useState({});
   const studId = JSON.parse(localStorage.getItem("StudId"));
 
