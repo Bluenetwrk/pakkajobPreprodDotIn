@@ -5,9 +5,9 @@ import "./gallery.css";
 // import template3 from "../img/template3.jpg";
 // import template4 from "../img/template4.png";
 // import template5 from "../img/template5.jpg";
-import template6 from "../img/template6.png";
+import template1 from "../img/template6.png";
 // import template7 from "../img/template7.jpg";
-import template7 from "../img/template-7.png";
+import template2 from "../img/template-7.png";
 
 
 import { useNavigate } from "react-router-dom";
@@ -43,7 +43,7 @@ const TemplateGallery = ({ onSelect, logoutresume, loginprofile }) => {
             // if (logoutresume === true) {
             //   setResumeAlert(true);
             // } else {
-              openPreview("six", template6);
+              openPreview("one", template1);
            
           }}
           >
@@ -51,7 +51,7 @@ const TemplateGallery = ({ onSelect, logoutresume, loginprofile }) => {
           <p>
             Best suited for non-technical job roles.
           </p>
-          <img src={template6} alt="Template Six" className="blurred" />
+          <img src={template1} alt="Template 1" className="blurred" />
         </div> 
         <div
           className="template-card"
@@ -59,7 +59,7 @@ const TemplateGallery = ({ onSelect, logoutresume, loginprofile }) => {
             // if (logoutresume === true) {
             //   setResumeAlert(true);
             // } else {
-              openPreview("seven", template7);
+              openPreview("two", template2);
            
           }}
           >
@@ -67,7 +67,7 @@ const TemplateGallery = ({ onSelect, logoutresume, loginprofile }) => {
           <p>
           Perfect for freshers applying to entry-level non-technical positions.
           </p>
-          <img src={template7} alt="Template Seven" className="blurred" />
+          <img src={template2} alt="Template 2" className="blurred" />
         </div>
 
         {/* <div

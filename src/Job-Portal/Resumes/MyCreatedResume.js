@@ -131,6 +131,33 @@ function MyCreatedResume({ searchKey, setsearchKey, Filtereredjobs, setFilterere
   
     const [otpSent, setOtpSent] = useState(false);
     const [loading, setLoading] = useState(false);
+
+    function viewResume(template, id){
+      console.log(template, id)
+          localStorage.setItem("StudId", JSON.stringify(id));
+
+       navigate("/resumes", {
+              state: {
+                selectedTemplate: template
+              }
+            });
+    }
+
+    function deletMyCreatedResume(id){
+      console.log(id)
+      axios.put(`/StudentProfile/DeleteMyCreatedResume/${id}`, { jobSeekerId })
+                .then((res) => {
+                  if(res.data==="success"){
+                    getjobs()
+                    // getCareerjobs()
+                  }else{
+                    alert("some thing wrong")
+                  }
+                }).catch((err) => {
+                  alert("server error occured")
+                })
+
+    }
   
     const sendOTP = async () => {
       if(otpSent)return
@@ -207,41 +234,16 @@ function MyCreatedResume({ searchKey, setsearchKey, Filtereredjobs, setFilterere
 
 
   function navig() {
-    if (resumeAlert.selected === "one") {
+     if (resumeAlert.selected === "one") {
       navigate("/resume-form", {
-        state: { formstate: "experience", selectedTemplate: resumeAlert.selected }
+        state: { formstate: "nontech", selectedTemplate: resumeAlert.selected }
       });
     }
     else if (resumeAlert.selected === "two") {
       navigate("/resume-form", {
-        state: { formstate: "entrylevelambition", selectedTemplate: resumeAlert.selected }
-      });
-    }
-    else if (resumeAlert.selected === "three") {
-      navigate("/resume-form", {
-        state: { formstate: "entrylevelpro", selectedTemplate: resumeAlert.selected }
-      });
-    }
-    else if (resumeAlert.selected === "five") {
-      navigate("/resume-form", {
-        state: { formstate: "testing", selectedTemplate: resumeAlert.selected }
-      });
-    }
-    else if (resumeAlert.selected === "six") {
-      navigate("/resume-form", {
         state: { formstate: "nontech", selectedTemplate: resumeAlert.selected }
       });
-    }
-    else if (resumeAlert.selected === "seven") {
-      navigate("/resume-form", {
-        state: { formstate: "nontech", selectedTemplate: resumeAlert.selected }
-      });
-    }
-    else if (resumeAlert.selected === "eight") {
-      navigate("/resume-form", {
-        state: { formstate: "nontech", selectedTemplate: resumeAlert.selected }
-      });
-    }
+    }    
     else if (resumeAlert.selected === "four") {
       navigate("/resume-form", {
         state: { formstate: "fullstack", selectedTemplate: resumeAlert.selected }
@@ -1077,6 +1079,7 @@ function MyCreatedResume({ searchKey, setsearchKey, Filtereredjobs, setFilterere
               <li style={{ backgroundColor: " rgb(40, 4, 99)" }} className={`${styles.li} ${styles.Skills}`}>Resume Type</li>
               <li style={{ backgroundColor: " rgb(40, 4, 99)" }} className={`${styles.li} ${styles.Location}`}>Edit</li>
               <li style={{ backgroundColor: " rgb(40, 4, 99)" }} className={`${styles.li} ${styles.Status}`}>Action(View/ Download)</li>
+              <li style={{ backgroundColor: " rgb(40, 4, 99)" }} className={`${styles.li} ${styles.Status}`}>Delete</li>
 
             </ul>
             {PageLoader ?
@@ -1122,9 +1125,20 @@ function MyCreatedResume({ searchKey, setsearchKey, Filtereredjobs, setFilterere
                         </li>
 
                         <li style={{ cursor: "pointer", textDecoration: "underline" }}
-                          onClick={() => { navigate("/resumes", { state: { selectedTemplate: items?.selectedTemplate } }) }}
-                          className={`${styles.li} ${styles.Location}`}>View
-                        </li>
+                          // onClick={() => { navigate("/resumes", { state: { selectedTemplate: items?.selectedTemplate } }) }}
+                          className={`${styles.li} ${styles.Location}`}
+                                onClick={() =>viewResume(items?.selectedTemplate, items?._id)
+                            // setResumeAlert({ show: true, selected: items?.selectedTemplate, email: items?.email })
+
+                          }        
+
+                          >
+                            View
+                            </li>
+                        <li style={{ cursor: "pointer", textDecoration: "underline" }}
+                          className={`${styles.li} ${styles.Location}`}
+                          
+                          onClick={()=>{deletMyCreatedResume(items?._id)}}>delete</li>
 
                       </ul>
 
@@ -1367,13 +1381,7 @@ function MyCreatedResume({ searchKey, setsearchKey, Filtereredjobs, setFilterere
                               style={{
                                 margin: 0
                               }}
-                              onClick={() => {
-                                navigate("/resumes", {
-                                  state: {
-                                    selectedTemplate: items?.selectedTemplate
-                                  }
-                                });
-                              }}
+                              // onClick={() => {viewResume( items?.selectedTemplate)}}
                             >
                               View
                             </button>

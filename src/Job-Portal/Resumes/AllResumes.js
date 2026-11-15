@@ -103,9 +103,9 @@ function AllResumes() {
             {selectedTemplate === 'three' && <TemplateThree data={profileData} themeColor={themeColor} />}
             {selectedTemplate === 'four' && <TemplateFour data={profileData} themeColor={themeColor} />}
             {selectedTemplate === 'five' && <TemplateFive data={profileData} themeColor={themeColor} />}  */}
-            {selectedTemplate === 'six' && <TemplateSix data={profileData} themeColor={themeColor}
+            {selectedTemplate === 'one' && <TemplateSix data={profileData} themeColor={themeColor}
             limit={limit} totalResumeLimit={totalResumeLimit} SetTotalResumeLimit={SetTotalResumeLimit}/>}
-            {selectedTemplate === 'seven' && <TemplateSeven data={profileData} themeColor={themeColor} 
+            {selectedTemplate === 'two' && <TemplateSeven data={profileData} themeColor={themeColor} 
             limit={limit} totalResumeLimit={totalResumeLimit} SetTotalResumeLimit={SetTotalResumeLimit} />}
           
           </div>
