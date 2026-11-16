@@ -430,9 +430,9 @@ function StudentProfile() {
           )}
 
           {activeTab === "Education" && (
-            <div className={styles.educationSection}>
+            <div className={styles.educationSection} style={{ display: "flex", }}>
               <h3>Educational Details</h3>
-              <div style={{ display: "flex", }}>
+              {/* <div style={{ display: "flex", }}>
                 <strong style={{ marginTop: "-4px" }}>10<sup>th</sup>: </strong> {profileData[0].tenth ? profileData[0].tenth : ""}
               </div>
               <div style={{ display: "flex", }}>
@@ -444,22 +444,45 @@ function StudentProfile() {
               </div>
               <div style={{ display: "flex", }}>
                 <strong>Masters: </strong> {profileData[0].college ? profileData[0].college : ""}
-              </div>
-              {/* {showApprovedStatus &&
-            (profileData[0].isApproved?
-             <div className={styles.aprovedStatus}>
-              <div><strong style={{color:"Black"}}>Account Status</strong></div>
-              <div><strong style={{color:"green"}}>Congratulations—your account has been approved</strong></div>
-             </div>
-             :
-             <div className={styles.aprovedStatus}>
-              <div><strong style={{color:"Black"}}>Account Status</strong></div>
-              <div><strong style={{color:"red"}}></strong></div>
-              <div><strong style={{color:"red"}}>Your account is in under Verfication process</strong></div>
-             </div> 
-            )
-          } */}
-            </div>
+              </div> */}
+                {/* <div style={{ display: "flex", justifyContent:"space-evenly" }}> */}
+   <div className="educationDetails" style={{ display: "flex", justifyContent:"space-evenly" }} >
+
+  {/* <h3>Educational Details</h3> */}
+
+  {/* College Details */}
+  {profileData?.[0]?.qualificationDetails
+    ?.filter((item) => item.degree?.toLowerCase() !== "school")
+    .map((item, index) => (
+      <div key={item._id || index}>
+        <h4>College Details</h4>
+
+        <p><strong>Degree:</strong> {item.degree}</p>
+        <p><strong>College:</strong> {item.collegeName}</p>
+        <p><strong>Study Field:</strong> {item.studyField}</p>
+        <p><strong>Year of Passing:</strong> {item.yop}</p>
+        <p><strong>Score:</strong> {item.score}</p>
+      </div>
+    ))}
+
+  {/* School Details */}
+  {profileData?.[0]?.qualificationDetails
+    ?.filter((item) => item.degree?.toLowerCase() === "school")
+    .map((item, index) => (
+      <div key={item._id || index}>
+        <h4>School Details</h4>
+
+        <p><strong>School:</strong> {item.collegeName}</p>
+        <p><strong>Study Field:</strong> {item.studyField}</p>
+        <p><strong>Year of Passing:</strong> {item.yop}</p>
+        <p><strong>Score:</strong> {item.score}</p>
+      </div>
+    ))}
+
+</div>
+  </div>
+              
+            // </div>
           )}
 
           {activeTab === "Skills" && (

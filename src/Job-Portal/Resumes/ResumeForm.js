@@ -661,6 +661,11 @@ const removeQualificationRow = (index) => {
     // }
 
     const Experiance = totalExperience;
+    let res=await axios.post(`/CSRoute/saveMyCreatedResume`, {
+      name, email, CSCId, selectedTemplate,studId
+    }, { headers })
+    // console.log(res.data)
+
     await axios.put(`/StudentProfile/updatProfile/${studId}`, {
       name, email, linkedin, Experiance, phoneNumber,
       profileSummary, city, experiences, certifications, skills, languages, qualificationDetails,
@@ -1806,7 +1811,7 @@ const removeQualificationRow = (index) => {
                     <thead>
                       <tr>
 
-                        <th className={styles.tableCollege}>
+                        <th className={styles.tableCollege} style={{width:"30%"}}>
                           School/College/
                           <br />
                           University Name
@@ -1816,9 +1821,9 @@ const removeQualificationRow = (index) => {
                           Degree
                         </th>
 
-                        <th>
+                        {/* <th>
                           Field of study
-                        </th>
+                        </th> */}
 
                         <th>
                           Grade (%)
@@ -1850,7 +1855,7 @@ const removeQualificationRow = (index) => {
                           <tr>
 
                             {/* COLLEGE */}
-                            <td>
+                            <td >
                               <input
                                 ref={(input) => {
                                   educationCollegeRefs.current[i] = input;
@@ -1885,7 +1890,7 @@ const removeQualificationRow = (index) => {
                             </td>
 
                             {/* STUDY FIELD */}
-                            <td>
+                            {/* <td>
                               <input
                                 className={styles.tableInput}
                                 placeholder="Study field"
@@ -1898,7 +1903,7 @@ const removeQualificationRow = (index) => {
                                   )
                                 }
                               />
-                            </td>
+                            </td> */}
 
                             {/* SCORE */}
                             <td>

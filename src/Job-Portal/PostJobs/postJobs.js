@@ -121,7 +121,7 @@ function PostJobs(props) {
               headers: { "Content-Type": "multipart/form-data" }
             }
           );
-          console.log(res)
+          // console.log(res)
           setVideoUrl(res.data.url);
           setVideoPreview("");
           setYtError("Upload successful.");

@@ -133,9 +133,7 @@ function MyCreatedResume({ searchKey, setsearchKey, Filtereredjobs, setFilterere
     const [loading, setLoading] = useState(false);
 
     function viewResume(template, id){
-      console.log(template, id)
           localStorage.setItem("StudId", JSON.stringify(id));
-
        navigate("/resumes", {
               state: {
                 selectedTemplate: template
@@ -145,7 +143,7 @@ function MyCreatedResume({ searchKey, setsearchKey, Filtereredjobs, setFilterere
 
     function deletMyCreatedResume(id){
       console.log(id)
-      axios.put(`/StudentProfile/DeleteMyCreatedResume/${id}`, { jobSeekerId })
+      axios.put(`/CSRoute/DeleteMyCreatedResume/${id}`, { jobSeekerId })
                 .then((res) => {
                   if(res.data==="success"){
                     getjobs()
@@ -355,10 +353,11 @@ function MyCreatedResume({ searchKey, setsearchKey, Filtereredjobs, setFilterere
 
     let userid = JSON.parse(localStorage.getItem("CSCId"))
     const headers = { authorization: userid + " " + atob(JSON.parse(localStorage.getItem("CSCLog"))) };
-    await axios.get(`/StudentProfile/getMyCreatedResume/${userid}`, { headers })
+    await axios.get(`/CSRoute/getMyCreatedResume/${userid}`, { headers })
 
       .then((res) => {
         let result = (res.data)
+        // console.log(result)
         let sortedate = result.sort((a, b) => {
           return new Date(b.createdAt) - new Date(a.createdAt);
         });
@@ -1079,7 +1078,7 @@ function MyCreatedResume({ searchKey, setsearchKey, Filtereredjobs, setFilterere
               <li style={{ backgroundColor: " rgb(40, 4, 99)" }} className={`${styles.li} ${styles.Skills}`}>Resume Type</li>
               <li style={{ backgroundColor: " rgb(40, 4, 99)" }} className={`${styles.li} ${styles.Location}`}>Edit</li>
               <li style={{ backgroundColor: " rgb(40, 4, 99)" }} className={`${styles.li} ${styles.Status}`}>Action(View/ Download)</li>
-              <li style={{ backgroundColor: " rgb(40, 4, 99)" }} className={`${styles.li} ${styles.Status}`}>Delete</li>
+              {/* <li style={{ backgroundColor: " rgb(40, 4, 99)" }} className={`${styles.li} ${styles.Status}`}>Delete</li> */}
 
             </ul>
             {PageLoader ?
@@ -1127,7 +1126,7 @@ function MyCreatedResume({ searchKey, setsearchKey, Filtereredjobs, setFilterere
                         <li style={{ cursor: "pointer", textDecoration: "underline" }}
                           // onClick={() => { navigate("/resumes", { state: { selectedTemplate: items?.selectedTemplate } }) }}
                           className={`${styles.li} ${styles.Location}`}
-                                onClick={() =>viewResume(items?.selectedTemplate, items?._id)
+                                onClick={() =>viewResume(items?.selectedTemplate, items?.studId)
                             // setResumeAlert({ show: true, selected: items?.selectedTemplate, email: items?.email })
 
                           }        
@@ -1135,10 +1134,10 @@ function MyCreatedResume({ searchKey, setsearchKey, Filtereredjobs, setFilterere
                           >
                             View
                             </li>
-                        <li style={{ cursor: "pointer", textDecoration: "underline" }}
+                        {/* <li style={{ cursor: "pointer", textDecoration: "underline" }}
                           className={`${styles.li} ${styles.Location}`}
                           
-                          onClick={()=>{deletMyCreatedResume(items?._id)}}>delete</li>
+                          onClick={()=>{deletMyCreatedResume(items?._id)}}>delete</li> */}
 
                       </ul>
 

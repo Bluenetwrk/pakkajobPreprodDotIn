@@ -24,7 +24,7 @@
   background: #ffffff;
   color: #000000;
   box-sizing: border-box;
-  padding: 5mm 10mm 12mm 12mm;
+  /* padding: 5mm 10mm 12mm 12mm; */
   font-family:Arial,Helvetica,sans-serif;
   line-height: 1.35;
   position: relative;
@@ -33,7 +33,10 @@
   border: none;
   box-shadow: none;
   font-weight: 510;
-
+  padding-left: 50px;
+  padding-right:50px;
+  padding-top: 40px;
+  /* padding-bottom: 20px; */
 }
 
 .editableText {
@@ -349,7 +352,7 @@
 .table thead,
 .table tr,
 .table th{
-  background-color:rgb(218, 217, 217);
+  background-color:rgb(244, 244, 244);
 }
 .table tbody,
 .table td {
@@ -480,6 +483,7 @@
 .signature {
   color: #000000;
   text-align: right;
+  font-weight: 600;
 
   margin-right: 3px;
   margin-top: 30px;

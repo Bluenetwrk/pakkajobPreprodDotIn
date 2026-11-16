@@ -290,8 +290,8 @@ const TemplateSeven = ({ themeColor, limit, totalResumeLimit, SetTotalResumeLimi
     profileData.qualificationDetails || {}
   ).sort(
     (a, b) =>
-      Number(a.yop || 0) -
-      Number(b.yop || 0)
+      Number(b.yop || 0) -
+      Number(a.yop || 0)
   );
 
 
@@ -1058,19 +1058,22 @@ const TemplateSeven = ({ themeColor, limit, totalResumeLimit, SetTotalResumeLimi
 
                 (
 
-                <EditableText
-                  value={
-                    profileData.name ||
-                    "name"
-                  }
-                  placeholder="Signature Name"
-                  onChange={(value) =>
-                    updateProfileField(
-                      "name",
-                      value
-                    )
-                  }
-                />
+<EditableText
+  value={
+    profileData.name
+      ? profileData.name
+          .split(" ")
+          .map(word =>
+            word.charAt(0).toUpperCase() + word.slice(1)
+          )
+          .join(" ")
+      : "Name"
+  }
+  placeholder="Signature Name"
+  onChange={(value) =>
+    updateProfileField("name", value)
+  }
+/>
 
                 )
 
