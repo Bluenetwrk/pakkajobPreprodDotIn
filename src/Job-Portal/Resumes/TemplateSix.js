@@ -264,7 +264,7 @@ const TemplateSix = ({ themeColor , limit, totalResumeLimit, SetTotalResumeLimit
               >
                 <p style={{ fontSize: "13px" }}>
                   <EditableText
-                    value={resumeData.address}
+                    value={resumeData.city}
                     onChange={(value) =>
                       updateField("address", value)
                     }

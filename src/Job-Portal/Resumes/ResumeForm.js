@@ -1625,7 +1625,7 @@ const removeQualificationRow = (index) => {
                 ))}
 
                 {/* City */}
-                <h2>City</h2>
+                <h2>Address</h2>
                 <input
                   className={styles.input}
                   placeholder="City"

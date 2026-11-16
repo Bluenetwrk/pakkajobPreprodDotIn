@@ -419,9 +419,14 @@ const TemplateSeven = ({ themeColor, limit, totalResumeLimit, SetTotalResumeLimi
             </div>
 
             <div className={styles.contactLine}>
-              <strong>
-                City -
-              </strong>{" "}
+              <div  
+              style={{
+                width: "42%",
+                }}>
+                <strong>
+                  Address -
+                </strong>{" "}
+
               <EditableText
                 value={
                   profileData.city
@@ -433,7 +438,8 @@ const TemplateSeven = ({ themeColor, limit, totalResumeLimit, SetTotalResumeLimi
                     value
                   )
                 }
-              />
+                />
+                </div>
 
             </div>
 
