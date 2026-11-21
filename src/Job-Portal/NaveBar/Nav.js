@@ -1245,7 +1245,7 @@ function Nav(props) {
                                 <span style={{ color: "blue", fontWeight: "bold" }}>C</span>
                                 <span style={{ color: "grey", fontWeight: "bold" }}>S</span>
                                 <span style={{ color: "blue", fontWeight: "bold" }}>C</span>{" "}
-                                Login
+                               & xerox center Login
                               </p>
                             </div>
                           </div>
