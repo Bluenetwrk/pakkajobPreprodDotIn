@@ -353,11 +353,11 @@ function MyCreatedResume({ searchKey, setsearchKey, Filtereredjobs, setFilterere
 
     let userid = JSON.parse(localStorage.getItem("CSCId"))
     const headers = { authorization: userid + " " + atob(JSON.parse(localStorage.getItem("CSCLog"))) };
-    await axios.get(`/CSRoute/getMyCreatedResume/${userid}`, { headers })
+    await axios.get(`/CSRoute/viewProfile/${userid}`)
 
       .then((res) => {
-        let result = (res.data)
-        // console.log(result)
+        let result = (res.data.result.MyCreatedResume)
+        console.log(result)
         let sortedate = result.sort((a, b) => {
           return new Date(b.createdAt) - new Date(a.createdAt);
         });
@@ -365,7 +365,9 @@ function MyCreatedResume({ searchKey, setsearchKey, Filtereredjobs, setFilterere
         setFilterjobs(sortedate)
         setPageLoader(false)
       }).catch((err) => {
-        alert("server issue occured")
+        console.log(err)
+
+        alert("some thing went wrong")
       })
   }
 
@@ -1102,9 +1104,9 @@ function MyCreatedResume({ searchKey, setsearchKey, Filtereredjobs, setFilterere
                         </li>
                         <li className={`${styles.li} ${styles.date}`}
                           style={{ cursor: "pointer", textDecoration: "underline", color: "blue" }}>
-                          {new Date(items.ResumeCreatedDate).toLocaleString(
+                          {new Date(items.createdAt).toLocaleString(
                             "en-US",
-                            {
+                            { 
                               month: "short",
                               day: "2-digit",
                               year: "numeric",
@@ -1288,7 +1290,7 @@ function MyCreatedResume({ searchKey, setsearchKey, Filtereredjobs, setFilterere
                                 whiteSpace: "nowrap"
                               }}
                             >
-                              {new Date(items.ResumeCreatedDate).toLocaleString(
+                              {new Date(items.createdAt).toLocaleString(
                                 "en-US",
                                 {
                                   month: "short",

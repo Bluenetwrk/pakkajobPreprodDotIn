@@ -423,9 +423,9 @@ const TemplateSeven = ({ themeColor, limit, totalResumeLimit, SetTotalResumeLimi
               style={{
                 width: "42%",
                 }}>
-                <strong>
+                {/* <strong>
                   Address -
-                </strong>{" "}
+                </strong>{" "} */}
 
               <EditableText
                 value={
@@ -450,7 +450,7 @@ const TemplateSeven = ({ themeColor, limit, totalResumeLimit, SetTotalResumeLimi
               OBJECTIVE
           ================================================= */}
           {/* <hr></hr> */}
-          <hr style={{ margin: " 13px 0 15px 0" }}></hr>
+          <hr style={{ margin: " 18px 0 15px 0", backgroundColor:"black" }}></hr>
 
 
           <Section title="OBJECTIVE"
@@ -479,7 +479,7 @@ const TemplateSeven = ({ themeColor, limit, totalResumeLimit, SetTotalResumeLimi
               PERSONAL INFORMATION
           ================================================= */}
           {/* <hr></hr> */}
-          <hr style={{ margin: " 13px 0 15px 0" }}></hr>
+          <hr style={{ margin: " 13px 0 15px 0", backgroundColor:"black" }}></hr>
 
 
           <Section title="PERSONAL INFORMATION"
@@ -644,7 +644,7 @@ const TemplateSeven = ({ themeColor, limit, totalResumeLimit, SetTotalResumeLimi
               EDUCATIONAL QUALIFICATION
           ================================================= */}
           {/* <hr></hr> */}
-          <hr style={{ margin: " 13px 0 15px 0" }}></hr>
+          <hr style={{ margin: " 13px 0 15px 0" , backgroundColor:"black"}}></hr>
 
 
           <Section title="EDUCATIONAL QUALIFICATION"
@@ -813,7 +813,7 @@ const TemplateSeven = ({ themeColor, limit, totalResumeLimit, SetTotalResumeLimi
               TECHNICAL SKILLS
           ================================================= */}
           {/* <hr></hr> */}
-          <hr style={{ margin: " 13px 0 15px 0" }}></hr>
+          <hr style={{ margin: " 13px 0 15px 0" , backgroundColor:"black"}}></hr>
 
 
           <Section title="TECHNICAL SKILLS"
@@ -848,7 +848,7 @@ const TemplateSeven = ({ themeColor, limit, totalResumeLimit, SetTotalResumeLimi
           ================================================= */}
           {/* <hr></hr> */}
 
-          <hr style={{ margin: " 13px 0 15px 0" }}></hr>
+          <hr style={{ margin: " 13px 0 15px 0", backgroundColor:"black" }}></hr>
 
 
           <Section title="EXPERIENCE"
@@ -877,14 +877,11 @@ const TemplateSeven = ({ themeColor, limit, totalResumeLimit, SetTotalResumeLimi
                           key={experience.originalKey}
                         >
 
-                          <strong>
-                            Company{" "}
-                            {index + 1}
-                          </strong>
-
-
                           <div>
-
+                          <strong>
+                            {/* Company{" "} */}
+                            {index + 1}. &nbsp;
+                          </strong>
                             <EditableText
                               value={
                                 experience.company
@@ -996,7 +993,7 @@ const TemplateSeven = ({ themeColor, limit, totalResumeLimit, SetTotalResumeLimi
               BEHAVIOURAL CHARACTERISTICS
           ================================================= */}
           {/* <hr></hr> */}
-          <hr style={{ margin: " 13px 0 15px 0" }}></hr>
+          <hr style={{ margin: " 13px 0 15px 0" , backgroundColor:"black"}}></hr>
 
 
           <Section title="BEHAVIOURAL CHARACTERISTICS"
@@ -1093,7 +1090,7 @@ const TemplateSeven = ({ themeColor, limit, totalResumeLimit, SetTotalResumeLimi
         {/* =================================================
             DOWNLOAD BUTTON
         ================================================= */}
-        <hr></hr>
+        <hr style={{ margin: " 13px 0 15px 0" , backgroundColor:"black"}}></hr>
 
         {/* <button
           onClick={handleDownloadPDF}
@@ -1124,7 +1121,7 @@ const TemplateSeven = ({ themeColor, limit, totalResumeLimit, SetTotalResumeLimi
     </>
   );
 };
-<hr></hr>
+<hr style={{ margin: " 13px 0 15px 0" , backgroundColor:"red"}}></hr>
 
 
 

@@ -114,6 +114,7 @@ import ArchivedUser from "../src/Job-Portal/Admin/ArchiveJobSeekers"
 import ArchiveJobs from "../src/Job-Portal/Admin/ArchiveJobs"
 import DeletedJobs from "../src/Job-Portal/Admin/DeletedJobs"
 import DeletedBlogs from "../src/Job-Portal/Admin/DeletedBlogs"
+import PhotoEditor from "./Job-Portal/PhotoEditor/PhotoEditor";
 // import VerifyEmail from "./Job-Portal/Login/verifyEmail";
 
 // import ConsultationServices from "./Job-Portal/Consultation Services/ConsultationServices";
@@ -124,7 +125,6 @@ import DeletedBlogs from "../src/Job-Portal/Admin/DeletedBlogs"
 
 axios.defaults.baseURL = "https://pakkajobpreproddotinbackend.onrender.com"
 // axios.defaults.baseURL = "http://localhost:8080"
-
 
 
 function App() {
@@ -1401,6 +1401,7 @@ function App() {
             />} /> */}
             {/* <Route path="/support/help/:id" element={<HelpDetails/>} /> */}
             <Route path="/Services" element={<Services />} />
+            <Route path="/PhotoEditor" element={<PhotoEditor />} />
             <Route path="/Contact" element={<Contact />} />
             <Route path="/TermsAndCondition" element={<TermsAndCondition />} />
             <Route path="*" element={<h2 style={{ marginLeft: "43%", marginTop: "10%", color: " rgb(40, 4, 99)" }}>Page Not Found</h2>} />

@@ -112,7 +112,7 @@ const ResumeForm = () => {
       try {
         const res = await axios.get(`/StudentProfile/viewProfile/${studId}`)
         const result = res.data.result;
-        // console.log(result)
+        console.log(result)
         setProfileData([result]);
         setImageConsent(result.imageConsent)
         setFormData(prev => ({
@@ -279,7 +279,7 @@ const ResumeForm = () => {
 
 
   const addQualificationRow = () => {
-    if (formData.qualificationDetails.length >= 2) return;
+    if (formData.qualificationDetails.length >= 3) return;
     setFormData({
       ...formData,
       qualificationDetails: [

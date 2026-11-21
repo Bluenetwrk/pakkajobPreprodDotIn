@@ -208,6 +208,7 @@ let StudentAuth = localStorage.getItem("StudLog")
 
         {/* <p onClick={()=>{navigate("/")}} className={`${Styles.p} `}>Home </p> */}
         <p onClick={()=>{navigate("/Blogs"); update("Blogs")}} className={`${Styles.textBigSodeBar} ${value==="Blogs"?Styles.active:""}`}>Blogs</p>
+        <p onClick={()=>{navigate("/PhotoEditor"); update("PhotoEditor")}} className={`${Styles.textBigSodeBar} ${value==="PhotoEditor"?Styles.active:""}`}>Photo Editor</p>
        {!EmployeeAuth&&
        <>
         <p onClick={()=>{navigate("/AllCareerJobs"); update("AllCareerJobs")}} className={`${Styles.textBigSodeBar} ${value==="AllCareerJobs"?Styles.active:""}`}>Pakka Job Career</p>

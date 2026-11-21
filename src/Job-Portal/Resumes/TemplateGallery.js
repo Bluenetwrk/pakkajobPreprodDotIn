@@ -37,35 +37,36 @@ const TemplateGallery = ({ onSelect, logoutresume, loginprofile }) => {
   return (
     <div className="template-gallery">
       <div className="template-grid">
-      <div
+        {/* <div
           className="template-card"
           onClick={() => {
             // if (logoutresume === true) {
             //   setResumeAlert(true);
             // } else {
-              openPreview("one", template1);
-           
+            openPreview("one", template1);
+
           }}
-          >
+        >
           <h2>Non-Tech Resume</h2>
           <p>
             Best suited for non-technical job roles.
           </p>
           <img src={template1} alt="Template 1" className="blurred" />
-        </div> 
+        </div> */}
+
         <div
           className="template-card"
           onClick={() => {
             // if (logoutresume === true) {
             //   setResumeAlert(true);
             // } else {
-              openPreview("two", template2);
-           
+            openPreview("two", template2);
+
           }}
-          >
+        >
           <h2>Non-Tech Resume for Freshers</h2>
           <p>
-          Perfect for freshers applying to entry-level non-technical positions.
+            Perfect for freshers applying to entry-level non-technical positions.
           </p>
           <img src={template2} alt="Template 2" className="blurred" />
         </div>
@@ -205,89 +206,89 @@ const TemplateGallery = ({ onSelect, logoutresume, loginprofile }) => {
         </div> */}
       </div>
       {resumeAlert && (
-  logoutresume === true ? (
-    <div
-      style={{
-        position: "fixed",
-        top: 0,
-        left: 0,
-        width: "100vw",
-        height: "100vh",
-        backgroundColor: "rgba(0, 0, 0, 0.4)",
-        zIndex: 9998,
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-      }}
-    >
-      <div
-        ref={alertRef}
-        onClick={(e) => e.stopPropagation()}
-        style={{
-          width: "300px",
-          padding: "20px",
-          backgroundColor: "rgb(40,4,99)",
-          color: "white",
-          fontSize: "12px",
-          borderRadius: "5px",
-          zIndex: 9999,
-          boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
-          textAlign: "center",
-        }}
-      >
-        Login as a Job Seeker to explore opportunities and create a strong resume!
-
-        <div
-          style={{
-            marginTop: "15px",
-            display: "flex",
-            justifyContent: "center",
-            gap: "5px",
-          }}
-        >
-          <button
-            onClick={() => {
-              navigate("/Job-Seeker-Login", {
-                state: { loginpage: "resume" },
-              });
-              setResumeAlert(false);
-            }}
+        logoutresume === true ? (
+          <div
             style={{
-              padding: "8px 16px",
-              backgroundColor: "#4CAF50",
-              color: "white",
-              border: "none",
-              borderRadius: "5px",
-              fontSize: "12px",
-              cursor: "pointer",
+              position: "fixed",
+              top: 0,
+              left: 0,
+              width: "100vw",
+              height: "100vh",
+              backgroundColor: "rgba(0, 0, 0, 0.4)",
+              zIndex: 9998,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
             }}
           >
-            Login as Jobseeker
-          </button>
+            <div
+              ref={alertRef}
+              onClick={(e) => e.stopPropagation()}
+              style={{
+                width: "300px",
+                padding: "20px",
+                backgroundColor: "rgb(40,4,99)",
+                color: "white",
+                fontSize: "12px",
+                borderRadius: "5px",
+                zIndex: 9999,
+                boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+                textAlign: "center",
+              }}
+            >
+              Login as a Job Seeker to explore opportunities and create a strong resume!
 
-          <button
-            onClick={() =>
-              setResumeAlert(false)
-            }
-            style={{
-              padding: "8px 16px",
-              backgroundColor: "#f44336",
-              color: "white",
-              border: "none",
-              borderRadius: "5px",
-              fontSize: "12px",
-              cursor: "pointer",
-            }}
-          >
-            Cancel
-          </button>
-        </div>
-      </div>
-    </div>
-  ) : null
-)}
+              <div
+                style={{
+                  marginTop: "15px",
+                  display: "flex",
+                  justifyContent: "center",
+                  gap: "5px",
+                }}
+              >
+                <button
+                  onClick={() => {
+                    navigate("/Job-Seeker-Login", {
+                      state: { loginpage: "resume" },
+                    });
+                    setResumeAlert(false);
+                  }}
+                  style={{
+                    padding: "8px 16px",
+                    backgroundColor: "#4CAF50",
+                    color: "white",
+                    border: "none",
+                    borderRadius: "5px",
+                    fontSize: "12px",
+                    cursor: "pointer",
+                  }}
+                >
+                  Login as Jobseeker
+                </button>
 
-                     
+                <button
+                  onClick={() =>
+                    setResumeAlert(false)
+                  }
+                  style={{
+                    padding: "8px 16px",
+                    backgroundColor: "#f44336",
+                    color: "white",
+                    border: "none",
+                    borderRadius: "5px",
+                    fontSize: "12px",
+                    cursor: "pointer",
+                  }}
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        ) : null
+      )}
+
+
     </div>
   );
 };

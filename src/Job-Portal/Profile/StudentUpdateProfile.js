@@ -143,7 +143,7 @@ function StudentUpdateProfile(props) {
   };
 
   const addQualificationRow = () => {
-    if (qualificationDetails.length >= 2) return;
+    if (qualificationDetails.length >= 3) return;
 
     setQualificationDetails([
       ...qualificationDetails,
