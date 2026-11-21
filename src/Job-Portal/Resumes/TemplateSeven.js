@@ -658,7 +658,7 @@ const TemplateSeven = ({ themeColor, limit, totalResumeLimit, SetTotalResumeLimi
                 <tr>
 
                   <th>
-                    Examination
+                    Qualification
                   </th>
 
                   <th>
